@@ -1,0 +1,199 @@
+Clint Jeffery's guest lecture in CS 445, 10/2/2013 <P>
+
+<h3> Syntax Errors in YACC and Bison </h3>
+
+This lecture lives at <A href="http://www2.cs.uidaho.edu/~jeffery/courses/445/merr.html">www2.cs.uidaho.edu/~jeffery/courses/445/merr.html</A>
+
+
+<h3> BRIEF review of scanning and parsing, LALR-style </h3>
+
+<ul>
+<li> sequence of bytes gets turned into sequence of words
+<li> every word probably gets a struct or object "token" to hold lexical data
+<li> within the fields of token data, an integer code for what category of
+     token we have ("part of speech")
+<li> ...so parsing is operating on a sequence of integer token categories
+<li> A shift-reduce parser performs its parsing using the structure:
+<pre>
+<u>Stack</u>					<u>Input</u>
+$						&omega;$
+<em>...sequence of token integers (categories)......^</em>
+</pre>
+<li> And as parsing proceeds, two pieces of information are used at each step
+<pre>
+<u>Stack</u>					<u>Input</u>
+$&alpha;						&omega;$
+<em>^...stack                              queue...^</em>
+</pre>
+<li> An integer denoting the "parse state" is the set of all SLR items denoting
+     stuff that's on the stack we've seen so far, plus an integer for the
+     current input token category.
+</ul>
+
+
+<h3> Syntax Errors: the Basics </h3>
+
+<ul>
+<li> syntax error occurs when ACTION[s,t] comes up empty
+<li> from current state, no transition on current input token
+<li> Two big issues: error reporting and error recovery
+<li> This lecture is about <b>error reporting</b>.
+<li> Error recovery is often (mis-)used in error reporting
+<li> Default behavior: print <code>syntax error</code> and stop/abort the parse.
+</ul>
+
+<h3> <code>yyerror()</code> </h3>
+
+<ul>
+<li> <code>yyerror(s)</code> is called when a syntax error occurs
+<li> <code>s</code> is the error message, usually one of:
+     "syntax error" or "parse error", or "stack overflow".
+<li>
+<pre>
+int yyerror(char s) { printf("%s\n", s); return ; }
+</pre>
+is probably what you get if you don't write your own and instead use -ly or
+similar "YACC library" semi-standard helper functions.
+</ul> 
+
+
+<h4> YACC error handling and recovery </h4>
+</A>
+<ul>
+<li> Use special predefined token <code>error</code> where errors are
+     <em>expected</em>
+     in the grammar
+<li> On an error, the parser pops states until it enters one that has an
+     action on the error token.
+<li> For example: <code>statement: error ';' ;</code>
+<li> The parser must see 3 good tokens before it decides it has recovered.
+<li> Macro <code>yyerrok</code> tells parser to skip the 3 token recovery rule
+<li> Macro <code>yyclearin</code> throws away the current (error-causing?) token
+</ul>
+
+
+<h3> Including Filename/Line # in <code>yyerror()</code> </h3>
+
+<p>
+
+You can easily add information in your own yyerror() function, for example
+GCC emits messages that look like:
+<pre>
+goof.c:1: parse error before '}' token
+</pre>
+using a yyerror function that looks like
+<pre>
+void yyerror(char *s)
+{
+   fprintf(stderr, "%s:%d: %s before '%s' token\n",
+	   yyfilename, yylineno, s, yytext);
+}
+</pre>
+<p>
+
+<h3> Better error messages, method #1 </h3>
+
+You can use the error recovery mechanism to produce better messages.
+For example
+<pre>
+lbrace : LBRACE | { error_code=MISSING_LBRACE; } error ;
+</pre>
+Where LBRACE is an expected token {<br>
+This uses a global variable error_code to pass parse information to yyerror().
+<p>
+Another related option is to call yyerror() explicitly with a better message
+string, and tell the parser to recover explicitly:
+<pre>
+package_declaration: PACKAGE_TK error
+	{ yyerror("Missing name"); yyerrok; } ;
+</pre>
+<p>
+
+<ul>
+<li> Using error recovery to perform better error reporting is evil
+<li> Conventional wisdom: you should use error tokens very sparingly.
+<li> What information from the parser determined we had an error in the first
+place?
+<li>  Can we use that information to produce a better error message?
+</ul>
+
+
+<h3> LR Syntax Error Messages: Advanced Methods </h3>
+
+<ul>
+<LI> YACC/Bison use two pieces of information to determine that there
+is an error in the first place:
+<li> the parse state (yystate) and the current input token (yychar)
+<li>you can use these to produce better diagnostic error messages
+<ul>
+<li> without
+relying on the error recovery mechanism and
+<li> without mucking up the grammar
+with a lot of extra production rules that feature the <code>error</code> token.
+</ul>
+</ul>
+<p>
+
+<ul>
+<li> just the parse state is enough to do pretty good error messages.
+<li> <code>yystate</code> is not part of YACC's public interface
+<li> you may
+have to employ tricks to pass it as a parameter into <code>yyerror()</code> from
+<code>yyparse()</code>.  Say, for example:
+<pre>
+#define yyerror(s) __yyerror(s,yystate)
+</pre>
+<li>
+Inside <code>__yyerror(msg, yystate)</code>, a switch statement or a global
+array can associate messages with specific parse states.
+<li> figuring
+out which parse state means which syntax error message would be by trial
+and error (argh!)
+</ul>
+<p>
+
+<h3> Merr to the rescue </h3>
+
+<ul>
+<li>
+A tool called Merr let's you generate a <code>yyerror()</code>
+function from examples
+<li> you supply the sample syntax errors and messages,
+<li> Merr figures out which parse state integer goes with which message.
+<li> Merr can also use the yychar (current input token) to refine the
+     diagnostics if two example errors occur on the same parse state.
+<li>
+See the <A href="http://unicon.sf.net/merr/">Merr</A> web page.
+</ul>
+
+<h3> Merr Files </h3>
+
+<ul>
+<li> Arbitrary-length source code fragments
+<li> should designate a syntax error
+<li> ending in a line with ::: followed by an error message
+<li> For example:
+
+<pre>
+procedure p(); 1 := 2 end
+::: missing semicolon or operator
+procedure main()
+every x do { }
+}
+end
+::: too many closing curly braces
+</pre>
+</ul>
+
+<h3> What Merr Does </h3>
+
+<ul>
+<li> recompiles your compiler with a special <code>yyerror()</code>
+     that prints out
+     parse state and input token and stops
+<li> runs that special version of your compiler on each error fragment
+     and records parse state and input token
+<li> writes out a yyerror() in a yyerror.c source file that uses a
+     table of parse states and messages to say something intelligent
+     about the error(s).
+</ul>

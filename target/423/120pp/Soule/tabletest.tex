@@ -1,0 +1,143 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+%\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+%\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+%\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+%\pagestyle{fancy} % options: empty , plain , fancy
+%\renewcommand{\headrulewidth}{0pt} % customise the layout...
+%\lhead{}\chead{}\rhead{}
+%\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+%\usepackage{sectsty}
+%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+%\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Brief Article}
+\author{The Author}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+
+\section{Binary and Hexadecimal Numbers}
+
+To understand binary and hexadecimal numbers it's useful to begin with a quick refresher on the standard decimal system.  The decimal number system is a \emph{positional}, base-10  system.  This means that the value of a digit depends on it's place (position) in the number and the places correspond to multiples of 10.  Table~\ref{tab:decimal} illustrates the idea, digits go in the 1's place, 10's place, 100's place, etc. So, the number 243 is 2*100 + 4*10 + 3*1.  
+
+Although in elementary school we're taught about the one's place, the ten's place, the hundred's place, etc., the places actually correspond to powers of 10.  The 1's place is $10^{0}$, the 10's place is $10^{1}$, the 100's place is $10^{2}$, etc.\footnote{Although there is no definitive proof, it is widely assumed that the base 10 system developed because people have 10 fingers.  Originally people counted in sets of 10, e.g. 3 sets of 10 fingers, plus 4 more, which became 3*10 + 4 or 34.}
+
+A final important fact is that the base of a number system determines how many digits are necessary.  In a base 10 system there must be 10 digits: 0 through 9, to keep track of 0 through 9 objects.  For more than 9 objects the other places are used.
+
+The binary system (or base 2 system) is used in computer science because at the lowest level computers store two digits: 0 and 1, which  correspond to off and on.\footnote{It is possible to design a computer that uses different voltages for different values, but difficulties in getting the necessary precision makes the binary system more practical.}  With only two digits available the first three numbers (starting from zero) must be: 0, 1, 10 because there's no digit to represent a 2.~\footnote{This also leads to the joke: ``There are 10 types of people in the world, those who understand binary and those who don't.''.}  Thus, the second place in the binary system is the 2's place (or more properly the $2^{1}$ place), the third place is the $2^{2}$ or 4's place, etc.  Table~\ref{tab:binary} illustrates the binary system.
+
+\begin{table}
+\centering
+\begin{tabular}{c | c | c | c || c  }
+$10^{3}$ & $10^{2}$ &$10^1$&$10^0$&\\
+ 1000's &  100's & 10's & 1's & \\
+\hline
+8 &   2 & 4 & 3 & 8*1000 + 2*100 + 4*10 + 3*1 = 8243 \\
+&& & 1 & 1*1 = 1\\
+&& & ... & ...\\
+&& & 9 & 9*1 = 9 \\
+&& 1 & 0 & 1*10 = 10\\
+\end{tabular}
+\caption{The decimal system.  The places (columns) are multiples of 10.  In a base 10 system 10 digits: 0 through 9 are required, after 9 the other places are used and no more digits are necessary.}\label{tab:decimal}
+\end{table}
+
+The binary system has two problems.  The numbers end up being long and difficult for people to use (a ``simple'' number like 165 in decimal is 10100101 in binary) and converting back and forth between binary and decimal is awkward because the places don't line up.  A decimal 7 requires three binary digits: 111, but a decimal 9 requires four binary digits: 1001.
+
+\begin{table}
+\centering
+\begin{tabular}{ c|c | c | c || c  }
+$2^{3}$ & $2^{2}$ &$2^1$&$2^0$&\\
+ 8's &  4's & 2's & 1's & \\
+\hline
+ 1 &  1 & 0 & 1 & 1*8 + 1*4 + 0*2 + 1*1 = 13 \\
+&& & 0 & 0*1 = 0\\
+&& & 1 & 1*1 = 1 \\
+&& 1& 0 & 1*2 + 0*1 = 2 \\
+&& 1 & 1 & 1*2 + 1*1 = 3\\
+& 1 & 0 & 0 & 1*4 + 0*2 + 0*1 = 4\\
+\end{tabular}
+\caption{The binary system.  The places (columns) are multiples of 2.  Only the digits 0 and 1 are used.}\label{tab:binary}
+\end{table}
+
+To avoid these problems computer scientists often use a hexadecimal (base 16) system.  In a base 16 system the places are $16^{0}$ (1's place), $16^{1}$ (16's place), $16^{2}$ (256's place), etc. (see Table~\ref{tab:hexadecimal}).  This introduces a digit problem.  Consider counting in hexadecimal: \\
+0, 1, 2, 3, ..., 9, what come next in hexadecimal?  \\
+It can't be 10 because in hexadecimal the number 10 represents 1*16 + 0*1 = 16 objects.  The only solution is to introduce new digits for 10 (decimal) through 15 (decimal).  Rather than introducing brand new symbols computer scientists simply borrowed letters.  So, 10 (decimal) is written as \emph{a} in hexadecimal, 11 (decimal) is written as \emph{b} in hexadecimal, up to 15 (decimal) written as \emph{f} in hexadecimal, which brings us to 16 (decimal) written as 10 in hexadecimal.
+
+It's fairly easy to get decimal and hexadecimal numbers confused: is 23 equal to 2*10 + 3*1 (decimal) or 2*16 + 3*1 (hexadecimal)?  To solve this problem C++ puts a \emph{oX} in front of hexadecimal numbers when they are printed. This shows up whenever a memory address, which are always stored as hexadecimal numbers, is printed.
+
+Hexadecimal numbers have two advantages.  First, they are fairly compact and, with practice, not too hard for humans to use.  Second, they are easily converted to and from binary, because four binary places correspond to one hexadecimal place (see Table~\ref{tab:hexbin}).
+
+\begin{table}
+\centering
+\begin{tabular}{ c | c | c || c  }
+$16^{2}$ &$16^1$&$16^0$&\\
+   256's & 16's & 1's & \\
+\hline
+   2 & 4 & 3 & 2*256 + 4*16 + 3*1 = 579 \\
+& & 1 & 1*1 = 1\\
+& & ... & ...\\
+& & 9 & 9*1 = 9 \\
+& & a & 10*1 = 10\\
+& & ... & ...\\
+& & f & 15*1 = 15 \\
+& 1 & 0 & 1*16 + 0*1 = 16\\
+& 3 & b & 3*16 + 11*1 = 59\\
+\end{tabular}
+\caption{The hexadecimal system.  The places (columns) are multiples of 16.  Sixteen digits are needed: 0 through 15 (decimal).  The characters \emph{a} through \emph{f} are used for the numbers 10 through 15.}\label{tab:hexadecimal}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{c |  c || c | c | c | c }
+binary &   1011 1100 1010 1110 &  1011 & 1100 & 1010 & 1110 \\
+hexadecimal &  b 9 a e & b & 9 & a & e\\
+decimal & & 11 & 9 & 10 & 14 \\
+\end{tabular}
+\caption{Conversion between binary and hexadecimal is relatively easy because four binary digits correspond to one hexadecimal digit.  }\label{tab:hexbin}
+\end{table}
+
+\end{document}

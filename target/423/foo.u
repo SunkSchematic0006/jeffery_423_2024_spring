@@ -1,0 +1,30 @@
+version	U12.1.00
+uid	foo.u1-1681339149-0
+impl	local
+global	1
+	0,000005,main,0
+
+proc main
+	local	0,000000,x
+	con	0,002000,2,42
+	declend
+	filen	foo.icn
+	line	1
+	colm	11
+	synt	any
+	mark	L1
+	pnull
+	var	0
+	int	0
+	line	2
+	colm	6
+	synt	any
+	asgn
+	unmark
+lab L1
+	pnull
+	line	3
+	colm	2
+	synt	any
+	pfail
+	end

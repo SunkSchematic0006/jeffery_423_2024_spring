@@ -1,0 +1,6 @@
+
+
+
+class bar {
+     string name;	
+};

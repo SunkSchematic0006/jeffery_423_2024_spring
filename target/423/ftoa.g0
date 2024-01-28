@@ -1,0 +1,11 @@
+string ftoa(double d){
+   if (d == 0.0) {
+      return "0.0"
+      }
+   else if (d < 0.0) {
+      return "-real"
+      }
+   else {
+     return "real"
+   }
+}

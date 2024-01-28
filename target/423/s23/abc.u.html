@@ -1,0 +1,54 @@
+<pre>
+version	U12.1.00
+uid	abcedeface.u1-1682713957-0
+impl	local
+global	1
+	0,000005,main,0
+^L
+proc main
+	local	0,000000,a	# explicit names for debugging purposes
+	local	1,000000,b
+	local	2,000000,c
+	local	3,000000,d
+	local	4,000000,e
+	local	5,000000,f
+	local	6,000000,g
+	declend
+	mark	L1
+	pnull			# slot for result of assignment
+	var	0		# push ref to a, LHS of assignment
+	pnull			# push one null for each operator
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	var	0		# push (ref to) a
+	var	1		# push b
+	plus
+	var	2		# push c
+	plus
+	var	3		# push d
+	plus
+	var	4		# push e
+	plus
+	var	5		# push f
+	plus
+	var	6		# push g
+	plus
+	var	0		# push a
+	plus
+	var	2		# push c
+	plus
+	var	4		# push e
+	plus
+	asgn
+	unmark
+lab L1
+	pnull
+	pfail
+	end
+</pre>

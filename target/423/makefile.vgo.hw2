@@ -1,0 +1,22 @@
+# extend the HW#1 makefile to do bison.
+CC=gcc
+CFLAGS=-c -g -Wall
+OBJ=vgo.o lex.yy.o go.tab.o
+
+vgo: $(OBJ)
+	$(CC) -o vgo $(OBJ)
+
+vgo.o: vgo.c
+	$(CC) $(CFLAGS) vgo.c
+
+lex.yy.o: lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+lex.yy.c: vgolex.l go.tab.h
+	flex vgolex.l
+
+go.tab.o: go.tab.c
+	$(CC) $(CFLAGS) go.tab.c
+
+go.tab.c go.tab.h: go.y
+	bison -d go.y

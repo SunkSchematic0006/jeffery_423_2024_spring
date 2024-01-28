@@ -1,0 +1,16 @@
+link turtle # import turtle
+global z
+procedure main()
+writes("enter a positive integer for the length of perfect polygons, foolish mortal:")
+z := read()
+mcturtle := turtle.Turtle()
+every s := 0 to 4 do {
+    every q := 0 to (integer(s+3))-1 do {
+        mcturtle.forward(1*integer(z))
+        mcturtle.left(360/(s+3))
+        }
+    mcturtle.forward(3*integer(z))
+    }
+
+turtle.done()
+end

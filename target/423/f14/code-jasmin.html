@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>code generation</title>
+  </head>
+
+  <body>
+    <h1>Jasmin Code Generation Guide</h1>
+
+This document provides a guide to the generation of Jasmin assembler code
+from intermediate three-address instructions.  The JVM is strongly typed,
+which adds a wrinkle to traditional code generators: instead of dealing
+with exact byte counts and pointer arithmetic, we must deal with the fact
+that the JVM instructions occasionally require explicit type information.
+Mainly this will be needed for method invocations.
+One way to retain this type information is to extend the
+struct address to allow a pointer to type structure as another option,
+similar to how we extended it to allow names.
+<p>
+
+The JVM is a stack machine, so intermediate code instructions generally
+begin by pushing operands on the stack, and then do their computation,
+then pop their result off the stack.  Loading or storing to a local variable
+requires one instruction; loading or storing to a class variable requires
+two instructions.  Since storing to a class variable
+requires the instance be pushed before the result, intermediate instructions
+that store to a class variable must either push the instance an extra time
+before working on their operands, or else swap the instance into position.
+<p>
+
+<table border>
+<tr><th>intermediate<br>code<br>instruction</th><th>Jasmin equivalent</th><th>Comment</th></tr>
+<tr><td>
+x := y + z <br>
+(local variables)<td>	iload_y<br>
+			iload_z<br>
+			iadd <br>
+			istore_x	<td> replace _x, _y, _z by slot offsets
+</tr>
+<tr><td>
+x := y + z <br>
+(class foo variables)<br>
+(sandwich method)<td>	aload_0<br>
+			aload_0<br>
+			getfield foo/y I<br>
+			aload_0<br>
+			getfield foo/z I<br>
+			iadd <br>
+			putfield foo/x	<td> aload_0 pushes the "self" object
+</tr>
+<tr><td>
+x := y + z <br>
+(class foo variables)<br>
+(swap method)<td>	aload_0<br>
+			getfield foo/y I<br>
+			aload_0<br>
+			getfield foo/z I<br>
+			iadd <br>
+			aload_0<br>
+			swap<br>
+			putfield foo/x	<td> aload_0 pushes the "self" object
+</tr>
+<tr><td>
+x := y + z <br>
+(strings)<td>		new java/lang/StringBuffer<br>
+			dup<br>
+			invokespecial java/lang/StringBuffer/&lt;init&gt;()V<br>
+			aload_y<br>
+			invokevirtual java/lang/StringBuffer/append(java/lang/String;)Ljava/lang/StringBuffer;<br>
+			aload_z<br>
+			invokevirtual java/lang/StringBuffer/append(java/lang/String;)Ljava/lang/StringBuffer;<br>
+			invokevirtual java/lang/StringBuffer/toString()Ljava/lang/String;<br>
+			astore_x
+<td> the creation of an implicit StringBuffer object, and three subsequent
+     method invocations, in order to accomplish a string concatenation,
+     looks laughably inefficient, but this is what the javacompiler does
+     with string "+".
+</tr>
+<tr><td>
+x := - y <br>
+(local variables)<td>	iload_y<br>
+			ineg <br>
+			istore_x	<td> replace _x, _y by slot offsets
+</tr>
+<tr><td>
+x := y <br>
+(local variables)<td>	iload_y<br>
+			istore_x	<td> replace _x, _y by slot offsets
+</tr>
+<tr><td>
+x := &y <br>
+x := *y <br>
+*x := y <td> n/a <td> These red dragon book instructions not used
+</tr>
+<tr><td>
+goto L <td>		goto L
+</tr>
+<tr><td>
+if x &lt; y then goto L <td>	iload_x<br>
+				iload_y<br>
+				isub<br>
+				iflt L
+</tr>
+<tr><td>
+if x then goto L <td>		iload_x<br>
+				ifne L
+</tr>
+<tr><td>
+if !x then goto L <td>		iload_x<br>
+				ifeq L
+</tr>
+<tr><td>
+param x <td>			iload_x		<td> push object before first
+						     parameter for method invocation
+<tr><td>
+call p,n,x <td>			invokevirtual foo/x(<em>parms</em>)<em>returntype</em>
+<tr><td>
+return x <td>			iload_x<br>
+				ireturn
+<tr><td>
+global x,n1,n2 <td><td> treat globals as class variables
+<tr><td>
+proc x,n1,n2 <td><td> treat procedures as methods
+<tr><td>
+local x,n <td>			.limit locals <em>n</em><td> no local declarations needed other than a count of how many
+<tr><td>
+label Ln <td>			Ln:
+<tr><td>
+end <td>			.end method
+<tr><td>
+x := y field z <td>		iload_y<br>
+				getfield ysclass/z <br>
+				istore_x <td> ysclass is the class name for y
+<tr><td>
+class x,n1,n2 <td>		.class public x<br>
+				.super java/lang/Object
+<tr><td>
+field x,n <td>			.field public x <em>type</em>
+</table>
+
+
+
+
+    <hr>
+    <address><a href="mailto:jeffery@cs.uidaho.edu">Clint Jeffery</a></address>
+<!-- Created: Sat Dec  1 11:10:03 MST 2001 -->
+<!-- hhmts start -->
+Last modified: Sat Dec  1 11:11:40 MST 2001
+<!-- hhmts end -->
+  </body>
+</html>

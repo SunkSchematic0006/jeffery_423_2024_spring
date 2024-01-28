@@ -1,0 +1,273 @@
+# example Jeffery grading script, from a past year. This
+# year's will be different, expecting .java extension, etc.
+# 
+$define COURSE "CSE 423"
+$define HW "HW2"
+
+procedure main(argv)
+    list_to_kill := []
+    pdfs :=
+    every i := 1 to *argv do {
+       srcs := ""
+	ZipPresent := 0
+	TarPresent := 0
+	FlexPresent := 0
+	BisonPresent := 0
+	makefilePresent := 0
+	Compiles := 0
+	Runs := 0
+	MaxOK := 0
+	subdir := basename(argv[i])
+	write(repl("-",60), "\n")
+	write(COURSE," ",HW," grade sheet for ", subdir,"\n", repl("-",60))
+Lout := []
+	put(Lout,COURSE||" "||HW||" testrun output for "||
+	    subdir|| "\n"|| repl("-",60))
+	if checkexpected(argv[i], "Zip archive") then ZipPresent := 1 else
+	if checkexpected(argv[i], "tar archive") then TarPresent := 1
+	else next
+
+	write("\t",HW," is a .zip, unpacks in current dir: _",
+              (if \ZipPresent then 1 else 0),"_/1")
+
+	system("mkdir " || subdir)
+	system("cp \"" || argv[i] || "\" " || subdir ||"/"||HW||
+	      if ZipPresent=1 then ".zip" else if TarPresent=1 then ".tar"
+	      else "")
+	chdir(subdir)
+	put(Lout, "\t(unpacking)")
+	if ZipPresent=1 then rv := system("unzip "||HW||".zip >& /dev/null") else
+	if TarPresent=1 then rv := system("tar xf "||HW||".tar")
+        if not stat("makefile"|"Makefile") then
+           system("mv */* . >& /dev/null")
+	put(Lout, "\t(unpacking done rv=" || image(rv) || ")")
+	if rv = 0 then {
+	    every fname := !open("*.l") do
+	       if not find(".tab.h", fname) then srcs ||:= fname || " "
+	    every fname := !open("*.h") do
+	       if not find(".tab.h", fname) then srcs ||:= fname || " "
+	    every fname := !open("*.c") do
+	       if not find(".tab.c"|"lex.yy.c", fname) then
+		  srcs ||:= fname || " "
+#	    every fname := !open("*.cpp") do
+#	       if not find(".tab.cpp"|"120gram.cpp", fname) then
+#		  srcs ||:= fname || " "
+	    if stat(mk:=("makefile"|"makefile.mk")) & checkexpected(mk, "text") then {
+	       makefilePresent := 1
+               }
+	    else if stat(mk:="Makefile") & checkexpected(mk, "text") then {
+	       makefilePresent := 1
+               }
+	    if checkexpected("*.l", "text") then FlexPresent := 1
+	    if \FlexPresent then {
+	       rv2 := system("make -f "||mk||" &> make.out")
+	       }
+	    }
+
+	write("\tcompiles -Wall, links w/out warnings:  ___/2")
+#	write("\tlinks/makes OK:                        _",
+#	      if \rv2 = 0 then "1" else "0","_/1")
+        if stat("c113c") then exename :="c113c"
+	write("\tbuilds executable named c113c:         _",
+              if \exename then 1 else 0, "_/1")
+	write("\truns on multiple named files:          ___/2")
+	write("\tlinked list:                           ___/3")
+	write("\tvalgrind OK:                           ___/2")
+	write("\toutput looks OK:                       ___/3")
+	write("\thandles escapes:                       ___/2")
+	write("\thandles lexical errors:                ___/2")
+	write("\tautoappends .c extension:              ___/1")
+	write("\thandles C-not-c113c errors:            ___/1")
+
+	write("\t---------------------------------------------")
+	write("\tTotal:                                 ___/20")
+       write("\n")
+every write(!Lout)
+       write("\n")
+system("cat make.out")
+       write("\n")
+
+	if rv~===0 then {
+	    write("execution skipped, since unzip failed")
+	    chdir("..")
+	    next
+	}
+
+       if rv2 = 0 then {
+	  exename := &null
+	  if stat("c113c") then exename :="c113c"
+	  if \exename then {
+	     write("...test0.c [expect lexical error on line 3]...")
+	     system("cp ../test0.c .")
+	     write("Test input:")
+	     system("cat test0.c")
+	     write("Test output:")
+	     if rv3 := system("timeout 1s ./"||exename||" test0.c >& test0.out") then {
+		system("head -128 test0.out")
+		write("exit status: ", rv3," expected 1")
+		}
+	     write("...test1.c [expect normal token output]...")
+	     system("cp ../test1.c .")
+	     write("Test input:")
+	     system("cat test1.c")
+	     write("Test output:")
+	     if rv3 := system("timeout 1s ./"||exename||" test1.c >& test1.out") then {
+		system("head -128 test1.out")
+		write("exit status: ", rv3," expected 0")
+		}
+	     write("...rerun test1.c under valgrind...")
+	     if rv3 := system("timeout 2s valgrind ./"||exename||" test1.c >& test1.out") then {
+		system("head -1024 test1.out")
+		write("exit status: ", rv3," expected 0")
+		}
+	     write("...test2.c ...")
+	     system("cp ../test2.c .")
+	     write("Test input:")
+	     system("cat test2.c")
+	     write("Test output:")
+	     if rv3 := system("timeout 1s ./"||exename||" test2.c >& test2.out") then {
+		system("head -128 test2.out")
+		write("exit status: ", rv3," expected 2")
+		}
+	     write("...multi-file test...")
+	     system("cp ../a.c .")
+	     system("cp ../b.c .")
+	     write("Test input: a.c")
+	     system("cat a.c")
+	     write("Test input: b.c")
+	     system("cat b.c")
+	     write("Test output:")
+	     if rv4 := system("timeout 1s ./"||exename||" a.c b.c >& testN.out") then {
+		system("head -128 testN.out")
+		write("exit status: ", rv4," expected 2")
+		}
+	     write("...odds and ends test...")
+	     system("cp ../test3.c .")
+	     write("Test input:")
+	     system("cat test3.c")
+	     write("Test output:")
+	     if rv4 := system("timeout 1s ./"||exename||" test3 >& test3.out") then {
+		system("head -128 test3.out")
+		write("exit status: ", rv4," expected 0")
+		}
+	     }
+	  }
+
+       if srcs ~== "" then
+          system("cat " || srcs)
+       write("\^l")
+
+	# catenate out all the PDF's
+#	if \JavaPresent then {
+#	    system("enscript -1 -o pairem.ps " ||
+#		   "pairem.java >& /dev/null")
+#	    system("ps2pdf pairem.ps")
+#	    pdfs ||:= " " || subdir || "/pairem.pdf "
+#	}
+	chdir("..")
+	if *argv > 1 then {
+	    put(list_to_kill, subdir)
+	}
+    }
+
+#    system("pdftk " || pdfs || " cat output hw9pdf.pdf")
+
+    every system("rm -r " || !list_to_kill)
+end
+
+# more than traditional basename; handle bblearn names of the form
+# Homework #1_username_attempt_date-time_filename.zip
+procedure basename(s)
+    s := s[1:find(".",s)]
+    if match("Homework #",s) then {
+       i := find("_", s)
+       s := s[i+1:0]		# first _
+       s := s[1 : find("_",s)]	# second _
+       }
+    return s
+end
+
+procedure checkexpected(s, expected)
+   if find("*", s) then {
+      # modify s to fill in actual filename
+      if fglob := open(s) then {
+	 L := []
+	 while line := read(fglob) do put(L, line)
+	 if *L ~= 1 then {
+	    close(fglob)
+	    write("expected ", s, " had ", *L, " matches")
+	    fail
+	    }
+	 s := L[1]
+	 }
+      else {
+	 stop("couldn't open ", s)
+	 }
+      }
+
+    if not stat(s) then {
+	write("file does not exist: ", s)
+	fail
+    }
+    if /expected then return s
+    if p := open("file \"" || s || "\"", "p") then {
+	if not (line := read(p)) then {
+	    write("read() fails on file type pipe")
+	    close(p)
+	    fail
+	}
+	close(p)
+	if find(expected, line) then return s
+	else if find("gzip compressed", line) & (s[-4:0]==".tar") then {
+	   write(".tar appears to be compressed, uncompressing")
+	   # did they compress their .tar?  uncompress for them.
+	   system("mv " || s || " " || s || ".tgz")
+	   system("gunzip " || s || ".tgz")
+	   system("mv " || s || ".tar " || s)
+	   return checkexpected(s, expected)
+	   }
+	else {
+	    write(s, " was of unexpected file type ", image(line), ", expected ", image(expected))
+	    fail
+	}
+    }
+    else {
+	write("can't run file command on ", s)
+	fail
+    }
+end
+procedure maxline(fn)
+local longest
+   f := open(fn) | fail
+   mx := 0
+   every line := !f do if mx <:= *line then {
+#write("longer (",mx,"): ", image(line))
+      longest := line
+   }
+   close(f)
+   if mx >80 then write("long (",mx,"): ", image(longest))
+   return mx
+end
+
+procedure opening_comment_good(fname)
+  if not fin := open(fname) then {
+      write("can't check opening comment of ", fname)
+      fail
+    }
+  while line := trim(read(fin), 0) do {
+      if line == "" then next
+      if match("/*", line) then {
+	  while not find("*/", line) do {
+	      if find("section", map(line)) then return close(fin)
+	    }
+	}
+      else if match("//", line) then {
+	  if find("section", map(line)) then return close(fin)
+	}
+      else {
+	close(fin)
+	fail
+      }
+    }
+  close(fin)
+end

@@ -1,0 +1,64 @@
+<h3> CS 445 HW#3 </h3>
+
+Due: Monday October 3 start of class. Please do not print hard copies of
+.tab.c (or lex.yy.c) files.  I would like hard copies of .y and other .[ch]
+files.
+<p>
+
+
+Obtain and adapt a grammar for ActionScript and use it to construct a syntax checker and parse tree constructor for ActionScript 3.0.
+<p>
+<ul>
+<li> <A href="elastic.y">ElastiC</A>, a C-like grammar someone working on an
+     ECMAScript parser considered to be helpful
+<li> <A href="AS3.g"> ActionScript 3 grammar</A> in ANTLR
+<li> <A href="http://www.antlr.org/grammar/1153976512034/ecmascriptA3.g"> Another ActionScript grammar </A> in ANTLR
+<li> <A href="scriptonite.g"> ECMAScript grammar</A> in SableCC, claims to be
+	LALR
+</ul>
+
+<p>
+
+You may skip any rules relating to unicode that are not convenient to you.
+<p>
+
+If there is a syntax error, you should report the filename and line number.
+<p>
+
+If there are no errors, you should print a text representation of the parse
+tree.
+<p>
+Suppose we have a tree structure that looks something like:
+
+<pre>
+struct tree {
+   int prodrule;
+   int nkids;
+   struct tree *kids[9];
+   struct token *leaf;
+}
+
+int treeprint(struct tree *t, int depth)
+{
+  int i;
+
+  printf("%*s %s: %d\n", depth*2, " ", humanreadable(t->prodrule), t->nkids);
+  
+  for(i=0; i<t->nkids; i++)
+    treeprint(t->kids[i], depth+1);
+
+}
+</pre>
+
+you might get output that looks someething like
+
+<pre>
+program: 1
+ function: 2
+  function header: 3
+   typedecl: 1
+   functioname: 1
+   parmlist: 3
+    ....
+
+</pre>

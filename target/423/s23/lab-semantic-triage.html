@@ -1,0 +1,32 @@
+<h2> CSE 423 Lab #10: Semantic Analysis Triage </h2>
+
+Turnin: no turnin, your HW#5 is your turnin
+<p>
+
+This week's lab will be completely free-form, the time will be spent just
+helping out anyone who needs help with HW#5 and is willing to share their
+screen with the class.  If you are done with HW#5, you are not required
+to attend.
+
+<p>
+
+If you don't have questions for the instructor, I will kick around various
+thoughts on type checking and the like.
+<p>
+
+What would it take to modify the output we write for dot, so that we could
+see the type information along with our syntax trees?  Would it even be
+legible?
+<ul>
+<li> have type representation linked into executable -- CHECK
+<li> actually build type information declarations -- part of your HW5
+<li> get type information printable textually, before worrying about
+printing it in dot.
+<li> Print the type's basetype in the node directly?
+<li> Include the type structure only when not an atomic type?
+<li> modify print_leaf to print type information for leaves
+<ul>
+<li> modify print_leaf to print type information for constants
+</ul>
+<li> modify print_branch to print type information for internal nodes
+</ul>

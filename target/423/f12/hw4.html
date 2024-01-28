@@ -1,0 +1,106 @@
+<h3> CS 445 HW#4 </h3>
+
+Due: Monday October 29 11:30am
+<p>
+
+
+Perform semantic analysis for CT.  This shall consist of the
+following items. Please turnin via cscheckin an electronic copy of your whole
+project in a .tar but turnin paper copy only for those modules involved
+in the semantic analysis, including symbol tables and type checking.
+
+<dl>
+<dt> Symbol tables
+<dd> Build a symbol table data type that you can instantiate for each
+     scope: globals and locals.  You do not have to support nested local scopes.
+     For each symbol, you should insert a symbol table entry, which is
+     a struct consisting of enough information
+     to support the semantic analysis. Typically this will include symbol
+     name, reference to which scope (containing symbol table) the symbol is
+     defined in, declared data type, and any auxiliary flags, e.g. const.
+     It is recommended that you implement a hash table, but a binary tree
+     would work great; a linked list would work but not be so great.
+<dt> Variable declarations
+<dd> You must emit an error if a variable is redeclared in the same scope.
+     You must detect and report an error for undeclared variables.
+<dt> Exclusions
+<dd> This is the phase at which you can emit semantic errors for anything
+     not defined in our subset, i.e. this document.
+<dt> Types
+<dd> Support the C base types: char, int, and void.  Support 1D arrays.
+     Support one new type, called <code>table</code>.
+<dt> Tables
+<dd> A (hash) table type as a built-in for C will introduce the following
+     new syntax and semantics.  A table variable supports a subscript
+     operator [ ] whose subscripts may be strings or integers. The results
+     of assigning a value to a table subscript is to insert that value into
+     the hash table.  The type inserted by an assignment is always a string.
+     The results of subscripting to read a value is to lookup
+     that value.  The result type produced by a subscript is always a string.
+     To sum up: support tables that map strings to strings, and tables that
+     map integers to strings.  By the way, "string" is interpreted to mean
+     "array of char" in ct, since we have arrays but no pointers.
+
+<dt> Type Checking
+<dd> Require and check types everywhere at compile-time.
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> Support the operators =, +, -, *, /, and subscript ([ ]).
+     Support the boolean/relational operators &lt, &gt; &amp;&amp; || and !.
+     You may support more but they are optional 
+<dt> Functions
+<dd> Without a declaration or an include file, you should predeclare
+     functions:
+<pre>
+  int printf(char [], x);
+  int getchar();
+</pre>
+Note that printf() should take a second argument that is either an int, a char,
+  or an array of char.
+
+<!--
+<table border>
+<tr><td>mx.graphics<td>IFill,IStroke,SolidColor,SolidColorStroke
+<tr><td>flash.events<td>Event, IOErrorEvent, EventDispatcher, MouseEvent, TimerEvent
+<tr><td>flash.geom<td>Point, RoundedRectangle, PerspectiveProjection, Matrix, Transform
+<tr><td>flash.text<td>StaticText
+<tr><td>flash.net<td>URLLoader, URLRequest
+<tr><td>flash.filesystem<td>File, FileMode, FileStream
+<tr><td>flash.display<td>LineScaleMode, DisplayObject
+<tr><td>flash.utils<td>Timer
+<tr><td>spark.components<td> ToggleButton, Group, Button, Label, HGroup, VGroup, VScrollBar, HSlider
+<tr><td>spark.primitives<td> Ellipse,Rect,Path
+
+</table>
+-->
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "ct"
+<li> You have the option of either (A) supporting prototypes, or (B)
+     organizing your semantic analysis such that a first pass enters
+     all global symbols (function signature type information) before
+     the typechecking pass needs that information.
+
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+
+
+<li>
+
+</ul>
+

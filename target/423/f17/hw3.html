@@ -1,0 +1,91 @@
+<h3> CS 445 HW#3 </h3>
+
+Due: Sunday October 15 11:59pm
+<p>
+
+
+Perform the first part of semantic analysis for 120++.  This shall consist
+of the following items. Please turnin via bblearn an electronic copy of your
+whole project in a .zip. Please create your .zip file in such a way that it
+unpacks into the current directory, rather than a subdirectory.
+
+<dl>
+<dt> Symbol tables
+<dd> Build a symbol table data type that you can instantiate for each scope:
+     one global scope, one scope per class for member variables and functions,
+     and one scope per function for parameters and locals.  You do not have
+     to support nested local scopes via a separate symbol table.  120++ does
+     have symbols declared as statements spread through the statement list,
+     and symbols declared as control variables in for-loops.
+     For each symbol, you should insert a symbol table entry, which is
+     a struct consisting of enough information
+     to support the semantic analysis. Typically this will include symbol
+     name, reference to which scope (containing symbol table) the symbol is
+     defined in, declared data type (required in the next homework), and any
+     auxiliary flags, e.g. const.
+     For full credit, implement a hash table;  a binary tree would be a
+     fine alternative (90% credit); a linked list would work but not be
+     so great (80% credit).
+<dt> Variable declarations
+<dd> You must emit an error if a variable is redeclared in the same scope.
+     You must detect and report an error for undeclared variables.
+<dt> Exclusions
+<dd> This is another phase at which you can emit semantic errors for anything
+     not supported in 120++. Feel free to ask me specifics about anything you
+     are unsure of.
+<!--
+<dt> Types
+<dd> Support the CS 120 C++ base types: char, int, and void.
+     Support 1D arrays, and simple classes.
+
+<dt> Type Checking
+<dd> Require and check types everywhere at compile-time.
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> The semantic rules for operators are all nearly the same; at the
+     semantic analysis phase we will support those actually used in CS 120,
+     not everything mentioned in passing with no use in an example program.
+     This includes the operators =, +, -, *, /, and subscript ([ ]).
+     Support the boolean/relational operators &lt, &gt; &amp;&amp; || and !.
+
+<dt> Built-in Classes
+<dd> If the appropriate include file and "using namespace" are present, you
+     should insert into the global symbol table the names of classes
+     string and fstream, and the global symbols cin, cout, endl.
+
+<dt> Nesting
+<dd> Expressions will generally get combined to form larger expressions.
+     In the object-oriented realm, 120++ includes expressions such as
+     the following
+<pre>
+     o1.f(o2.g())
+     a[i].m()
+     (h->g())->i() == n
+</pre>
+     However, x.y.z might never occur because 120++ does not require
+     public member variables.
+-->
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "120++"
+
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+
+</ul>
+

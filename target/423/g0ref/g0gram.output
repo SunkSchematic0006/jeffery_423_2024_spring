@@ -1,0 +1,5028 @@
+State 83 conflicts: 1 shift/reduce
+State 139 conflicts: 1 shift/reduce
+State 183 conflicts: 1 shift/reduce
+State 228 conflicts: 1 shift/reduce
+State 241 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: CompilationUnit $end
+
+    1 Literal: INTLIT
+    2        | DOUBLELIT
+    3        | BOOLTRUE
+    4        | BOOLFALSE
+    5        | STRINGLIT
+    6        | NULLVAL
+
+    7 Type: PrimitiveType
+    8     | ReferenceType
+
+    9 PrimitiveType: NumericType
+   10              | BOOL
+   11              | STRING
+
+   12 NumericType: INT
+   13            | DOUBLE
+
+   14 ReferenceType: ClassType
+   15              | DefaultTableMap
+   16              | ListType
+   17              | TableType
+
+   18 ClassType: Name
+
+   19 ListType: LIST
+   20         | LIST LESSTHAN LegalElement GREATERTHAN
+
+   21 TableType: TABLE
+   22          | TABLE LESSTHAN LegalElement GREATERTHAN
+   23          | TABLE LESSTHAN TableIndex COMMA LegalElement GREATERTHAN
+
+   24 LegalElement: INT
+   25             | DOUBLE
+   26             | STRING
+   27             | ClassType
+
+   28 TableIndex: INT
+   29           | STRING
+
+   30 DefaultTableMap: Name LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+   31 Name: SimpleName
+   32     | QualifiedName
+
+   33 SimpleName: IDENTIFIER
+   34           | DECLAREDNAME
+
+   35 QualifiedName: Name PERIOD IDENTIFIER
+
+   36 CompilationUnit: TypeDeclarationsOpt
+
+   37 TypeDeclarationsOpt: TypeDeclarations
+   38                    | %empty
+
+   39 TypeDeclarations: TypeDeclaration
+   40                 | TypeDeclarations TypeDeclaration
+
+   41 TypeDeclaration: ClassDeclaration
+   42                | ClassMemberDeclaration
+
+   43 ClassDeclaration: CLASS IDENTIFIER ClassBody SEMICOLON
+
+   44 ClassBody: LEFTBRACE ClassBodyDeclarationsOpt RIGHTBRACE
+
+   45 ClassBodyDeclarationsOpt: ClassBodyDeclarations
+   46                         | %empty
+
+   47 ClassBodyDeclarations: ClassBodyDeclaration
+   48                      | ClassBodyDeclarations ClassBodyDeclaration
+
+   49 ClassBodyDeclaration: ClassMemberDeclaration
+   50                     | ConstructorDeclaration
+
+   51 ClassMemberDeclaration: FieldDeclaration
+   52                       | MethodDeclaration
+
+   53 FieldDeclaration: Type VariableDeclarators SEMICOLON
+
+   54 VariableDeclarators: VariableDeclarator
+   55                    | VariableDeclarators COMMA VariableDeclarator
+
+   56 VariableDeclarator: VariableDeclaratorId
+
+   57 VariableDeclaratorId: IDENTIFIER
+   58                     | VariableDeclaratorId LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+   59 MethodDeclaration: MethodHeader Block
+
+   60 MethodHeader: Type MethodDeclarator
+   61             | VOID MethodDeclarator
+
+   62 FormalParameterListOpt: FormalParameterList
+   63                       | %empty
+
+   64 MethodDeclarator: IDENTIFIER LEFTPAREN FormalParameterListOpt RIGHTPAREN
+   65                 | MethodDeclarator LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+   66 FormalParameterList: FormalParameter
+   67                    | FormalParameterList COMMA FormalParameter
+
+   68 FormalParameter: Type VariableDeclaratorId
+
+   69 ConstructorDeclaration: ConstructorDeclarator ConstructorBody
+
+   70 ConstructorDeclarator: SimpleName LEFTPAREN FormalParameterListOpt RIGHTPAREN
+
+   71 ExplicitConstructorInvocationOpt: ExplicitConstructorInvocation
+   72                                 | %empty
+
+   73 ArgumentListOpt: ArgumentList
+   74                | %empty
+
+   75 ConstructorBody: LEFTBRACE ExplicitConstructorInvocationOpt BlockStatementsOpt RIGHTBRACE SEMICOLON
+
+   76 ExplicitConstructorInvocation: LEFTPAREN ArgumentListOpt RIGHTPAREN SEMICOLON
+
+   77 Block: LEFTBRACE BlockStatementsOpt RIGHTBRACE SEMICOLON
+
+   78 BlockStatementsOpt: BlockStatements
+   79                   | %empty
+
+   80 BlockStatements: BlockStatement
+   81                | BlockStatements BlockStatement
+
+   82 BlockStatement: LocalVariableDeclarationStatement
+   83               | Statement
+
+   84 LocalVariableDeclarationStatement: LocalVariableDeclaration SEMICOLON
+
+   85 LocalVariableDeclaration: Type VariableDeclarators
+
+   86 Statement: StatementWithoutTrailingSubstatement
+   87          | IfThenStatement
+   88          | IfThenElseStatement
+   89          | IfThenElseIfStatement
+   90          | WhileStatement
+   91          | ForStatement
+
+   92 StatementWithoutTrailingSubstatement: Block
+   93                                     | EmptyStatement
+   94                                     | ExpressionStatement
+   95                                     | BreakStatement
+   96                                     | ReturnStatement
+
+   97 EmptyStatement: SEMICOLON
+
+   98 ExpressionStatement: StatementExpression SEMICOLON
+
+   99 StatementExpression: Assignment
+  100                    | MethodInvocation
+  101                    | ClassInstanceCreationExpression
+
+  102 IfThenStatement: IF LEFTPAREN Expression RIGHTPAREN Block
+
+  103 IfThenElseStatement: IF LEFTPAREN Expression RIGHTPAREN Block ELSE Block
+
+  104 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence
+  105                      | IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence ELSE Block
+
+  106 ElseIfSequence: ElseIfStatement
+  107               | ElseIfSequence ElseIfStatement
+
+  108 ElseIfStatement: ELSE IF LEFTPAREN Expression RIGHTPAREN Block
+
+  109 WhileStatement: WHILE LEFTPAREN Expression RIGHTPAREN Statement
+
+  110 ForInitOpt: ForInit
+  111           | %empty
+
+  112 ExpressionOpt: Expression
+  113              | %empty
+
+  114 ForUpdateOpt: ForUpdate
+  115             | %empty
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+  117 ForInit: StatementExpressionList
+  118        | LocalVariableDeclaration
+
+  119 ForUpdate: StatementExpressionList
+
+  120 StatementExpressionList: StatementExpression
+  121                        | StatementExpressionList COMMA StatementExpression
+
+  122 IDENTOpt: IDENTIFIER
+  123         | %empty
+
+  124 BreakStatement: BREAK IDENTOpt SEMICOLON
+
+  125 ReturnStatement: RETURN ExpressionOpt SEMICOLON
+
+  126 Primary: Literal
+  127        | LEFTPAREN Expression RIGHTPAREN
+  128        | FieldAccess
+  129        | MethodInvocation
+  130        | ListTableAccess
+
+  131 ClassInstanceCreationExpression: ClassType LEFTPAREN ArgumentListOpt RIGHTPAREN
+
+  132 ArgumentList: Expression
+  133             | ArgumentList COMMA Expression
+
+  134 FieldAccess: Primary PERIOD IDENTIFIER
+
+  135 MethodInvocation: Name LEFTPAREN ArgumentListOpt RIGHTPAREN
+  136                 | Primary PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  137                 | Name LEFTBRACE ArgumentListOpt RIGHTBRACE
+  138                 | Primary PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+
+  139 ListTableAccess: Name LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  140                | Primary LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  141                | Name LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT
+
+  142 PostFixExpression: Primary
+  143                  | Name
+
+  144 UnaryExpression: MINUS UnaryExpression
+  145                | UnaryExpressionNotPlusMinus
+  146                | DROLL UnaryExpression
+  147                | SIZE UnaryExpression
+
+  148 UnaryExpressionNotPlusMinus: PostFixExpression
+  149                            | LOGICALNOT UnaryExpression
+
+  150 MultiplicativeExpression: UnaryExpression
+  151                         | MultiplicativeExpression MULTIPLY UnaryExpression
+  152                         | MultiplicativeExpression DIVIDE UnaryExpression
+  153                         | MultiplicativeExpression MODULUS UnaryExpression
+  154                         | MultiplicativeExpression DROLL UnaryExpression
+
+  155 AdditiveExpression: MultiplicativeExpression
+  156                   | AdditiveExpression PLUS MultiplicativeExpression
+  157                   | AdditiveExpression MINUS MultiplicativeExpression
+
+  158 RelationalExpression: AdditiveExpression
+  159                     | RelationalExpression LESSTHAN AdditiveExpression
+  160                     | RelationalExpression GREATERTHAN AdditiveExpression
+  161                     | RelationalExpression LESSTHANOREQUAL AdditiveExpression
+  162                     | RelationalExpression GREATERTHANOREQUAL AdditiveExpression
+
+  163 EqualityExpression: RelationalExpression
+  164                   | EqualityExpression ISEQUALTO RelationalExpression
+  165                   | EqualityExpression NOTEQUALTO RelationalExpression
+
+  166 ConditionalAndExpression: EqualityExpression
+  167                         | ConditionalAndExpression LOGICALAND EqualityExpression
+
+  168 ConditionalOrExpression: ConditionalAndExpression
+  169                        | ConditionalOrExpression LOGICALOR ConditionalAndExpression
+
+  170 AssignmentExpression: ConditionalOrExpression
+  171                     | Assignment
+  172                     | concatOpt
+  173                     | ListAssignment
+  174                     | TableAssignment
+
+  175 Assignment: LeftHandSide AssignmentOperator AssignmentExpression
+
+  176 LeftHandSide: Name
+  177             | FieldAccess
+  178             | ListTableAccess
+  179             | DefaultTableMap
+
+  180 AssignmentOperator: EQUALS
+  181                   | INCREMENT
+  182                   | DECREMENT
+  183                   | SWAP
+
+  184 Expression: AssignmentExpression
+
+  185 ListAssignment: LEFTSUBSCRIPT ListValues RIGHTSUBSCRIPT
+
+  186 ListValues: LegalValue
+  187           | ListValues COMMA LegalValue
+
+  188 TableAssignment: LEFTBRACE TableValues SEMICOLON RIGHTBRACE
+
+  189 TableValues: TableObject
+  190            | TableValues COMMA TableObject
+
+  191 TableObject: LegalIndex COLON LegalValue
+
+  192 LegalIndex: INTLIT
+  193           | STRINGLIT
+
+  194 LegalValue: INTLIT
+  195           | DOUBLELIT
+  196           | STRINGLIT
+  197           | IDENTIFIER
+  198           | DECLAREDNAME
+
+  199 concatOpt: concat concat
+  200          | concatOpt concat
+
+  201 concat: Name
+  202       | Primary
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+BREAK (258) 124
+DROLL (259) 146 154
+DOUBLE (260) 13 25
+ELSE (261) 103 105 108
+FOR (262) 116
+IF (263) 102 103 104 105 108
+INT (264) 12 24 28
+RETURN (265) 125
+VOID (266) 61
+WHILE (267) 109
+IDENTIFIER (268) 33 35 43 57 64 122 134 136 138 197
+DECLAREDNAME (269) 34 198
+CLASS (270) 43
+LIST (271) 19 20
+TABLE (272) 21 22 23
+PERIOD (273) 35 134 136 138
+STRING (274) 11 26 29
+BOOL (275) 10
+INTLIT (276) 1 192 194
+DOUBLELIT (277) 2 195
+STRINGLIT (278) 5 193 196
+BOOLFALSE (279) 4
+BOOLTRUE (280) 3
+NULLVAL (281) 6
+LEFTPAREN (282) 64 70 76 102 103 104 105 108 109 116 127 131 135 136
+RIGHTPAREN (283) 64 70 76 102 103 104 105 108 109 116 127 131 135 136
+LEFTSUBSCRIPT (284) 30 58 65 139 140 141 185
+RIGHTSUBSCRIPT (285) 30 58 65 139 140 141 185
+LEFTBRACE (286) 44 75 77 137 138 188
+RIGHTBRACE (287) 44 75 77 137 138 188
+SEMICOLON (288) 43 53 75 76 77 84 97 98 116 124 125 188
+COLON (289) 141 191
+COMMA (290) 23 55 67 121 133 187 190
+LOGICALNOT (291) 149
+SIZE (292) 147
+MULTIPLY (293) 151
+DIVIDE (294) 152
+MODULUS (295) 153
+PLUS (296) 156
+MINUS (297) 144 157
+LESSTHAN (298) 20 22 23 159
+LESSTHANOREQUAL (299) 161
+GREATERTHAN (300) 20 22 23 160
+GREATERTHANOREQUAL (301) 162
+ISEQUALTO (302) 164
+NOTEQUALTO (303) 165
+LOGICALAND (304) 167
+LOGICALOR (305) 169
+EQUALS (306) 180
+INCREMENT (307) 181
+DECREMENT (308) 182
+SWAP (309) 183
+
+
+Nonterminals, with rules where they appear
+
+$accept (55)
+    on left: 0
+Literal (56)
+    on left: 1 2 3 4 5 6, on right: 126
+Type (57)
+    on left: 7 8, on right: 53 60 68 85
+PrimitiveType (58)
+    on left: 9 10 11, on right: 7
+NumericType (59)
+    on left: 12 13, on right: 9
+ReferenceType (60)
+    on left: 14 15 16 17, on right: 8
+ClassType (61)
+    on left: 18, on right: 14 27 131
+ListType (62)
+    on left: 19 20, on right: 16
+TableType (63)
+    on left: 21 22 23, on right: 17
+LegalElement (64)
+    on left: 24 25 26 27, on right: 20 22 23
+TableIndex (65)
+    on left: 28 29, on right: 23
+DefaultTableMap (66)
+    on left: 30, on right: 15 179
+Name (67)
+    on left: 31 32, on right: 18 30 35 135 137 139 141 143 176 201
+SimpleName (68)
+    on left: 33 34, on right: 31 70
+QualifiedName (69)
+    on left: 35, on right: 32
+CompilationUnit (70)
+    on left: 36, on right: 0
+TypeDeclarationsOpt (71)
+    on left: 37 38, on right: 36
+TypeDeclarations (72)
+    on left: 39 40, on right: 37 40
+TypeDeclaration (73)
+    on left: 41 42, on right: 39 40
+ClassDeclaration (74)
+    on left: 43, on right: 41
+ClassBody (75)
+    on left: 44, on right: 43
+ClassBodyDeclarationsOpt (76)
+    on left: 45 46, on right: 44
+ClassBodyDeclarations (77)
+    on left: 47 48, on right: 45 48
+ClassBodyDeclaration (78)
+    on left: 49 50, on right: 47 48
+ClassMemberDeclaration (79)
+    on left: 51 52, on right: 42 49
+FieldDeclaration (80)
+    on left: 53, on right: 51
+VariableDeclarators (81)
+    on left: 54 55, on right: 53 55 85
+VariableDeclarator (82)
+    on left: 56, on right: 54 55
+VariableDeclaratorId (83)
+    on left: 57 58, on right: 56 58 68
+MethodDeclaration (84)
+    on left: 59, on right: 52
+MethodHeader (85)
+    on left: 60 61, on right: 59
+FormalParameterListOpt (86)
+    on left: 62 63, on right: 64 70
+MethodDeclarator (87)
+    on left: 64 65, on right: 60 61 65
+FormalParameterList (88)
+    on left: 66 67, on right: 62 67
+FormalParameter (89)
+    on left: 68, on right: 66 67
+ConstructorDeclaration (90)
+    on left: 69, on right: 50
+ConstructorDeclarator (91)
+    on left: 70, on right: 69
+ExplicitConstructorInvocationOpt (92)
+    on left: 71 72, on right: 75
+ArgumentListOpt (93)
+    on left: 73 74, on right: 76 131 135 136 137 138
+ConstructorBody (94)
+    on left: 75, on right: 69
+ExplicitConstructorInvocation (95)
+    on left: 76, on right: 71
+Block (96)
+    on left: 77, on right: 59 92 102 103 104 105 108 116
+BlockStatementsOpt (97)
+    on left: 78 79, on right: 75 77
+BlockStatements (98)
+    on left: 80 81, on right: 78 81
+BlockStatement (99)
+    on left: 82 83, on right: 80 81
+LocalVariableDeclarationStatement (100)
+    on left: 84, on right: 82
+LocalVariableDeclaration (101)
+    on left: 85, on right: 84 118
+Statement (102)
+    on left: 86 87 88 89 90 91, on right: 83 109
+StatementWithoutTrailingSubstatement (103)
+    on left: 92 93 94 95 96, on right: 86
+EmptyStatement (104)
+    on left: 97, on right: 93
+ExpressionStatement (105)
+    on left: 98, on right: 94
+StatementExpression (106)
+    on left: 99 100 101, on right: 98 120 121
+IfThenStatement (107)
+    on left: 102, on right: 87
+IfThenElseStatement (108)
+    on left: 103, on right: 88
+IfThenElseIfStatement (109)
+    on left: 104 105, on right: 89
+ElseIfSequence (110)
+    on left: 106 107, on right: 104 105 107
+ElseIfStatement (111)
+    on left: 108, on right: 106 107
+WhileStatement (112)
+    on left: 109, on right: 90
+ForInitOpt (113)
+    on left: 110 111, on right: 116
+ExpressionOpt (114)
+    on left: 112 113, on right: 116 125
+ForUpdateOpt (115)
+    on left: 114 115, on right: 116
+ForStatement (116)
+    on left: 116, on right: 91
+ForInit (117)
+    on left: 117 118, on right: 110
+ForUpdate (118)
+    on left: 119, on right: 114
+StatementExpressionList (119)
+    on left: 120 121, on right: 117 119 121
+IDENTOpt (120)
+    on left: 122 123, on right: 124
+BreakStatement (121)
+    on left: 124, on right: 95
+ReturnStatement (122)
+    on left: 125, on right: 96
+Primary (123)
+    on left: 126 127 128 129 130, on right: 134 136 138 140 142 202
+ClassInstanceCreationExpression (124)
+    on left: 131, on right: 101
+ArgumentList (125)
+    on left: 132 133, on right: 73 133
+FieldAccess (126)
+    on left: 134, on right: 128 177
+MethodInvocation (127)
+    on left: 135 136 137 138, on right: 100 129
+ListTableAccess (128)
+    on left: 139 140 141, on right: 130 178
+PostFixExpression (129)
+    on left: 142 143, on right: 148
+UnaryExpression (130)
+    on left: 144 145 146 147, on right: 144 146 147 149 150 151 152
+    153 154
+UnaryExpressionNotPlusMinus (131)
+    on left: 148 149, on right: 145
+MultiplicativeExpression (132)
+    on left: 150 151 152 153 154, on right: 151 152 153 154 155 156
+    157
+AdditiveExpression (133)
+    on left: 155 156 157, on right: 156 157 158 159 160 161 162
+RelationalExpression (134)
+    on left: 158 159 160 161 162, on right: 159 160 161 162 163 164
+    165
+EqualityExpression (135)
+    on left: 163 164 165, on right: 164 165 166 167
+ConditionalAndExpression (136)
+    on left: 166 167, on right: 167 168 169
+ConditionalOrExpression (137)
+    on left: 168 169, on right: 169 170
+AssignmentExpression (138)
+    on left: 170 171 172 173 174, on right: 175 184
+Assignment (139)
+    on left: 175, on right: 99 171
+LeftHandSide (140)
+    on left: 176 177 178 179, on right: 175
+AssignmentOperator (141)
+    on left: 180 181 182 183, on right: 175
+Expression (142)
+    on left: 184, on right: 102 103 104 105 108 109 112 127 132 133
+    139 140 141
+ListAssignment (143)
+    on left: 185, on right: 173
+ListValues (144)
+    on left: 186 187, on right: 185 187
+TableAssignment (145)
+    on left: 188, on right: 174
+TableValues (146)
+    on left: 189 190, on right: 188 190
+TableObject (147)
+    on left: 191, on right: 189 190
+LegalIndex (148)
+    on left: 192 193, on right: 191
+LegalValue (149)
+    on left: 194 195 196 197 198, on right: 186 187 191
+concatOpt (150)
+    on left: 199 200, on right: 172 200
+concat (151)
+    on left: 201 202, on right: 199 200
+
+
+State 0
+
+    0 $accept: . CompilationUnit $end
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    VOID          shift, and go to state 3
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    CLASS         shift, and go to state 6
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 38 (TypeDeclarationsOpt)
+
+    Type                    go to state 11
+    PrimitiveType           go to state 12
+    NumericType             go to state 13
+    ReferenceType           go to state 14
+    ClassType               go to state 15
+    ListType                go to state 16
+    TableType               go to state 17
+    DefaultTableMap         go to state 18
+    Name                    go to state 19
+    SimpleName              go to state 20
+    QualifiedName           go to state 21
+    CompilationUnit         go to state 22
+    TypeDeclarationsOpt     go to state 23
+    TypeDeclarations        go to state 24
+    TypeDeclaration         go to state 25
+    ClassDeclaration        go to state 26
+    ClassMemberDeclaration  go to state 27
+    FieldDeclaration        go to state 28
+    MethodDeclaration       go to state 29
+    MethodHeader            go to state 30
+
+
+State 1
+
+   13 NumericType: DOUBLE .
+
+    $default  reduce using rule 13 (NumericType)
+
+
+State 2
+
+   12 NumericType: INT .
+
+    $default  reduce using rule 12 (NumericType)
+
+
+State 3
+
+   61 MethodHeader: VOID . MethodDeclarator
+
+    IDENTIFIER  shift, and go to state 31
+
+    MethodDeclarator  go to state 32
+
+
+State 4
+
+   33 SimpleName: IDENTIFIER .
+
+    $default  reduce using rule 33 (SimpleName)
+
+
+State 5
+
+   34 SimpleName: DECLAREDNAME .
+
+    $default  reduce using rule 34 (SimpleName)
+
+
+State 6
+
+   43 ClassDeclaration: CLASS . IDENTIFIER ClassBody SEMICOLON
+
+    IDENTIFIER  shift, and go to state 33
+
+
+State 7
+
+   19 ListType: LIST .
+   20         | LIST . LESSTHAN LegalElement GREATERTHAN
+
+    LESSTHAN  shift, and go to state 34
+
+    $default  reduce using rule 19 (ListType)
+
+
+State 8
+
+   21 TableType: TABLE .
+   22          | TABLE . LESSTHAN LegalElement GREATERTHAN
+   23          | TABLE . LESSTHAN TableIndex COMMA LegalElement GREATERTHAN
+
+    LESSTHAN  shift, and go to state 35
+
+    $default  reduce using rule 21 (TableType)
+
+
+State 9
+
+   11 PrimitiveType: STRING .
+
+    $default  reduce using rule 11 (PrimitiveType)
+
+
+State 10
+
+   10 PrimitiveType: BOOL .
+
+    $default  reduce using rule 10 (PrimitiveType)
+
+
+State 11
+
+   53 FieldDeclaration: Type . VariableDeclarators SEMICOLON
+   60 MethodHeader: Type . MethodDeclarator
+
+    IDENTIFIER  shift, and go to state 36
+
+    VariableDeclarators   go to state 37
+    VariableDeclarator    go to state 38
+    VariableDeclaratorId  go to state 39
+    MethodDeclarator      go to state 40
+
+
+State 12
+
+    7 Type: PrimitiveType .
+
+    $default  reduce using rule 7 (Type)
+
+
+State 13
+
+    9 PrimitiveType: NumericType .
+
+    $default  reduce using rule 9 (PrimitiveType)
+
+
+State 14
+
+    8 Type: ReferenceType .
+
+    $default  reduce using rule 8 (Type)
+
+
+State 15
+
+   14 ReferenceType: ClassType .
+
+    $default  reduce using rule 14 (ReferenceType)
+
+
+State 16
+
+   16 ReferenceType: ListType .
+
+    $default  reduce using rule 16 (ReferenceType)
+
+
+State 17
+
+   17 ReferenceType: TableType .
+
+    $default  reduce using rule 17 (ReferenceType)
+
+
+State 18
+
+   15 ReferenceType: DefaultTableMap .
+
+    $default  reduce using rule 15 (ReferenceType)
+
+
+State 19
+
+   18 ClassType: Name .
+   30 DefaultTableMap: Name . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+
+    PERIOD         shift, and go to state 41
+    LEFTSUBSCRIPT  shift, and go to state 42
+
+    $default  reduce using rule 18 (ClassType)
+
+
+State 20
+
+   31 Name: SimpleName .
+
+    $default  reduce using rule 31 (Name)
+
+
+State 21
+
+   32 Name: QualifiedName .
+
+    $default  reduce using rule 32 (Name)
+
+
+State 22
+
+    0 $accept: CompilationUnit . $end
+
+    $end  shift, and go to state 43
+
+
+State 23
+
+   36 CompilationUnit: TypeDeclarationsOpt .
+
+    $default  reduce using rule 36 (CompilationUnit)
+
+
+State 24
+
+   37 TypeDeclarationsOpt: TypeDeclarations .
+   40 TypeDeclarations: TypeDeclarations . TypeDeclaration
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    VOID          shift, and go to state 3
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    CLASS         shift, and go to state 6
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 37 (TypeDeclarationsOpt)
+
+    Type                    go to state 11
+    PrimitiveType           go to state 12
+    NumericType             go to state 13
+    ReferenceType           go to state 14
+    ClassType               go to state 15
+    ListType                go to state 16
+    TableType               go to state 17
+    DefaultTableMap         go to state 18
+    Name                    go to state 19
+    SimpleName              go to state 20
+    QualifiedName           go to state 21
+    TypeDeclaration         go to state 44
+    ClassDeclaration        go to state 26
+    ClassMemberDeclaration  go to state 27
+    FieldDeclaration        go to state 28
+    MethodDeclaration       go to state 29
+    MethodHeader            go to state 30
+
+
+State 25
+
+   39 TypeDeclarations: TypeDeclaration .
+
+    $default  reduce using rule 39 (TypeDeclarations)
+
+
+State 26
+
+   41 TypeDeclaration: ClassDeclaration .
+
+    $default  reduce using rule 41 (TypeDeclaration)
+
+
+State 27
+
+   42 TypeDeclaration: ClassMemberDeclaration .
+
+    $default  reduce using rule 42 (TypeDeclaration)
+
+
+State 28
+
+   51 ClassMemberDeclaration: FieldDeclaration .
+
+    $default  reduce using rule 51 (ClassMemberDeclaration)
+
+
+State 29
+
+   52 ClassMemberDeclaration: MethodDeclaration .
+
+    $default  reduce using rule 52 (ClassMemberDeclaration)
+
+
+State 30
+
+   59 MethodDeclaration: MethodHeader . Block
+
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 46
+
+
+State 31
+
+   64 MethodDeclarator: IDENTIFIER . LEFTPAREN FormalParameterListOpt RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 47
+
+
+State 32
+
+   61 MethodHeader: VOID MethodDeclarator .
+   65 MethodDeclarator: MethodDeclarator . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+    LEFTSUBSCRIPT  shift, and go to state 48
+
+    $default  reduce using rule 61 (MethodHeader)
+
+
+State 33
+
+   43 ClassDeclaration: CLASS IDENTIFIER . ClassBody SEMICOLON
+
+    LEFTBRACE  shift, and go to state 49
+
+    ClassBody  go to state 50
+
+
+State 34
+
+   20 ListType: LIST LESSTHAN . LegalElement GREATERTHAN
+
+    DOUBLE        shift, and go to state 51
+    INT           shift, and go to state 52
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    STRING        shift, and go to state 53
+
+    ClassType      go to state 54
+    LegalElement   go to state 55
+    Name           go to state 56
+    SimpleName     go to state 20
+    QualifiedName  go to state 21
+
+
+State 35
+
+   22 TableType: TABLE LESSTHAN . LegalElement GREATERTHAN
+   23          | TABLE LESSTHAN . TableIndex COMMA LegalElement GREATERTHAN
+
+    DOUBLE        shift, and go to state 51
+    INT           shift, and go to state 57
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    STRING        shift, and go to state 58
+
+    ClassType      go to state 54
+    LegalElement   go to state 59
+    TableIndex     go to state 60
+    Name           go to state 56
+    SimpleName     go to state 20
+    QualifiedName  go to state 21
+
+
+State 36
+
+   57 VariableDeclaratorId: IDENTIFIER .
+   64 MethodDeclarator: IDENTIFIER . LEFTPAREN FormalParameterListOpt RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 47
+
+    $default  reduce using rule 57 (VariableDeclaratorId)
+
+
+State 37
+
+   53 FieldDeclaration: Type VariableDeclarators . SEMICOLON
+   55 VariableDeclarators: VariableDeclarators . COMMA VariableDeclarator
+
+    SEMICOLON  shift, and go to state 61
+    COMMA      shift, and go to state 62
+
+
+State 38
+
+   54 VariableDeclarators: VariableDeclarator .
+
+    $default  reduce using rule 54 (VariableDeclarators)
+
+
+State 39
+
+   56 VariableDeclarator: VariableDeclaratorId .
+   58 VariableDeclaratorId: VariableDeclaratorId . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+    LEFTSUBSCRIPT  shift, and go to state 63
+
+    $default  reduce using rule 56 (VariableDeclarator)
+
+
+State 40
+
+   60 MethodHeader: Type MethodDeclarator .
+   65 MethodDeclarator: MethodDeclarator . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+
+    LEFTSUBSCRIPT  shift, and go to state 48
+
+    $default  reduce using rule 60 (MethodHeader)
+
+
+State 41
+
+   35 QualifiedName: Name PERIOD . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 64
+
+
+State 42
+
+   30 DefaultTableMap: Name LEFTSUBSCRIPT . RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 65
+
+
+State 43
+
+    0 $accept: CompilationUnit $end .
+
+    $default  accept
+
+
+State 44
+
+   40 TypeDeclarations: TypeDeclarations TypeDeclaration .
+
+    $default  reduce using rule 40 (TypeDeclarations)
+
+
+State 45
+
+   77 Block: LEFTBRACE . BlockStatementsOpt RIGHTBRACE SEMICOLON
+
+    BREAK         shift, and go to state 66
+    DOUBLE        shift, and go to state 1
+    FOR           shift, and go to state 67
+    IF            shift, and go to state 68
+    INT           shift, and go to state 2
+    RETURN        shift, and go to state 69
+    WHILE         shift, and go to state 70
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LEFTBRACE     shift, and go to state 45
+    SEMICOLON     shift, and go to state 78
+
+    $default  reduce using rule 79 (BlockStatementsOpt)
+
+    Literal                               go to state 79
+    Type                                  go to state 80
+    PrimitiveType                         go to state 12
+    NumericType                           go to state 13
+    ReferenceType                         go to state 14
+    ClassType                             go to state 81
+    ListType                              go to state 16
+    TableType                             go to state 17
+    DefaultTableMap                       go to state 82
+    Name                                  go to state 83
+    SimpleName                            go to state 20
+    QualifiedName                         go to state 21
+    Block                                 go to state 84
+    BlockStatementsOpt                    go to state 85
+    BlockStatements                       go to state 86
+    BlockStatement                        go to state 87
+    LocalVariableDeclarationStatement     go to state 88
+    LocalVariableDeclaration              go to state 89
+    Statement                             go to state 90
+    StatementWithoutTrailingSubstatement  go to state 91
+    EmptyStatement                        go to state 92
+    ExpressionStatement                   go to state 93
+    StatementExpression                   go to state 94
+    IfThenStatement                       go to state 95
+    IfThenElseStatement                   go to state 96
+    IfThenElseIfStatement                 go to state 97
+    WhileStatement                        go to state 98
+    ForStatement                          go to state 99
+    BreakStatement                        go to state 100
+    ReturnStatement                       go to state 101
+    Primary                               go to state 102
+    ClassInstanceCreationExpression       go to state 103
+    FieldAccess                           go to state 104
+    MethodInvocation                      go to state 105
+    ListTableAccess                       go to state 106
+    Assignment                            go to state 107
+    LeftHandSide                          go to state 108
+
+
+State 46
+
+   59 MethodDeclaration: MethodHeader Block .
+
+    $default  reduce using rule 59 (MethodDeclaration)
+
+
+State 47
+
+   64 MethodDeclarator: IDENTIFIER LEFTPAREN . FormalParameterListOpt RIGHTPAREN
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 63 (FormalParameterListOpt)
+
+    Type                    go to state 109
+    PrimitiveType           go to state 12
+    NumericType             go to state 13
+    ReferenceType           go to state 14
+    ClassType               go to state 15
+    ListType                go to state 16
+    TableType               go to state 17
+    DefaultTableMap         go to state 18
+    Name                    go to state 19
+    SimpleName              go to state 20
+    QualifiedName           go to state 21
+    FormalParameterListOpt  go to state 110
+    FormalParameterList     go to state 111
+    FormalParameter         go to state 112
+
+
+State 48
+
+   65 MethodDeclarator: MethodDeclarator LEFTSUBSCRIPT . RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 113
+
+
+State 49
+
+   44 ClassBody: LEFTBRACE . ClassBodyDeclarationsOpt RIGHTBRACE
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    VOID          shift, and go to state 3
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 46 (ClassBodyDeclarationsOpt)
+
+    Type                      go to state 11
+    PrimitiveType             go to state 12
+    NumericType               go to state 13
+    ReferenceType             go to state 14
+    ClassType                 go to state 15
+    ListType                  go to state 16
+    TableType                 go to state 17
+    DefaultTableMap           go to state 18
+    Name                      go to state 19
+    SimpleName                go to state 114
+    QualifiedName             go to state 21
+    ClassBodyDeclarationsOpt  go to state 115
+    ClassBodyDeclarations     go to state 116
+    ClassBodyDeclaration      go to state 117
+    ClassMemberDeclaration    go to state 118
+    FieldDeclaration          go to state 28
+    MethodDeclaration         go to state 29
+    MethodHeader              go to state 30
+    ConstructorDeclaration    go to state 119
+    ConstructorDeclarator     go to state 120
+
+
+State 50
+
+   43 ClassDeclaration: CLASS IDENTIFIER ClassBody . SEMICOLON
+
+    SEMICOLON  shift, and go to state 121
+
+
+State 51
+
+   25 LegalElement: DOUBLE .
+
+    $default  reduce using rule 25 (LegalElement)
+
+
+State 52
+
+   24 LegalElement: INT .
+
+    $default  reduce using rule 24 (LegalElement)
+
+
+State 53
+
+   26 LegalElement: STRING .
+
+    $default  reduce using rule 26 (LegalElement)
+
+
+State 54
+
+   27 LegalElement: ClassType .
+
+    $default  reduce using rule 27 (LegalElement)
+
+
+State 55
+
+   20 ListType: LIST LESSTHAN LegalElement . GREATERTHAN
+
+    GREATERTHAN  shift, and go to state 122
+
+
+State 56
+
+   18 ClassType: Name .
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+
+    PERIOD  shift, and go to state 41
+
+    $default  reduce using rule 18 (ClassType)
+
+
+State 57
+
+   24 LegalElement: INT .
+   28 TableIndex: INT .
+
+    COMMA     reduce using rule 28 (TableIndex)
+    $default  reduce using rule 24 (LegalElement)
+
+
+State 58
+
+   26 LegalElement: STRING .
+   29 TableIndex: STRING .
+
+    COMMA     reduce using rule 29 (TableIndex)
+    $default  reduce using rule 26 (LegalElement)
+
+
+State 59
+
+   22 TableType: TABLE LESSTHAN LegalElement . GREATERTHAN
+
+    GREATERTHAN  shift, and go to state 123
+
+
+State 60
+
+   23 TableType: TABLE LESSTHAN TableIndex . COMMA LegalElement GREATERTHAN
+
+    COMMA  shift, and go to state 124
+
+
+State 61
+
+   53 FieldDeclaration: Type VariableDeclarators SEMICOLON .
+
+    $default  reduce using rule 53 (FieldDeclaration)
+
+
+State 62
+
+   55 VariableDeclarators: VariableDeclarators COMMA . VariableDeclarator
+
+    IDENTIFIER  shift, and go to state 125
+
+    VariableDeclarator    go to state 126
+    VariableDeclaratorId  go to state 39
+
+
+State 63
+
+   58 VariableDeclaratorId: VariableDeclaratorId LEFTSUBSCRIPT . RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 127
+
+
+State 64
+
+   35 QualifiedName: Name PERIOD IDENTIFIER .
+
+    $default  reduce using rule 35 (QualifiedName)
+
+
+State 65
+
+   30 DefaultTableMap: Name LEFTSUBSCRIPT RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 30 (DefaultTableMap)
+
+
+State 66
+
+  124 BreakStatement: BREAK . IDENTOpt SEMICOLON
+
+    IDENTIFIER  shift, and go to state 128
+
+    $default  reduce using rule 123 (IDENTOpt)
+
+    IDENTOpt  go to state 129
+
+
+State 67
+
+  116 ForStatement: FOR . LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+    LEFTPAREN  shift, and go to state 130
+
+
+State 68
+
+  102 IfThenStatement: IF . LEFTPAREN Expression RIGHTPAREN Block
+  103 IfThenElseStatement: IF . LEFTPAREN Expression RIGHTPAREN Block ELSE Block
+  104 IfThenElseIfStatement: IF . LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence
+  105                      | IF . LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence ELSE Block
+
+    LEFTPAREN  shift, and go to state 131
+
+
+State 69
+
+  125 ReturnStatement: RETURN . ExpressionOpt SEMICOLON
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 113 (ExpressionOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ExpressionOpt                go to state 140
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 154
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 70
+
+  109 WhileStatement: WHILE . LEFTPAREN Expression RIGHTPAREN Statement
+
+    LEFTPAREN  shift, and go to state 159
+
+
+State 71
+
+    1 Literal: INTLIT .
+
+    $default  reduce using rule 1 (Literal)
+
+
+State 72
+
+    2 Literal: DOUBLELIT .
+
+    $default  reduce using rule 2 (Literal)
+
+
+State 73
+
+    5 Literal: STRINGLIT .
+
+    $default  reduce using rule 5 (Literal)
+
+
+State 74
+
+    4 Literal: BOOLFALSE .
+
+    $default  reduce using rule 4 (Literal)
+
+
+State 75
+
+    3 Literal: BOOLTRUE .
+
+    $default  reduce using rule 3 (Literal)
+
+
+State 76
+
+    6 Literal: NULLVAL .
+
+    $default  reduce using rule 6 (Literal)
+
+
+State 77
+
+  127 Primary: LEFTPAREN . Expression RIGHTPAREN
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 160
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 78
+
+   97 EmptyStatement: SEMICOLON .
+
+    $default  reduce using rule 97 (EmptyStatement)
+
+
+State 79
+
+  126 Primary: Literal .
+
+    $default  reduce using rule 126 (Primary)
+
+
+State 80
+
+   85 LocalVariableDeclaration: Type . VariableDeclarators
+
+    IDENTIFIER  shift, and go to state 125
+
+    VariableDeclarators   go to state 161
+    VariableDeclarator    go to state 38
+    VariableDeclaratorId  go to state 39
+
+
+State 81
+
+   14 ReferenceType: ClassType .
+  131 ClassInstanceCreationExpression: ClassType . LEFTPAREN ArgumentListOpt RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 162
+
+    $default  reduce using rule 14 (ReferenceType)
+
+
+State 82
+
+   15 ReferenceType: DefaultTableMap .
+  179 LeftHandSide: DefaultTableMap .
+
+    IDENTIFIER  reduce using rule 15 (ReferenceType)
+    $default    reduce using rule 179 (LeftHandSide)
+
+
+State 83
+
+   18 ClassType: Name .
+   30 DefaultTableMap: Name . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+  135 MethodInvocation: Name . LEFTPAREN ArgumentListOpt RIGHTPAREN
+  137                 | Name . LEFTBRACE ArgumentListOpt RIGHTBRACE
+  139 ListTableAccess: Name . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  141                | Name . LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT
+  176 LeftHandSide: Name .
+
+    PERIOD         shift, and go to state 41
+    LEFTPAREN      shift, and go to state 163
+    LEFTSUBSCRIPT  shift, and go to state 164
+    LEFTBRACE      shift, and go to state 165
+
+    IDENTIFIER  reduce using rule 18 (ClassType)
+    LEFTPAREN   [reduce using rule 18 (ClassType)]
+    $default    reduce using rule 176 (LeftHandSide)
+
+
+State 84
+
+   92 StatementWithoutTrailingSubstatement: Block .
+
+    $default  reduce using rule 92 (StatementWithoutTrailingSubstatement)
+
+
+State 85
+
+   77 Block: LEFTBRACE BlockStatementsOpt . RIGHTBRACE SEMICOLON
+
+    RIGHTBRACE  shift, and go to state 166
+
+
+State 86
+
+   78 BlockStatementsOpt: BlockStatements .
+   81 BlockStatements: BlockStatements . BlockStatement
+
+    BREAK         shift, and go to state 66
+    DOUBLE        shift, and go to state 1
+    FOR           shift, and go to state 67
+    IF            shift, and go to state 68
+    INT           shift, and go to state 2
+    RETURN        shift, and go to state 69
+    WHILE         shift, and go to state 70
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LEFTBRACE     shift, and go to state 45
+    SEMICOLON     shift, and go to state 78
+
+    $default  reduce using rule 78 (BlockStatementsOpt)
+
+    Literal                               go to state 79
+    Type                                  go to state 80
+    PrimitiveType                         go to state 12
+    NumericType                           go to state 13
+    ReferenceType                         go to state 14
+    ClassType                             go to state 81
+    ListType                              go to state 16
+    TableType                             go to state 17
+    DefaultTableMap                       go to state 82
+    Name                                  go to state 83
+    SimpleName                            go to state 20
+    QualifiedName                         go to state 21
+    Block                                 go to state 84
+    BlockStatement                        go to state 167
+    LocalVariableDeclarationStatement     go to state 88
+    LocalVariableDeclaration              go to state 89
+    Statement                             go to state 90
+    StatementWithoutTrailingSubstatement  go to state 91
+    EmptyStatement                        go to state 92
+    ExpressionStatement                   go to state 93
+    StatementExpression                   go to state 94
+    IfThenStatement                       go to state 95
+    IfThenElseStatement                   go to state 96
+    IfThenElseIfStatement                 go to state 97
+    WhileStatement                        go to state 98
+    ForStatement                          go to state 99
+    BreakStatement                        go to state 100
+    ReturnStatement                       go to state 101
+    Primary                               go to state 102
+    ClassInstanceCreationExpression       go to state 103
+    FieldAccess                           go to state 104
+    MethodInvocation                      go to state 105
+    ListTableAccess                       go to state 106
+    Assignment                            go to state 107
+    LeftHandSide                          go to state 108
+
+
+State 87
+
+   80 BlockStatements: BlockStatement .
+
+    $default  reduce using rule 80 (BlockStatements)
+
+
+State 88
+
+   82 BlockStatement: LocalVariableDeclarationStatement .
+
+    $default  reduce using rule 82 (BlockStatement)
+
+
+State 89
+
+   84 LocalVariableDeclarationStatement: LocalVariableDeclaration . SEMICOLON
+
+    SEMICOLON  shift, and go to state 168
+
+
+State 90
+
+   83 BlockStatement: Statement .
+
+    $default  reduce using rule 83 (BlockStatement)
+
+
+State 91
+
+   86 Statement: StatementWithoutTrailingSubstatement .
+
+    $default  reduce using rule 86 (Statement)
+
+
+State 92
+
+   93 StatementWithoutTrailingSubstatement: EmptyStatement .
+
+    $default  reduce using rule 93 (StatementWithoutTrailingSubstatement)
+
+
+State 93
+
+   94 StatementWithoutTrailingSubstatement: ExpressionStatement .
+
+    $default  reduce using rule 94 (StatementWithoutTrailingSubstatement)
+
+
+State 94
+
+   98 ExpressionStatement: StatementExpression . SEMICOLON
+
+    SEMICOLON  shift, and go to state 169
+
+
+State 95
+
+   87 Statement: IfThenStatement .
+
+    $default  reduce using rule 87 (Statement)
+
+
+State 96
+
+   88 Statement: IfThenElseStatement .
+
+    $default  reduce using rule 88 (Statement)
+
+
+State 97
+
+   89 Statement: IfThenElseIfStatement .
+
+    $default  reduce using rule 89 (Statement)
+
+
+State 98
+
+   90 Statement: WhileStatement .
+
+    $default  reduce using rule 90 (Statement)
+
+
+State 99
+
+   91 Statement: ForStatement .
+
+    $default  reduce using rule 91 (Statement)
+
+
+State 100
+
+   95 StatementWithoutTrailingSubstatement: BreakStatement .
+
+    $default  reduce using rule 95 (StatementWithoutTrailingSubstatement)
+
+
+State 101
+
+   96 StatementWithoutTrailingSubstatement: ReturnStatement .
+
+    $default  reduce using rule 96 (StatementWithoutTrailingSubstatement)
+
+
+State 102
+
+  134 FieldAccess: Primary . PERIOD IDENTIFIER
+  136 MethodInvocation: Primary . PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary . PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+  140 ListTableAccess: Primary . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+
+    PERIOD         shift, and go to state 170
+    LEFTSUBSCRIPT  shift, and go to state 171
+
+
+State 103
+
+  101 StatementExpression: ClassInstanceCreationExpression .
+
+    $default  reduce using rule 101 (StatementExpression)
+
+
+State 104
+
+  128 Primary: FieldAccess .
+  177 LeftHandSide: FieldAccess .
+
+    EQUALS     reduce using rule 177 (LeftHandSide)
+    INCREMENT  reduce using rule 177 (LeftHandSide)
+    DECREMENT  reduce using rule 177 (LeftHandSide)
+    SWAP       reduce using rule 177 (LeftHandSide)
+    $default   reduce using rule 128 (Primary)
+
+
+State 105
+
+  100 StatementExpression: MethodInvocation .
+  129 Primary: MethodInvocation .
+
+    PERIOD         reduce using rule 129 (Primary)
+    LEFTSUBSCRIPT  reduce using rule 129 (Primary)
+    $default       reduce using rule 100 (StatementExpression)
+
+
+State 106
+
+  130 Primary: ListTableAccess .
+  178 LeftHandSide: ListTableAccess .
+
+    EQUALS     reduce using rule 178 (LeftHandSide)
+    INCREMENT  reduce using rule 178 (LeftHandSide)
+    DECREMENT  reduce using rule 178 (LeftHandSide)
+    SWAP       reduce using rule 178 (LeftHandSide)
+    $default   reduce using rule 130 (Primary)
+
+
+State 107
+
+   99 StatementExpression: Assignment .
+
+    $default  reduce using rule 99 (StatementExpression)
+
+
+State 108
+
+  175 Assignment: LeftHandSide . AssignmentOperator AssignmentExpression
+
+    EQUALS     shift, and go to state 172
+    INCREMENT  shift, and go to state 173
+    DECREMENT  shift, and go to state 174
+    SWAP       shift, and go to state 175
+
+    AssignmentOperator  go to state 176
+
+
+State 109
+
+   68 FormalParameter: Type . VariableDeclaratorId
+
+    IDENTIFIER  shift, and go to state 125
+
+    VariableDeclaratorId  go to state 177
+
+
+State 110
+
+   64 MethodDeclarator: IDENTIFIER LEFTPAREN FormalParameterListOpt . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 178
+
+
+State 111
+
+   62 FormalParameterListOpt: FormalParameterList .
+   67 FormalParameterList: FormalParameterList . COMMA FormalParameter
+
+    COMMA  shift, and go to state 179
+
+    $default  reduce using rule 62 (FormalParameterListOpt)
+
+
+State 112
+
+   66 FormalParameterList: FormalParameter .
+
+    $default  reduce using rule 66 (FormalParameterList)
+
+
+State 113
+
+   65 MethodDeclarator: MethodDeclarator LEFTSUBSCRIPT RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 65 (MethodDeclarator)
+
+
+State 114
+
+   31 Name: SimpleName .
+   70 ConstructorDeclarator: SimpleName . LEFTPAREN FormalParameterListOpt RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 180
+
+    $default  reduce using rule 31 (Name)
+
+
+State 115
+
+   44 ClassBody: LEFTBRACE ClassBodyDeclarationsOpt . RIGHTBRACE
+
+    RIGHTBRACE  shift, and go to state 181
+
+
+State 116
+
+   45 ClassBodyDeclarationsOpt: ClassBodyDeclarations .
+   48 ClassBodyDeclarations: ClassBodyDeclarations . ClassBodyDeclaration
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    VOID          shift, and go to state 3
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 45 (ClassBodyDeclarationsOpt)
+
+    Type                    go to state 11
+    PrimitiveType           go to state 12
+    NumericType             go to state 13
+    ReferenceType           go to state 14
+    ClassType               go to state 15
+    ListType                go to state 16
+    TableType               go to state 17
+    DefaultTableMap         go to state 18
+    Name                    go to state 19
+    SimpleName              go to state 114
+    QualifiedName           go to state 21
+    ClassBodyDeclaration    go to state 182
+    ClassMemberDeclaration  go to state 118
+    FieldDeclaration        go to state 28
+    MethodDeclaration       go to state 29
+    MethodHeader            go to state 30
+    ConstructorDeclaration  go to state 119
+    ConstructorDeclarator   go to state 120
+
+
+State 117
+
+   47 ClassBodyDeclarations: ClassBodyDeclaration .
+
+    $default  reduce using rule 47 (ClassBodyDeclarations)
+
+
+State 118
+
+   49 ClassBodyDeclaration: ClassMemberDeclaration .
+
+    $default  reduce using rule 49 (ClassBodyDeclaration)
+
+
+State 119
+
+   50 ClassBodyDeclaration: ConstructorDeclaration .
+
+    $default  reduce using rule 50 (ClassBodyDeclaration)
+
+
+State 120
+
+   69 ConstructorDeclaration: ConstructorDeclarator . ConstructorBody
+
+    LEFTBRACE  shift, and go to state 183
+
+    ConstructorBody  go to state 184
+
+
+State 121
+
+   43 ClassDeclaration: CLASS IDENTIFIER ClassBody SEMICOLON .
+
+    $default  reduce using rule 43 (ClassDeclaration)
+
+
+State 122
+
+   20 ListType: LIST LESSTHAN LegalElement GREATERTHAN .
+
+    $default  reduce using rule 20 (ListType)
+
+
+State 123
+
+   22 TableType: TABLE LESSTHAN LegalElement GREATERTHAN .
+
+    $default  reduce using rule 22 (TableType)
+
+
+State 124
+
+   23 TableType: TABLE LESSTHAN TableIndex COMMA . LegalElement GREATERTHAN
+
+    DOUBLE        shift, and go to state 51
+    INT           shift, and go to state 52
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    STRING        shift, and go to state 53
+
+    ClassType      go to state 54
+    LegalElement   go to state 185
+    Name           go to state 56
+    SimpleName     go to state 20
+    QualifiedName  go to state 21
+
+
+State 125
+
+   57 VariableDeclaratorId: IDENTIFIER .
+
+    $default  reduce using rule 57 (VariableDeclaratorId)
+
+
+State 126
+
+   55 VariableDeclarators: VariableDeclarators COMMA VariableDeclarator .
+
+    $default  reduce using rule 55 (VariableDeclarators)
+
+
+State 127
+
+   58 VariableDeclaratorId: VariableDeclaratorId LEFTSUBSCRIPT RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 58 (VariableDeclaratorId)
+
+
+State 128
+
+  122 IDENTOpt: IDENTIFIER .
+
+    $default  reduce using rule 122 (IDENTOpt)
+
+
+State 129
+
+  124 BreakStatement: BREAK IDENTOpt . SEMICOLON
+
+    SEMICOLON  shift, and go to state 186
+
+
+State 130
+
+  116 ForStatement: FOR LEFTPAREN . ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+
+    $default  reduce using rule 111 (ForInitOpt)
+
+    Literal                          go to state 79
+    Type                             go to state 80
+    PrimitiveType                    go to state 12
+    NumericType                      go to state 13
+    ReferenceType                    go to state 14
+    ClassType                        go to state 81
+    ListType                         go to state 16
+    TableType                        go to state 17
+    DefaultTableMap                  go to state 82
+    Name                             go to state 83
+    SimpleName                       go to state 20
+    QualifiedName                    go to state 21
+    LocalVariableDeclaration         go to state 187
+    StatementExpression              go to state 188
+    ForInitOpt                       go to state 189
+    ForInit                          go to state 190
+    StatementExpressionList          go to state 191
+    Primary                          go to state 102
+    ClassInstanceCreationExpression  go to state 103
+    FieldAccess                      go to state 104
+    MethodInvocation                 go to state 105
+    ListTableAccess                  go to state 106
+    Assignment                       go to state 107
+    LeftHandSide                     go to state 108
+
+
+State 131
+
+  102 IfThenStatement: IF LEFTPAREN . Expression RIGHTPAREN Block
+  103 IfThenElseStatement: IF LEFTPAREN . Expression RIGHTPAREN Block ELSE Block
+  104 IfThenElseIfStatement: IF LEFTPAREN . Expression RIGHTPAREN Block ElseIfSequence
+  105                      | IF LEFTPAREN . Expression RIGHTPAREN Block ElseIfSequence ELSE Block
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 192
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 132
+
+  146 UnaryExpression: DROLL . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 197
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 133
+
+  185 ListAssignment: LEFTSUBSCRIPT . ListValues RIGHTSUBSCRIPT
+
+    IDENTIFIER    shift, and go to state 198
+    DECLAREDNAME  shift, and go to state 199
+    INTLIT        shift, and go to state 200
+    DOUBLELIT     shift, and go to state 201
+    STRINGLIT     shift, and go to state 202
+
+    ListValues  go to state 203
+    LegalValue  go to state 204
+
+
+State 134
+
+  188 TableAssignment: LEFTBRACE . TableValues SEMICOLON RIGHTBRACE
+
+    INTLIT     shift, and go to state 205
+    STRINGLIT  shift, and go to state 206
+
+    TableValues  go to state 207
+    TableObject  go to state 208
+    LegalIndex   go to state 209
+
+
+State 135
+
+  149 UnaryExpressionNotPlusMinus: LOGICALNOT . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 210
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 136
+
+  147 UnaryExpression: SIZE . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 211
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 137
+
+  144 UnaryExpression: MINUS . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 212
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 138
+
+  179 LeftHandSide: DefaultTableMap .
+
+    $default  reduce using rule 179 (LeftHandSide)
+
+
+State 139
+
+   30 DefaultTableMap: Name . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+  135 MethodInvocation: Name . LEFTPAREN ArgumentListOpt RIGHTPAREN
+  137                 | Name . LEFTBRACE ArgumentListOpt RIGHTBRACE
+  139 ListTableAccess: Name . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  141                | Name . LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT
+  143 PostFixExpression: Name .
+  176 LeftHandSide: Name .
+  201 concat: Name .
+
+    PERIOD         shift, and go to state 41
+    LEFTPAREN      shift, and go to state 163
+    LEFTSUBSCRIPT  shift, and go to state 164
+    LEFTBRACE      shift, and go to state 165
+
+    IDENTIFIER    reduce using rule 201 (concat)
+    DECLAREDNAME  reduce using rule 201 (concat)
+    INTLIT        reduce using rule 201 (concat)
+    DOUBLELIT     reduce using rule 201 (concat)
+    STRINGLIT     reduce using rule 201 (concat)
+    BOOLFALSE     reduce using rule 201 (concat)
+    BOOLTRUE      reduce using rule 201 (concat)
+    NULLVAL       reduce using rule 201 (concat)
+    LEFTPAREN     [reduce using rule 201 (concat)]
+    EQUALS        reduce using rule 176 (LeftHandSide)
+    INCREMENT     reduce using rule 176 (LeftHandSide)
+    DECREMENT     reduce using rule 176 (LeftHandSide)
+    SWAP          reduce using rule 176 (LeftHandSide)
+    $default      reduce using rule 143 (PostFixExpression)
+
+
+State 140
+
+  125 ReturnStatement: RETURN ExpressionOpt . SEMICOLON
+
+    SEMICOLON  shift, and go to state 213
+
+
+State 141
+
+  134 FieldAccess: Primary . PERIOD IDENTIFIER
+  136 MethodInvocation: Primary . PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary . PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+  140 ListTableAccess: Primary . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  142 PostFixExpression: Primary .
+  202 concat: Primary .
+
+    PERIOD         shift, and go to state 170
+    LEFTSUBSCRIPT  shift, and go to state 171
+
+    IDENTIFIER    reduce using rule 202 (concat)
+    DECLAREDNAME  reduce using rule 202 (concat)
+    INTLIT        reduce using rule 202 (concat)
+    DOUBLELIT     reduce using rule 202 (concat)
+    STRINGLIT     reduce using rule 202 (concat)
+    BOOLFALSE     reduce using rule 202 (concat)
+    BOOLTRUE      reduce using rule 202 (concat)
+    NULLVAL       reduce using rule 202 (concat)
+    LEFTPAREN     reduce using rule 202 (concat)
+    $default      reduce using rule 142 (PostFixExpression)
+
+
+State 142
+
+  129 Primary: MethodInvocation .
+
+    $default  reduce using rule 129 (Primary)
+
+
+State 143
+
+  148 UnaryExpressionNotPlusMinus: PostFixExpression .
+
+    $default  reduce using rule 148 (UnaryExpressionNotPlusMinus)
+
+
+State 144
+
+  150 MultiplicativeExpression: UnaryExpression .
+
+    $default  reduce using rule 150 (MultiplicativeExpression)
+
+
+State 145
+
+  145 UnaryExpression: UnaryExpressionNotPlusMinus .
+
+    $default  reduce using rule 145 (UnaryExpression)
+
+
+State 146
+
+  151 MultiplicativeExpression: MultiplicativeExpression . MULTIPLY UnaryExpression
+  152                         | MultiplicativeExpression . DIVIDE UnaryExpression
+  153                         | MultiplicativeExpression . MODULUS UnaryExpression
+  154                         | MultiplicativeExpression . DROLL UnaryExpression
+  155 AdditiveExpression: MultiplicativeExpression .
+
+    DROLL     shift, and go to state 214
+    MULTIPLY  shift, and go to state 215
+    DIVIDE    shift, and go to state 216
+    MODULUS   shift, and go to state 217
+
+    $default  reduce using rule 155 (AdditiveExpression)
+
+
+State 147
+
+  156 AdditiveExpression: AdditiveExpression . PLUS MultiplicativeExpression
+  157                   | AdditiveExpression . MINUS MultiplicativeExpression
+  158 RelationalExpression: AdditiveExpression .
+
+    PLUS   shift, and go to state 218
+    MINUS  shift, and go to state 219
+
+    $default  reduce using rule 158 (RelationalExpression)
+
+
+State 148
+
+  159 RelationalExpression: RelationalExpression . LESSTHAN AdditiveExpression
+  160                     | RelationalExpression . GREATERTHAN AdditiveExpression
+  161                     | RelationalExpression . LESSTHANOREQUAL AdditiveExpression
+  162                     | RelationalExpression . GREATERTHANOREQUAL AdditiveExpression
+  163 EqualityExpression: RelationalExpression .
+
+    LESSTHAN            shift, and go to state 220
+    LESSTHANOREQUAL     shift, and go to state 221
+    GREATERTHAN         shift, and go to state 222
+    GREATERTHANOREQUAL  shift, and go to state 223
+
+    $default  reduce using rule 163 (EqualityExpression)
+
+
+State 149
+
+  164 EqualityExpression: EqualityExpression . ISEQUALTO RelationalExpression
+  165                   | EqualityExpression . NOTEQUALTO RelationalExpression
+  166 ConditionalAndExpression: EqualityExpression .
+
+    ISEQUALTO   shift, and go to state 224
+    NOTEQUALTO  shift, and go to state 225
+
+    $default  reduce using rule 166 (ConditionalAndExpression)
+
+
+State 150
+
+  167 ConditionalAndExpression: ConditionalAndExpression . LOGICALAND EqualityExpression
+  168 ConditionalOrExpression: ConditionalAndExpression .
+
+    LOGICALAND  shift, and go to state 226
+
+    $default  reduce using rule 168 (ConditionalOrExpression)
+
+
+State 151
+
+  169 ConditionalOrExpression: ConditionalOrExpression . LOGICALOR ConditionalAndExpression
+  170 AssignmentExpression: ConditionalOrExpression .
+
+    LOGICALOR  shift, and go to state 227
+
+    $default  reduce using rule 170 (AssignmentExpression)
+
+
+State 152
+
+  184 Expression: AssignmentExpression .
+
+    $default  reduce using rule 184 (Expression)
+
+
+State 153
+
+  171 AssignmentExpression: Assignment .
+
+    $default  reduce using rule 171 (AssignmentExpression)
+
+
+State 154
+
+  112 ExpressionOpt: Expression .
+
+    $default  reduce using rule 112 (ExpressionOpt)
+
+
+State 155
+
+  173 AssignmentExpression: ListAssignment .
+
+    $default  reduce using rule 173 (AssignmentExpression)
+
+
+State 156
+
+  174 AssignmentExpression: TableAssignment .
+
+    $default  reduce using rule 174 (AssignmentExpression)
+
+
+State 157
+
+  172 AssignmentExpression: concatOpt .
+  200 concatOpt: concatOpt . concat
+
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+
+    $default  reduce using rule 172 (AssignmentExpression)
+
+    Literal           go to state 79
+    Name              go to state 228
+    SimpleName        go to state 20
+    QualifiedName     go to state 21
+    Primary           go to state 229
+    FieldAccess       go to state 195
+    MethodInvocation  go to state 142
+    ListTableAccess   go to state 196
+    concat            go to state 230
+
+
+State 158
+
+  199 concatOpt: concat . concat
+
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+
+    Literal           go to state 79
+    Name              go to state 228
+    SimpleName        go to state 20
+    QualifiedName     go to state 21
+    Primary           go to state 229
+    FieldAccess       go to state 195
+    MethodInvocation  go to state 142
+    ListTableAccess   go to state 196
+    concat            go to state 231
+
+
+State 159
+
+  109 WhileStatement: WHILE LEFTPAREN . Expression RIGHTPAREN Statement
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 232
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 160
+
+  127 Primary: LEFTPAREN Expression . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 233
+
+
+State 161
+
+   55 VariableDeclarators: VariableDeclarators . COMMA VariableDeclarator
+   85 LocalVariableDeclaration: Type VariableDeclarators .
+
+    COMMA  shift, and go to state 62
+
+    $default  reduce using rule 85 (LocalVariableDeclaration)
+
+
+State 162
+
+  131 ClassInstanceCreationExpression: ClassType LEFTPAREN . ArgumentListOpt RIGHTPAREN
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 234
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 163
+
+  135 MethodInvocation: Name LEFTPAREN . ArgumentListOpt RIGHTPAREN
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 237
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 164
+
+   30 DefaultTableMap: Name LEFTSUBSCRIPT . RIGHTSUBSCRIPT
+  139 ListTableAccess: Name LEFTSUBSCRIPT . Expression RIGHTSUBSCRIPT
+  141                | Name LEFTSUBSCRIPT . Expression COLON Expression RIGHTSUBSCRIPT
+
+    DROLL           shift, and go to state 132
+    IDENTIFIER      shift, and go to state 4
+    DECLAREDNAME    shift, and go to state 5
+    INTLIT          shift, and go to state 71
+    DOUBLELIT       shift, and go to state 72
+    STRINGLIT       shift, and go to state 73
+    BOOLFALSE       shift, and go to state 74
+    BOOLTRUE        shift, and go to state 75
+    NULLVAL         shift, and go to state 76
+    LEFTPAREN       shift, and go to state 77
+    LEFTSUBSCRIPT   shift, and go to state 133
+    RIGHTSUBSCRIPT  shift, and go to state 65
+    LEFTBRACE       shift, and go to state 134
+    LOGICALNOT      shift, and go to state 135
+    SIZE            shift, and go to state 136
+    MINUS           shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 238
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 165
+
+  137 MethodInvocation: Name LEFTBRACE . ArgumentListOpt RIGHTBRACE
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 239
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 166
+
+   77 Block: LEFTBRACE BlockStatementsOpt RIGHTBRACE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 240
+
+
+State 167
+
+   81 BlockStatements: BlockStatements BlockStatement .
+
+    $default  reduce using rule 81 (BlockStatements)
+
+
+State 168
+
+   84 LocalVariableDeclarationStatement: LocalVariableDeclaration SEMICOLON .
+
+    $default  reduce using rule 84 (LocalVariableDeclarationStatement)
+
+
+State 169
+
+   98 ExpressionStatement: StatementExpression SEMICOLON .
+
+    $default  reduce using rule 98 (ExpressionStatement)
+
+
+State 170
+
+  134 FieldAccess: Primary PERIOD . IDENTIFIER
+  136 MethodInvocation: Primary PERIOD . IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary PERIOD . IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+
+    IDENTIFIER  shift, and go to state 241
+
+
+State 171
+
+  140 ListTableAccess: Primary LEFTSUBSCRIPT . Expression RIGHTSUBSCRIPT
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 242
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 172
+
+  180 AssignmentOperator: EQUALS .
+
+    $default  reduce using rule 180 (AssignmentOperator)
+
+
+State 173
+
+  181 AssignmentOperator: INCREMENT .
+
+    $default  reduce using rule 181 (AssignmentOperator)
+
+
+State 174
+
+  182 AssignmentOperator: DECREMENT .
+
+    $default  reduce using rule 182 (AssignmentOperator)
+
+
+State 175
+
+  183 AssignmentOperator: SWAP .
+
+    $default  reduce using rule 183 (AssignmentOperator)
+
+
+State 176
+
+  175 Assignment: LeftHandSide AssignmentOperator . AssignmentExpression
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 243
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 177
+
+   58 VariableDeclaratorId: VariableDeclaratorId . LEFTSUBSCRIPT RIGHTSUBSCRIPT
+   68 FormalParameter: Type VariableDeclaratorId .
+
+    LEFTSUBSCRIPT  shift, and go to state 63
+
+    $default  reduce using rule 68 (FormalParameter)
+
+
+State 178
+
+   64 MethodDeclarator: IDENTIFIER LEFTPAREN FormalParameterListOpt RIGHTPAREN .
+
+    $default  reduce using rule 64 (MethodDeclarator)
+
+
+State 179
+
+   67 FormalParameterList: FormalParameterList COMMA . FormalParameter
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    Type             go to state 109
+    PrimitiveType    go to state 12
+    NumericType      go to state 13
+    ReferenceType    go to state 14
+    ClassType        go to state 15
+    ListType         go to state 16
+    TableType        go to state 17
+    DefaultTableMap  go to state 18
+    Name             go to state 19
+    SimpleName       go to state 20
+    QualifiedName    go to state 21
+    FormalParameter  go to state 244
+
+
+State 180
+
+   70 ConstructorDeclarator: SimpleName LEFTPAREN . FormalParameterListOpt RIGHTPAREN
+
+    DOUBLE        shift, and go to state 1
+    INT           shift, and go to state 2
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+
+    $default  reduce using rule 63 (FormalParameterListOpt)
+
+    Type                    go to state 109
+    PrimitiveType           go to state 12
+    NumericType             go to state 13
+    ReferenceType           go to state 14
+    ClassType               go to state 15
+    ListType                go to state 16
+    TableType               go to state 17
+    DefaultTableMap         go to state 18
+    Name                    go to state 19
+    SimpleName              go to state 20
+    QualifiedName           go to state 21
+    FormalParameterListOpt  go to state 245
+    FormalParameterList     go to state 111
+    FormalParameter         go to state 112
+
+
+State 181
+
+   44 ClassBody: LEFTBRACE ClassBodyDeclarationsOpt RIGHTBRACE .
+
+    $default  reduce using rule 44 (ClassBody)
+
+
+State 182
+
+   48 ClassBodyDeclarations: ClassBodyDeclarations ClassBodyDeclaration .
+
+    $default  reduce using rule 48 (ClassBodyDeclarations)
+
+
+State 183
+
+   75 ConstructorBody: LEFTBRACE . ExplicitConstructorInvocationOpt BlockStatementsOpt RIGHTBRACE SEMICOLON
+
+    LEFTPAREN  shift, and go to state 246
+
+    LEFTPAREN  [reduce using rule 72 (ExplicitConstructorInvocationOpt)]
+    $default   reduce using rule 72 (ExplicitConstructorInvocationOpt)
+
+    ExplicitConstructorInvocationOpt  go to state 247
+    ExplicitConstructorInvocation     go to state 248
+
+
+State 184
+
+   69 ConstructorDeclaration: ConstructorDeclarator ConstructorBody .
+
+    $default  reduce using rule 69 (ConstructorDeclaration)
+
+
+State 185
+
+   23 TableType: TABLE LESSTHAN TableIndex COMMA LegalElement . GREATERTHAN
+
+    GREATERTHAN  shift, and go to state 249
+
+
+State 186
+
+  124 BreakStatement: BREAK IDENTOpt SEMICOLON .
+
+    $default  reduce using rule 124 (BreakStatement)
+
+
+State 187
+
+  118 ForInit: LocalVariableDeclaration .
+
+    $default  reduce using rule 118 (ForInit)
+
+
+State 188
+
+  120 StatementExpressionList: StatementExpression .
+
+    $default  reduce using rule 120 (StatementExpressionList)
+
+
+State 189
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt . SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+    SEMICOLON  shift, and go to state 250
+
+
+State 190
+
+  110 ForInitOpt: ForInit .
+
+    $default  reduce using rule 110 (ForInitOpt)
+
+
+State 191
+
+  117 ForInit: StatementExpressionList .
+  121 StatementExpressionList: StatementExpressionList . COMMA StatementExpression
+
+    COMMA  shift, and go to state 251
+
+    $default  reduce using rule 117 (ForInit)
+
+
+State 192
+
+  102 IfThenStatement: IF LEFTPAREN Expression . RIGHTPAREN Block
+  103 IfThenElseStatement: IF LEFTPAREN Expression . RIGHTPAREN Block ELSE Block
+  104 IfThenElseIfStatement: IF LEFTPAREN Expression . RIGHTPAREN Block ElseIfSequence
+  105                      | IF LEFTPAREN Expression . RIGHTPAREN Block ElseIfSequence ELSE Block
+
+    RIGHTPAREN  shift, and go to state 252
+
+
+State 193
+
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+  135 MethodInvocation: Name . LEFTPAREN ArgumentListOpt RIGHTPAREN
+  137                 | Name . LEFTBRACE ArgumentListOpt RIGHTBRACE
+  139 ListTableAccess: Name . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  141                | Name . LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT
+  143 PostFixExpression: Name .
+
+    PERIOD         shift, and go to state 41
+    LEFTPAREN      shift, and go to state 163
+    LEFTSUBSCRIPT  shift, and go to state 253
+    LEFTBRACE      shift, and go to state 165
+
+    $default  reduce using rule 143 (PostFixExpression)
+
+
+State 194
+
+  134 FieldAccess: Primary . PERIOD IDENTIFIER
+  136 MethodInvocation: Primary . PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary . PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+  140 ListTableAccess: Primary . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  142 PostFixExpression: Primary .
+
+    PERIOD         shift, and go to state 170
+    LEFTSUBSCRIPT  shift, and go to state 171
+
+    $default  reduce using rule 142 (PostFixExpression)
+
+
+State 195
+
+  128 Primary: FieldAccess .
+
+    $default  reduce using rule 128 (Primary)
+
+
+State 196
+
+  130 Primary: ListTableAccess .
+
+    $default  reduce using rule 130 (Primary)
+
+
+State 197
+
+  146 UnaryExpression: DROLL UnaryExpression .
+
+    $default  reduce using rule 146 (UnaryExpression)
+
+
+State 198
+
+  197 LegalValue: IDENTIFIER .
+
+    $default  reduce using rule 197 (LegalValue)
+
+
+State 199
+
+  198 LegalValue: DECLAREDNAME .
+
+    $default  reduce using rule 198 (LegalValue)
+
+
+State 200
+
+  194 LegalValue: INTLIT .
+
+    $default  reduce using rule 194 (LegalValue)
+
+
+State 201
+
+  195 LegalValue: DOUBLELIT .
+
+    $default  reduce using rule 195 (LegalValue)
+
+
+State 202
+
+  196 LegalValue: STRINGLIT .
+
+    $default  reduce using rule 196 (LegalValue)
+
+
+State 203
+
+  185 ListAssignment: LEFTSUBSCRIPT ListValues . RIGHTSUBSCRIPT
+  187 ListValues: ListValues . COMMA LegalValue
+
+    RIGHTSUBSCRIPT  shift, and go to state 254
+    COMMA           shift, and go to state 255
+
+
+State 204
+
+  186 ListValues: LegalValue .
+
+    $default  reduce using rule 186 (ListValues)
+
+
+State 205
+
+  192 LegalIndex: INTLIT .
+
+    $default  reduce using rule 192 (LegalIndex)
+
+
+State 206
+
+  193 LegalIndex: STRINGLIT .
+
+    $default  reduce using rule 193 (LegalIndex)
+
+
+State 207
+
+  188 TableAssignment: LEFTBRACE TableValues . SEMICOLON RIGHTBRACE
+  190 TableValues: TableValues . COMMA TableObject
+
+    SEMICOLON  shift, and go to state 256
+    COMMA      shift, and go to state 257
+
+
+State 208
+
+  189 TableValues: TableObject .
+
+    $default  reduce using rule 189 (TableValues)
+
+
+State 209
+
+  191 TableObject: LegalIndex . COLON LegalValue
+
+    COLON  shift, and go to state 258
+
+
+State 210
+
+  149 UnaryExpressionNotPlusMinus: LOGICALNOT UnaryExpression .
+
+    $default  reduce using rule 149 (UnaryExpressionNotPlusMinus)
+
+
+State 211
+
+  147 UnaryExpression: SIZE UnaryExpression .
+
+    $default  reduce using rule 147 (UnaryExpression)
+
+
+State 212
+
+  144 UnaryExpression: MINUS UnaryExpression .
+
+    $default  reduce using rule 144 (UnaryExpression)
+
+
+State 213
+
+  125 ReturnStatement: RETURN ExpressionOpt SEMICOLON .
+
+    $default  reduce using rule 125 (ReturnStatement)
+
+
+State 214
+
+  154 MultiplicativeExpression: MultiplicativeExpression DROLL . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 259
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 215
+
+  151 MultiplicativeExpression: MultiplicativeExpression MULTIPLY . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 260
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 216
+
+  152 MultiplicativeExpression: MultiplicativeExpression DIVIDE . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 261
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 217
+
+  153 MultiplicativeExpression: MultiplicativeExpression MODULUS . UnaryExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 262
+    UnaryExpressionNotPlusMinus  go to state 145
+
+
+State 218
+
+  156 AdditiveExpression: AdditiveExpression PLUS . MultiplicativeExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 263
+
+
+State 219
+
+  157 AdditiveExpression: AdditiveExpression MINUS . MultiplicativeExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 264
+
+
+State 220
+
+  159 RelationalExpression: RelationalExpression LESSTHAN . AdditiveExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 265
+
+
+State 221
+
+  161 RelationalExpression: RelationalExpression LESSTHANOREQUAL . AdditiveExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 266
+
+
+State 222
+
+  160 RelationalExpression: RelationalExpression GREATERTHAN . AdditiveExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 267
+
+
+State 223
+
+  162 RelationalExpression: RelationalExpression GREATERTHANOREQUAL . AdditiveExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 268
+
+
+State 224
+
+  164 EqualityExpression: EqualityExpression ISEQUALTO . RelationalExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 269
+
+
+State 225
+
+  165 EqualityExpression: EqualityExpression NOTEQUALTO . RelationalExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 270
+
+
+State 226
+
+  167 ConditionalAndExpression: ConditionalAndExpression LOGICALAND . EqualityExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 271
+
+
+State 227
+
+  169 ConditionalOrExpression: ConditionalOrExpression LOGICALOR . ConditionalAndExpression
+
+    DROLL         shift, and go to state 132
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LOGICALNOT    shift, and go to state 135
+    SIZE          shift, and go to state 136
+    MINUS         shift, and go to state 137
+
+    Literal                      go to state 79
+    Name                         go to state 193
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 194
+    FieldAccess                  go to state 195
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 196
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 272
+
+
+State 228
+
+   35 QualifiedName: Name . PERIOD IDENTIFIER
+  135 MethodInvocation: Name . LEFTPAREN ArgumentListOpt RIGHTPAREN
+  137                 | Name . LEFTBRACE ArgumentListOpt RIGHTBRACE
+  139 ListTableAccess: Name . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  141                | Name . LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT
+  201 concat: Name .
+
+    PERIOD         shift, and go to state 41
+    LEFTPAREN      shift, and go to state 163
+    LEFTSUBSCRIPT  shift, and go to state 253
+    LEFTBRACE      shift, and go to state 165
+
+    LEFTPAREN  [reduce using rule 201 (concat)]
+    $default   reduce using rule 201 (concat)
+
+
+State 229
+
+  134 FieldAccess: Primary . PERIOD IDENTIFIER
+  136 MethodInvocation: Primary . PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary . PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE
+  140 ListTableAccess: Primary . LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT
+  202 concat: Primary .
+
+    PERIOD         shift, and go to state 170
+    LEFTSUBSCRIPT  shift, and go to state 171
+
+    $default  reduce using rule 202 (concat)
+
+
+State 230
+
+  200 concatOpt: concatOpt concat .
+
+    $default  reduce using rule 200 (concatOpt)
+
+
+State 231
+
+  199 concatOpt: concat concat .
+
+    $default  reduce using rule 199 (concatOpt)
+
+
+State 232
+
+  109 WhileStatement: WHILE LEFTPAREN Expression . RIGHTPAREN Statement
+
+    RIGHTPAREN  shift, and go to state 273
+
+
+State 233
+
+  127 Primary: LEFTPAREN Expression RIGHTPAREN .
+
+    $default  reduce using rule 127 (Primary)
+
+
+State 234
+
+  131 ClassInstanceCreationExpression: ClassType LEFTPAREN ArgumentListOpt . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 274
+
+
+State 235
+
+   73 ArgumentListOpt: ArgumentList .
+  133 ArgumentList: ArgumentList . COMMA Expression
+
+    COMMA  shift, and go to state 275
+
+    $default  reduce using rule 73 (ArgumentListOpt)
+
+
+State 236
+
+  132 ArgumentList: Expression .
+
+    $default  reduce using rule 132 (ArgumentList)
+
+
+State 237
+
+  135 MethodInvocation: Name LEFTPAREN ArgumentListOpt . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 276
+
+
+State 238
+
+  139 ListTableAccess: Name LEFTSUBSCRIPT Expression . RIGHTSUBSCRIPT
+  141                | Name LEFTSUBSCRIPT Expression . COLON Expression RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 277
+    COLON           shift, and go to state 278
+
+
+State 239
+
+  137 MethodInvocation: Name LEFTBRACE ArgumentListOpt . RIGHTBRACE
+
+    RIGHTBRACE  shift, and go to state 279
+
+
+State 240
+
+   77 Block: LEFTBRACE BlockStatementsOpt RIGHTBRACE SEMICOLON .
+
+    $default  reduce using rule 77 (Block)
+
+
+State 241
+
+  134 FieldAccess: Primary PERIOD IDENTIFIER .
+  136 MethodInvocation: Primary PERIOD IDENTIFIER . LEFTPAREN ArgumentListOpt RIGHTPAREN
+  138                 | Primary PERIOD IDENTIFIER . LEFTBRACE ArgumentListOpt RIGHTBRACE
+
+    LEFTPAREN  shift, and go to state 280
+    LEFTBRACE  shift, and go to state 281
+
+    LEFTPAREN  [reduce using rule 134 (FieldAccess)]
+    $default   reduce using rule 134 (FieldAccess)
+
+
+State 242
+
+  140 ListTableAccess: Primary LEFTSUBSCRIPT Expression . RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 282
+
+
+State 243
+
+  175 Assignment: LeftHandSide AssignmentOperator AssignmentExpression .
+
+    $default  reduce using rule 175 (Assignment)
+
+
+State 244
+
+   67 FormalParameterList: FormalParameterList COMMA FormalParameter .
+
+    $default  reduce using rule 67 (FormalParameterList)
+
+
+State 245
+
+   70 ConstructorDeclarator: SimpleName LEFTPAREN FormalParameterListOpt . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 283
+
+
+State 246
+
+   76 ExplicitConstructorInvocation: LEFTPAREN . ArgumentListOpt RIGHTPAREN SEMICOLON
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 284
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 247
+
+   75 ConstructorBody: LEFTBRACE ExplicitConstructorInvocationOpt . BlockStatementsOpt RIGHTBRACE SEMICOLON
+
+    BREAK         shift, and go to state 66
+    DOUBLE        shift, and go to state 1
+    FOR           shift, and go to state 67
+    IF            shift, and go to state 68
+    INT           shift, and go to state 2
+    RETURN        shift, and go to state 69
+    WHILE         shift, and go to state 70
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    LIST          shift, and go to state 7
+    TABLE         shift, and go to state 8
+    STRING        shift, and go to state 9
+    BOOL          shift, and go to state 10
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LEFTBRACE     shift, and go to state 45
+    SEMICOLON     shift, and go to state 78
+
+    $default  reduce using rule 79 (BlockStatementsOpt)
+
+    Literal                               go to state 79
+    Type                                  go to state 80
+    PrimitiveType                         go to state 12
+    NumericType                           go to state 13
+    ReferenceType                         go to state 14
+    ClassType                             go to state 81
+    ListType                              go to state 16
+    TableType                             go to state 17
+    DefaultTableMap                       go to state 82
+    Name                                  go to state 83
+    SimpleName                            go to state 20
+    QualifiedName                         go to state 21
+    Block                                 go to state 84
+    BlockStatementsOpt                    go to state 285
+    BlockStatements                       go to state 86
+    BlockStatement                        go to state 87
+    LocalVariableDeclarationStatement     go to state 88
+    LocalVariableDeclaration              go to state 89
+    Statement                             go to state 90
+    StatementWithoutTrailingSubstatement  go to state 91
+    EmptyStatement                        go to state 92
+    ExpressionStatement                   go to state 93
+    StatementExpression                   go to state 94
+    IfThenStatement                       go to state 95
+    IfThenElseStatement                   go to state 96
+    IfThenElseIfStatement                 go to state 97
+    WhileStatement                        go to state 98
+    ForStatement                          go to state 99
+    BreakStatement                        go to state 100
+    ReturnStatement                       go to state 101
+    Primary                               go to state 102
+    ClassInstanceCreationExpression       go to state 103
+    FieldAccess                           go to state 104
+    MethodInvocation                      go to state 105
+    ListTableAccess                       go to state 106
+    Assignment                            go to state 107
+    LeftHandSide                          go to state 108
+
+
+State 248
+
+   71 ExplicitConstructorInvocationOpt: ExplicitConstructorInvocation .
+
+    $default  reduce using rule 71 (ExplicitConstructorInvocationOpt)
+
+
+State 249
+
+   23 TableType: TABLE LESSTHAN TableIndex COMMA LegalElement GREATERTHAN .
+
+    $default  reduce using rule 23 (TableType)
+
+
+State 250
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON . ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 113 (ExpressionOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ExpressionOpt                go to state 286
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 154
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 251
+
+  121 StatementExpressionList: StatementExpressionList COMMA . StatementExpression
+
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+
+    Literal                          go to state 79
+    ClassType                        go to state 287
+    DefaultTableMap                  go to state 138
+    Name                             go to state 83
+    SimpleName                       go to state 20
+    QualifiedName                    go to state 21
+    StatementExpression              go to state 288
+    Primary                          go to state 102
+    ClassInstanceCreationExpression  go to state 103
+    FieldAccess                      go to state 104
+    MethodInvocation                 go to state 105
+    ListTableAccess                  go to state 106
+    Assignment                       go to state 107
+    LeftHandSide                     go to state 108
+
+
+State 252
+
+  102 IfThenStatement: IF LEFTPAREN Expression RIGHTPAREN . Block
+  103 IfThenElseStatement: IF LEFTPAREN Expression RIGHTPAREN . Block ELSE Block
+  104 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN . Block ElseIfSequence
+  105                      | IF LEFTPAREN Expression RIGHTPAREN . Block ElseIfSequence ELSE Block
+
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 289
+
+
+State 253
+
+  139 ListTableAccess: Name LEFTSUBSCRIPT . Expression RIGHTSUBSCRIPT
+  141                | Name LEFTSUBSCRIPT . Expression COLON Expression RIGHTSUBSCRIPT
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 238
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 254
+
+  185 ListAssignment: LEFTSUBSCRIPT ListValues RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 185 (ListAssignment)
+
+
+State 255
+
+  187 ListValues: ListValues COMMA . LegalValue
+
+    IDENTIFIER    shift, and go to state 198
+    DECLAREDNAME  shift, and go to state 199
+    INTLIT        shift, and go to state 200
+    DOUBLELIT     shift, and go to state 201
+    STRINGLIT     shift, and go to state 202
+
+    LegalValue  go to state 290
+
+
+State 256
+
+  188 TableAssignment: LEFTBRACE TableValues SEMICOLON . RIGHTBRACE
+
+    RIGHTBRACE  shift, and go to state 291
+
+
+State 257
+
+  190 TableValues: TableValues COMMA . TableObject
+
+    INTLIT     shift, and go to state 205
+    STRINGLIT  shift, and go to state 206
+
+    TableObject  go to state 292
+    LegalIndex   go to state 209
+
+
+State 258
+
+  191 TableObject: LegalIndex COLON . LegalValue
+
+    IDENTIFIER    shift, and go to state 198
+    DECLAREDNAME  shift, and go to state 199
+    INTLIT        shift, and go to state 200
+    DOUBLELIT     shift, and go to state 201
+    STRINGLIT     shift, and go to state 202
+
+    LegalValue  go to state 293
+
+
+State 259
+
+  154 MultiplicativeExpression: MultiplicativeExpression DROLL UnaryExpression .
+
+    $default  reduce using rule 154 (MultiplicativeExpression)
+
+
+State 260
+
+  151 MultiplicativeExpression: MultiplicativeExpression MULTIPLY UnaryExpression .
+
+    $default  reduce using rule 151 (MultiplicativeExpression)
+
+
+State 261
+
+  152 MultiplicativeExpression: MultiplicativeExpression DIVIDE UnaryExpression .
+
+    $default  reduce using rule 152 (MultiplicativeExpression)
+
+
+State 262
+
+  153 MultiplicativeExpression: MultiplicativeExpression MODULUS UnaryExpression .
+
+    $default  reduce using rule 153 (MultiplicativeExpression)
+
+
+State 263
+
+  151 MultiplicativeExpression: MultiplicativeExpression . MULTIPLY UnaryExpression
+  152                         | MultiplicativeExpression . DIVIDE UnaryExpression
+  153                         | MultiplicativeExpression . MODULUS UnaryExpression
+  154                         | MultiplicativeExpression . DROLL UnaryExpression
+  156 AdditiveExpression: AdditiveExpression PLUS MultiplicativeExpression .
+
+    DROLL     shift, and go to state 214
+    MULTIPLY  shift, and go to state 215
+    DIVIDE    shift, and go to state 216
+    MODULUS   shift, and go to state 217
+
+    $default  reduce using rule 156 (AdditiveExpression)
+
+
+State 264
+
+  151 MultiplicativeExpression: MultiplicativeExpression . MULTIPLY UnaryExpression
+  152                         | MultiplicativeExpression . DIVIDE UnaryExpression
+  153                         | MultiplicativeExpression . MODULUS UnaryExpression
+  154                         | MultiplicativeExpression . DROLL UnaryExpression
+  157 AdditiveExpression: AdditiveExpression MINUS MultiplicativeExpression .
+
+    DROLL     shift, and go to state 214
+    MULTIPLY  shift, and go to state 215
+    DIVIDE    shift, and go to state 216
+    MODULUS   shift, and go to state 217
+
+    $default  reduce using rule 157 (AdditiveExpression)
+
+
+State 265
+
+  156 AdditiveExpression: AdditiveExpression . PLUS MultiplicativeExpression
+  157                   | AdditiveExpression . MINUS MultiplicativeExpression
+  159 RelationalExpression: RelationalExpression LESSTHAN AdditiveExpression .
+
+    PLUS   shift, and go to state 218
+    MINUS  shift, and go to state 219
+
+    $default  reduce using rule 159 (RelationalExpression)
+
+
+State 266
+
+  156 AdditiveExpression: AdditiveExpression . PLUS MultiplicativeExpression
+  157                   | AdditiveExpression . MINUS MultiplicativeExpression
+  161 RelationalExpression: RelationalExpression LESSTHANOREQUAL AdditiveExpression .
+
+    PLUS   shift, and go to state 218
+    MINUS  shift, and go to state 219
+
+    $default  reduce using rule 161 (RelationalExpression)
+
+
+State 267
+
+  156 AdditiveExpression: AdditiveExpression . PLUS MultiplicativeExpression
+  157                   | AdditiveExpression . MINUS MultiplicativeExpression
+  160 RelationalExpression: RelationalExpression GREATERTHAN AdditiveExpression .
+
+    PLUS   shift, and go to state 218
+    MINUS  shift, and go to state 219
+
+    $default  reduce using rule 160 (RelationalExpression)
+
+
+State 268
+
+  156 AdditiveExpression: AdditiveExpression . PLUS MultiplicativeExpression
+  157                   | AdditiveExpression . MINUS MultiplicativeExpression
+  162 RelationalExpression: RelationalExpression GREATERTHANOREQUAL AdditiveExpression .
+
+    PLUS   shift, and go to state 218
+    MINUS  shift, and go to state 219
+
+    $default  reduce using rule 162 (RelationalExpression)
+
+
+State 269
+
+  159 RelationalExpression: RelationalExpression . LESSTHAN AdditiveExpression
+  160                     | RelationalExpression . GREATERTHAN AdditiveExpression
+  161                     | RelationalExpression . LESSTHANOREQUAL AdditiveExpression
+  162                     | RelationalExpression . GREATERTHANOREQUAL AdditiveExpression
+  164 EqualityExpression: EqualityExpression ISEQUALTO RelationalExpression .
+
+    LESSTHAN            shift, and go to state 220
+    LESSTHANOREQUAL     shift, and go to state 221
+    GREATERTHAN         shift, and go to state 222
+    GREATERTHANOREQUAL  shift, and go to state 223
+
+    $default  reduce using rule 164 (EqualityExpression)
+
+
+State 270
+
+  159 RelationalExpression: RelationalExpression . LESSTHAN AdditiveExpression
+  160                     | RelationalExpression . GREATERTHAN AdditiveExpression
+  161                     | RelationalExpression . LESSTHANOREQUAL AdditiveExpression
+  162                     | RelationalExpression . GREATERTHANOREQUAL AdditiveExpression
+  165 EqualityExpression: EqualityExpression NOTEQUALTO RelationalExpression .
+
+    LESSTHAN            shift, and go to state 220
+    LESSTHANOREQUAL     shift, and go to state 221
+    GREATERTHAN         shift, and go to state 222
+    GREATERTHANOREQUAL  shift, and go to state 223
+
+    $default  reduce using rule 165 (EqualityExpression)
+
+
+State 271
+
+  164 EqualityExpression: EqualityExpression . ISEQUALTO RelationalExpression
+  165                   | EqualityExpression . NOTEQUALTO RelationalExpression
+  167 ConditionalAndExpression: ConditionalAndExpression LOGICALAND EqualityExpression .
+
+    ISEQUALTO   shift, and go to state 224
+    NOTEQUALTO  shift, and go to state 225
+
+    $default  reduce using rule 167 (ConditionalAndExpression)
+
+
+State 272
+
+  167 ConditionalAndExpression: ConditionalAndExpression . LOGICALAND EqualityExpression
+  169 ConditionalOrExpression: ConditionalOrExpression LOGICALOR ConditionalAndExpression .
+
+    LOGICALAND  shift, and go to state 226
+
+    $default  reduce using rule 169 (ConditionalOrExpression)
+
+
+State 273
+
+  109 WhileStatement: WHILE LEFTPAREN Expression RIGHTPAREN . Statement
+
+    BREAK         shift, and go to state 66
+    FOR           shift, and go to state 67
+    IF            shift, and go to state 68
+    RETURN        shift, and go to state 69
+    WHILE         shift, and go to state 70
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+    LEFTBRACE     shift, and go to state 45
+    SEMICOLON     shift, and go to state 78
+
+    Literal                               go to state 79
+    ClassType                             go to state 287
+    DefaultTableMap                       go to state 138
+    Name                                  go to state 83
+    SimpleName                            go to state 20
+    QualifiedName                         go to state 21
+    Block                                 go to state 84
+    Statement                             go to state 294
+    StatementWithoutTrailingSubstatement  go to state 91
+    EmptyStatement                        go to state 92
+    ExpressionStatement                   go to state 93
+    StatementExpression                   go to state 94
+    IfThenStatement                       go to state 95
+    IfThenElseStatement                   go to state 96
+    IfThenElseIfStatement                 go to state 97
+    WhileStatement                        go to state 98
+    ForStatement                          go to state 99
+    BreakStatement                        go to state 100
+    ReturnStatement                       go to state 101
+    Primary                               go to state 102
+    ClassInstanceCreationExpression       go to state 103
+    FieldAccess                           go to state 104
+    MethodInvocation                      go to state 105
+    ListTableAccess                       go to state 106
+    Assignment                            go to state 107
+    LeftHandSide                          go to state 108
+
+
+State 274
+
+  131 ClassInstanceCreationExpression: ClassType LEFTPAREN ArgumentListOpt RIGHTPAREN .
+
+    $default  reduce using rule 131 (ClassInstanceCreationExpression)
+
+
+State 275
+
+  133 ArgumentList: ArgumentList COMMA . Expression
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 295
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 276
+
+  135 MethodInvocation: Name LEFTPAREN ArgumentListOpt RIGHTPAREN .
+
+    $default  reduce using rule 135 (MethodInvocation)
+
+
+State 277
+
+  139 ListTableAccess: Name LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 139 (ListTableAccess)
+
+
+State 278
+
+  141 ListTableAccess: Name LEFTSUBSCRIPT Expression COLON . Expression RIGHTSUBSCRIPT
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 296
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 279
+
+  137 MethodInvocation: Name LEFTBRACE ArgumentListOpt RIGHTBRACE .
+
+    $default  reduce using rule 137 (MethodInvocation)
+
+
+State 280
+
+  136 MethodInvocation: Primary PERIOD IDENTIFIER LEFTPAREN . ArgumentListOpt RIGHTPAREN
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 297
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 281
+
+  138 MethodInvocation: Primary PERIOD IDENTIFIER LEFTBRACE . ArgumentListOpt RIGHTBRACE
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    $default  reduce using rule 74 (ArgumentListOpt)
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    ArgumentListOpt              go to state 298
+    Primary                      go to state 141
+    ArgumentList                 go to state 235
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 236
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 282
+
+  140 ListTableAccess: Primary LEFTSUBSCRIPT Expression RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 140 (ListTableAccess)
+
+
+State 283
+
+   70 ConstructorDeclarator: SimpleName LEFTPAREN FormalParameterListOpt RIGHTPAREN .
+
+    $default  reduce using rule 70 (ConstructorDeclarator)
+
+
+State 284
+
+   76 ExplicitConstructorInvocation: LEFTPAREN ArgumentListOpt . RIGHTPAREN SEMICOLON
+
+    RIGHTPAREN  shift, and go to state 299
+
+
+State 285
+
+   75 ConstructorBody: LEFTBRACE ExplicitConstructorInvocationOpt BlockStatementsOpt . RIGHTBRACE SEMICOLON
+
+    RIGHTBRACE  shift, and go to state 300
+
+
+State 286
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt . SEMICOLON ForUpdateOpt RIGHTPAREN Block
+
+    SEMICOLON  shift, and go to state 301
+
+
+State 287
+
+  131 ClassInstanceCreationExpression: ClassType . LEFTPAREN ArgumentListOpt RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 162
+
+
+State 288
+
+  121 StatementExpressionList: StatementExpressionList COMMA StatementExpression .
+
+    $default  reduce using rule 121 (StatementExpressionList)
+
+
+State 289
+
+  102 IfThenStatement: IF LEFTPAREN Expression RIGHTPAREN Block .
+  103 IfThenElseStatement: IF LEFTPAREN Expression RIGHTPAREN Block . ELSE Block
+  104 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN Block . ElseIfSequence
+  105                      | IF LEFTPAREN Expression RIGHTPAREN Block . ElseIfSequence ELSE Block
+
+    ELSE  shift, and go to state 302
+
+    $default  reduce using rule 102 (IfThenStatement)
+
+    ElseIfSequence   go to state 303
+    ElseIfStatement  go to state 304
+
+
+State 290
+
+  187 ListValues: ListValues COMMA LegalValue .
+
+    $default  reduce using rule 187 (ListValues)
+
+
+State 291
+
+  188 TableAssignment: LEFTBRACE TableValues SEMICOLON RIGHTBRACE .
+
+    $default  reduce using rule 188 (TableAssignment)
+
+
+State 292
+
+  190 TableValues: TableValues COMMA TableObject .
+
+    $default  reduce using rule 190 (TableValues)
+
+
+State 293
+
+  191 TableObject: LegalIndex COLON LegalValue .
+
+    $default  reduce using rule 191 (TableObject)
+
+
+State 294
+
+  109 WhileStatement: WHILE LEFTPAREN Expression RIGHTPAREN Statement .
+
+    $default  reduce using rule 109 (WhileStatement)
+
+
+State 295
+
+  133 ArgumentList: ArgumentList COMMA Expression .
+
+    $default  reduce using rule 133 (ArgumentList)
+
+
+State 296
+
+  141 ListTableAccess: Name LEFTSUBSCRIPT Expression COLON Expression . RIGHTSUBSCRIPT
+
+    RIGHTSUBSCRIPT  shift, and go to state 305
+
+
+State 297
+
+  136 MethodInvocation: Primary PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 306
+
+
+State 298
+
+  138 MethodInvocation: Primary PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt . RIGHTBRACE
+
+    RIGHTBRACE  shift, and go to state 307
+
+
+State 299
+
+   76 ExplicitConstructorInvocation: LEFTPAREN ArgumentListOpt RIGHTPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 308
+
+
+State 300
+
+   75 ConstructorBody: LEFTBRACE ExplicitConstructorInvocationOpt BlockStatementsOpt RIGHTBRACE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 309
+
+
+State 301
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON . ForUpdateOpt RIGHTPAREN Block
+
+    IDENTIFIER    shift, and go to state 4
+    DECLAREDNAME  shift, and go to state 5
+    INTLIT        shift, and go to state 71
+    DOUBLELIT     shift, and go to state 72
+    STRINGLIT     shift, and go to state 73
+    BOOLFALSE     shift, and go to state 74
+    BOOLTRUE      shift, and go to state 75
+    NULLVAL       shift, and go to state 76
+    LEFTPAREN     shift, and go to state 77
+
+    $default  reduce using rule 115 (ForUpdateOpt)
+
+    Literal                          go to state 79
+    ClassType                        go to state 287
+    DefaultTableMap                  go to state 138
+    Name                             go to state 83
+    SimpleName                       go to state 20
+    QualifiedName                    go to state 21
+    StatementExpression              go to state 188
+    ForUpdateOpt                     go to state 310
+    ForUpdate                        go to state 311
+    StatementExpressionList          go to state 312
+    Primary                          go to state 102
+    ClassInstanceCreationExpression  go to state 103
+    FieldAccess                      go to state 104
+    MethodInvocation                 go to state 105
+    ListTableAccess                  go to state 106
+    Assignment                       go to state 107
+    LeftHandSide                     go to state 108
+
+
+State 302
+
+  103 IfThenElseStatement: IF LEFTPAREN Expression RIGHTPAREN Block ELSE . Block
+  108 ElseIfStatement: ELSE . IF LEFTPAREN Expression RIGHTPAREN Block
+
+    IF         shift, and go to state 313
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 314
+
+
+State 303
+
+  104 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence .
+  105                      | IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence . ELSE Block
+  107 ElseIfSequence: ElseIfSequence . ElseIfStatement
+
+    ELSE  shift, and go to state 315
+
+    $default  reduce using rule 104 (IfThenElseIfStatement)
+
+    ElseIfStatement  go to state 316
+
+
+State 304
+
+  106 ElseIfSequence: ElseIfStatement .
+
+    $default  reduce using rule 106 (ElseIfSequence)
+
+
+State 305
+
+  141 ListTableAccess: Name LEFTSUBSCRIPT Expression COLON Expression RIGHTSUBSCRIPT .
+
+    $default  reduce using rule 141 (ListTableAccess)
+
+
+State 306
+
+  136 MethodInvocation: Primary PERIOD IDENTIFIER LEFTPAREN ArgumentListOpt RIGHTPAREN .
+
+    $default  reduce using rule 136 (MethodInvocation)
+
+
+State 307
+
+  138 MethodInvocation: Primary PERIOD IDENTIFIER LEFTBRACE ArgumentListOpt RIGHTBRACE .
+
+    $default  reduce using rule 138 (MethodInvocation)
+
+
+State 308
+
+   76 ExplicitConstructorInvocation: LEFTPAREN ArgumentListOpt RIGHTPAREN SEMICOLON .
+
+    $default  reduce using rule 76 (ExplicitConstructorInvocation)
+
+
+State 309
+
+   75 ConstructorBody: LEFTBRACE ExplicitConstructorInvocationOpt BlockStatementsOpt RIGHTBRACE SEMICOLON .
+
+    $default  reduce using rule 75 (ConstructorBody)
+
+
+State 310
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt . RIGHTPAREN Block
+
+    RIGHTPAREN  shift, and go to state 317
+
+
+State 311
+
+  114 ForUpdateOpt: ForUpdate .
+
+    $default  reduce using rule 114 (ForUpdateOpt)
+
+
+State 312
+
+  119 ForUpdate: StatementExpressionList .
+  121 StatementExpressionList: StatementExpressionList . COMMA StatementExpression
+
+    COMMA  shift, and go to state 251
+
+    $default  reduce using rule 119 (ForUpdate)
+
+
+State 313
+
+  108 ElseIfStatement: ELSE IF . LEFTPAREN Expression RIGHTPAREN Block
+
+    LEFTPAREN  shift, and go to state 318
+
+
+State 314
+
+  103 IfThenElseStatement: IF LEFTPAREN Expression RIGHTPAREN Block ELSE Block .
+
+    $default  reduce using rule 103 (IfThenElseStatement)
+
+
+State 315
+
+  105 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence ELSE . Block
+  108 ElseIfStatement: ELSE . IF LEFTPAREN Expression RIGHTPAREN Block
+
+    IF         shift, and go to state 313
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 319
+
+
+State 316
+
+  107 ElseIfSequence: ElseIfSequence ElseIfStatement .
+
+    $default  reduce using rule 107 (ElseIfSequence)
+
+
+State 317
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN . Block
+
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 320
+
+
+State 318
+
+  108 ElseIfStatement: ELSE IF LEFTPAREN . Expression RIGHTPAREN Block
+
+    DROLL          shift, and go to state 132
+    IDENTIFIER     shift, and go to state 4
+    DECLAREDNAME   shift, and go to state 5
+    INTLIT         shift, and go to state 71
+    DOUBLELIT      shift, and go to state 72
+    STRINGLIT      shift, and go to state 73
+    BOOLFALSE      shift, and go to state 74
+    BOOLTRUE       shift, and go to state 75
+    NULLVAL        shift, and go to state 76
+    LEFTPAREN      shift, and go to state 77
+    LEFTSUBSCRIPT  shift, and go to state 133
+    LEFTBRACE      shift, and go to state 134
+    LOGICALNOT     shift, and go to state 135
+    SIZE           shift, and go to state 136
+    MINUS          shift, and go to state 137
+
+    Literal                      go to state 79
+    DefaultTableMap              go to state 138
+    Name                         go to state 139
+    SimpleName                   go to state 20
+    QualifiedName                go to state 21
+    Primary                      go to state 141
+    FieldAccess                  go to state 104
+    MethodInvocation             go to state 142
+    ListTableAccess              go to state 106
+    PostFixExpression            go to state 143
+    UnaryExpression              go to state 144
+    UnaryExpressionNotPlusMinus  go to state 145
+    MultiplicativeExpression     go to state 146
+    AdditiveExpression           go to state 147
+    RelationalExpression         go to state 148
+    EqualityExpression           go to state 149
+    ConditionalAndExpression     go to state 150
+    ConditionalOrExpression      go to state 151
+    AssignmentExpression         go to state 152
+    Assignment                   go to state 153
+    LeftHandSide                 go to state 108
+    Expression                   go to state 321
+    ListAssignment               go to state 155
+    TableAssignment              go to state 156
+    concatOpt                    go to state 157
+    concat                       go to state 158
+
+
+State 319
+
+  105 IfThenElseIfStatement: IF LEFTPAREN Expression RIGHTPAREN Block ElseIfSequence ELSE Block .
+
+    $default  reduce using rule 105 (IfThenElseIfStatement)
+
+
+State 320
+
+  116 ForStatement: FOR LEFTPAREN ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTPAREN Block .
+
+    $default  reduce using rule 116 (ForStatement)
+
+
+State 321
+
+  108 ElseIfStatement: ELSE IF LEFTPAREN Expression . RIGHTPAREN Block
+
+    RIGHTPAREN  shift, and go to state 322
+
+
+State 322
+
+  108 ElseIfStatement: ELSE IF LEFTPAREN Expression RIGHTPAREN . Block
+
+    LEFTBRACE  shift, and go to state 45
+
+    Block  go to state 323
+
+
+State 323
+
+  108 ElseIfStatement: ELSE IF LEFTPAREN Expression RIGHTPAREN Block .
+
+    $default  reduce using rule 108 (ElseIfStatement)

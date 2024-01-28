@@ -1,0 +1,10 @@
+procedure main(argv)
+   every fn := !argv do {
+      icn := fn[1:-3] || ".icn"
+      f := open(fn) | stop("can't open ", fn)
+      fout := open(icn, "w") | stop("can't write ", icn)
+      while line := read(f) do write(fout, line)
+      close(f)
+      close(fout)
+      }
+end

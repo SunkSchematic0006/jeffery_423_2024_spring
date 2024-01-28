@@ -1,0 +1,56 @@
+version	U12.1.00
+uid	if.u1-1681929438-0
+impl	local
+global	1
+	0,000005,main,0
+
+proc main
+	local	0,000000,x
+	local	1,000000,write
+	con	0,002000,2,10
+	con	1,010000,5,163,155,141,154,154
+	con	2,010000,5,154,141,162,147,145
+	declend
+	filen	if.icn
+	line	1
+	colm	11
+	synt	any
+	mark	L1
+	line	2
+	colm	3
+	synt	ifelse
+	mark	L2
+	pnull
+	var	0
+	int	0
+	line	2
+	colm	8
+	synt	any
+	numlt
+	unmark
+	var	1
+	str	1
+	line	2
+	colm	23
+	synt	any
+	invoke	1
+	goto	L3
+lab L2
+	var	1
+	str	2
+	line	3
+	colm	13
+	synt	any
+	invoke	1
+lab L3
+	line	2
+	colm	3
+	synt	endifelse
+	unmark
+lab L1
+	pnull
+	line	4
+	colm	1
+	synt	any
+	pfail
+	end

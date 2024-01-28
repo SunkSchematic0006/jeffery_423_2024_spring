@@ -1,0 +1,18 @@
+procedure main(argv)
+   every i := 1 to *argv do {
+   if  f := open(argv[i]) then {
+      ofile := argv[i][1:find(".g0",argv[i])] || ".go"
+      if f2 := open(ofile, "w") then {
+         write(f2, "package main")
+         while line := read(f) do {
+	    line[find(".g0", line) +: 3] := ".go"
+	    line[find("/*",line) +: 2] := "//"
+	    line[find("*/",line) +: 2] := "//"
+	    line[(1=find(" *",line)) +: 2] := "//"
+	    line[(1=find("class",line)) +: 5] := "struct"
+            write(f2, line)
+      	    }
+	 }
+   }
+   }
+end

@@ -1,0 +1,9 @@
+This is C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\makeindex.EXE, version 2.15 [MiKTeX 2.9] (kpathsea + Thai support).
+Scanning input file CSI.idx....
+!! Input index error (file = CSI.idx, line = 97):
+   -- Extra `@' at position 17 of first argument.
+done (256 entries accepted, 1 rejected).
+Sorting entries.....done (2165 comparisons).
+Generating output file CSI.ind....done (271 lines written, 0 warnings).
+Output written in CSI.ind.
+Transcript written in CSI.ilg.

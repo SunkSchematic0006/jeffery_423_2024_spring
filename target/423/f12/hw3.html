@@ -1,0 +1,65 @@
+<h3> CS 445 HW#3 </h3>
+
+Due: Wednesday October 3 start of class. Please do not print hard copies of
+.tab.c (or lex.yy.c) files.  I would like hard copies of .y and other .[ch]
+files.
+<p>
+
+
+Adapt a C grammar to be as close to C11 (classic ANSI C plus C99 and C11
+extensions) as you can get
+<p>
+<ul>
+<li> <A href="cgram.y">cgramy</A>, a classic ANSI C grammar
+</ul>
+
+<p>
+
+<p>
+
+If there is a syntax error, you should report the filename and line number.
+Your program's exit status should return 0
+if there are no errors, and a negative number to indicate errors. For
+lexical errors, return -1. For syntax errors, return -2.
+<p>
+
+If there are no errors, you should print a text representation of the parse
+tree.
+<p>
+Suppose we have a tree structure that looks something like:
+
+<pre>
+struct tree {
+   int prodrule;
+   int nkids;
+   struct tree *kids[9];
+   struct token *leaf;
+}
+
+int treeprint(struct tree *t, int depth)
+{
+  int i;
+
+  printf("%*s %s: %d\n", depth*2, " ", humanreadable(t->prodrule), t->nkids);
+  
+  for(i=0; i&lt;t-&gt;nkids; i++)
+    treeprint(t->kids[i], depth+1);
+
+}
+</pre>
+
+you might get output that looks someething like
+
+<pre>
+program: 1
+ function: 2
+  function header: 3
+   typedecl: 1
+   functioname: 1
+   parmlist: 3
+    ....
+
+</pre>
+
+For leaves, print out the integer code and the lexeme (yytext[]) for the
+token, if any.

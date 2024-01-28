@@ -1,0 +1,87 @@
+<h2> CSE 423 Lab #9: c113c Test Coverage </h2>
+
+Turnin: your test case contributions on Canvas in a .zip file.
+<p>
+
+For this assignment it is recommended that you work in teams, possibly the
+teams that you used for HW#1.  If you work on a team, please list your team
+members in your submission.  Actually, so long as you can document your
+contribution, the teams can be as large as you want.  This lab is one
+of those cooperative games, rather than a competitive one.
+
+<p>
+
+The purpose of this week's lab is to produce a test suite (henceforth named
+tests/ and includable in your future HW submissions) for the c113c
+language. The test suite is a directory hierarchy containing source .c files
+that you can use as test input.  Your goal is: cover the ANSI C language
+syntax.  You have three kinds of tests (lexical, syntax, and semantic);
+each test should have a prefix of either lex, syn, or sem.  You also have
+three categories of expected diagnostics, placed in subdirectories of tests/:
+
+<p>
+
+<ul>
+<li> for things that are legal, put them in tests/c113c
+<li> for things that are ANSI C but not in c113c, put them in tests/ansi-c
+<li> for things that are illegal, put them in tests/errors
+</ul>
+
+<p>
+
+For this lab you are assembling a suite of test cases, and your compiler is
+expected to print either "No errors" or print a lexical, syntax, or semantic
+error message (with filename, and line number, and offending character or
+token).
+
+<h4> 1. Download one or more starting points </h4>
+
+<ol>
+<li> Sylvain has generously offered not only to share his
+     <A href="tests/">test suite</A> (9 files, 342 lines),
+     but to setup a Git repo where you can share test cases.  See (e-mail,
+     discord, etc.) Sylvain for instructions on that.
+<li> <A href="https://github.com/c-testsuite/c-testsuite">https://github.com/c-testsuite/c-testsuite</A>, it is a possible starting point.  Download a
+.zip or clone a copy of the C testsuite repository. Go through its 220 or
+so tests, and for each one, decide if it belongs in tests/c113c; if not,
+place it in tests/ansi-c.  If you find one that is not legal in either,
+put it in tests/error.
+<li> look for what else is available for free on the internet.
+</ol>
+
+<h4> 2. Establish Lexical Coverage </h4>
+
+Check whether your tests/c113c directory has tests that use every terminal
+symbol that is legal under c113c.  If not, construct new tests lex1.c through
+lexN.c until you have a test that uses each terminal symbol.  Produce as many
+lexical error tests as you can think of. At the very least, for each regex
+that is bounded by beginning and ending characters, you should have tests
+where the ending characters are missing.
+
+<h4> 3. Establish Syntactic Coverage </h4>
+
+Check whether your tests/c113c directory has tests that use every rule
+in your grammar that is legal under c113c.  If not construct new tests
+syn1.c through synN.c until you have a test that uses each grammar rule.
+Provide as many error tests as you can think of. For each production rule
+that includes terminal symbols, can you make a test case that would use
+that production rule, except it is missing an expected terminal symbol?
+
+
+<h4> 4. Establish Semantic Coverage </h4>
+
+Develop tests for all possible data types on each operator.  Develop tests
+that check for bad function calls, including wrong number of arguments,
+incorrect parameter types, or incorrect return type.
+
+<h4> 5. Write a testrunner script </h4>
+
+Write a script (in any language; bash or python are examples) that runs
+your compiler on all your tests. Run it and redirect your output to a file.
+Examine that output to look for problems.
+<p>
+
+It is usual to save/record the expected output for each test that you add,
+and to re-test your compiler on all tests whenever you make changes. You
+can diff these regression tests against expected output and tell when a
+test output has become broken by a change to your compiler.

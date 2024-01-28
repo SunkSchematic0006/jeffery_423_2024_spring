@@ -1,0 +1,18 @@
+
+<dl>
+<dt> How to connect from main() procedure in a .c file separate from flex file?
+     Like use extern or what?
+<dd> Yup, please get used to separate compilation. Use extern for globals in
+     another file. Use prototype (with or without extern) for functions.
+     Maybe put those in a .h file and include it, one .h per .c you link to.
+
+<dt> Do we need a list reserved word or not?
+<dd> Yes, sure. Actually I waffle, it could be a special identifier or a
+     separate reserved word. But why not.
+
+<dt> What specific options should we be passing to C++.
+<dd> -Wall -g
+
+<dt> Compiler jokes?
+
+</dl>

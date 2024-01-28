@@ -1,0 +1,257 @@
+\indexentry{low-level language}{3}
+\indexentry{high-level language}{3}
+\indexentry{compiler}{3}
+\indexentry{interpreter}{3}
+\indexentry{interpreted language}{3}
+\indexentry{Integrated Development Environment}{3}
+\indexentry{IDE}{3}
+\indexentry{Fortune Teller}{5}
+\indexentry{projects!Fortune Teller}{5}
+\indexentry{Fortune Teller}{5}
+\indexentry{comments}{5}
+\indexentry{variables}{5}
+\indexentry{I/O}{5}
+\indexentry{Expressions}{5}
+\indexentry{conditionals}{5}
+\indexentry{libraries}{5}
+\indexentry{comments}{7}
+\indexentry{variables}{7}
+\indexentry{type}{7}
+\indexentry{binary}{7}
+\indexentry{integer}{8}
+\indexentry{type!int@{\cf{int}}}{8}
+\indexentry{I/O}{8}
+\indexentry{streams}{8}
+\indexentry{expressions}{9}
+\indexentry{truncation}{9}
+\indexentry{conditionals}{10}
+\indexentry{if@{\cf{if}}}{10}
+\indexentry{condition}{10}
+\indexentry{include}{11}
+\indexentry{libraries}{11}
+\indexentry{preprocessor}{11}
+\indexentry{library}{11}
+\indexentry{iostream@{\cf{iostream}}}{11}
+\indexentry{namespace}{11}
+\indexentry{main()@{\cf{main()}}}{12}
+\indexentry{variables}{12}
+\indexentry{I/O}{12}
+\indexentry{cout@{\cf{cout}}}{12}
+\indexentry{literal strings}{12}
+\indexentry{cin@{\cf{cin}}}{13}
+\indexentry{input validation}{13}
+\indexentry{buffer}{13}
+\indexentry{modulus}{13}
+\indexentry{operations!modulus}{13}
+\indexentry{assignment}{13}
+\indexentry{operations!assignment}{13}
+\indexentry{ignore()@{\cf{ignore()}}}{15}
+\indexentry{return}{15}
+\indexentry{debugging}{18}
+\indexentry{compiler errors}{18}
+\indexentry{errors!compiler}{18}
+\indexentry{errors!run-time}{18}
+\indexentry{run-time errors}{18}
+\indexentry{logical errors}{18}
+\indexentry{errors!logical}{18}
+\indexentry{NIM}{21}
+\indexentry{projects!NIM}{21}
+\indexentry{NIM}{21}
+\indexentry{conditionals}{21}
+\indexentry{loops}{21}
+\indexentry{magic numbers}{23}
+\indexentry{conditionals}{23}
+\indexentry{if@{\cf{if}}}{23}
+\indexentry{if-else@{cf{if-else}}}{23}
+\indexentry{else@{\cf{else}}}{23}
+\indexentry{loops}{23}
+\indexentry{Random numbers}{24}
+\indexentry{include}{25}
+\indexentry{libraries}{25}
+\indexentry{infinite loops}{25}
+\indexentry{iostream@{\cf{iostream}}}{25}
+\indexentry{cstdlib@{\cf{cstdlib}}}{25}
+\indexentry{main()@{\cf{main()}}}{25}
+\indexentry{variables}{25}
+\indexentry{variables!undefined}{25}
+\indexentry{loops}{25}
+\indexentry{do-while loop@{\cf{do-while loop}}}{25}
+\indexentry{loops!do-while loop@{\cf{do-while}}}{25}
+\indexentry{loops!while@{\cf{while}}}{26}
+\indexentry{while loop@{\cf{while loop}}}{26}
+\indexentry{OR@{\cf{OR}}}{26}
+\indexentry{Boolean!OR@{\cf{OR}}}{26}
+\indexentry{magic numbers}{27}
+\indexentry{new line}{27}
+\indexentry{escape character}{27}
+\indexentry{escape sequence}{27}
+\indexentry{random}{27}
+\indexentry{random!rand()@{\cf{rand()}}}{27}
+\indexentry{rand()@{\cf{rand()}}}{27}
+\indexentry{modulus}{27}
+\indexentry{modulus}{27}
+\indexentry{operations!modulus}{27}
+\indexentry{return}{28}
+\indexentry{pseudorandom number}{29}
+\indexentry{random!seed}{29}
+\indexentry{ctime@{\cf{ctime@{\cf{ctime}}}}}{29}
+\indexentry{libraries!ctime@{\cf{ctime}}}{29}
+\indexentry{srand()@{\cf{srand()}}}{29}
+\indexentry{random!srand()@{\cf{srand()}}}{29}
+\indexentry{time()@{\cf{time()}}}{29}
+\indexentry{testing}{35}
+\indexentry{test suites}{35}
+\indexentry{Calculator}{37}
+\indexentry{projects!Calculator}{37}
+\indexentry{functions}{37}
+\indexentry{scope}{37}
+\indexentry{switch@{\cf{switch}}}{37}
+\indexentry{functions}{39}
+\indexentry{arguments}{39}
+\indexentry{functions!arguments}{39}
+\indexentry{parameters}{39}
+\indexentry{functions!parameters}{39}
+\indexentry{return}{40}
+\indexentry{functions!return}{40}
+\indexentry{void@{\cf{void}}}{40}
+\indexentry{prototype}{40}
+\indexentry{pass-by-value}{41}
+\indexentry{functions!pass-by-value}{41}
+\indexentry{arguments!pass-by-value}{41}
+\indexentry{double@{\cf{double}}}{41}
+\indexentry{type!double@{\cf{double}}}{41}
+\indexentry{double@{\cf{double}}}{41}
+\indexentry{type!double@{\cf{double}}}{41}
+\indexentry{cast}{42}
+\indexentry{conversion}{42}
+\indexentry{promotion}{42}
+\indexentry{divide by zero}{44}
+\indexentry{switch@{\cf{switch}}}{45}
+\indexentry{case@{\cf{case}}}{45}
+\indexentry{default@{\cf{default}}}{46}
+\indexentry{break@{\cf{break}}}{46}
+\indexentry{scope}{47}
+\indexentry{libraries!cmath@{\texttt  {cmath}}}{50}
+\indexentry{cmath@{\texttt  {cmath}}}{50}
+\indexentry{structure}{53}
+\indexentry{struct}{53}
+\indexentry{Electronic Pet}{55}
+\indexentry{projects!Electronic Pet}{55}
+\indexentry{classes}{55}
+\indexentry{strings}{55}
+\indexentry{files}{55}
+\indexentry{data structure}{55}
+\indexentry{object}{55}
+\indexentry{classes}{58}
+\indexentry{data member}{58}
+\indexentry{classes!data member}{58}
+\indexentry{function member}{58}
+\indexentry{classes!function member}{58}
+\indexentry{methods}{58}
+\indexentry{classes!methods}{58}
+\indexentry{object}{58}
+\indexentry{dot notation}{58}
+\indexentry{strings}{58}
+\indexentry{libraries!string@{\cf{string}}}{58}
+\indexentry{private}{59}
+\indexentry{public}{59}
+\indexentry{constructor}{60}
+\indexentry{public}{63}
+\indexentry{private}{63}
+\indexentry{classes!private}{63}
+\indexentry{classes!public}{63}
+\indexentry{encapsulation}{63}
+\indexentry{information hiding}{63}
+\indexentry{modularity}{63}
+\indexentry{modules}{63}
+\indexentry{object-oriented programming (OOP)}{64}
+\indexentry{OOP}{64}
+\indexentry{files}{66}
+\indexentry{close()@{\cf{close()}}}{66}
+\indexentry{files!close()@{\cf{close()}}}{66}
+\indexentry{write}{66}
+\indexentry{files!write}{66}
+\indexentry{read}{66}
+\indexentry{files!read}{66}
+\indexentry{open()@{\cf{open()}}}{66}
+\indexentry{files!open()@{\cf{open()}}}{66}
+\indexentry{software engineering}{70}
+\indexentry{top-down}{70}
+\indexentry{bottom-up}{70}
+\indexentry{stubs}{70}
+\indexentry{Generic Board Game}{72}
+\indexentry{projects!Generic Board Game}{72}
+\indexentry{pass-by-reference}{72}
+\indexentry{arguments!pass-by-reference}{72}
+\indexentry{arrays}{72}
+\indexentry{characters}{72}
+\indexentry{char@{\cf{char}}}{72}
+\indexentry{type!char@{\cf{char}}}{72}
+\indexentry{globals}{72}
+\indexentry{constants}{72}
+\indexentry{pass-by-reference}{73}
+\indexentry{arguments!pass-by-reference}{73}
+\indexentry{functions!pass-by-reference}{73}
+\indexentry{arrays}{76}
+\indexentry{arrays!bounds}{77}
+\indexentry{out-of-bounds}{77}
+\indexentry{errors!out-of-bounds}{77}
+\indexentry{global}{79}
+\indexentry{variables!global}{79}
+\indexentry{character}{80}
+\indexentry{char@{\cf{char}}}{80}
+\indexentry{type!char@{\cf{char}}}{80}
+\indexentry{ASCII}{80}
+\indexentry{constant}{81}
+\indexentry{global}{81}
+\indexentry{variables!constant}{81}
+\indexentry{variables!global}{81}
+\indexentry{const}{81}
+\indexentry{files!read}{81}
+\indexentry{ifstream@{\cf{ifstream}}}{81}
+\indexentry{libraries!fstream@{\cf{ifstream}}}{81}
+\indexentry{fstream@{\cf{fstream}}}{81}
+\indexentry{eof@{\cf{eof()}}}{81}
+\indexentry{files!eof@{\cf{eof()}}}{81}
+\indexentry{for loop@{\cf{for} loop}}{82}
+\indexentry{loops!for@{\cf{for}}}{82}
+\indexentry{AND@{\cf{AND}}}{83}
+\indexentry{Boolean!AND@{\cf{AND}}}{83}
+\indexentry{structure}{89}
+\indexentry{struct}{89}
+\indexentry{format string}{90}
+\indexentry{format specifiers}{90}
+\indexentry{files!mode}{91}
+\indexentry{strings!C-style}{91}
+\indexentry{C-style strings}{91}
+\indexentry{null terminator}{91}
+\indexentry{null character}{91}
+\indexentry{libraries!cstring@{\cf{cstring}}}{92}
+\indexentry{cstring@{\cf{cstring}}}{92}
+\indexentry{Robot World}{93}
+\indexentry{projects!Robot World}{93}
+\indexentry{libraries!user-defined}{93}
+\indexentry{arrays!two-dimensional}{93}
+\indexentry{pointers}{93}
+\indexentry{pointers}{96}
+\indexentry{addresses}{96}
+\indexentry{dereference}{97}
+\indexentry{indirection}{97}
+\indexentry{memory!deallocation}{99}
+\indexentry{memory leak}{99}
+\indexentry{errors!memory leak}{99}
+\indexentry{NULL@{\cf{NULL}}}{100}
+\indexentry{pointers! as arguments}{102}
+\indexentry{pass-by-reference}{102}
+\indexentry{arguments!pass-by-reference}{102}
+\indexentry{inline}{103}
+\indexentry{functions!inline}{103}
+\indexentry{linked list}{112}
+\indexentry{projects!Linked Robots}{112}
+\indexentry{linked list}{115}
+\indexentry{random access}{116}
+\indexentry{recursion}{117}
+\indexentry{queue}{123}
+\indexentry{binary}{136}
+\indexentry{hexadecimal}{136}
+\indexentry{decimal}{136}

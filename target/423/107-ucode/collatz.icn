@@ -1,0 +1,44 @@
+#"""
+#A program to demonstrate import
+#
+#file: collatz:py
+#
+#author: anonymous
+#
+#date: Feb 16
+#
+#assignment: Lab 3
+#"""
+
+    global q
+
+procedure collatz_len(n)
+    x := 0
+    q := 0
+    while x <= 0 do {
+        if n == 1 then {
+            q := q + 1
+            x := x + 1  
+            }
+        else if n%2 == 0 then {
+            q = q + 1
+            n = n / 2
+            }
+        else {
+            q= q + 1
+            n =(3 * n) + 1
+            }
+end
+
+procedure collatz_main()
+    n := input("Enter a starting number:")
+    n := int(n)
+    collatz_len(n)
+    print ("Length of Collatz sequence: {}".format(q)) # not translated yet!
+end
+
+$ifdef MAIN
+procedure main()
+    collatz_main()
+end
+$endif

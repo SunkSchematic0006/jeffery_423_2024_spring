@@ -1,0 +1,253 @@
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {1.1}Programming}{3}
+\contentsline {section}{\numberline {1.2}Using This Text}{4}
+\contentsline {chapter}{\numberline {2}Fortune Teller}{5}
+\contentsline {section}{\numberline {2.1}The Program}{5}
+\contentsline {subsection}{\numberline {2.1.1}Comments}{7}
+\contentsline {subsection}{\numberline {2.1.2}Variables}{7}
+\contentsline {subsection}{\numberline {2.1.3}Input and Output}{8}
+\contentsline {subsection}{\numberline {2.1.4}Expressions}{9}
+\contentsline {subsection}{\numberline {2.1.5}Conditionals: \texttt {if}}{10}
+\contentsline {section}{\numberline {2.2}Analysis of the Code}{11}
+\contentsline {subsubsection}{Lines 1-5, 7, and More: Comments}{11}
+\contentsline {subsubsection}{Lines 5-6: \#includes}{11}
+\contentsline {subsubsection}{Lines 7-8 and 38: Main}{12}
+\contentsline {subsubsection}{Lines 10-12: Variables}{12}
+\contentsline {subsubsection}{Lines 14-17, 20, 22, 25, 28, 31, and 34-36: Input and Output (I/O)}{12}
+\contentsline {subsubsection}{Line 19: Calculations}{13}
+\contentsline {subsubsection}{Lines 21, 24, 27, and 30: Conditionals}{14}
+\contentsline {subsubsection}{Lines 34-36: A Graceful Exit}{15}
+\contentsline {subsubsection}{Line 38: Return}{15}
+\contentsline {section}{\numberline {2.3}Exercises: Modifying the Program}{16}
+\contentsline {subsubsection}{Exercise 1: Modifying the Output }{16}
+\contentsline {subsubsection}{Exercise 2: Printing an Introduction}{16}
+\contentsline {subsubsection}{Exercise 3: A Final Message}{16}
+\contentsline {subsubsection}{Exercise 4: More Fortunes}{16}
+\contentsline {subsubsection}{Exercise 5: Error Checking}{17}
+\contentsline {section}{\numberline {2.4}Problems}{17}
+\contentsline {chapter}{Interlude 1: Debugging}{18}
+\contentsline {subsubsection}{Compiler Errors}{18}
+\contentsline {subsubsection}{Run-time Errors}{18}
+\contentsline {subsubsection}{Logical Errors}{19}
+\contentsline {subsubsection}{Fixing Errors -- Debugging}{19}
+\contentsline {chapter}{\numberline {3}NIM}{21}
+\contentsline {section}{\numberline {3.1}Introduction}{21}
+\contentsline {section}{\numberline {3.2}The Program}{22}
+\contentsline {subsection}{\numberline {3.2.1}Conditionals: \texttt {if-else}}{23}
+\contentsline {subsection}{\numberline {3.2.2}Loops}{23}
+\contentsline {subsection}{\numberline {3.2.3}Random Numbers}{24}
+\contentsline {section}{\numberline {3.3}Analysis of the Code}{24}
+\contentsline {subsubsection}{Lines 1, 2, 5, 7, and others: Comments}{24}
+\contentsline {subsubsection}{Lines 2-4: \#includes}{25}
+\contentsline {subsubsection}{Lines 5, 6, and 36: Main}{25}
+\contentsline {subsubsection}{Lines 8-10: Variables}{25}
+\contentsline {subsubsection}{Lines 12 and 29: The Game Loop}{25}
+\contentsline {subsubsection}{Lines 13, 20, and 25: Conditionals}{26}
+\contentsline {subsubsection}{Lines 16 and 19 and Lines 21 and 23: More Loops}{26}
+\contentsline {subsubsection}{Lines 14, 15, 17, 18, 24, 27, and 31-34: Output and Input}{27}
+\contentsline {subsubsection}{Line 22: Selecting the computer's move}{27}
+\contentsline {subsubsection}{Line 26: The Move}{28}
+\contentsline {subsubsection}{Lines 32-34: A Graceful Exit}{28}
+\contentsline {subsubsection}{Line 35: Return}{28}
+\contentsline {section}{\numberline {3.4}Exercises: Modifying the Program}{28}
+\contentsline {subsubsection}{Exercise 1: Modifying the Output }{28}
+\contentsline {subsubsection}{Exercise 2: Printing the Rules}{29}
+\contentsline {subsubsection}{Exercise 3: Objects Removed by the Player}{29}
+\contentsline {subsubsection}{Exercise 4: Truly Random Moves}{29}
+\contentsline {subsubsection}{Exercise 5: Number of Objects}{30}
+\contentsline {subsubsection}{Exercise 6: Smarter Play -- Artificial Intelligence}{30}
+\contentsline {subsubsection}{Exercise 7: Really Intelligent Play}{31}
+\contentsline {subsubsection}{Exercise 8: Multiple Games and Keeping Score}{31}
+\contentsline {section}{\numberline {3.5}Problems}{32}
+\contentsline {chapter}{Interlude 2: Testing}{35}
+\contentsline {chapter}{\numberline {4}Calculator}{37}
+\contentsline {section}{\numberline {4.1}Introduction}{37}
+\contentsline {section}{\numberline {4.2}The Program}{37}
+\contentsline {subsection}{\numberline {4.2.1}Functions}{39}
+\contentsline {subsubsection}{Pass-by-Value}{41}
+\contentsline {subsection}{\numberline {4.2.2}Functions with the Same Name}{41}
+\contentsline {subsection}{\numberline {4.2.3}Real Number Types}{41}
+\contentsline {subsection}{\numberline {4.2.4}Conversions and Casts}{42}
+\contentsline {section}{\numberline {4.3}Analysis of the Code}{43}
+\contentsline {subsubsection}{Lines 1-3: Comment Block}{43}
+\contentsline {subsubsection}{Lines 4-5: \#includes}{43}
+\contentsline {subsubsection}{Lines 7-9: Function Prototypes}{43}
+\contentsline {subsubsection}{Lines 1b-22b: Function Definitions}{43}
+\contentsline {subsubsection}{Lines 11-12, 41: Main}{44}
+\contentsline {subsubsection}{Lines 13-14: Variables}{45}
+\contentsline {subsubsection}{Lines 15-39: The Calculator Loop}{45}
+\contentsline {subsubsection}{Line 16: Print Menu}{45}
+\contentsline {subsubsection}{Line 18: A Valid Choice}{45}
+\contentsline {subsubsection}{Lines 19-35: Switch Statement}{45}
+\contentsline {subsubsection}{Lines 20-21: Case 0}{46}
+\contentsline {subsubsection}{Lines 22-26: Case 1}{46}
+\contentsline {subsubsection}{Lines 27-31: Case 2}{46}
+\contentsline {subsubsection}{Lines 32-34: Default}{46}
+\contentsline {subsubsection}{Lines 36-38: Print the Answer}{47}
+\contentsline {subsection}{\numberline {4.3.1}Scope}{47}
+\contentsline {section}{\numberline {4.4}Exercises: Modifying the Program}{48}
+\contentsline {subsubsection}{Exercise 1: Modifying the Output}{48}
+\contentsline {subsubsection}{Exercise 2: The Final Answer}{48}
+\contentsline {subsubsection}{Exercise 3: Printing Answers and Problems}{49}
+\contentsline {subsubsection}{Exercise 4: More Functionality -- Subtraction}{50}
+\contentsline {subsubsection}{Exercise 5: More Functionality -- Minimum}{50}
+\contentsline {subsubsection}{Exercise 6: Absolute Value}{51}
+\contentsline {subsubsection}{Exercise 7: Cartesian Distances}{51}
+\contentsline {section}{\numberline {4.5}Problems}{51}
+\contentsline {chapter}{Interlude 3: Structures}{53}
+\contentsline {chapter}{\numberline {5}Electronic Pet}{55}
+\contentsline {section}{\numberline {5.1}Introduction}{55}
+\contentsline {section}{\numberline {5.2}The Program}{55}
+\contentsline {subsection}{\numberline {5.2.1}Classes}{58}
+\contentsline {subsection}{\numberline {5.2.2}Strings}{58}
+\contentsline {section}{\numberline {5.3}Analysis of the Code}{59}
+\contentsline {subsubsection}{Lines 5-16: The Pet Class Declaration}{59}
+\contentsline {subsection}{\numberline {5.3.1}Lines 1b-49b: Defining the \texttt {Pet} Class Member Functions}{60}
+\contentsline {subsubsection}{Lines 1b-7b: The Constructor}{60}
+\contentsline {subsubsection}{Lines 8b-26b: The \texttt {play()} Function}{60}
+\contentsline {subsubsection}{Lines 27b-31b: \texttt {The feed()} Function}{61}
+\contentsline {subsubsection}{Lines 32b-37b: The \texttt {print()} Function}{61}
+\contentsline {subsubsection}{Lines 38b-49b: The \texttt {check\_health()} Function}{61}
+\contentsline {subsection}{\numberline {5.3.2}Lines 1-3 and 17-50: The Main Program}{61}
+\contentsline {subsubsection}{Lines 1-3: \#includes}{61}
+\contentsline {subsubsection}{Lines 19-20: Declaring variables (and objects)}{61}
+\contentsline {subsubsection}{Lines 22-36: The Main Loop}{62}
+\contentsline {subsubsection}{Line 23: Printing the pet}{62}
+\contentsline {subsubsection}{Lines 24-34: The Menu}{62}
+\contentsline {subsubsection}{Line 35: Health Check}{63}
+\contentsline {subsubsection}{Lines 37-40: Graceful Exit}{63}
+\contentsline {subsection}{\numberline {5.3.3}Public and Private}{63}
+\contentsline {section}{\numberline {5.4}Exercises: Modifying the Program}{64}
+\contentsline {subsubsection}{Exercise 1: The Main Menu}{64}
+\contentsline {subsubsection}{Exercise 2: More Interactive Pets}{64}
+\contentsline {subsubsection}{Exercise 3: More Interesting Output}{64}
+\contentsline {subsubsection}{Exercise 4: Randomized Output}{65}
+\contentsline {subsubsection}{Exercise 5: More Play Options}{65}
+\contentsline {subsubsection}{Exercise 6: More Feed Options}{65}
+\contentsline {subsubsection}{Exercise 7: Longer Pet Names}{65}
+\contentsline {subsubsection}{Exercise 8: Give Pets a Species}{65}
+\contentsline {subsubsection}{Exercise 9: Other Pet Qualities}{65}
+\contentsline {subsubsection}{Exercise 10: More Pets}{66}
+\contentsline {section}{\numberline {5.5}Files}{66}
+\contentsline {subsubsection}{Exercise 11: Saving a Pet}{67}
+\contentsline {section}{\numberline {5.6}Problems}{68}
+\contentsline {chapter}{Interlude 4: Software Design and Engineering}{70}
+\contentsline {chapter}{\numberline {6}Generic Board Game}{72}
+\contentsline {section}{\numberline {6.1}Introduction}{72}
+\contentsline {section}{\numberline {6.2}The Program}{72}
+\contentsline {subsection}{\numberline {6.2.1}Pass-by-reference}{73}
+\contentsline {subsection}{\numberline {6.2.2}Arrays}{76}
+\contentsline {subsection}{\numberline {6.2.3}Array Bounds}{77}
+\contentsline {subsection}{\numberline {6.2.4}Passing Arrays to Functions}{78}
+\contentsline {subsection}{\numberline {6.2.5}Globals}{79}
+\contentsline {subsection}{\numberline {6.2.6}Characters}{80}
+\contentsline {section}{\numberline {6.3}Analysis of the Code}{80}
+\contentsline {subsubsection}{Lines 1-6: \#includes}{80}
+\contentsline {subsubsection}{Lines 8-18: The \texttt {Square} Class Declaration}{80}
+\contentsline {subsubsection}{Lines 20-22: Function Prototypes}{81}
+\contentsline {subsubsection}{Line 24: Global Constant}{81}
+\contentsline {subsubsection}{Line 4b: Array Declaration}{81}
+\contentsline {subsubsection}{Line 5b: Random Seed}{81}
+\contentsline {subsubsection}{Lines 6b and 1c-13c: The read\_board() Function}{81}
+\contentsline {subsubsection}{Lines 7b, 8b, 26b, 27b, and 14c-25c: The print\_board() Function}{82}
+\contentsline {subsubsection}{Lines 9b-29b: The Game Loop}{83}
+\contentsline {subsubsection}{Lines 10b-13b: Player Move}{83}
+\contentsline {subsubsection}{Lines 14b-25b: The Move}{84}
+\contentsline {subsubsection}{Lines 26b-27b: Reprinting the Board}{85}
+\contentsline {subsubsection}{Line 28b: Next Player's Move}{85}
+\contentsline {subsubsection}{Lines 30b-33b: The End of the Game}{85}
+\contentsline {subsection}{\numberline {6.3.1}Lines 33c-49c: The \texttt {Square} Class Definitions}{85}
+\contentsline {subsubsection}{Lines 33c-37c: The \texttt {square()} Function (the constructor)}{85}
+\contentsline {subsubsection}{Lines 38c-41c: The \texttt {action()} Function}{85}
+\contentsline {subsubsection}{Lines 42c-44c: The \texttt {print()} Function}{85}
+\contentsline {subsubsection}{Lines 45c-49c: The \texttt {set()} Function}{86}
+\contentsline {subsection}{\numberline {6.3.2}The Data File}{86}
+\contentsline {section}{\numberline {6.4}Exercises: Modifying the Program}{86}
+\contentsline {subsubsection}{Exercise 1: Customize the Game}{86}
+\contentsline {subsubsection}{Exercise 2: Add an Introduction}{87}
+\contentsline {subsubsection}{Exercise 3: Improve the Output}{87}
+\contentsline {subsubsection}{Exercise 4: Players' ``Pieces''}{87}
+\contentsline {subsubsection}{Exercise 5: Other changes}{87}
+\contentsline {subsubsection}{Exercise 6: Multi-player}{87}
+\contentsline {section}{\numberline {6.5}Problems}{87}
+\contentsline {chapter}{Interlude 5: C++ Compared to C}{89}
+\contentsline {section}{\numberline {5.1}Structures}{89}
+\contentsline {section}{\numberline {5.2}C Input and Output}{90}
+\contentsline {section}{\numberline {5.3}C-style Strings}{91}
+\contentsline {chapter}{\numberline {7}Robot World}{93}
+\contentsline {section}{\numberline {7.1}Introduction}{93}
+\contentsline {section}{\numberline {7.2}The Program}{93}
+\contentsline {subsection}{\numberline {7.2.1}Two-Dimensional Arrays}{96}
+\contentsline {subsection}{\numberline {7.2.2}Pointers}{96}
+\contentsline {subsubsection}{The NULL Pointer}{100}
+\contentsline {subsubsection}{Arrays and Pointers}{100}
+\contentsline {subsubsection}{Using Pointers}{100}
+\contentsline {section}{\numberline {7.3}Analysis of the Code}{101}
+\contentsline {subsubsection}{Lines 1a-16a: The \texttt {Robot} Class Declaration}{101}
+\contentsline {subsubsection}{Lines 7a, 8a, and 1b-8b: turnLeft() and turnRight()}{102}
+\contentsline {subsubsection}{Lines 9b and 9b-19b: forward()}{102}
+\contentsline {subsubsection}{Lines 11a and 20b-25b: The Constructor}{103}
+\contentsline {subsubsection}{Line 12a: The \texttt {refresh()} Function}{103}
+\contentsline {subsubsection}{Lines 12a-13a, 26b-28b, and 29b-31b: The \texttt {draw()} and \texttt {print()} Functions}{103}
+\contentsline {subsubsection}{Lines 12a and Lines 32b-50b: The \texttt {move()} Function}{103}
+\contentsline {subsubsection}{Lines 1c-11c: The World Class Declaration}{104}
+\contentsline {subsubsection}{Lines 1c and 2c: The Global Constants}{104}
+\contentsline {subsubsection}{Lines 5c and 6c: The Data Members}{104}
+\contentsline {subsubsection}{Lines 8c and 1d-10d: The \texttt {set\_up()} Function}{105}
+\contentsline {subsubsection}{Lines 9c and 11d-28d: The \texttt {draw()} Function}{105}
+\contentsline {subsubsection}{Lines 10c and 29d-50d: The \texttt {update()} Function}{106}
+\contentsline {subsection}{\numberline {7.3.1}Figure\nobreakspace {}7.1\hbox {}: The \texttt {main()} Function}{106}
+\contentsline {subsubsection}{Lines 1-6: \#includes}{107}
+\contentsline {subsubsection}{Lines 8-10: Initializing the Program}{107}
+\contentsline {subsubsection}{Lines 11-15: The Main Program Loop}{107}
+\contentsline {section}{\numberline {7.4}Exercises: Modifying the Program}{107}
+\contentsline {subsubsection}{Exercise 1: World Size}{107}
+\contentsline {subsubsection}{Exercise 2: More Robots}{107}
+\contentsline {subsubsection}{Exercise 3: Robots with Different Appearances}{107}
+\contentsline {subsubsection}{Exercise 4: Different Behaviors}{108}
+\contentsline {subsubsection}{Exercise 5: Different Terrain}{108}
+\contentsline {section}{\numberline {7.5}Problems}{108}
+\contentsline {chapter}{Interlude 6: Command-Line Arguments}{110}
+\contentsline {chapter}{\numberline {8}Linked Robots}{112}
+\contentsline {section}{\numberline {8.1}Introduction}{112}
+\contentsline {section}{\numberline {8.2}The Program}{112}
+\contentsline {subsection}{\numberline {8.2.1}Linked Lists}{115}
+\contentsline {subsection}{\numberline {8.2.2}Recursion}{117}
+\contentsline {section}{\numberline {8.3}Analysis of the Code}{117}
+\contentsline {subsubsection}{Lines 1-6: \#includes}{118}
+\contentsline {subsubsection}{Lines 7, 22, 23: The \texttt {main()} Function}{118}
+\contentsline {subsubsection}{Lines 8-10: Variable Declarations}{118}
+\contentsline {subsubsection}{Lines 11-14: Creating the Initial Robots}{118}
+\contentsline {subsubsection}{Line 15: Print the Robots}{118}
+\contentsline {subsubsection}{Lines 16-21: Manipulating the Robots}{119}
+\contentsline {subsubsection}{Listings\nobreakspace {}8.2\hbox {} and\nobreakspace {}8.3\hbox {} : The \texttt {linkedlist} Class}{119}
+\contentsline {subsubsection}{Lines 1a-11a: The \texttt {linkedlist} Class Declaration}{119}
+\contentsline {subsubsection}{Lines 1b-4b: The Constructor}{119}
+\contentsline {subsubsection}{Lines 5b-12b: The \texttt {insert()} Function}{119}
+\contentsline {subsubsection}{Lines 29b-38b: The \texttt {print()} and \texttt {turnLeft()} Functions}{120}
+\contentsline {subsubsection}{Lines 13b-28b: The \texttt {remove()} Function}{120}
+\contentsline {subsubsection}{Listings\nobreakspace {}8.4\hbox {} and\nobreakspace {}8.5\hbox {}: The \texttt {node} Class}{120}
+\contentsline {subsubsection}{Lines 1c-15c: The \texttt {node} Class Declaration}{121}
+\contentsline {subsubsection}{Lines 1d-4d: The Constructor}{121}
+\contentsline {subsubsection}{Lines 5d-10d: The \texttt {print()} Function}{121}
+\contentsline {subsubsection}{Lines 11d-17d: The \texttt {turnLeft()} Function}{121}
+\contentsline {subsubsection}{Lines 18d-33d: The \texttt {remove()} Function}{122}
+\contentsline {section}{\numberline {8.4}Exercises: Modifying the Program}{122}
+\contentsline {subsubsection}{Exercise 1: Changing the Print Order}{122}
+\contentsline {subsubsection}{Exercise 2: More Actions}{122}
+\contentsline {subsubsection}{Exercise 3: Adding Elements at the Other End of the List}{123}
+\contentsline {subsubsection}{Exercise 4: Individual Actions}{123}
+\contentsline {subsubsection}{Exercise 5: Returning a Robot}{123}
+\contentsline {section}{\numberline {8.5}Problems}{123}
+\contentsline {chapter}{\numberline {A}Reference}{125}
+\contentsline {section}{\numberline {A.1}Variables and Types}{125}
+\contentsline {subsection}{\numberline {A.1.1}Naming Variables}{127}
+\contentsline {section}{\numberline {A.2}Conditionals: \texttt {if, if-else, switch}}{127}
+\contentsline {section}{\numberline {A.3}Loops: \texttt {for}, \texttt {while}, \texttt {do-while}}{128}
+\contentsline {section}{\numberline {A.4}Mathematical Operators}{129}
+\contentsline {section}{\numberline {A.5}Comparison and Boolean Operators}{131}
+\contentsline {section}{\numberline {A.6}The \texttt {String} Class}{132}
+\contentsline {section}{\numberline {A.7}\texttt {iostream} Operations}{132}
+\contentsline {section}{\numberline {A.8}Libraries}{132}
+\contentsline {chapter}{\numberline {B}Binary and Hexadecimal Numbers}{136}
+\contentsline {chapter}{Index}{139}

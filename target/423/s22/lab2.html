@@ -1,0 +1,58 @@
+<h2> CSE 423 Lab #2: Flex </h2>
+
+Turnin: a .zip on Canvas.
+
+<p>
+
+<h4> 0. Preliminaries </h4>
+
+If you haven't already, read the required Flex reading (sections 3-5
+of the GNU Flex Manual). If that's not enough, read the Flex chapters
+of the optional text (Flex and Bison), or find and read a copy of the
+original Paxon article "Flex - a scanner generator".
+
+<h4>1. Flex Basics </h4>
+
+Use Flex to compile and run the "word counter" flex program from the
+Flex manual page, or <A href="flex-wc.l">flex-wc.l</A>, a version I
+found on github.  In your .zip submission, you can include your final
+versions of source code files used here, plus a file
+<code>lab2.1_answers.txt</code>
+
+<ol>
+<li> When you run <code>flex flex-wc.l</code>, what output file
+      does flex write?
+<li> When you run <code>gcc</code> on Flex's output .c file,
+     what is the executable file named?
+<li> Run your program on itself with <code>./a.out &lt;flex-wc.l</code>
+<li> Fix your program to take the name of the file as a command line
+     argument, instead of using &lt; to redirect standard input.
+<li> Convert to separate compilation!  move main() into a separate main.c
+     and write a makefile that compiles main.c and lex.yy.c separately and
+     then links them.
+</ol>
+
+<h4>2. Flex (Most of) your HW#2 Away</h4>
+
+Well, you can save the "allocate tokens and build a linked list of them"
+part for later, but if you complete this lab, you should have your regular
+expressions identified, and have integer codes for each category.
+
+<ol>
+<li> Copy flex-wc.l to a file named jzero.l
+<li> Modify jzero.l to discard whitespace, but otherwise count chars/words
+<li> Modify jzero.l to discard comments, but otherwise count chars/words
+<li> Modify jzero.l to return a 257 on each word, and modify the main()
+     to call yylex() in a while loop. Print chars and words at the end.
+<li> Change the while loop to print out a line showing each word after
+     yylex() returns it. Print the return code as well as <code>yytext</code>
+<li> Add regular expressions to recognize reserved words (see
+     <A href="j0.html">j0.html</A> for a list) and return
+     different integers for each one.  Fail and stop with an error message
+     if a Java reserved word not in Jzero appears.
+<li> Add regular expressions for operators and punctuation  (see
+     <A href="j0.html">j0.html</A> for lists) and return
+     different integers for each one.
+<li> Add regular expressions for integer, float, character and string
+     literals. Return a different integer code for each kind of literal.
+</ol>

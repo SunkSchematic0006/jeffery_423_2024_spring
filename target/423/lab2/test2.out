@@ -1,0 +1,28 @@
+Category  Text        Lineno    Filename    Ival/Sval
+-------------------------------------------------------------
+NAME      x           0                    ?  ?   
+ASGN      =           0                    ?  ?   
+NUMBER    5           0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+IF        if          0                    ?  ?   
+NAME      x           0                    ?  ?   
+LESSTHAN  <           0                    ?  ?   
+NUMBER    3           0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+INDENT    \n          0                    ?  ?   
+NAME      print       0                    ?  ?   
+LPAREN    (           0                    ?  ?   
+STRING    "no way"    0                    ?  ?   
+RPAREN    )           0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+DEDENT    \n          0                    ?  ?   
+ELSE      else        0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+INDENT    \n          0                    ?  ?   
+NAME      print       0                    ?  ?   
+LPAREN    (           0                    ?  ?   
+STRING    "duh"       0                    ?  ?   
+RPAREN    )           0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+DEDENT    \n          0                    ?  ?   
+ENDMARKER              0                    ?  ?   

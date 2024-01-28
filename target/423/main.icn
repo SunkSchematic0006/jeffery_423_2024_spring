@@ -1,0 +1,10 @@
+global puny_x, puny_y
+procedure puny_main()
+  write("x ", puny_x)
+  write("y ", puny_y)
+end
+procedure main()
+  puny_x := 5
+  puny_y := 12
+  puny_main()
+end

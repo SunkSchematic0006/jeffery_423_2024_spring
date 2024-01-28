@@ -1,0 +1,177 @@
+<h3>CS 445 Assignment 2: A Lexical Analyzer</h3>
+
+Due: Monday September 12, 12:30pm<p>
+
+In this assignment you will write a lexical analyzer in flex(1), for
+the "EctoScript" language.  "EctoScript" is a subset of ECMAScript and
+ActionScript to be defined.  By default, for this homework, you should
+attempt to do a lexical analyzer for the whole of ECMAScript and
+ActionScript 3.0.  In order to identify things you can skip, you should
+find and study specifications of these languages and post questions to
+the CS 445 forums.
+<p>
+
+Your program executable should be named "ec".  It should read in any number
+of source files named on the command line and write output with one line
+for each token, described below.
+
+
+<h3> Language Details</h3>
+
+ActionScript 3.0 as realized in products such as Adobe Flex is a
+dialect of an international standard known as ECMAScript, which is
+in turn descended from JavaScript, which derives from Java.
+<ul>
+<li> <A href="http://livedocs.adobe.com/specs/actionscript/3/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=as3_specification.html">ActionScript 3.0 Language Specification</A> (interactive "livedoc" webpage)
+<li> <A href="http://livedocs.adobe.com/flex/3/html/help.html?content=03_Language_and_Syntax_01.html">ActionScript Language and Syntax</A>
+</ul>
+<p>
+ECMAScript is defined at <A href="http://ecmascript.org">ECMAScript.org</A>
+and its standard seems to be freely downloadable at
+<A
+href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">
+http://www.ecma-international.org/publications/standards/Ecma-262.htm</A>.
+You may also find
+<A href="http://bclary.com/2004/11/07/">a hyperlinked version</A> useful.
+<p>
+
+Ecto (from the Greek "outside" and words such as EctoPlasm) is used
+here for purely humorous purposes.  "EctoScript" will be a purely
+instructional (read: toy) language unless something accidental happens.
+
+<p>
+
+A partial description of the lexical properties can be viewed
+<A href="ectolex.html">here</A> and a ton of example source files
+can be downloaded <A href="ts-flat.zip">here</A>.
+
+
+<h3> Lexical Attributes </h3>
+
+In your yylex(), compute attributes for each token, and store them in a
+global variable named yytoken. Note that this is not part of the lex/yacc
+public interface, although it is named so as to be a recognizable extension
+of said interface.  You should use the following token type, or a compatible
+extension of it.
+<p>
+<pre>
+struct token {
+   int category;   /* the integer code returned by yylex */
+   char *text;     /* the actual string (lexeme) matched */
+   int lineno;     /* the line number on which the token occurs */
+   char *filename; /* the source file in which the token occurs */
+   int ival;       /* if you had an integer constant, store its value here */
+   int *sval;      /* if you had a string constant, malloc space and store */
+   }               /*    the string (less quotes and after escapes) here */
+</pre>
+
+<p>
+
+In this homework your main() procedure should 
+build a LINK LIST of all the token structs, each of which is created by
+yylex().  In the next assignment, we will
+insert all these tokens in a giant (syntax) tree.<p>
+
+Example linked list structure:
+
+<pre>
+   struct tokenlist {
+      struct token *t;
+      struct tokenlist *next;
+      }
+</pre>
+
+Use the malloc() function to allocate chunks of memory for structs
+token and tokenlist.
+
+<h3> yylex() and main() </h3>
+
+Your yylex() should return a different unique integer &gt; 257 for each
+reserved word, and for each other token category (identifier, integer
+literal constant, string literal constant, addition operator, etc).
+Numbers > 257 are required for the sake of compatibility with the
+YACC parser generator tool.  For each such number, you must #define
+a symbol, as in
+<pre>
+#define IDENTIFIER 260
+</pre>
+This is required for the sake of readability.
+Your yylex() should return -1 when it hits end of file.
+<p>
+
+In this assignment, your program should be organized the same as in
+the last assignment.  There should be (at least) two separately-compiled
+.c files and a makefile. The yylex() function will be called by a main()
+procedure in a loop, similar to the last assignment.  The main() 
+procedure should for each token, write out a line containing the token
+category (an integer &gt; 257) and lexical attributes.
+
+<h3> Turn in... </h3>
+
+Both a paper copy to Dr. J in class, and an electronic copy
+via <pre>
+cscheckin -f hw2.tar -c cs445
+</pre>
+
+If you add any new source files,
+be sure you add it to the set of files that you turn in.
+
+<h3> Example </h3>
+
+<em> This example ActionScript is thanks to the TrafficSense team.
+More tests available at <A href="ts-flat.zip">ts-flat.zip</A></em>.
+Also check out <A href="ectolex.html">ectolex.html</A>.
+<p>
+
+For the input file
+<p>
+<table border>
+<tr><td>
+<pre>
+package com.ts.data.enumerations
+{
+	public class DataRange
+	{
+		public static const UNBOUNDED:String = 'unbounded';
+	}
+}
+</pre>
+</table>
+<p>
+
+your output should look something like:
+<p>
+
+<table border>
+<tr><td>
+<pre>
+Category	Text		Lineno		Filename	Ival/Sval
+-------------------------------------------------------------------------
+262		package		1		DataRange.as
+271		com		1		DataRange.as
+290		.		1		DataRange.as
+271		ts		1		DataRange.as
+290		.		1		DataRange.as
+271		data		1		DataRange.as
+290		.		1		DataRange.as
+271		enumerations	1		DataRange.as
+291		{		2		DataRange.as
+263		public		3		DataRange.as
+264		class		3		DataRange.as
+271		DataRange	3		DataRange.as
+291		{		4		DataRange.as
+263		public		5		DataRange.as
+265		static		5		DataRange.as
+266		const		5		DataRange.as
+271		UNBOUNDED	5		DataRange.as
+267		:		5		DataRange.as
+311		String		5		DataRange.as
+268		=		5		DataRange.as
+301		'unbounded'	5		DataRange.as	unbounded
+269		;		5		DataRange.as
+292		}		6		DataRange.as
+292		}		7		DataRange.as
+</pre>
+</table>
+
+

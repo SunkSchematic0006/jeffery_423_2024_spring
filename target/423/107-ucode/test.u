@@ -1,0 +1,30 @@
+version	U12.1.00
+uid	test.u1-1680730264-0
+impl	local
+link	puny.u
+global	1
+	0,000005,main,0
+
+proc main
+	local	0,000000,print
+	con	0,010000,2,150,167
+	declend
+	filen	test.icn
+	line	2
+	colm	12
+	synt	any
+	mark	L1
+	var	0
+	str	0
+	line	3
+	colm	6
+	synt	any
+	invoke	1
+	unmark
+lab L1
+	pnull
+	line	4
+	colm	1
+	synt	any
+	pfail
+	end

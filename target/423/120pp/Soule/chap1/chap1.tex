@@ -1,0 +1,69 @@
+%********** Chapter 1 **********
+\chapter{Introduction}
+
+%Computer programs are used for an amazing array of tasks: helping to fly airplanes and drive cars, creating intricate games, controlling robots that learn, running complex simulations of the natural world, creating incredibly life-like - or completely imaginary - worlds.  All of these depend on the programs running inside the computers.  Programmers 
+
+Computer programming is fundamentally a creative activity. 
+Programmers use the elements of a programming language as the building blocks to write programs for almost any task they can imagine, from games to complex simulations to robots capable of learning to incredibly lifelike -- or completely imaginary -- worlds.   Programmers are always experimenting with ways to improve their programs, to make them more interesting, more efficient, or easier to use.  Thus,
+programming requires imagination and experimentation. This text is designed to encourage the creative, hands-on, and experimental aspects of programming while teaching the fundamentals of the C++ programming language.
+
+Typically, anyone wanting to learn a new skill, like woodworking or electronics, begins by building projects designed by someone else.  Then, as they become more confident, they start modifying those projects, experimenting with changes to make them better or to meet their own goals.  Eventually, they start creating their own projects from scratch.  Similarly, beginning artists often go to museums to learn by copying the masters and then experiment with applying their own styles.  Architects learn by studying existing designs and then experimenting with their own variations.  The common idea in all of these approaches is learning through imitation and experimentation.  
+
+Computer programming is particularly well-suited to this style of learning.  Not only can programs be studied; they can be copied, modified, tested, remodified, and, if things go badly, reverted back to the original -- an artist can't do that with the \emph{Mona Lisa}.
+This text is designed to support this experimentation-based style of learning, emphasizing the creative, experimental aspects of programming.  Each of the following chapters is divided into three main sections.  The first section introduces the major programming elements covered in the chapter and presents a complete program, starting with the game of NIM in Chapter 2, that demonstrates how those programming elements are used.  The second section analyzes the program line by line, explaining what each line does and how it contributes to the overall program.  The third section discusses different ways to modify and improve the program, beginning with simple changes and detailed instructions and ending with suggestions for much more complex modifications.   After each project chapter, there is a short ``interlude'' covering general topics useful to the reader: debugging, testing, design, etc.
+
+This approach to learning to program has many strengths -- and some limitations.  It makes it possible to begin working with interesting programs right away.  It encourages experimentation, creativity, and an active, hands-on approach to programming.  It supplies a working program that readers can always go back to if their changes fail or if  they want to try something new.
+
+However,  because each chapter focuses on the sample program, they contain fewer of the details of C++ syntax.  To balance this, the Appendix supplies details that are intentionally missing from the main chapters.  Thus, in each chapter, there are pointers to sections in the Appendix that explain specific topics in more detail.  Some readers may be more comfortable with lots of experimentation and learning on their own (and won't be as bothered by programs that often don't do what's expected) and will use the Appendix less. Other readers may want to spend more time understanding the details and will refer to the Appendix often.  Each reader should take the approach that works best for him or her.
+
+\section{Programming}
+
+\emph{Programming} is the process of writing a program that a computer can run.  A program is really just a set of instructions, like a recipe.  One of the most difficult aspects of programming is that computers are completely literal.  A chef can put the instruction ``add three eggs'' in a recipe and be fairly confident that anyone following the recipe will actually break the three eggs, add just the egg, and throw away the shells.  A computer would need to be told explicitly to break the eggs and throw away the shells.  Thus, an important part of  learning to program is learning to describe tasks in very precise, well-defined steps.  
+
+A programming language is a specific set of basic instructions that can be combined to create a program.  Different languages often represent the same instruction in different ways.  Table~\ref{tab:instructions} gives some examples of how the instruction: \codefont{x = y + 7} might appear in different languages.  In each language the general structure of the command is similar, but the details vary.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+C++ & x = y + 7; \\
+\hline
+Pascal & x := y + 7; \\
+\hline
+Perl & \$x = \$y + 7; \\
+\hline
+\end{tabular}
+\caption{The command \codefont{x = y + 7} as it is written in different programming languages.}
+\label{tab:instructions}
+\end{table}
+
+Very broadly, programming languages are divided into low-level languages\index{low-level language} and high-level languages\index{high-level language}.  Low-level languages are relatively hard for people to understand, but easier for computers to understand.  High-level languages are easier for people to understand, but further from what a computer can understand.  C++ is a high-level language, although arguably at the lower end of the high-level languages; C++ is easier for people to understand than a low-level language, but perhaps not by a lot.
+
+Because computers cannot directly execute a program written in a high-level language (i.e., they cannot ``understand'' a program written in a high-level language), a \emph{compiler}\index{compiler}  or an \emph{interpreter}\index{interpreter}\index{interpreted language} is necessary to ``translate'' a program written in a high-level language into a language the computer can understand.  A compiler translates an entire program, creating a complete program the computer can actually run -- often called an ``executable.''  There are a variety of interpreters, but a common form of interpreter translates a program one line at a time, as the computer is running the program.  Interpreted programs run much slower than compiled programs because the computer has to wait for each line to be translated as it's running, rather than having the entire translation done in advance.  
+
+Because C++ is a compiled language, programs are written using a text editor or an Integrated Development Environment (IDE)\index{Integrated Development Environment}\index{IDE} and then the program is compiled to create an executable program.\footnote{Interpreters for C++ do exist and can be useful for some tasks, but they are not very common and will not be covered in this text.}  The initial program is really just a text document (although it usually has an extension like \codefont{.cpp} to indicate that it represents a program).  The compiled program is a file that the computer can actually run.  These files are often called \emph{executables} because the computer can execute them (as in ``execute an order'').  
+
+%When a C++ program is compiled the resulting executable file can typically only run on computers with a similar operating system to the one it was compiled on.  So, if you write a C++ program and compile on a computer running Windows 7 the compiled program may not run on a computer running Windows Vista.  However, if you take the original C++ program and compile on the computer running Windows Vista, then it should run there.\footnote{There are ways to make an executable more platform independent, but they are a bit complicated and won't be discussed here.}
+
+IDEs usually include a text editor specialized for writing programs and built-in tools for automating the compiling process.  IDEs often make programming easier because they automatically format and color-code a program, help identify errors, and even make suggestions.\footnote{If you are using an IDE like Visual Studio, all of the programs in the text can be entered as \emph{console applications}.}  Commonly used IDEs include Microsoft Visual Studio, Eclipse, and Netbeans.   Visual Studio includes a free Express version and Eclipse and Netbeans are free and can be downloaded from the Web. 
+
+%Why C/C++(?)
+
+\section{Using This Text}
+
+Begin each chapter by reading the introductory sections.   These explain what the chapter's program does and what new programming concepts it introduces.  After reading those sections enter the program.  Once the program is entered, compile it and run the program.  Run each program a few times, examining how it works, and trying different inputs.  By comparing the program's behavior to the program's code, it is often possible to understand at least some of how the program works.  
+
+After you have entered and run a program a few times, you should begin reading the section of the chapter explaining the major features of the program.  This should help you further understand how the program works.
+
+Once you have a general feeling for what the program does, start reading the analysis of the code.  While reading  the code analyses in each chapter, add comments to the code (see Chapter 2 for more information on comments) to make it more understandable.  
+
+While reading about the code, it is often useful to rerun the program to see how the description of the code compares to what the program is actually doing.  Try changing the program to see if the changes make the program behave in the expected way -- just remember to keep a backup copy of the original program so you don't have to completely reenter the program if it ``breaks.'' 
+
+Keep in mind that at this point, it is almost completely impossible to write a program that would damage the computer in any way.  At worst, a program that won't compile or ``crashes'' when run -- in which case the program can simply be reverted to the backup version that works.  So, feel free to experiment.
+
+After you feel like you understand how the original program works, it's time to start really modifying it.  Each chapter has several sections presenting suggested modifications.  The first modifications are simple, carefully described changes that should be easy to implement and will improve, at least a little, how the program functions.  The later modifications are more complex and less detailed; this is where you really test yourself.  
+
+Remember, experiment, try your own ideas, and most of all, have fun.
+
+
+%********** End of chapter **********

@@ -1,0 +1,15 @@
+CC=gcc
+CFLAGS=-c -g -Wall
+OBJ=vgo.o lex.yy.o
+
+vgo: $(OBJ)
+	$(CC) -o vgo $(OBJ)
+
+vgo.o: vgo.c
+	$(CC) $(CFLAGS) vgo.c
+
+lex.yy.o: lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+lex.yy.c: vgolex.l vgo.tab.h
+	flex vgolex.l

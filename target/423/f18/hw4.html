@@ -1,0 +1,68 @@
+<h3> CS 445 HW#4 </h3>
+
+Due: Friday November 2 11:59pm
+<p>
+
+Perform the rest of semantic analysis for g0.  This shall consist
+of the following items. Please turnin via bblearn an electronic copy of your
+whole project in a .zip. Please create your .zip file in such a way that it
+unpacks into the current directory, rather than a subdirectory.
+<p>
+
+Note: if you haven't already, add -Wall to your makefile compile rules,
+and for maximum credit, turn in a solution that compiles with no warnings
+when -Wall warnings have been turned on.
+
+
+<dl>
+<dt> Types
+<dd> Support the g0 base types: int, double, string, bool and void.
+     Support lists, tables, and classes
+
+<dt> Type Checking
+<dd> Require and check types everywhere at compile-time.
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> The semantic rules for operators are all nearly the same; at the
+     semantic analysis phase we will support at least
+     the operators =, +, -, *, /, subscript ([ ]) and dot ( . ).
+     Support the boolean/relational operators &lt, &gt; &amp;&amp; || and !.
+
+<dt> Built-ins
+<dd> You should insert into the global symbol table the names of
+     built-in functions write() and read().
+
+<dt> Nesting
+<dd> Expressions will generally get combined to form larger expressions.
+     In the object-oriented realm, you can expect expressions such as
+     the following
+<pre>
+     o1.f(o2.g())
+     a[i].m()
+     (h.g()).i() == n
+</pre>
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "g0"
+
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line, treating
+        them as one big program with a shared global name space.
+<li> write out the name of each file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+
+</ul>
+

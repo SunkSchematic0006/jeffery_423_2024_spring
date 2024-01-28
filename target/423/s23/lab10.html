@@ -1,0 +1,163 @@
+<h2> CSE 423 Lab #10: Control Flow in Intermediate Code </h2>
+
+Turnin: a .zip on Canvas
+<p>
+
+This week's lab consists of practice and Q&amp;A
+with the control flow aspects of intermediate code.
+
+<h3> Using a Label Maker </h3>
+
+<h4>1. Add fields to tree nodes to hold labels </h4>
+
+<ul>
+<li> These are <code>.first</code>, <code>.follow</code>,
+    <code>.onTrue</code>, <code>.onFalse</code>
+<li> You may want a bool (flag) for each to say if they are ever used!
+</ul>
+
+
+<h4>2. Add a genlabel() function</h4>
+
+The prototype
+<pre>
+struct addr genlabel();
+</pre>
+that returns a unique label each time it is called.
+
+<pre>
+int counter;
+struct addr genlabel()
+{
+   struct addr a;
+   a.region = R_LABEL;
+   a.offset = counter++;
+   return a;
+}
+</pre>
+
+<h4>3. Write traversal functions that assign labels </h4>
+
+<dl>
+<dt>3.1 Write a traversal function that assign .first labels.
+<dd>
+<ul>
+<li> What type of attribute is it? synthesized.
+<li> What type of traversal? Bottom-up post-order.
+<li> What type of production rules need these? Anything that could
+     be a target.
+</ul>
+
+<pre>
+void assign_first(struct tree *t)
+{  int i;
+   for(i=0; i&lt;t-&gt;nkids; i++) assign_first(t-&gt;kids[i]);
+   switch(t->prodrule) {
+     /* ??? */
+   }
+}
+</pre>
+
+
+
+<dt>3.2 Write a traversal function that assign <code>.follow</code> labels.
+<dd>
+<ul>
+<li> What type of attribute is it? inherited.
+<li> What type of traversal? Top-down pre-order.
+<li> What type of production rules need these? Anything that could
+     need to be skipped, or to target something.  Mainly control flow nodes.
+</ul>
+
+
+<pre>
+void assign_follow(struct tree *t)
+{  int i;
+   switch(t->prodrule) {
+
+   case StmtSeqFromStatement1Statement2Prodrule: {
+    t->kids[0].follow = t->kids[1].first;
+  }
+
+   case IfThenStmtProdrule: {
+     t->kids[4].follow = t->follow;
+     }
+     /* ??? */
+   }
+   for(i=0; i&lt;t-&gt;nkids; i++) assign_first(t-&gt;kids[i]);
+}
+</pre>
+
+
+<dt>3.3 Write a traversal function that assign <code>.onTrue</code> and
+ <code>.onFalse</code> labels.
+<dd>
+These both depend on the <code>.first</code> and the <code>.follow</code>.
+<ul>
+<li> What type of attributes are they?  Inherited
+<li> What type of traversal??  Pre-order
+<li> What type of production rules need these? Anything that could
+     affect boolean expression evaluation
+</ul>
+</dl>
+
+<h3>Write traversal functions for codegen</h3>
+Enough to do boolean exprs and while loops. From the lecture notes we might
+want to start with enough to do:
+
+<pre>public class foo {
+   public static void main()
+   {
+   int i;
+   i = 0;
+   while (i &lt; 20) {
+      i = i * i + 1;
+      }
+   System.out.println(i);
+   }
+}
+</pre>
+<!--
+<pre>void print(int i);
+void main()
+{
+   int i;
+   i = 0;
+   while (i &lt; 20) {
+      i = i * i + 1;
+      }
+   print(i);
+}
+</pre>
+-->
+
+and if we managed that, extend it in various ways, enough to handle e.g.:
+
+<pre>public class bar {
+public static void main(String *argv[])
+{
+   int i;
+   i = 0;
+   while (i &lt; 20 && i%3==1) {
+      i = i + 1;
+      }
+   System.out.println(i);
+}
+</pre>
+
+<!--
+<pre>void print(int i);
+void main()
+{
+   int i;
+   i = 0;
+   while (i &lt; 20 && i%3==1)
+      i = i + 1;
+   print(i);
+}
+</pre>
+-->
+
+<h3> What to turn in </h3>
+
+Your compiler, with enough codegen efforts to reflect 2 hours worth of work.

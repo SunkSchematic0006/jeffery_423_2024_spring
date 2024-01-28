@@ -1,0 +1,30 @@
+	.file	"foo.c"
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"hello"
+	.text
+	.globl	fac
+	.type	fac, @function
+fac:
+.LFB11:
+	.cfi_startproc
+	testq	%rdi, %rdi
+	je	.L4
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 16
+	movl	$.LC0, %edi
+	movl	$0, %eax
+	call	printf
+.L2:
+	movl	$1, %eax
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 8
+	ret
+.L4:
+	movl	$1, %eax
+	ret
+	.cfi_endproc
+.LFE11:
+	.size	fac, .-fac
+	.ident	"GCC: (GNU) 4.8.5 20150623 (Red Hat 4.8.5-28)"
+	.section	.note.GNU-stack,"",@progbits

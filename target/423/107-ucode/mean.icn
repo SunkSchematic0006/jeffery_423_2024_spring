@@ -1,0 +1,13 @@
+global x, g, avg
+procedure main()
+x := 0
+g:= 0
+every k := 0 to 9 do {
+    writes("enter data point")
+    g := read()
+    x := real(g) + real(x)
+    }
+
+avg := x/(k+1)
+write ("The average of these numbers is: ", avg)
+end

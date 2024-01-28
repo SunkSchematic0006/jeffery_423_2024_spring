@@ -1,0 +1,9 @@
+procedure main()
+    every i := 0 to 9 do write(i)
+end
+
+
+procedure main2()
+    i := 0
+    while i < 10 do write(i)
+end

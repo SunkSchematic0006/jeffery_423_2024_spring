@@ -1,0 +1,4 @@
+procedure main()
+  if x < 10 then write("small")
+  else write("large")
+end

@@ -1,0 +1,101 @@
+PWD C:/Users/tsoule/Documents/BOOK/CSI
+INPUT C:/Users/tsoule/AppData/Local/MiKTeX/2.9/miktex/data/le/pdftex/pdflatex.fmt
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/CSI.tex
+OUTPUT CSI.log
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/book.cls
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/book.cls
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/bk10.clo
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/bk10.clo
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/wrapfig/wrapfig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/wrapfig/wrapfig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphicx.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphicx.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/keyval.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/keyval.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphics.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphics.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/trig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/trig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/00miktex/graphics.cfg
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/00miktex/graphics.cfg
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/pdftex-def/pdftex.def
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/pdftex-def/pdftex.def
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/infwarerr.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/infwarerr.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/ltxcmds.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/ltxcmds.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/epsfig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/epsfig.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.cfg
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.cfg
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/preprint/fullpage.sty
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/preprint/fullpage.sty
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/CSI.aux
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/CSI.aux
+OUTPUT CSI.aux
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/context/base/supp-pdf.mkii
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/context/base/supp-pdf.mkii
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr17.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr12.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr8.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr6.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi12.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi8.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi6.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy10.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy8.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy6.tfm
+OUTPUT CSI.pdf
+INPUT C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap1/chap1.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap1/chap1.tex
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr17.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr12.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap2/chap2.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap2/chap2.tex
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmti8.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/omscmr.fd
+INPUT C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/omscmr.fd
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmtt10.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmti10.tfm
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx10.tfm
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/images/variables.bmp
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude1/interlude1.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude1/interlude1.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap3/chap3.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap3/chap3.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/images/scope1.eps
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude2/interlude2.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude2/interlude2.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap4/chap4.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap4/chap4.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude3/interlude3.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude3/interlude3.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap5/chap5.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap5/chap5.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude4/interlude4.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/interlude4/interlude4.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap6/chap6.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/chap6/chap6.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/appendix/appendix.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/appendix/appendix.tex
+INPUT C:/Users/tsoule/Documents/BOOK/CSI/CSI.aux
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb
+INPUT C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb

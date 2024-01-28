@@ -1,0 +1,28 @@
+%********** Interlude **********
+\interlude{Software Design and Engineering}
+
+When starting a new program, particularly a large, complex piece of software, it is important to begin with a design.  No one would start constructing an automobile, a building, or any other complex device or structure without a clear set of designs or blueprints.  Writing software is no different.  Starting the process of writing a complex program by sitting down and typing ``int main'' is almost a guarantee of failure.   In terms of the number of active, interacting parts (variables, functions, etc.), a software program is just as complex as the largest machines or buildings.  Thus, in building a complex program, or even a fairly simple one, it is critical to have a reasonable design for the program before coding begins.
+
+Many techniques and approaches for designing software have been developed.  \emph{Software engineering}\index{software engineering} is the application of a structured approach to the design, coding, testing, and maintenance of software.  Software engineering is an important field within computer science and most computer science programs include courses on software design and engineering.
+
+Two common, general approaches to software design are \emph{top-down}\index{top-down} design and \emph{bottom-up}\index{bottom-up} design.  Both of these can be applied using very rigorous, well-defined methodologies, but they can also be applied informally, as general guidelines for the design of a program.  The informal approach is useful for relatively small programs as in this text.
+
+Top-down design begins by focusing on the high-level structure of the program.  The designer outlines, often using diagrams or flow charts, how the overall program will ``flow.''  Programming starts with this high-level picture.  For example, in the Electronic Pet project a top-down approach would start by designing the main program loop and then designing the \cf{pet} class.  Similarly coding starts with the main program loop, using \emph{stub code}\index{stubs} in the place of complex blocks of code and functions.  Stub code is simply code that acts as a temporary placeholder.  For example, in the Electronic Pet project, a programmer might initially write the \codefont{play()} member function to just print the word ``play'' and the \cf{feed()} function to just print the word ``feed.''  This is easy to write and allows the programmer to make sure that the overall program works, before worrying about filling in the details.  
+
+Only after the main program loop was working would the programmer go back and start filling in the details of the \cf{pet} class and its functions.
+
+Bottom-up design begins by putting together the ``building blocks'' of a program.  For example, in the Electronic Pet project, a bottom-up approach would start with designing and writing the \codefont{pet} class.  Once the \codefont{pet} class was complete, then the rest of the program would be written to use it.  A bottom-up approach is often used when a very specific class is required.  For example, if a programmer wanted to create a program that dealt with fractions or virtual pets, he or she might begin by creating the fraction or pet class and then write the rest of the program to use the class.  
+
+Of course, it is not necessary to strictly adhere to either a top-down or bottom-up approach -- for small projects, many programmers prefer a hybrid.  They might begin by sketching (often literally) the broad program in a top-down design, but then start by coding the bottom-level classes. 
+Or they might code a stub version of the classes first, then write the top-level code using the stub class, and finally fill in the class details.  
+
+Another important aspect of software engineering is careful specification of what the parts of the program, the functions, classes, etc., should do.  Specifications typically include input types, output types, behaviors, and special cases.  If a program is well designed, with each piece correctly specified in advance, then it's comparatively simple to write each piece of code to match the specifications and end up with a complete program.  In addition to specifications, a good design includes test cases -- specific sets of tests that are paired with the specifications.  When a piece of code is written it is tested using the predefined test set to confirm that it functions as specified. 
+
+In designing a program, it is often very helpful to sketch it on paper.  For example, a programmer drawing boxes to represent the major components of the program (classes, functions, etc.) and adding lines and arrows showing how these components interact.  Even a very simple sketch can help clarify how a program is supposed to work and serves as a reference when writing each of the program's components.
+
+%Another common tool for program design is a flowchart\index{flowchart}.  A flowchart is a specific way to define how a program behaves.  Figure~\ref{fig:flowchart} illustrates a flowchart for the NIM program.
+
+As programs become more complex and involve larger teams, having a good design becomes increasingly critical.  A good design helps to make sure that all of the programmers are working towards a common goal.  Many software companies have their own design (and testing) methodologies that their programmers are required to use.  Although strict software design methodologies can seem cumbersome and a hindrance to actual programming, they are important for keeping large projects on track.  However, at this stage in learning to program, the most important thing is to try out some of the basic design methods to see which ones fit your programming style.
+
+
+

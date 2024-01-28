@@ -1,0 +1,131 @@
+<h2> CSE 423 Lab #2: Lexical Testing </h2>
+
+There is no turnin for this lab.
+
+<p>
+
+For today's lab, we are going to just work on HW#2 as much as we can.
+And think about how to test it sufficiently.
+
+<h3> Toy HW#2 structure </h3>
+
+I am sort of conflicted.  How do I help you do HW#2 without writing
+large parts of your HW#2 for you?  How do we work on it together?
+
+
+<h3> Lex Testing </h3>
+
+<ul>
+<li> Write test cases for each token category.
+<li> So far I have written 1 test (<A href="lab2/test1.py">test1.py</A>).
+<li> It provides coverage for the following tokens (red).
+<li> We should add one or more tests for everything in here.
+<li> Test the boundary cases ("weird" and "bad" tokens).
+<li> Unterminated strings
+<li> Random binary garbage characters
+<li> ...etc.
+</ul>
+
+
+<pre>
+False
+def
+<font color=red>if</font>
+raise
+None
+del
+import
+return
+True
+elif
+in
+try
+and
+<font color=red>else</font>
+is
+<font color=red>while</font>
+as
+except
+lambda
+with
+assert
+finally
+nonlocal
+yield
+break
+for
+not	
+class
+from
+or	
+continue
+global
+pass
+ENDMARKER
+<font color=red>NAME</font>
+<font color=red>NUMBER</font>
+<font color=red>STRING</font>
+NEWLINE
+INDENT
+DEDENT
+
+<font color=red>LPAR                    '('</font>
+<font color=red>RPAR                    ')'</font>
+LSQB                    '['
+RSQB                    ']'
+<font color=red>COLON                   ':'</font>
+<font color=red>COMMA                   ','</font>
+SEMI                    ';'
+PLUS                    '+'
+MINUS                   '-'
+STAR                    '*'
+SLASH                   '/'
+VBAR                    '|'
+AMPER                   '&'
+<font color=red>LESS                    '<'</font>
+GREATER                 '>'
+EQUAL                   '='
+DOT                     '.'
+PERCENT                 '%'
+LBRACE                  '{'
+RBRACE                  '}'
+EQEQUAL                 '=='
+NOTEQUAL                '!='
+LESSEQUAL               '<='
+GREATEREQUAL            '>='
+TILDE                   '~'
+CIRCUMFLEX              '^'
+LEFTSHIFT               '<<'
+RIGHTSHIFT              '>>'
+DOUBLESTAR              '**'
+<font color=red>PLUSEQUAL               '+='</font>
+MINEQUAL                '-='
+STAREQUAL               '*='
+SLASHEQUAL              '/='
+PERCENTEQUAL            '%='
+AMPEREQUAL              '&='
+VBAREQUAL               '|='
+CIRCUMFLEXEQUAL         '^='
+LEFTSHIFTEQUAL          '<<='
+RIGHTSHIFTEQUAL         '>>='
+DOUBLESTAREQUAL         '**='
+DOUBLESLASH             '//'
+DOUBLESLASHEQUAL        '//='
+AT                      '@'
+ATEQUAL                 '@='
+RARROW                  '->'
+ELLIPSIS                '...'
+COLONEQUAL              ':='
+
+OP
+AWAIT
+ASYNC
+TYPE_IGNORE
+TYPE_COMMENT
+ERRORTOKEN
+
+# These aren't used by the C tokenizer but are needed for tokenize.py
+COMMENT
+NL
+ENCODING
+</pre>

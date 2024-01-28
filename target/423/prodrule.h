@@ -1,0 +1,5 @@
+
+
+
+#define DECL_SPECIFIERS            1000
+#define STORAGE_CLASS_SPECIFIER    1100

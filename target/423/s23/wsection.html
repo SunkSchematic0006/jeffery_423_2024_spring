@@ -1,0 +1,6 @@
+<table border>
+<tr><th>Production<th>Semantic Rule
+<tr><td>wsection : WSECTION expr<sub>1</sub> DO expr<sub>2</sub>
+    <td> <pre>wsection.code = "1(WSection(" || expr<sub>1</sub> || "),{" ||
+                   expr<sub>2</sub>|| ";WSection();1})"</pre>
+</table>

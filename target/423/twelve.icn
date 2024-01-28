@@ -1,0 +1,3 @@
+procedure main()
+   write(10+2)
+end

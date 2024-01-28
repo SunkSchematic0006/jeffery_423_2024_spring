@@ -1,0 +1,25 @@
+<h3>cgram.y token names and their meanings</h3>
+
+<table border>
+<tr><th> token (names) <th> description (respectively)
+
+<tr><td> BAD_TOKEN <td> a lexical error 
+<tr><td> ICON CCON FCON STRING <td> integer, character, floating and string literals 
+<tr><td> ENUMERATION_CONSTANT <td> once its an enum val, yylex() returns this 
+<tr><td> TYPEDEF_NAME <td> once its a typedef name, yylex() returns this 
+<tr><td> IDENTIFIER <td> what yylex() returns for names if not typedef or num 
+<tr><td> INCOP DECOP SHL SHR LE GE EQ NE <td> ++ -- << >> <= >= == != 
+<tr><td> ANDAND OROR MUASN DIASN MOASN PLASN ASN <td> && || *= /= %= += = 
+<tr><td> MIASN SLASN SRASN ANASN ERASN ORASN <td> -= <<= >>= &=  ^= |= 
+<tr><td> CM SM LT GT <td> , ; < > 
+<tr><td> PLUS MINUS MUL DIV MOD <td> + - * / % 
+<tr><td> LP RP LB RB LC RC COLON <td> ( ) [ ] { } : 
+<tr><td> QUEST AND OR ER NOT FOLLOW BANG DOT ELIPSIS <td> ? & | ^ ~ -> ! . ...
+
+<tr><td> TYPEDEF EXTERN STATIC AUTO REGISTER SIZEOF
+<br> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE
+<br> CONST VOLATILE VOID STRUCT UNION ENUM ELSE CASE
+<br> DEFAULT IF SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+<td> reserved words 
+
+</table>

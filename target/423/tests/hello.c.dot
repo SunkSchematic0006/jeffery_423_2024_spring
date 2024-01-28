@@ -1,0 +1,33 @@
+digraph {
+N15 [shape=box label="function_definition#1001"];
+N15 -> N0;
+N0 [shape=box style=dotted label=" 319 \n text = int \l lineno = 2 \l"];
+N15 -> N5;
+N5 [shape=box label="direct_function_declarator#1020"];
+N5 -> N1;
+N1 [shape=box style=dotted label=" 263 \n text = main \l lineno = 2 \l"];
+N5 -> N2;
+N2 [shape=box style=dotted label=" 297 \n text = ( \l lineno = 2 \l"];
+N5 -> N3;
+N3 [shape=box style=dotted label=" 298 \n text = ) \l lineno = 2 \l"];
+N15 -> N14;
+N14 [shape=box label="compound_statement#1034"];
+N14 -> N4;
+N4 [shape=box style=dotted label=" 301 \n text = { \l lineno = 3 \l"];
+N14 -> N12;
+N12 [shape=box label="expression_statement#1033"];
+N12 -> N10;
+N10 [shape=box label="postfix_expression#1056"];
+N10 -> N6;
+N6 [shape=box style=dotted label=" 263 \n text = printf \l lineno = 4 \l"];
+N10 -> N7;
+N7 [shape=box style=dotted label=" 297 \n text = ( \l lineno = 4 \l"];
+N10 -> N8;
+N8 [shape=box style=dotted label=" 264 \n text = \"hello, world\n\" \l lineno = 4 \l"];
+N10 -> N9;
+N9 [shape=box style=dotted label=" 298 \n text = ) \l lineno = 4 \l"];
+N12 -> N11;
+N11 [shape=box style=dotted label=" 289 \n text = ; \l lineno = 4 \l"];
+N14 -> N13;
+N13 [shape=box style=dotted label=" 302 \n text = } \l lineno = 5 \l"];
+}

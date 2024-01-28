@@ -1,0 +1,32 @@
+<pre>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+#include &lt;string.h>
+#include "token.h"
+extern FILE *yyin;
+extern char *yytext;
+extern int yylex();
+
+
+
+int main(int argc, char *argv[])
+{
+   int cat;
+   if (argc==1) {
+      fprintf(stderr, "usage punny [file]\n"); fflush(stderr);
+      exit(1);
+      }
+   if ((yyin = fopen(argv[1],"r")) == NULL) {
+      fprintf(stderr, "can't open %s\n", argv[1]); fflush(stderr);
+      exit(1);
+      }
+   printf("Category  Text        Lineno    Filename    Ival/Sval\n");
+   printf("-------------------------------------------------------------\n");
+   while ((cat=yylex()) > 0) 
+   printf("%-8s  %-12s%-8d  %12s  %s   \n",
+	  catname(cat),
+	  ((yytext[0]!='\n')?yytext:"\\n"),
+	  0, "?", "?");
+   return 0;
+}
+</pre>

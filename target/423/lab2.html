@@ -1,0 +1,53 @@
+<h2> CSE 423 Lab #2: Lexical Testing </h2>
+
+There is no turnin for this lab.
+
+<p>
+
+For today's lab, we are going to work on HW#2 as much as we can.
+And think about how to test it sufficiently.
+
+
+<h3> Lab Part 1: Team Up and Swap Notes </h3>
+
+<ol>
+<li> Break into small groups, preferably of size three.  Zoom folks, maybe we
+need breakout rooms for this.
+<li> Share with each other the non-trivial regex'es that you have in your
+     rustlex.l so far. Discuss each.
+<li> If you have questions about what regular expression is correct,
+     write those down as part of your lab submission.
+<li> For each non-trivial regex, either agree unanimously, or by
+     voting, which regular expressions are the most correct.
+</ol>
+
+
+<h3> Lab Part 2: Lex Testing </h3>
+
+<ul>
+<li> Write test cases for each token category.
+<li> So far I have written 1 test (<A href="lab2/test1.rs">test1.rs</A>).
+<li> It provides coverage for the following tokens (red).
+<li> We should add one or more tests for everything in here.
+<li> Test the boundary cases ("weird" and "bad" tokens).
+<li> Unterminated strings
+<li> Random binary garbage characters
+<li> ...etc.
+</ul>
+
+Use the <A href="hw2.html#lextokens">tokens</A> from the HW#2 spec.
+
+<h3> What to Turn in </h3>
+
+Lab submission: turn in a .ZIP containing:
+
+For Part 1, a PDF document that provides
+<ul>
+<li> your list of team members
+<li> your list of which Rust tokens deserve non-trivial regexes.
+<li> your group's (unanimous or vote-based) winners for these regex'es
+<li> your list of questions
+</ul>
+
+For Part 2: include in the .zip your set of lexical test cases, in .rs files.
+

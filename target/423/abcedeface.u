@@ -1,0 +1,89 @@
+version	U12.1.00
+uid	abcedeface.u1-1682713957-0
+impl	local
+global	1
+	0,000005,main,0
+
+proc main
+	local	0,000000,a
+	local	1,000000,b
+	local	2,000000,c
+	local	3,000000,d
+	local	4,000000,e
+	local	5,000000,f
+	local	6,000000,g
+	declend
+	filen	abcedeface.icn
+	line	1
+	colm	11
+	synt	any
+	mark	L1
+	pnull
+	var	0
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	pnull
+	var	0
+	var	1
+	line	2
+	colm	9
+	synt	any
+	plus
+	var	2
+	line	2
+	colm	11
+	synt	any
+	plus
+	var	3
+	line	2
+	colm	13
+	synt	any
+	plus
+	var	4
+	line	2
+	colm	15
+	synt	any
+	plus
+	var	5
+	line	2
+	colm	17
+	synt	any
+	plus
+	var	6
+	line	2
+	colm	19
+	synt	any
+	plus
+	var	0
+	line	2
+	colm	21
+	synt	any
+	plus
+	var	2
+	line	2
+	colm	23
+	synt	any
+	plus
+	var	4
+	line	2
+	colm	25
+	synt	any
+	plus
+	line	2
+	colm	5
+	synt	any
+	asgn
+	unmark
+lab L1
+	pnull
+	line	3
+	colm	2
+	synt	any
+	pfail
+	end

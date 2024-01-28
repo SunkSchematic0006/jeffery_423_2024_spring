@@ -1,0 +1,152 @@
+\chapter{Lexical}
+
+This chapter discusses lexical rules inferred from the text of ``A
+Project-Based Introduction to C++''.  Wherever this chapter says
+``lexical category'' you can mentally substitute ``integer code with
+which I am going to identify to the parser what kind of word we are
+dealing with here''.
+
+\section{Identifiers}
+
+A single lexical category is utilized for all kinds of names.
+Variable names can use letters, underscores and digits, but cannot
+start with a digit and hence, must contain at least one letter.  Case
+matters.
+
+Note that the Soule text claims \_123 is not a legal variable
+name (``does not contain a letter''), while the C/C++ languages allow it
+(underscore is considered to be a letter). When the Soule text is actually
+incorrect, you should ignore it and implement C++ correctly.
+
+\section{Operators and Punctuation}
+
+You can expect to use a separate lexical category for each
+operator or punctuation mark; this makes for a whole lot of
+lexical categories, and drives
+up the size of tables that the parser will use. If two or more
+operators are used interchangeably, a compiler writer can assign them
+to a single, shared lexical category, run them through syntax analysis
+identically, and look at their other lexical attributes during code
+generation in order to generate the right code. This may save space
+in the parser.
+
+\begin{verbatim}
+( ) { } [ ]
+= + - * / %
+< <= > >= && || ! == != 
++= -= ++ --
+<< >> & . -> : :: ;
+\end{verbatim}
+
+\section{Literal Values}
+
+120++ has integer, float, bool, character and string literals.
+Bool literals are true and false.
+Real number literals have digits and a decimal; 120++
+does not use C/C++ scientific literals such as 5.3e20.  
+120++ supports a number of escapes in character and string literals:
+
+\vspace{0.16in} 
+
+\begin{tabular}{|l|r|}\hline
+Name & Interpretation (ASCII) \\ \hline
+{\textbackslash}n & newline (10) \\
+{\textbackslash}t & tab (9) \\
+{\textbackslash}' & apostrophe (39) \\
+{\textbackslash}{\textbackslash} & backslash (92) \\
+{\textbackslash}" & doublequote (34) \\
+{\textbackslash}0 & nul (0) \\ \hline
+\end{tabular}
+
+
+
+\section{OOP Features}
+
+120++ introduces classes but not inheritance.
+
+
+\begin{verbatim}
+class public private ~
+\end{verbatim}
+
+\section{Comments}
+
+120++ uses both C and C++ style comments. Comments do not appear in
+the language syntax, they are removed during lexical analysis. Despite
+their simplicty, C
+comments are famously difficult to write a regular expression for,
+yet it is provably possible to do so and a correct regular expression
+can easily be obtained by internet search. By why are they difficult?
+
+\begin{verbatim}
+/* */
+//
+\end{verbatim}
+
+\section{includes}
+
+120++ uses only a few system includes, inside less than and greater
+than marks, for which only a tiny subset
+of their content is necessary. 120++ allows application includes
+inside doublequotes, only for .h files in the current working directory.
+Application includes may only contain class declarations, constant
+declarations, and (non-circular) \#includes at most two-levels deep,
+
+\begin{verbatim}
+#include <iostream> - if present it allows cout/cin
+#include <fstream> - if present it allows ifstream
+#include <string> - if present it allows string
+#include <cstdlib> - if present it allows rand(), srand()
+#include <ctime> - if present it allows time()
+#include <cmath> - if present it allows sin()
+#include "file.h" - application include
+\end{verbatim}
+
+\section {namespaces}
+
+The only namespace used in 120++ is
+
+\begin{verbatim}
+using namespace std;
+\end{verbatim}
+
+In fact, this namespace can be required of all 120++ programs, but
+that would be done in either the syntax or semantic analyzers.  In any
+case, \codefont{using} and \codefont{namespace} are reserved words.
+The identifier \codefont{std} is predefined to be a namespace name,
+meaning that when your lexical analyzer sees \codefont{std} it should
+return the integer code for \codefont{NAMESPACE\_NAME} instead of
+\codefont{IDENTIFIER}.
+
+\section {Built-in classes, functions, operators}
+
+See Soule's reference section.
+
+
+\begin{verbatim}
+cout << cin >> endl cin.ignore() string ifstream ofstream fstream
+\end{verbatim}
+
+\section {built-in types}
+
+See section 1 of this document.
+
+\begin{verbatim}
+int void double char bool
+\end{verbatim}
+
+120++ does include float, short, long, and unsigned, but all types are to
+be implemented as either one-byte (char) or eight-byte (everything
+else) signed numbers. For example, a float is allowed and is
+implemented as a double.
+
+
+\section {reserved words}
+
+These generally all need their own lexical category since they appear
+in different places in the syntax.
+
+\begin{verbatim}
+if return while else do case break switch for
+using namespace new delete
+\end{verbatim}

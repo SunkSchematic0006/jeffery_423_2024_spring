@@ -1,0 +1,59 @@
+<h2> CSE 423 Lab #13: Fun with Reverse Engineering </h2>
+
+No Turnin.
+<p>
+
+In this week's lab we will study the output of gcc -S.
+One of our goals would be to update
+<A href="code.html">Dr. J's final code generation guide</A>
+to be current/correct for lovecraft's version of GCC, which
+is GCC 7.5 and may have differences since code.html was written.
+In order to get very much out of this, we should begin by
+skimming <A href="https://www3.nd.edu/~dthain/compilerbook/chapter10.pdf">Chapter 10</A> of professor Thain's book, and maybe looking
+at Chapter 11.  We may also need to consult documents on x86_64
+<a href="http://en.wikipedia.org/wiki/Calling_convention">calling conventions</a>.
+<p>
+
+References:
+<ul>
+<li> <A href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html">Pseudo Ops</A>, including <A href="https://sourceware.org/binutils/docs/as/CFI-directives.html">CFI directives</A>
+</ul>
+
+<h3> Hello World </h3>
+
+gcc -S <A href="hello.c">hello.c</A> produces a hello.s.  On lovecraft
+in 2021 it looks like the following.
+Commentary in red is not part of the file.
+
+<pre>
+	.file	"hello.c"        <font color=red>pseudo, what file are we</font>
+	.text                    <font color=red>which section, defaults to 0 (code)</font>
+	.section	.rodata  <font color=red>read-only data section</font>
+.LC0:                            <font color=red>a label for the following string data</font>
+	.string	"hello, world"   <font color=red>almost C format!</font>
+	.text
+	.globl	main             <font color=red>make this name visible to other modules in the linker</font>
+	.type	main, @function  <font color=red>make this name denote a function</font>
+main:                            <font color=red>a label for the following code</font>
+.LFB0:                           <font color=red>another label, for a function beginning</font>
+	.cfi_startproc           <font color=red>call frame information, needed for exception handline</font>
+	pushq	%rbp             <font color=red>first actual instruction saves rbp</font>
+	.cfi_def_cfa_offset 16   <font color=red>canonical frame address 16 bytes above rsp</font>
+	.cfi_offset 6, -16       <font color=red>previous value of register 6 is at -16 from CFA</font>
+	movq	%rsp, %rbp       <font color=red>set new frame pointer at top of register</font>
+	.cfi_def_cfa_register 6  <font color=red>use register 6</font>
+	leaq	.LC0(%rip), %rdi <font color=red>load address of string into %rdi</font>
+	call	puts@PLT         <font color=red>call puts()</font>
+	movl	$0, %eax         <font color=red>set eax to 0</font>
+	popq	%rbp             <font color=red>restore old base pointer</font>
+	.cfi_def_cfa 7, 8        <font color=red>CFA in register 7 at offset 8</font>
+	ret                      <font color=red>return!</font>
+	.cfi_endproc             <font color=red>end of function</font>
+.LFE0:                           <font color=red>label for end of function</font>
+	.size	main, .-main     <font color=red>size of function</font>
+	.ident	"GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0" <font color=red>debugging info</font>
+	.section	.note.GNU-stack,"",@progbits <font color=red>debugging section</font>
+</pre>
+
+Assemble it with <code>as -o hello.o hello.s</code> to produce a hello.o.
+Link it with <pre>ld -dynamic-linker /lib64/ld-linux-x86-64.so.2 /usr/lib/x86_64-linux-gnu/crt1.o /usr/lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbegin.o hello.o -lc /usr/lib/gcc/x86_64-linux-gnu/7/crtend.o /usr/lib/x86_64-linux-gnu/crtn.o</pre>

@@ -1,0 +1,198 @@
+<h3> Notes for Transpiling: Java (Jzero) to Unicon</h3>
+
+Top level mapping of a Java class containing static methods to the
+corresponding Unicon package:
+
+<p>
+
+<table border>
+<tr><th>Production <th> Semantic Rules
+
+<tr><td> ClassDecl : public class name ClassBody
+<td>
+<pre>
+ClassDecl.icncode := ["package " || name.text] |||
+                      ClassBody.staticcode |||
+                     ["class " || name.text || "()"] |||
+                      ClassBody.icncode
+ClassDecl.helper  := ["procedure main(argv)",
+                      "   " || name.text || "__main ! argv",
+	              "end"]
+</pre>
+
+</table>
+
+<h4> Expressions </h4>
+
+For most languages this will partially be a no-op, and for some operators
+there is a trivial mapping to a different token. When there is no corresponding
+operator in the target language, this mapping may involve implementing a
+source language operator by calling an underlying runtime system function.
+
+<p>
+
+<table border>
+<tr><th>Production <th> Semantic Rules
+
+<tr><td> Assignment : IDENT '=' AddExpr
+<td>
+<pre>
+Assignment.icncode := [ IDENT.text || " := " ] ||| AddExpr.icncode
+</pre>
+
+<tr><td> AddExpr : AddExpr<sub>1</sub> '+' MulExpr
+<td>
+<pre>
+AddExpr.icncode := AddExpr<sub>1</sub>.icncode ||| ["+"] ||| MulExpr.icncode
+</pre>
+
+<tr><td> AddExpr : AddExpr<sub>1</sub> '-' MulExpr
+<td>
+<pre>
+AddExpr.icncode := AddExpr<sub>1</sub>.icncode ||| ["-"] ||| MulExpr.icncode
+</pre>
+
+<tr><td> MulExpr : MulExpr<sub>1</sub> '*' UnaryExpr
+<td>
+<pre>
+MulExpr.icncode := MulExpr<sub>1</sub>.icncode ||| ["*"] ||| UnaryExpr.icncode
+</pre>
+
+<tr><td> MulExpr : MulExpr<sub>1</sub> '/' UnaryExpr
+<td>
+<pre>
+MulExpr.icncode := MulExpr<sub>1</sub>.icncode ||| ["/"] ||| UnaryExpr.icncode
+</pre>
+
+<tr><td> UnaryExpr : '-' UnaryExpr<sub>1</sub>
+<td>
+<pre>
+UnaryExpr.icncode := ["-"] ||| UnaryExpr<sub>1</sub>.icncode
+</pre>
+
+<tr><td> UnaryExpr : '(' AddExpr ')'
+<td>
+<pre>
+UnaryExpr.icncode := ["("] ||| AddExpr.icncode ||| [")"]
+</pre>
+
+<tr><td> UnaryExpr : IDENT
+<td>
+<pre>
+UnaryExpr.icncode := [IDENT.text]
+</pre>
+
+</table>
+
+
+<h4> Control Structures </h4>
+
+If-then statements and while loops.
+
+<p>
+
+<table border>
+<tr><th>Production <th> Semantic Rules
+
+<tr><td> IfThenStmt : if '(' Expr ')' Stmt
+<td>
+<pre>
+IfThenStmt.icncode := [ "if " ] ||| Expr.icncode |||
+                      [" then "] ||| Stmt.icncode
+</pre>
+
+<tr><td> IfThenElseStmt : <br>
+     if '(' Expr ')' Stmt<sub>1</sub> else Stmt<sub>2</sub>
+<td>
+<pre>
+IfThenElseStmt.icncode := [ "if " ] ||| Expr.icncode |||
+		          [" then "] ||| Stmt<sub>1</sub>.icncode |||
+			  [" else "] ||| Stmt<sub>2</sub>.icncode
+</pre>
+
+<tr><td> WhileStmt : while '(' Expr ')' Stmt
+<td>
+<pre>
+WhileStmt.icncode := [ "while " ] ||| Expr.icncode |||
+                     [" do "] ||| Stmt.icncode
+</pre>
+
+
+</table>
+
+<h4> Boolean and Relational Expressions </h4>
+
+Although Unicon has different tokens for corresponding operators,
+and although goal-directed evaluation semantics have differences,
+the mapping is nevertheless direct.
+
+<p>
+
+<table border>
+<tr><th>Production <th> Semantic Rules
+
+<tr><td> RelExpr : RelExpr<sub>1</sub> RelOp AddExpr
+<td>
+<pre>
+RelExpr.icncode := RelExpr<sub>1</sub>.icncode |||
+		   [RelOp.text] ||| AddExpr.icncode
+</pre>
+
+<tr><td> EqExpr : EqExpr<sub>1</sub> ISEQUALTO RelExpr
+<td>
+<pre>
+EqExpr.icncode := EqExpr<sub>1</sub>.icncode |||
+		   ["==="] ||| AddExpr.icncode
+</pre>
+
+<tr><td> EqExpr : EqExpr<sub>1</sub> NOTEQUALTO RelExpr
+<td>
+<pre>
+EqExpr.icncode := EqExpr<sub>1</sub>.icncode |||
+		   ["~==="] ||| AddExpr.icncode
+</pre>
+
+<tr><td> AndExpr : AndExpr<sub>1</sub> &amp;&amp; EqExpr
+<td>
+<pre>
+AndExpr.icncode := AndExpr<sub>1</sub>.icncode |||
+		   ["&amp;"] ||| EqExpr.icncode
+</pre>
+
+<tr><td> OrExpr : OrExpr<sub>1</sub> || AndExpr
+<td>
+<pre>
+OrExpr.icncode := OrExpr<sub>1</sub>.icncode |||
+		   ["|"] ||| AndExpr.icncode
+</pre>
+
+<tr><td> UnaryExpr : ! UnaryExpr<sub>1</sub>
+<td>
+<pre>
+UnaryExpr.icncode := ["~"] ||| UnaryExpr<sub>1</sub>.icncode
+</pre>
+</table>
+
+<h4> Method Calls </h4>
+
+There are two production rules.
+
+<p>
+
+<table border>
+<tr><th>Production <th> Semantic Rules
+
+<tr><td> MethodCall : Name ( ArgList )
+<td>
+<pre>
+MethodCall.icncode := Name.icncode ||| ["("] ||| ArgList.icncode ||| [")"]
+</pre>
+
+<tr><td> MethodCall : Primary . IDENT ( ArgList )
+<td>
+<pre>
+MethodCall.icncode :=  Name.icncode ||| ["." || IDENT.text || "("] |||
+		       ArgList.icncode ||| [")"]
+</pre>
+
+</table>

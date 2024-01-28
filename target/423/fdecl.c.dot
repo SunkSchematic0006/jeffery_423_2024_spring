@@ -1,0 +1,31 @@
+digraph {
+N19 [shape=box label="declaration#0"];
+N19 -> N0;
+N0 [shape=box style=dotted label=" INT \n text = int \l lineno = 0 \l"];
+N19 -> N18;
+N18 [shape=box label="function declarator#4"];
+N18 -> N1;
+N1 [shape=box style=dotted label=" IDENTIFIER \n text = f \l lineno = 0 \l"];
+N18 -> N16;
+N16 [shape=box label="parameter_list#5"];
+N16 -> N11;
+N11 [shape=box label="parameter_list#5"];
+N11 -> N6;
+N6 [shape=box label="parameter_declaration1#6"];
+N6 -> N3;
+N3 [shape=box style=dotted label=" INT \n text = int \l lineno = 0 \l"];
+N6 -> N4;
+N4 [shape=box style=dotted label=" IDENTIFIER \n text = x \l lineno = 0 \l"];
+N11 -> N10;
+N10 [shape=box label="parameter_declaration1#6"];
+N10 -> N7;
+N7 [shape=box style=dotted label=" INT \n text = int \l lineno = 0 \l"];
+N10 -> N8;
+N8 [shape=box style=dotted label=" IDENTIFIER \n text = y \l lineno = 0 \l"];
+N16 -> N15;
+N15 [shape=box label="parameter_declaration1#6"];
+N15 -> N12;
+N12 [shape=box style=dotted label=" FLOAT \n text = float \l lineno = 0 \l"];
+N15 -> N13;
+N13 [shape=box style=dotted label=" IDENTIFIER \n text = z \l lineno = 0 \l"];
+}

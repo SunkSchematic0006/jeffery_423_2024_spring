@@ -1,0 +1,9 @@
+procedure main()
+  x := table("e1", 1, "e2", 2)
+  every k := key(x) do write(k, " ", x[k])
+  puny_dot("hello", "upper", ...)
+  String("hello").upper()
+
+  print( x + y, ... )
+
+end

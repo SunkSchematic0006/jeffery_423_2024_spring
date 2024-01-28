@@ -1,0 +1,354 @@
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include "tree.h"
+#include "sym.h"
+#include "cgram.tab.h"
+#include "type.h"
+
+extern int nerrors;
+
+void populatesymbols(nodeptr t);
+void populate_init_declarators(nodeptr t, ctypeptr typ);
+
+/*
+ * An error function during a tree traversal will typically occur
+ * at some particular tree node. But to report it, compiler will
+ * have to map back to some source location, given by some token.
+ */
+void error(char *s, nodeptr t)
+{
+   while (t->label < 0 && t->u.n.nkids > 0) t = t->u.n.kids[0];
+   yylval.treenode = t;
+   yyerror(s);
+}
+
+void warn(char *s, nodeptr t)
+{
+   char tmp[128];
+   sprintf(tmp, "warning: %s", s);
+   error(tmp, t);
+   nerrors--; /* since yyerror() in this example would increment nerrors */
+}
+
+/*
+ * given a (sub)tree for some function header, find its name.
+ * Different subtree shapes will have the identifier in different spots.
+ * Can walk the tree via recursion, but this function updates "t" locally
+ * and iterates.
+ */
+char *get_funcname(nodeptr t)
+{
+   int seenfunc = 0;
+   while (1) {
+      switch (t->label) {
+      case IDENTIFIER:
+	 if (seenfunc) return t->u.t->text;
+         return NULL;
+      case DECLARATOR:
+	 warn("pointers not implemented", t);
+	 t = t->u.n.kids[1]; break;
+      case DIRECT_DECLARATOR:
+	 t = t->u.n.kids[0]; break;
+      case DIRECT_DECLARATOR-1:
+      case DIRECT_DECLARATOR-2:
+      case DIRECT_DECLARATOR-3:
+	 warn("arrays not allowed in function headers", t);
+	 return NULL;
+      case DIRECT_DECLARATOR-4:
+      case DIRECT_DECLARATOR-5:
+      case DIRECT_DECLARATOR-6:
+	 /* now we have seen function syntax, want the ident */
+         seenfunc = 1;
+	 t = t->u.n.kids[0]; break;
+         break;
+      default:
+	 error("get_funcname called on non-functiony subtree");
+	 /* may want to sprintf in order to print the t->label on this */
+	 return NULL;
+	 }
+      }
+}
+
+/*
+ * When implemented, this probably would insert parameter information
+ * into a (local) symbol table for a given function.  Anyhow, it
+ * demonstrates the (more typical) recursive tree traversal style.
+ */
+void populateparams(nodeptr t)
+{
+   int i;
+   if (t==NULL) return;
+
+   switch(t->label) {
+   case DIRECT_DECLARATOR-4:
+   case DIRECT_DECLARATOR-6:
+      /* replace this with code that inserts parameters into symbol table */
+      warn("we don't do parameters yet", t);
+      return;
+   case DIRECT_DECLARATOR-5:
+      return;
+   default:
+      for (i=0; i < t->u.n.nkids; i++)
+	 populateparams(t->u.n.kids[i]);
+      }
+}
+
+/*
+ * Find local declarations in a compound statement.
+ * Illustrates a more general tree traversal that calls a
+ * more specific (helper) tree traversal when it finds an
+ * subtree type of interest (DECLARATION triggers populatesymbols).
+ */
+void populatelocals(nodeptr t)
+{
+   int i;
+   while(1) {
+      switch(t->label) {
+      case COMPOUND_STATEMENT: return;
+      case COMPOUND_STATEMENT-1:
+      case COMPOUND_STATEMENT-3:
+	 t = t->u.n.kids[0];
+	 break;
+      case COMPOUND_STATEMENT-2: return;
+      case DECLARATION: {
+	 populatesymbols(t);
+	 return;
+	 }
+      default:
+	 if (is_nonterminal(t) {
+	    for (i=0; i < t->u.n.nkids; i++)
+	       populatelocals(t->u.n.kids[i]);
+	    }
+	 return;
+	 }
+      }
+   }
+
+/*
+ * Having defined a struct or class for type representation, someone
+ * has to constuct those types from information given in parse tree nodes.
+ */
+ctypeptr synthesize_type(nodeptr t)
+{
+   int i;
+   ctypeptr t1;
+
+   if (t == NULL) return error_type;
+
+   if (is_nonterminal(t)) {
+      for (i=0; i < t->u.n.nkids; i++) {
+	 t1 = synthesize_type(t->u.n.kids[i]);
+	 /*
+	  * Need to check grammar: are there any points where type
+	  * information is combined from multiple children??
+	  */
+	 if (t1 != error_type) { t->type = t1; return t1; }
+	 }
+      }
+
+   switch(t->label) {
+   case INT:
+   case INT_LITERAL:
+      t->type = integer_type;
+      return integer_type;
+   default:
+      return error_type;
+      }
+}
+
+/*
+ * A more specialized tree traversal, only called in a known subset of
+ * the tree, it is still written to recurse on children so it can skip
+ * over enclosing non-terminal nodes and trigger on two production rules
+ * for function definition, and one production rule for declarations.
+ * In these cases, it will call helper functions like get_funcname(),
+ * and perform symbol table insertions. Since functions have local
+ * scopes, they must be traversed and their symbols inserted into new
+ * symbol tables.  Global variable "current" tracks the current scope.
+ */
+void populatesymbols(nodeptr t)
+{
+   int i, typ;
+   char *s;
+   if (t == NULL) return;
+   switch(t->label) {
+   case FUNCTION_DEFINITION:
+      if (s = get_funcname(t->u.n.kids[0])) {
+	 struct st_entry *ste;
+	 ctypeptr typ = mktype(FUNCTION_T);
+	 ste = insert(current, s, typ);
+	 if (ste == NULL) {
+	    printf("redeclared function %s\n", s);
+	    return;
+	    }
+	 current = mksym(current);
+	 ste->type->u.f.sym = current;
+	 populateparams(t->u.n.kids[0]);
+	 populatelocals(t->u.n.kids[1]);
+	 current = current->parent;
+	 }
+      return;
+   case FUNCTION_DEFINITION-1:
+      if (s = get_funcname(t->u.n.kids[1])) {
+	 struct st_entry *ste;
+	 ctypeptr typ = mktype(FUNCTION_T);
+	 ste = insert(current, s, typ);
+	 if (ste == NULL) {
+	    printf("redeclared function %s\n", s);
+	    }
+	 current = mksym(current);
+	 ste->type->u.f.sym = current;
+	 populateparams(t->u.n.kids[1]);
+	 populatelocals(t->u.n.kids[2]);
+	 current = current->parent;
+	 }
+      return;
+   case DECLARATION:
+      /* child 0 is a declaration specifiers containing a base type */
+      t->type = synthesize_type(t->u.n.kids[0]);
+
+      /* child 1 is an init_declarator_list, with symbols to insert */
+      populate_init_declarators(t->u.n.kids[1], t->type);
+      break;
+      }
+
+   if (t->label > 0) {
+      }
+   else {
+      for (i=0; i < t->u.n.nkids; i++)
+	 populatesymbols(t->u.n.kids[i]);
+      }
+}
+
+void populate_init_declarators(nodeptr t, ctypeptr typ)
+{
+   switch (t->label) {
+   case INIT_DECLARATOR_LIST:
+      populate_init_declarators(t->u.n.kids[0], typ);
+      populate_init_declarators(t->u.n.kids[1], typ);
+      break;
+   case INIT_DECLARATOR:
+      warn("initializer ignored in C370!", t);
+      populate_init_declarators(t->u.n.kids[0], typ);
+      break;
+   case DECLARATOR: /* it is a pointer and a direct_declarator */
+      warn("pointers not supported in C370!", t);
+      populate_init_declarators(t->u.n.kids[1], typ);
+      break;
+   case IDENTIFIER:
+      if (insert(current, t->u.t->text, typ) == NULL) {
+	 error("illegal redeclaration", t);
+	 }
+      break;
+   case DIRECT_DECLARATOR: /* parenthesized direct_declarator */
+      populate_init_declarators(t->u.n.kids[0], typ);
+      break;
+   case DIRECT_DECLARATOR-1: /* direct_declarator [] */
+      warn("empty arraytypes not supported!", t);
+      populate_init_declarators(t->u.n.kids[0], typ);
+      break;
+   case DIRECT_DECLARATOR-2: /* direct_declarator [siz] */
+      warn("arrays not yet implemented!", t);
+      typ = mkarraytype(1, typ);
+      populate_init_declarators(t->u.n.kids[0], typ);
+      break;
+   case DIRECT_DECLARATOR-3: /* [ siz ] */
+      warn("anonymous array not supported", t);
+      break;
+   case DIRECT_DECLARATOR-4: /* f ( parmtypes ) */
+      warn("function not yet implemented", t);
+      break;
+   case DIRECT_DECLARATOR-5: /* f (  ) */
+      warn("function not yet implemented", t);
+      break;
+   case DIRECT_DECLARATOR-6: /* f ( idlist ) */
+      warn("function not yet implemented", t);
+      break;
+      }
+}
+
+void checkdeclared(nodeptr t)
+{
+   int i;
+   char *s;
+
+   if (t == NULL) return;
+   switch(t->label) {
+   case INT_LITERAL:
+      t->type = integer_type;
+      return;
+   case MULTIPLICATIVE_EXPRESSION:
+   case MULTIPLICATIVE_EXPRESSION-1:
+   case MULTIPLICATIVE_EXPRESSION-2:
+   case ADDITIVE_EXPRESSION:
+   case ADDITIVE_EXPRESSION-1: {
+      checkdeclared(t->u.n.kids[0]);
+      checkdeclared(t->u.n.kids[1]);
+      t->type = compare_types(t->u.n.kids[0]->type,t->u.n.kids[1]->type, PLUS);
+      if (t->type == error_type) {
+	 error("type conflict", t);
+	 }
+      }
+      return;
+   case PRIMARY_EXPRESSION: {
+      /* this treenode denotes a variable reference */
+      struct st_entry *ste;
+      if ((ste=lookup_variable(t->u.n.kids[0]->u.t->text)) == NULL) {
+	 error("undeclared variable", t->u.n.kids[0]);
+	 t->type = error_type;
+	 }
+      else {
+	 t->type = ste->type;
+	 }
+      }
+      case COMPOUND_STATEMENT: return; /* empty body */
+      case COMPOUND_STATEMENT-1: return; /* only variables, no statements */
+      case COMPOUND_STATEMENT-2:
+	 checkdeclared(t->u.n.kids[0]);
+	 return;
+      case COMPOUND_STATEMENT-3:
+	 checkdeclared(t->u.n.kids[1]);
+	 return;
+   case FUNCTION_DEFINITION:
+      if (s = get_funcname(t->u.n.kids[0])) {
+	 struct st_entry *ste;
+	 struct st *sav;
+	 ste = lookup(current, s);
+	 if (ste == NULL) {
+	    fprintf(stderr, "can't find symtab for function %s\n", s);
+	    return;
+	    }
+	 sav = current;
+	 current = ste->type->u.f.sym;
+	 checkdeclared(t->u.n.kids[1]);
+	 current = sav;
+	 }
+      return;
+   case FUNCTION_DEFINITION-1:
+      if (s = get_funcname(t->u.n.kids[1])) {
+	 struct st_entry *ste;
+	 struct st *sav;
+	 ste = lookup(current, s);
+	 if (ste == NULL) {
+	    fprintf(stderr, "can't find symtab for function %s\n", s);
+	    return;
+	    }
+	 sav = current;
+	 current = ste->type->u.f.sym;
+	 checkdeclared(t->u.n.kids[2]);
+	 current = sav;
+	 }
+      return;
+   case DECLARATION:
+      break;
+      }
+
+   if (t->label > 0) {
+      }
+   else {
+      for (i=0; i < t->u.n.nkids; i++)
+	 checkdeclared(t->u.n.kids[i]);
+      }
+
+}

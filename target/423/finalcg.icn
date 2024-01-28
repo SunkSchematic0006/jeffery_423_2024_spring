@@ -1,0 +1,256 @@
+#
+# finalcg.icn - Final Code Generation (x86_64) Demo
+#
+# This is just a pseudocode DEMO. It runs on a hardwired example
+# sequence of three address code, generating x86_64 code from it.
+#
+global
+   opcodeset,	# set of defined instructions
+   pseudoset,	# set of defined pseudo-instructions
+   curproc,	# name of current function for whom code is being generated
+   lfbcount,	# count of what function we are, not sure why at 7??
+   nlocals,	# number of locals in current function, hard-wired at present
+   activation_record_bytes
+
+#
+# main procedure opens files, constructs list of intermediate code
+#
+procedure main(args)
+   if args[1] == "-o" then fout := open(args[2],"w")
+   else fout := &output
+   lfbcount := 0
+   curproc := "undefined"
+   nlocals := 6
+
+   in := genTAC()
+   write("intermediate code\n-----------------")
+   every i := !in do i.print()
+
+   write(repl("-----------------",4))
+
+   write("final code\n----------")
+   final(in, fout)
+   write("...done")
+   if fout ~=== &output then close(fout)
+end
+
+#
+# This list of tac (three-address-code) objects is hardwired at
+# present. The three address code here is for a fibonacci function.
+# In future this should be generalized to read from a file.
+#
+procedure genTAC()
+   return [
+      tac("proc", "fib", 8, 48),
+      tac("LEQ", addr("LOCAL",0), addr("PARAM",0), 1 ),
+      tac("BIF", addr("LOCAL",0), addr("LABEL", 0)),
+      tac("GOTO", addr("LABEL", 1)),
+      tac("label", addr("LABEL", 0)),
+      tac("RET", 1),
+      # normally there would be a goto at the end of the then-part;
+      # it might be optimized away by a then-part that unconditionally
+      # returns
+      # tac("GOTO", addr("LABEL", 2)),
+      tac("label", addr("LABEL", 1)),
+      tac("SUB", addr("LOCAL",1), addr("PARAM",0), 1),
+      tac("PARM", addr("LOCAL",1)),
+      tac("CALL", "fib", 1, addr("LOCAL", 2)),
+      tac("SUB", addr("LOCAL",3), addr("PARAM",0), 2),
+      tac("PARM", addr("LOCAL",3)),
+      tac("CALL", "fib", 1, addr("LOCAL", 4)),
+      tac("ADD", addr("LOCAL",5), addr("LOCAL", 2), addr("LOCAL", 4)),
+      tac("RET", addr("LOCAL",5)),
+      tac("end")
+      ]
+end
+
+#
+# Addresses in three address code are region+offset pairs.
+# This class produces these in GNU assembler syntax when needed.
+#
+class addr(region,offset)
+   method memref()
+      case region of {
+	 "CONST": return "$" || offset
+	 "LOCAL": return (-(offset+1)*8) || "(%rbp)"
+	 "LABEL": return ".L" || offset
+	 ""     : return offset
+	 "PARAM": {
+$ifdef PASS_IN_REGISTERS
+            # Pass in registers per AMD/Intel recommendation.
+	    # Unfinished. Without -O, GCC patiently stores all
+	    # to corresponding memory offsets at func entry;
+	    # this might be needed if (A) func calls another func
+	    # (needs registers as params), or (B) code generator
+	    # needs registers for function body code.
+	    return case offset+1 of {
+	       1 : "%rdi"; 2 : "%rsi"; 3 : "%rdx"
+	       4 : "%rcx"; 5 : "%r8"; 6 : "%r9"
+	       default: (-(offset+1+nlocals)*8) || "(%rbp)"
+	       }		
+$else
+	    return (-(offset+1+nlocals)*8) || "(%rbp)"
+$endif
+	    }
+	 default: stop("need memory reference for ", string())
+	 }
+   end
+   method string()
+      return ((\region || ":")|"") || (\offset|"")
+   end
+initially
+   if /offset then {
+      if type(region) == "integer" then {
+         offset := region
+         region := "CONST"
+         }
+      else if type(region) == "string" then {
+         offset := region
+         region := ""
+         }
+      }
+end
+
+#
+# The main class for a three-address code instruction
+# Can print itself for debugging purposes; otherwise
+# just a struct with a sanity-checked constructor.
+#
+class tac(opcode, addr1, addr2, addr3)
+
+   method print()
+      if member(opcodeset, opcode) then writes("\t")
+      writes(opcode, "\t")
+      if writes((\addr1).string()) then {
+	    
+         if s2 := (\addr2).string() then {
+            if *s2 > 0 then writes(", ", s2)
+            s3 := (\addr3).string()
+            if *\s3 > 0 then writes(", ", s3)
+            }
+         }
+      write()
+   end
+initially
+   /opcodeset := set(["ADD","SUB","MUL","DIV","NEG","ASN","ADDR",
+		       "LCONT","SCONT",
+		       "GOTO","BLESS","BLEQ","BGREAT","BGREQ","BEQ","BNEQ",
+		       "LEQ",
+		       "BIF","BNIF","PARM","CALL","RET"])
+   /pseudoset := set(["global", "proc", "local", "label", "end"])
+   if (not member(opcodeset, opcode)) & (not member(pseudoset,opcode)) then
+      stop("bad opcode ", image(opcode))
+
+   if type(\ addr1) ~== "addr__state" then addr1 := addr(addr1)
+   if type(\ addr2) ~== "addr__state" then addr2 := addr(addr2)
+   if type(\ addr3) ~== "addr__state" then addr3 := addr(addr3)
+end
+
+procedure final(L, f)
+local nparms
+   /f := &output
+   nparms := 0
+   write(f, "\t.file\t\"demo.as\"")
+   write(f, "\t.text")
+   while ic := pop(L) do {
+      case ic.opcode of {
+	 "ADD": {
+	    write(f,"\tmovq\t", ic.addr2.memref(), ", %rax")
+	    write(f,"\taddq\t", ic.addr3.memref(), ", %rax")
+	    write(f,"\tmovq\t%rax, ", ic.addr1.memref())
+	    }
+	 "SUB": {
+	    write(f,"\tmovq\t", ic.addr2.memref(), ", %rax")
+	    write(f,"\tsubq\t", ic.addr3.memref(), ", %rax")
+	    write(f,"\tmovq\t%rax, ", ic.addr1.memref())
+	    }
+	 "PARM": {
+	    nparms +:= 1
+	    if nparms <= 6 then {
+	       # stick into register
+	       write(f,"\tmovq\t", ic.addr1.memref(), ", ", case nparms of {
+		  1 : "%rdi"; 2 : "%rsi"; 3 : "%rdx"
+		  4 : "%rcx"; 5 : "%r8"; 6 : "%r9"
+		  default: stop("sir not appearing in this film")
+	          })
+	       }
+	    else {
+	       # stick onto stack at offset (nparms-7)*8
+	       writes("UNIMPLEMENTED ")
+	       ic.print()
+	       stop()
+	       }
+	    }
+	 "CALL": {
+	    write(f,"\tcall\t", ic.addr1.memref())
+	    write(f,"\tmovq\t%rax, ", ic.addr3.memref())
+	    nparms := 0
+	    }
+	 "BIF": {
+	    write(f,"\tcmpq\t$0, ", ic.addr1.memref())
+	    write(f,"\tjne\t", ic.addr2.memref())
+	    }
+	 "GOTO": {
+	    write(f,"\tjmp\t", ic.addr1.memref())
+	    }
+	 "LEQ": {
+	    write(f,"\tcmpq\t", ic.addr3.memref(),", ", ic.addr2.memref())
+	    write(f,"\tsetle\t%al")
+	    write(f,"\tmovzbl\t%al,%eax")
+	    write(f,"\tmovq\t%rax, ", ic.addr1.memref())
+	    }
+	 "RET": {
+	    # if there is a return value store it to %rax
+	    if \ ic.addr1 then {
+	       write(f,"\tmovq\t", ic.addr1.memref(),", %rax")
+	       }
+	    write(f, "\taddq\t$", activation_record_bytes, ", %rsp")
+	    write(f, "\tpopq\t%rbx")
+	    write(f, "\tleave")
+	    write(f, "\t.cfi_def_cfa 7, 8")
+	    write(f,"\tret")
+	    }
+	 "proc": {
+	    curproc := ic.addr1.offset
+	    write(f,".globl ", curproc)
+	    write(f,"\t.type\t", curproc,", @function")
+	    write(f,curproc,":")
+	    write(f,".LFB",lfbcount,":")
+	    write(f,"\t.cfi_startproc")
+	    write(f,"\tpushq\t%rbp")
+	    write(f,"\t.cfi_def_cfa_offset 16")
+	    write(f,"\t.cfi_offset 6, -16")
+	    write(f,"\tmovq\t%rsp, %rbp")
+	    write(f,"\t.cfi_def_cfa_register 6")
+	    write(f,"\tpushq\t%rbx")
+	    activation_record_bytes := ic.addr2.offset+ic.addr3.offset
+	    write(f,"\tsubq\t$", activation_record_bytes, ", %rsp")
+	    if ic.addr2.offset > 0 then {
+		write(f, "\tmovq\t%rdi, -",ic.addr3.offset+8,"(%rbp)")
+		if ic.addr2.offset > 8 then {
+		    write(f, "\tmovq\t%rsi, -",ic.addr3.offset+16,"(%rbp)")
+		    if ic.addr2.offset > 8 then {
+			write(f, "\tmovq\t%rdx, -",ic.addr3.offset+24,"(%rbp)")
+			# ...
+		    }
+		}
+	    }
+	    }
+	 "label": {
+	    write(f,ic.addr1.memref(),":")
+	    }
+	 "end": {
+	    write(f,"\t.cfi_endproc")
+	    write(f,".LFE",lfbcount,":")
+	    write(f,"\t.size\t", curproc, ", .-", curproc)
+	    lfbcount +:= 1
+	    }
+	 default: {
+	    writes("UNIMPLEMENTED ")
+	    ic.print()
+	    stop()
+	    }
+	}
+   }
+   write(f, "\t.ident\t\"finalcg 0.1\"")
+end

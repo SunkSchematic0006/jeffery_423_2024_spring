@@ -1,0 +1,21 @@
+link math # import math; Unicon math is not identical Python math module
+global a
+procedure func1(x)
+    if (x%2) = 0 then
+        x:=1
+    else
+        x:=0
+end
+procedure main()
+writes("Please enter a positive integer: ")
+a := integer(read())
+print (a)
+while (1 <= a) do
+    if (func1(a) = 1) then {
+        print(func1(a))
+        a := a - 1
+        }
+    else
+         a := a - 1
+end
+        

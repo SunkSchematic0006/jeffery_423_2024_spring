@@ -1,0 +1,54 @@
+efday ax(elements):may 
+aximummay =ay elements[0]way 
+orfay iway inway ange(len(elements)):ray 
+ifway aximummay <ay elements[i]:way 
+aximummay =ay elements[i]way 
+rint("Thepay aximummay ofway hetay istlay is",way aximum)may 
+
+
+efday in(elements):may 
+inimummay =ay elements[0]way 
+orfay iway inway ange(len(elements)):ray 
+ifway inimummay >ay elements[i]:way 
+inimummay =ay elements[i]way 
+rint("Thepay inimummay ofway hetay istlay is",way inimum)may 
+
+
+efday um(elements):say 
+iway =ay 0ay 
+hileway iway =<ay len(elements)):(ay 
+otaltay =ay elements[i]way 
+iway =ay iway +ay 1ay 
+ifway iway >ay :0ay 
+otaltay =ay otaltay +ay elements[i]way 
+rint("Thepay umsay ofway hetay istlay is",way otal)tay 
+
+""def"ay idpoint(elements):may 
+
+
+efday inear_search(elements):lay 
+
+
+efday average(elements):way 
+
+
+efday everse(elements):ray 
+orfay iway inway angeray en(elements):lay 
+jay =ay len(elements))(ay -ay iway 
+ev_elementsray =ay elements[j,way i]way 
+
+"""ay 
+
+efday ain():may 
+elementsway =ay 3[ay, 5ay, 6ay, 8ay, 1ay, 9ay, 21ay, 51ay, 2ay, ]2ay 
+ax(elements)may 
+in(elements)may 
+um(elements)say 
+''midpoint(elements)'ay 
+inear_search(elements)lay 
+average(elements)way 
+everse(elements)'''ray 
+
+
+ifway _name___ay ==ay __main__":"ay 
+ain()may 

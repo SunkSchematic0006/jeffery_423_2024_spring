@@ -1,0 +1,8 @@
+global f
+global f
+
+procedure main()
+end
+
+procedure f()
+end

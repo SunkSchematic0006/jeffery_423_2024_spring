@@ -1,0 +1,48 @@
+<h3> CS 445 HW#6 </h3>
+
+Due: Monday Dec 10 9am
+<p>
+
+Generate final code for g0.  Please turnin via bblearn an electronic copy
+of your whole project in a hw6.zip.
+
+Take your g0 compiler, and add target code generation. The default target
+is <A href="code.html">x86_64 assembler</A> code.
+<!--<ol>
+<li> <a href="code.html">x86_64</A> assembler code
+</ol>-->
+<p>
+You may generate code for some other target if the instructor approves of
+the target in advance; generally, approvals will be granted for lower
+level language targets that run on cs-course42.
+<p>
+
+Finals week demos: you are encouraged to demonstrate your compiler
+to your professor in its final state.  This allows you to show what works
+and ensures that you get credit for as much as you are able to accomplish.
+Minor corrections and resubmission will be allowed in reponse to a finals
+week demo.
+
+
+<h4> Notes </h4>
+<ul>
+<li> your executable should still be named "g0"
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> take in files with .g0 extensions and write out corresponding
+     final code in files with an appropriate (e.g. .s) extension.
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> If no errors and -s was given, generate assembler (as)
+<li> If no errors and -c was given, call the assembler (as) or compiler (cc)
+     to produce an object code file in your target language.
+<li> If no errors and no -c was given, call the assembler or compiler to
+     produce a .o file, and if that was successful, go ahead and call a
+     linker and produce an executable
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+</ul>

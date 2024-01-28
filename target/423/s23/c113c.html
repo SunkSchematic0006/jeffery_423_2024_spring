@@ -1,0 +1,572 @@
+<HTML>
+<HEAD>
+<TITLE>c113c - Language Reference </TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<br><br><br>
+<br><br>
+<br>
+
+<CENTER>
+<H3>
+<font size=7>c113c</font><br><br>
+<em> a Programming Language</em>
+</H3>
+<A href="http://www.cs.uidaho.edu/~jeffery/">Clinton Jeffery</A>
+<code><a href="mailto:jeffery@cs.nmt.edu">jeffery</A>@cs.nmt.edu</code><br>
+with input from CSE 423 students
+<br><br>
+<em> Draft Version 0.3, February 3, 2021. </em>
+<p>
+<br><br>
+<h2> Language Reference Manual </h2>
+<br>
+<strong>Abstract</strong>
+</CENTER>
+<p>
+
+<blockquote>
+
+<code>c113c</code> (pronounced "See 113 See", short for
+CSE 113 Compiler) is a subset of
+the ANSI C Programming Language
+<code>c113c</code> is a tiny
+language intended to be implemented in a compiler construction class.
+
+
+</blockquote>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<center>
+<A href="http://www.nmt.edu"> New Mexico Institute of Mining and Technology</A><br>
+<A href="http://www.cs.nmt.edu">Department of Computer Science and Engineering</A><br>
+Socorro, NM 87801 USA
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<H3>Contents </h3>
+
+<OL>
+
+<LI><A HREF="#Introduction">Introduction</A></LI>
+<LI><A HREF="#Lexical">Lexical Rules</A></LI>
+	<UL>
+	<LI> <A HREF="#Comments">Whitespace and Comments</A>
+	<LI> <A HREF="#Reserved">Reserved words</A>
+	<LI> <A HREF="#Operators">Operators</A>
+	<li> <A HREF="#Literals">Literals</A>
+	<li> <A HREF="#Punctuation">Punctuation</A>
+	<LI><A HREF="#SemiColons">Semi-colons</A></LI>
+	</UL>
+<LI><A HREF="#Syntax">Syntax</A></LI>
+	<UL>
+	<LI><A HREF="#FunctionSyntax">Function Syntax</A></LI>
+	<LI><A HREF="#ControlStructures">Control Structures</A></LI>
+	<LI><A HREF="#DeclarationSyntax">Variable Declaration Syntax</A></LI>
+	</UL>
+<LI><A HREF="#Types">Data Types and Semantics</A></LI>
+	<UL>
+	<LI><A HREF="#Numbers">Numbers</A></LI>
+	<LI><A HREF="#Arrays">Arrays</A></LI>
+	<LI><A HREF="#Strings">Strings</A></LI>
+	</UL>
+
+<LI><A HREF="#Summary">Summary</A>
+</OL>
+<p>
+<HR>
+
+<h2><A NAME="Introduction">1. Introduction</A></h2>
+
+<code>c113c</code> is a subset of C.
+<code>c113c</code> is intended to correspond roughly to
+the subset of C that would be covered in a CS1 class such as NMT's CSE
+113 course.
+The facilities that c113c supports are just barely
+interesting enough to write some non-trivial computations in it.
+
+<p>
+c113c programs are legal C programs with a .c file extension.
+A program begins
+with a <code>main()</code> procedure.
+A "Hello world" program looks like:
+
+<pre>
+#include &lt;stdio.h&gt;
+
+int main() {
+   printf("Hello, world");
+   return 0;
+}
+</pre>
+
+The c113c include facility is restricted to only those built-in system
+includes used in CSE 113, which are faked in c113c.
+
+<p>
+
+C features many basic types.
+c113c supports:
+
+<pre>
+char
+int
+float
+</pre>
+
+<p>
+
+The types <code>int</code> and <code>float</code> both refer to 64-bit values.
+The types <code>short</code>, <code>long</code>, and <code>double</code> are
+allowed in c113c and denote aliases for <code>int</code> and <code>float</code>
+
+<p>
+  
+  c113c has <code>while</code> and <code>for</code> loops.
+  Curly braces around the loop body are required.
+  For loops require non-empty expressions for all three parts of the header.
+  For loop clauses do not allow variable declaration in the initializer,
+  nor use of the comma operator to initialize or update multiple variables
+  each iteration.
+
+<p>
+
+Conditionals in c113c consist of if and switch statements.
+If statements use syntax similar to while loops. Curly braces are required.
+An <code>else</code> branch is optional.
+
+
+<pre>
+if (x &lt; 0) {
+   ...
+}
+</pre>
+
+<code>else</code> branches require curly braces, unless they are (chained) if statements.
+
+<pre>
+if (x &lt; 0) {
+   ...
+} else if (x &lt; 10) {
+   ...
+} else {
+   ...
+}
+</pre>
+
+<p>
+
+  Switch statements in c113c require constant, non-duplicate switch cases.
+  A break is
+  required at the end of each pre-final, non-empty chunk of code
+  (no fall-through).
+  A default clause is required at the end, with no break.
+
+
+  <pre>
+    switch (c) {
+    case 1: case 2:
+       printf("1 or 2\n"); break;
+    case 3: case 4:
+       printf("3 or 4\n"); break;
+    default:
+       printf("some other value\n");
+    }
+  </pre>
+
+
+<p>
+C supports creation of new types via a struct. c113c has structs.
+<p>
+
+C has pointers, but no pointer arithmetic. c113c should support just enough
+pointers to support homework assignments in CSE 113. Linked lists.
+Thus, pointers to structs.
+
+<p>
+
+C has arrays.  c113c has one-dimensional arrays only.
+
+<p>
+
+When in doubt about c113c features, refer to the C language specification.
+I will add notes below as needed.  The easiest way to get out of
+having to implement something is to ask about it and negotiate.
+
+
+
+<h3> 2. <A NAME="Lexical">Lexical Rules</A> </h3>
+
+The lexical rules of c113c start with: the lexical rules of C.
+<code>c113c</code>
+may simplify and reduce the lexical rules of C a bit.
+<p>
+
+
+<p>
+<A NAME="Comments"></A><B><FONT SIZE=3>2.1 Whitespace and Comments</B></FONT>
+<p>
+
+Of the C whitespace characters, c113c must implement space, tab, carriage
+return, and newline.
+
+<p>
+
+  c113c supports both styles of C comments.
+  In C comments are text placed between the delimiters /* and */.
+  Comments can also use // to comment from that point to the end of a line.
+  Examples:
+  <pre> x = 1; //single line comment
+    /* this is a
+    multiple line
+    comment */</pre>
+  
+<p>
+<A NAME="Reserved"></A><B><FONT SIZE=3>2.2 Reserved Words</B></FONT>
+<p>
+
+  C has many reserved words. Newer dialects have more than older versions.
+  The reserved words (also called keywords) in c113c are in bold.
+  Those not in c113c are underlined and
+  should result in a fatal error ("this C feature is not in c113c").
+  Note that c113c also has semantic simplifications compared with ANSI C.
+
+<p>
+
+  <table border>
+    <tr><td><u>auto</u><td><b>else</b><td><b>long</b><td><b>switch</b></tr>
+    <tr><td><b>break</b><td><u>enum</u><td><u>register</u><td><u>typedef</u></tr>
+    <tr><td><b>case</b><td><u>extern</u><td><b>return</b><td><u>union</u></tr>
+    <tr><td><b>char</u><td><b>float</b><td><u>short</u><td><u>unsigned</u></tr>
+    <tr><td><u>const</u><td><b>for</b><td><u>signed</u><td><b>void</b></tr>
+    <tr><td><u>continue</u><td><u>goto</u><td><b>sizeof</b><td><u>volatile</u></tr>
+    <tr><td><b>default</b><td><b>if</b><td><u>static</u><td><b>while</b></tr>
+    <tr><td><u>do</u><td><b>int</b><td><b>struct</b><td><b>double</b>
+</table>
+
+
+
+<p>
+<A NAME="Operators"></A><B><FONT SIZE=3>2.3 Operators</B></FONT>
+<p>
+
+  c113c supports the following operators<p>
+  
+<table border>
+  <tr> <td> = <td> assignment </tr>
+  <tr> <td> + - * / <td> binary arithmetic, int and float</tr>
+  <tr> <td> % <td> binary arithmetic, int</tr>
+  <tr> <td> ++ -- <td> unary increment and decrement, int only, suffix only</tr>
+  <tr> <td> - <td> unary negation, prefix</tr>
+  <tr> <td> == != &gt; &lt; &gt;= &lt;= <td> binary comparison</tr>
+  <tr> <td> &amp;&amp; || ! <td> logical AND, OR, and NOT </tr>
+  <tr> <td> &amp; * sizeof <td> unary prefix address-of, contents-of, size-of </tr>
+  <tr> <td> [ ] . <td> binary subscript and dot
+
+  <tr> <td> (type) <td> how much casting does c113c absolutely require? </tr>
+</table>
+
+<p>
+
+An error is reported for
+<ul>
+<li> bitwise or shift operators
+<li> augmented assignment operators
+<li> ternary ?: operator
+<li> field-pointer access -&gt;
+</ul>
+
+C's comma operator <code>,</code> is not in c113c,
+but the comma is legal punctuation in variable
+declaration lists and function parameter lists.
+
+
+<p>
+<A NAME="Literals"></A><B><FONT SIZE=3>2.4 Literals</B></FONT>
+<p>
+
+<h4>Integers</h4>
+<ul>
+    <li> c113c only does decimal integer literals
+    <li> hexadecimal, octal are recognized and reported as lexical errors
+    <li> unsigned designation is a lexical error
+   <li> long designation (L suffix) allowed and ignored since all ints are long
+</ul>
+
+   <h4>Reals</h4>
+
+   <ul>
+     <li> c113c only does simple real numbers involving
+       one or more integers to the left or right (or both) of a decimal
+     <li> c113c shall recognize scientific/exponent and report as lexical error
+     <li> long designation (L suffix) allowed and ignored since all floats are
+           doubles
+   </ul>
+
+   <h4> Characters </h4>
+
+<ul>
+  <li> c113c allows simple character literals consisting of a single character
+       enclosed in apostrophes
+  <li> the character may be a printable character from the keyboard, or an
+       escape character, see below
+  <li> c113c recognizes L, U, and U8 prefixes and reports a lexical error,
+        e.g. u'x'
+  <li> c113c recognizes and reports an error for character literals with more
+    than one character, e.g. 'abc'
+</ul>
+
+   <h4> Strings </h4>
+
+<ul>
+  <li> c113c allows simple string literals consisting of zero or more
+       characters enclosed in apostrophes
+  <li> characters may be a printable character from the keyboard, or an
+       escape character, see below
+  <li> c113c recognizes L, U, and U8 prefixes and reports a lexical error
+</ul>
+ 
+
+<h4>Escape Sequences (Character and String Literals)</h4>
+
+Adapted from
+<A href="https://en.wikipedia.org/wiki/Escape_sequences_in_C">wikipedia</A>
+
+<p>
+
+   <table><tr>
+       <th>
+Escape sequence<th>Hex value in ASCII<th>	Character represented
+<tr><td>\a<td>	07<td>	Alert (Beep, Bell)
+<tr><td>\b<td>	08<td>	Backspace
+<tr><td>\e<td> 1B<td>	Escape character
+<tr><td>\f<td>	0C<td>	Formfeed Page Break
+<tr><td>\n<td>	0A<td>	Newline (Line Feed); see notes below
+<tr><td>\r<td>	0D<td>	Carriage Return
+<tr><td>\t<td>	09<td>	Horizontal Tab
+<tr><td>\v<td>	0B<td>	Vertical Tab
+<tr><td>\\<td>	5C<td>	Backslash
+<tr><td>\'<td>	27<td>	Apostrophe or single quotation mark
+<tr><td>\"<td>	22<td>	Double quotation mark
+<tr><td>\?<td>	3F<td>	Question mark (used to avoid trigraphs)
+<tr><td>\nnn<td>any<td>	c113c allows \0. report other octal chars as a lexical error
+<tr><td>\xhh<td>any<td>c113c reports hex characters as a lexical error
+<tr><td>\uhhhh<td>none<td>c113c reports Unicode code points as a lexical error
+<tr><td>\Uhhhhhhhh<td>none<td>c113c reports Unicode code point where h is a hexadecimal digit
+</table>
+
+   
+<p>
+<A NAME="Punctuation"></A><B><FONT SIZE=3>2.5 Punctuation</B></FONT>
+<p>
+
+  Punctuation characters are lexemes that are supported in c113c that are
+  not part of other lexemes (not operators, not identifiers, not literals).
+
+  <pre>
+(  )  ,  ;  {  }  , :
+  </pre>
+
+  Other punctuation characters generally should be reported as lexical errors,
+  including
+
+  <pre>
+#  $  @  \  ^  `
+  </pre>
+
+  One exception: a line beginning with # in the following format is a
+  line directive and is to be interpreted as per GCC. It gives a line number
+  N and (quoted) filename to be used for reporting on the line(s) that follow.
+  The ... is (optional) other stuff you can treat as a comment and ignore
+  up until the next newline character.
+
+  <pre>
+# N "f" ...
+  </pre>
+
+<p>
+<A NAME="Identifiers"></A><B><FONT SIZE=3>2.6 Identifiers</B></FONT>
+<p>
+
+  Identifiers in c113c are as per the C language: a letter followed by zero
+  or more additional letters or digits. They are case-sensitive.
+  c113c will consider only the first six characters to be significant.
+
+<h3> 3. <A NAME="Syntax">Syntax</A> </h3>
+
+A good fraction of ANSI C syntax will denote constructs that are not
+supported in c113c.
+The easiest thing is probably to support the whole C language, less the
+parts that have been ruled out via lexical errors, and then define
+portions of it that will be unsupported and trigger an error in HW#3.
+
+<p>
+<A NAME="FunctionSyntax"></A><B><FONT SIZE=3>3.1 Function Syntax</B></FONT>
+<p>
+
+Function definitions in c113c follow the following format:
+<pre>
+<em>return type</em> identifier ( <em>parameter_list</em> ) { <em>function body</em> }
+</pre>
+
+  
+<p>
+<A NAME="ControlStructures"></A><B><FONT SIZE=3>3.2 Control Structures</B></FONT>
+<p>
+
+<pre>
+if (statement) {}
+if (statement) {} else {}
+if (statement) {} else if (statement) {} else {}
+while (statement) {}
+for ( init; condition; increment) {}
+switch(integer){
+case literal:
+statements;
+...
+default:
+statements;
+}
+</pre>
+
+  
+<p>
+<A NAME="Structs"></A><B><FONT SIZE=3>3.3 Structures</B></FONT>
+<p>
+
+Structs in c113c are a subset of C structs:
+
+<pre>
+struct <em>tag</em> {
+  <em>data</em>
+  };
+</pre>
+
+Compared with C, c113c skips: nested struct-in-struct
+(although pointer to struct is allowed), bit-fields within structs,
+anonymous (non-labeled) structs.
+
+
+<p>
+<A NAME="DeclarationSyntax"></A><B><FONT SIZE=3>3.4 Declaration Syntax</B></FONT>
+<p>
+
+Declaration syntax is only allowed for global variables and at the top of
+the bodies of function definitions, before the first executable statement.
+We allow only simple initializers including int, float, char and char *.
+
+<pre>
+type identifier;
+type * identifier;
+type identifier [K];
+type identifier = literal;
+</pre>
+
+A slightly simpler syntax is allowed for parameter lists, which do
+not allow initializers.
+
+
+<h3><A NAME="Types">4. Data Types</A></h3>
+
+
+
+<A NAME="Numbers"></A><B><FONT SIZE=3>4.1 Numbers</B></FONT>
+<p>
+
+All data types listed are used by c113c and are described in the reserved words section.
+char, short, int, long, float, double
+
+<p>
+
+Although the C language automatically converts between numeric types as
+needed (promotion and demotion), c113c does not.
+
+
+<p>
+<A NAME="Strings"></A><B><FONT SIZE=3>4.2 Strings</B></FONT> <BR>
+<p>
+
+These are usual C null-terminated char* arrays.
+<p>
+
+  Note that (void *) values automatically convert to any other pointer type,
+  but no other pointer type conversions, nor casts, are supported in c113c.
+  I wouldn't care about supporting void * at all, if you want to implement
+  malloc as returning char *, that's fine.
+
+<p>
+<A NAME="Arrays"></A><B><FONT SIZE=3>4.3 Arrays</B></FONT> <BR>
+<p>
+
+  As listed in the introduction C has multidimensional arrays whereas c113c single dimensional arrays. For example:
+
+<p>
+  <pre>int num[100]; </pre>
+<p>
+
+Arrays are constructed as pointers of a specific type with a fixed memory
+width with sequential memory allocated either on the stack or heap. The
+reference pointer is to the first sequential location.
+
+
+<h3><A NAME="Functions">4. Library Functions</A></h3>
+
+c113c supports a small subset of the functionality of a small subset of C's
+standard includes, including stdio.h, stdlib.h, string.h,
+time.h (currenttime), and math.h.
+While the full C versions of these libraries support many many functions,
+and even types, c113c is minimalist. For example, instead of
+defining 25+ public symbols in <code>stdio.h</code>, c113c will have
+as few as possible.
+
+<p>
+
+  <table border><tr><th>Function<th>Library<th>Use
+  <tr><td>printf(s,x)<td>stdio.h<td>Prints to stdout, simplified
+  <tr><td>sprintf(s1,s,x)<td>stdio.h<td>Formats to a string, simplified
+  <tr><td>fopen(s,m)<td>stdio.h<td>open a file, simplified
+  <tr><td>fclose(f)<td>stdio.h<td>close a file
+  <tr><td>fprintf(f,s,x)<td>stdio.h<td>Prints to file, simplified
+  <tr><td>fscanf(f,s,p)<td>stdio.h<td>Reads/scans from file, simplified
+  <tr><td>malloc(n)<td>stdlib.h<td> allocate memory
+  <tr><td>realloc(p,n)<td>stdlib.h<td> reallocate/resize memory
+  <tr><td>free(p)<td>stdlib.h<td> free memory
+  <tr><td>rand()<td>stdlib.h<td> random number
+  <tr><td>strlen(s)<td>string.h<td> string length
+  <tr><td>strcpy(s1,s2)<td>string.h<td> string copy
+  <tr><td>strcmp(s1,s2)<td>string.h<td> string compare
+  <tr><td>strtok(s1,s2)<td>string.h<td> string splitter/tokenizer
+  <tr><td>sqrt(r)<td>math.h<td> square root
+  <tr><td>cos(r)<td>math.h<td> cosine
+  <tr><td>pow(r,i)<td>math.h<td> exponent
+  <tr><td>sin(r)<td>math.h<td> sine
+  </table>
+
+<!--<img src="c113clibfuncs.png" width=800>-->
+
+<A name="Summary">
+<H3>Summary</H3>
+</A>
+
+Sure, c113c may be a toy language designed for a compiler class.
+Even with only this much, it may provide a convenient notation for a
+lot of simple programming tasks such as those faced by students in CSE 113.
+
+</BODY>
+</HTML>

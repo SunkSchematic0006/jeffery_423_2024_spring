@@ -1,0 +1,23 @@
+link math # import math
+# is g global in the Python version? seems intended but not as-written
+procedure func1(x)
+    if (sqrt(x) % 2 = 0) then
+        g := "true"
+    
+    else
+        g := "false"
+end
+procedure main()
+writes("Please enter a positive integer: ")
+a := int(read())
+while (1 <= a) do {
+    func1(a)
+    if (g == "true") then {
+        print(a)
+        a := a-1
+        }
+    else
+        a := a-1
+    }
+end
+       

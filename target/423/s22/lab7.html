@@ -1,0 +1,235 @@
+<h2> CSE 423 Lab #7: Rendering Trees using Dot </h2>
+
+Turnin: a pretty PNG image produced from your compiler on canvas.<br>
+Due Sunday 3/13, 11:59pm
+<p>
+
+This week's lab asks you to implement a tree traversal that generates
+a graphical representation of your syntax trees or symbol tables.
+Turn in as far as you get by Sunday evening; preferably a .zip with some
+sample images and your compiler code base that produced them. You will be
+graded as
+having done the lab as long as it looks like you did two or more
+hours of work.
+
+<p>
+
+<h4> Dot </h4>
+
+Dot is part of a package called graphviz.  It is available for Linux and
+Windows; maybe MacOS too.  On lovecraft.cs.nmt.edu it is in /usr/bin/dot
+which should already be on your path.  If you want to do this lab on your
+own machine, you will have to <A href="https://graphviz.org/download/">download
+and install graphviz</A>.
+<p>
+
+The dot language is a human readable ASCII way of describing a graph,
+which dot will then render in forms such as a PNG image file.
+
+<p>
+Here is
+<A href="https://graphviz.org/doc/info/lang.html">the dot language reference</A> 
+
+<h4> Prepping your Dot Syntax Trees </h4>
+
+To use Dot, each tree node will require a unique identification. While we could
+maybe get away with using their address (pointer) as an id, you should probably
+go ahead and add a new field to your tree structure (translate as needed to fit
+your tree type):
+
+<pre>
+struct tree {
+  ...
+  int id;
+  ...
+}
+</pre>
+
+And initialize this field in <code>alctree()</code> or whatever
+you are using to construct tree nodes (translate as needed):
+
+<pre>
+int serial;
+struct tree *alctree(int label, char *sname, int nkids, ...)
+{
+   ...
+   ptr->id = serial++;
+   ...
+}
+</pre>
+
+If you have additional functions that allocate tree nodes
+(<code>alcleaf()</code> or whatever)
+they should also add the code to initialize their id #.
+
+<h4> Adding names for token categories </h4>
+
+Dunno if you wrote your own means of printing token categories, but if
+YYDEBUG is defined, Bison (maybe not other yacc's, or not compatibly) writes
+out a static array of strings from which you can get token (and non-terminal)
+names.
+
+<pre>#if YYDEBUG || YYERROR_VERBOSE || 0
+/* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+   First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
+static const char *const yytname[] =
+{
+  "$end", "error", "$undefined", "BAD_TOKEN", "ICON", "CCON", "FCON",
+  "ENUMERATION_CONSTANT", "IDENTIFIER", "STRING", "SIZEOF", "INCOP",
+</pre>
+
+You can't read this <b><code>static</code></b> array from other .c files,
+but you can add the following to the end of your .y file:
+
+<pre>%%
+
+const char *yyname(int sym)
+{
+   return yytname[sym-BAD_TOKEN+3];
+}
+</pre>
+
+If you are doing Java or using a different YACC implementation you
+may have to adapt substantially in order to perform the equivalent; feel
+free to ask for help and/or share your results if you figure it out for
+another YACC implementation.
+
+<h4> Writing your Dot Syntax Trees </h4>
+
+Write a <code>print_graph()</code> function that traverses your tree and
+writes out a Dot file with extension <code>.dot</code>. You can base this
+on your textual tree-printing function from HW#3, and just modify your
+print statements to write things in Dot format.
+<p>
+
+Your solution might look some something like the following (adapted from
+[Jeffery2021]).  You may have to debug this code!
+
+<pre>
+
+/* add a \ before leading and trailing double quotes */
+char *escape(char *s) {
+   char *s2 = malloc(strlen(s)+4);
+   if (s[0] == '\"') {
+      if (s[strlen(s)-1] != '\"') {
+	 fprintf(stderr, "What is it?!\n");
+	 }
+      sprintf(s2, "\\%s", s);
+      strcat(s2+strlen(s2)-1, "\\\"");
+      return s2;
+     }
+   else return s;
+}
+
+char *pretty_print_name(struct tree *t) {
+   char *s2 = malloc(40);
+   if (t->leaf == NULL) {
+      sprintf(s2, "%s#%d", t->symbolname, t->prodrule%10);
+      return s2;
+      }
+   else {
+      sprintf(s2,"%s:%d", escape(t->leaf->text), t->leaf->category);
+      return s2;
+      }
+}
+
+void print_branch(struct tree *t, FILE *f) {
+   fprintf(f, "N%d [shape=box label=\"%s\"];\n", t->id, pretty_print_name(t));
+}
+
+char *yyname(int);
+
+void print_leaf(struct tree *t, FILE *f) {
+   char * s = yyname(t->leaf->category);
+   // print_branch(t, f);
+   fprintf(f, "N%d [shape=box style=dotted label=\" %s \\n ", t->id, s);
+   fprintf(f, "text = %s \\l lineno = %d \\l\"];\n", escape(t->leaf->text),
+   t->leaf->lineno);
+}
+
+void print_graph2(struct tree *t, FILE *f) {
+   int i;
+   if (t->leaf != NULL) {
+      print_leaf(t, f);
+      return;
+      }
+   /* not a leaf ==> internal node */
+   print_branch(t, f);
+   for(i=0; i &lt; t->nkids; i++) {
+      if (t->kids[i] != NULL) {
+         fprintf(f, "N%d -> N%d;\n", t->id, t->kids[i]->id);
+	 print_graph2(t->kids[i], f);
+	 }
+      else { /* NULL kid, epsilon production or something */
+         fprintf(f, "N%d -> N%d%d;\n", t->id, t->id, serial);
+	 fprintf(f, "N%d%d [label=\"%s\"];\n", t->id, serial, "Empty rule");
+	 serial++;
+	 }
+      }
+}
+
+void print_graph(struct tree *t, char *filename){
+      FILE *f = fopen(filename, "w"); /* should check for NULL */
+      fprintf(f, "digraph {\n");
+      print_graph2(t, f);
+      fprintf(f,"}\n");
+      fclose(f);
+}
+</pre>
+
+<h4> Adding a command line option</h4>
+
+Modify your compiler to accept an optional argument <code>-dot</code> and if
+you see that option, have your compiler call your .dot-file generating code
+instead of its normal behavior.
+
+<h4> Running the Dot Program  </h4>
+
+Given a .dot file written by your compiler, in a file like hello.java.dot,
+to generate a PNG image, you would invoke it via
+
+<pre>
+dot -Tpng hello.java.dot >hello.png
+</pre>
+
+View the generated image to make sure it looks understandable.  For example,
+for a C subset language, a hello world program (<A href="hello.c">hello.c</A>)
+results in the following:
+<p>
+<img src="hello.png">
+<p>
+
+Of course, for a Java (or some other) language, your tree should look
+different.
+
+<h4> Wrapping up </h4>
+
+Try your .dot-file generation on the following foo.java program:
+
+<pre>
+public class foo {
+   public static int foo(int x, String y) {
+      return x;
+     }
+
+   public static int main()
+  {
+   int z;
+   z = foo(5, "funf");
+   return 0;
+   }
+}
+</pre>
+
+For this program, you might be running
+<pre>
+./j0 -dot foo.java
+dot -Tpng foo.java.dot >foo.png
+</pre>
+
+When foo.png looks reasonable,
+you are done with the lab. Submit your image on canvas.
+
+<h4> Writing your Dot Symbol Tables (optional) </h4>
+
+You can use dot to draw your symbol tables. It may help you debug them.

@@ -1,0 +1,454 @@
+<html> <head>
+    <title>ucode generation</title>
+  </head>
+
+  <body>
+    <h1>Ucode Code Generation Guide</h1>
+
+This document provides a guide to the generation of target code
+from intermediate three-address instructions. This is the Unicon ucode
+edition of this document.
+<p>
+
+The methodology for creating this guide is as important as its unfinished
+contents. This guide is produced by reverse-engineering, that is to say, by
+examining the output of "unicon -c". It potentially needs to be updated
+whenever the Unicon version changes.
+
+<p>
+
+<h3> Ucode file format basics </h3>
+
+Ucode consists of a header section (the "u2" section) followed by a
+control-L, followed by a code section (the "u1" section)
+
+<h4> Header section </h4>
+
+Generally, the u2 section is a few fixed fields followed by a list of the
+public global identifiers that are declared in this module, for use by the
+linker. Consider this example
+
+<table border>
+<tr><th>ucode<th>comment
+<tr><td>
+<pre>
+version	U12.1.00
+uid	u1.u1-1681329218-0
+impl	local
+global	1
+	0,000005,main,0
+^L
+</pre>
+<td>
+<pre>
+ucode version number, always (for now) U12.1.00
+unique identifier: uid&lt;tab&gt;filename.u1-randomnumber-0
+what to do with undeclared variables: impl&lt;tab&gt;local
+global region: global&lt;tab&gt;N
+globals, one per line: index,flags,name,0
+single form-feed character on a line by itself
+</pre>
+</table>
+
+<h3> Code (u1) Section </h3>
+
+Generally, this is zero or more function bodies. Each function body
+starts with header line, then has a declarations section, then a
+declend line, followed by ucode instructions, until an end pseudoinstruction.
+<p>
+
+<h4> Declarations Section </h4>
+
+The declarations section contains two subsections consisting of zero or more
+variable declarations followed by zero or more literal
+constant declarations. Each subsection is numerically ordered
+sequentially using assigned indices starting at zero. Variables
+are introduced using the pseudo instruction <code>local</code> with
+operands consisting of its index, flags, and the declared variable name.
+Literal constants are similarly comprised of an index, then flags, followed
+by the literal constant data.
+<p>
+
+The flags are a string of six octal format characters containing ASCII 0-7
+and denoting three bits per character for a total of 18 bits, of which 13
+are used. The same flags
+format is shared by variables and literals, so many of the flag bits are
+mutually exclusive. From unicon/src/icont/link.h, the definitions of the
+bits, which may be tested for independently, are:
+
+<table border>
+<tr> <th> Flag Name <th> Octal Value <th> Description
+<tr> <td> F_Global  <td>	  01 <td> variable declared global externally 
+<tr> <td> F_Unref   <td>          02 <td> procedure is unreferenced 
+<tr> <td> F_Proc    <td>	  04 <td> procedure 
+<tr> <td> F_Record  <td>	 010 <td> record 
+<tr> <td> F_Dynamic <td>	 020 <td> variable declared local dynamic 
+<tr> <td> F_Static  <td>	 040 <td> variable declared local static 
+<tr> <td> F_Builtin <td>	0100 <td> identifier refers to built-in procedure 
+<tr> <td> F_ImpError <td>	0400 <td> procedure has default error 
+<tr> <td> F_Argument <td>	01000 <td> variable is a formal parameter 
+<tr> <td> F_IntLit <td>	 02000 <td> 	 literal is an integer 
+<tr> <td> F_RealLit <td>	 04000 <td> literal is a real 
+<tr> <td> F_StrLit <td>	010000 <td> 	 literal is a string 
+<tr> <td> F_CsetLit <td>	020000 <td> literal is a cset 
+</table>
+
+<p>
+
+Lines are indented by a tab character except for the header line and labels.
+After the mnemonic, lines that contain operands have a tab character and
+then one or more operands separated by commas.
+I expect that TAB characters (control-I) may not be substituted using spaces.
+An example of this format is show below.
+
+<table><tr><th>Ucode<th>comment
+<tr><td>
+<pre>
+proc name
+	local	0,flags,varname
+	...
+	local	n,flags,varname
+	con	0,flags,...
+	...
+	con	m,flags,...
+	declend
+	...code instructions
+	end
+</pre>
+<td>
+
+<pre>
+
+	see intermediate mapping section for flags examples
+
+
+	see intermediate mapping section for constant formats
+
+
+
+
+
+</pre>
+</table>
+
+<p>
+
+<h3>Ucode Instruction Set and Semantics</h3>
+
+The Unicon VM is the Icon VM, with most additions occurring in the runtime
+system. The instruction set is a stack machine that is strongly typed. It
+features goal-directed evaluation with implicit backtracking, which mainly
+means you mark and unmark groups of instructions, within which
+<em>expression failure</em>
+causes an implicit goto that exits the group of instructions.
+<p>
+
+See Appendices B and C of
+<A href="http://unicon.org/book/ib.pdf">The Implementation of Icon and
+Unicon</A> for more complete information.  Ask the instructor as needed.
+
+
+<p>
+<h3> Mapping TAC intermediate code to ucode </h3>
+
+
+
+<table border>
+<tr><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>code<br>instruction</th>
+<!--<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ucode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<th>ucode equivalent
+</th><th>comment</th></tr>
+<tr><td> global
+<td><pre>global	N</pre>
+</code>
+<td> N = # of globals
+</tr>
+<tr><td> global x
+<td><pre>	i,000001,x,0</pre>
+<td> index#,flagbits,varname,0
+</tr>
+<tr><td> const 42
+<td><pre>	i,002000,2,42</pre>
+<td> index#,flagbits,#digits,digits
+</tr>
+<tr><td> const 3.14
+<td><pre>	i,004000,3.14</pre>
+<td> index#,flagbits,real#
+</tr>
+<tr><td> const "hello"
+<td><pre>	i,010000,5,150,145,154,154,157</pre>
+<td> index#,flagbits,#chars,octal<sub>1</sub>,...,octal<sub>n</sub>
+</tr>
+<tr><td>
+x := y + z <br>
+(global variables in slots i, j, k)<td>
+<pre>
+	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	pnull
+	var	j<sub>y</sub>
+	var	k<sub>z</sub>
+	plus
+	asgn
+	unmark
+lab L<sub>n</sub>
+</pre>
+	<td> 
+	  stack machine; push slots for results, operands and then do instructions.
+	  Locals and globals are always using a local index #; the linker
+	  sorts out who is actually global.
+</tr>
+<tr><td>
+local x<td>
+<pre>	local	i,000000,varname
+</code>
+<td> 
+in between the proc...declend pseudoinstructions, in sequential order
+</tr>
+<tr><td>
+x := y + z <br>
+(local variables)<td>
+<pre>	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	pnull
+	var	j<sub>y</sub>
+	var	k<sub>z</sub>
+	plus
+	asgn
+	unmark
+lab L<sub>n</sub>
+</pre>
+<td> Same as for globals. Code generated does not depend on scope/region...
+</tr>
+<!--
+<tr><td>
+x := y + z <br>
+(class foo variables)
+<td>
+<code>
+	movq	%rdi, -8(%rbp) ; t1 = self <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	8(%rax), %rdx ;  rdx = self->y <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	16(%rax), %rax ; rax = self->z <br>
+	addq	%rax, %rdx ; rdx = y+z <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	%rdx, (%rax)   ; self->x = rdx
+</code>
+<p>
+optimizes (-O2) to
+<p>
+<code>
+	movq	16(%rdi), %rax <br>
+	addq	8(%rdi), %rax <br>
+	movq	%rax, (%rdi)
+</code>
+
+<td>
+Note main issue of memory layout for fields x,y,z at offsets
+0,8,16; these are known at compile-time for static/non-virtual OOP.
+A dynamic/virtual would treat as<br>
+self.x = self.y + self.z <br>
+and implement field op via runtime call<br>
+or table lookup.
+</tr>
+-->
+<tr><td>
+x := y / z<td>
+<pre>	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	pnull
+	var	j<sub>y</sub>
+	var	k<sub>z</sub>
+	div
+	asgn
+	unmark
+lab L<sub>n</sub>
+</pre>
+<td> 
+Same as for other binary operators, except the div instruction
+</tr>
+
+<tr><td>
+x := - y <br>
+<td>
+<pre>	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	pnull
+	var	j<sub>y</sub>
+	neg
+	asgn
+	unmark
+lab L<sub>n</sub>
+</pre>
+<td> 
+</tr>
+<tr><td>
+x := y <br>
+<td>
+<pre>	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	var	j<sub>y</sub>
+	asgn
+	unmark
+lab L<sub>n</sub>
+</pre>
+<td> 
+</tr>
+
+<tr><td>
+x := &amp;y (y global)
+<td> n/a
+<td>
+see instructions used e.g. for lists and tables
+</tr>
+<tr><td>
+x := &amp;y (y local)
+<td> n/a
+<td>see instructions used e.g. for lists and tables
+</tr>
+<tr><td>
+x := *y
+<td> n/a <td>see instructions used e.g. for lists and tables
+</tr>
+<tr><td>
+*x := y <td>n/a  <td>see instructions used e.g. for lists and tables
+</tr>
+<tr><td>
+goto L <td> <code>goto L</code>
+  <td> beware marks and unmarks. L4 might start with an unmark.
+    goto instruction might be preceded by pnull
+</tr>
+<tr><td>
+if x &lt; y then<br>&nbsp;&nbsp;&nbsp; goto L<sub>m</sub> <td>
+<pre>	mark	L<sub>n</sub>
+	mark0
+	pnull
+	var	1
+	var	0
+	numgt
+	unmark
+	unmark
+	unmark
+	pnull
+	goto	L<sub>m</sub>
+	unmark
+lab L<sub>n</sub>
+</pre>
+<td>
+Full set of instructions for comparison operators.
+Beware numbers of marks/unmarks.
+</tr>
+<tr><td>
+if x then<br>&nbsp;&nbsp;&nbsp; goto L<sub>m</sub> <td>
+<pre>	mark	L<sub>n</sub>
+	mark0
+	pnull
+	var	0
+	int	1
+	numeq
+	unmark
+	unmark
+	unmark
+	pnull
+	goto	L<sub>m</sub>
+	unmark
+lab L<sub>n</sub>
+</pre>
+</tr>
+<tr><td>
+if !x then goto L <td>
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmpq $0, -8(%rbp)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jne   L'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jmp   L<br>
+L':
+</code>
+<td>
+Why not:<br> <code>cmpq $0, -8(%rbp)<br>je L</code>
+</tr>
+<tr><td>
+param x <td>
+<code>
+
+</code>
+<td> Calculate what parameter # you are by counting how many instructions
+     in the linked list until you get to the CALL instruction.
+
+<tr><td>
+call p,n,x <td>
+<td>
+     If call is to a member function, I hope you remembered to insert/push
+     "self" object as first parameter for method invocation
+
+<tr><td>
+return x <td>
+<pre>
+	mark	L<sub>n</sub>
+	var	i<sub>x</sub>
+	pret
+lab L<sub>n</sub>
+</pre>
+<td>
+
+<tr><td>
+return <td>
+<pre>
+	mark	L<sub>n</sub>
+	pnull
+	pret
+lab L<sub>n</sub>
+</pre>
+<td>
+
+<tr><td>
+proc x,n1,n2 <td>
+<pre>
+	i,000005,x,0		# in globals
+	...
+proc x
+	...locals
+	declend
+	...code
+	pfail
+	end
+</pre>
+<td> 
+<tr><td>
+label Ln <td><pre>lab L<sub>n</sub>
+<tr><td>
+end <td><pre>	pfail
+	end</pre>
+</code>
+<td> 
+<tr><td>
+x := y field z <td>
+<pre>	mark	L<sub>n</sub>
+	pnull
+	var	i<sub>x</sub>
+	pnull
+	var	j<sub>y</sub>
+	field	z
+	asgn
+	unmark
+lab L<sub>n</sub>
+
+</pre>
+<td> 
+
+<!--
+<tr>
+    <td>
+class x,n1,n2 <td>
+
+<tr><td>
+field x,n <td>
+-->
+</table>
+</body>
+</html>

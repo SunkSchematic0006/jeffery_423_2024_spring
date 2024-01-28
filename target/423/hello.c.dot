@@ -1,0 +1,24 @@
+digraph {
+N14 [shape=box label="function_definition#1"];
+N14 -> N0;
+N0 [shape=box label="int:319"];
+N0 [shape=box style=dotted label=" INT \n text = int \l lineno = 0 \l"];
+N14 -> N5;
+N5 [shape=box label="dir_func_decl#4"];
+N5 -> N1;
+N1 [shape=box label="main:263"];
+N1 [shape=box style=dotted label=" IDENTIFIER \n text = main \l lineno = 0 \l"];
+N5 -> N4;
+N4 [shape=box label="{:301"];
+N4 [shape=box style=dotted label=" LC \n text = { \l lineno = 0 \l"];
+N14 -> N13;
+N13 [shape=box label="compound_statement#7"];
+N13 -> N10;
+N10 [shape=box label="postfix_expression#1"];
+N10 -> N6;
+N6 [shape=box label="printf:263"];
+N6 [shape=box style=dotted label=" IDENTIFIER \n text = printf \l lineno = 0 \l"];
+N10 -> N8;
+N8 [shape=box label="\"hello, world\n\":264"];
+N8 [shape=box style=dotted label=" STRING \n text = \"hello, world\n\" \l lineno = 0 \l"];
+}

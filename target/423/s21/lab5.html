@@ -1,0 +1,40 @@
+<h2> CSE 423 Lab #5: Syntax Tree-age </h2>
+
+Turnin: no turnin, your HW#3 is your turnin
+<p>
+
+This week's lab will be completely free-form, the time will be spent just
+helping out anyone who needs help with HW#3 and is willing to share their
+screen with the class.  If you are done with HW#3, you are not required
+to attend.
+
+<p>
+
+If you don't have questions for the instructor, I will kick around various
+thoughts on error messaging and recovery and/or testing.
+<p>
+
+What will it take to adequately test our compilers?
+<dl>
+<dt> Just run "a lot" of tests?
+<dd> As a starting point, you may want to look for what's available for free
+on the internet.  If you haven't already found
+<A href="https://github.com/c-testsuite/c-testsuite">https://github.com/c-testsuite/c-testsuite</A>, it is a possible starting point. 220 tests. Other C
+validation suites might have thousands. But do they test everything?
+(Most test suites that test everything for ANSI C might be commer$ial.)
+Since c113c is smaller than ANSI C, which tests are legal c113c tests?
+
+<dt> Lexical test coverage
+<dd>  - torture tests of the boundaries of what is legal. Tests that use
+      every token, including every
+      operator and reserved word.  Testing multi-byte tokens to see what
+      happens if they have weird stuff on the ends. Testing C99 and C11
+      stuff to see if they choke on it.
+<dt> Syntax test coverage
+<dd>  - tests that use every production in the grammar.  Testing every
+     illegal combination of tokens.
+<dt> ... more to come, e.g. semantic test coverage
+</dl>
+
+
+

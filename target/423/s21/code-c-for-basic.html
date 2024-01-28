@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>code generation -c</title>
+  </head>
+
+  <body>
+    <h1>ANSI C Code Generation Guide</h1>
+
+This document provides a guide to the generation of C code
+from intermediate three-address instructions.  A big issue
+in translating to C will be run-time type information used by BASIC.
+<p>
+<h3> Descriptors </h3>
+
+Per the lecture,
+all values are assumed to be of type struct descriptor, where a
+descriptor holds type information plus a value.
+<pre>
+struct descriptor {
+   short code;			/* 1=int, 2=float, 3=string, 4=array */
+   short length;		/* if string or array, this is its length */
+   union {
+   int i;			/* integer */
+   float f;			/* float */
+   char *s;			/* string */
+   struct descriptor *a;	/* array */
+   } value;
+}
+</pre>
+
+<h3> Variables </h3>
+
+Three-address code has region:offset addresses, not variable names.
+You can declare global data as
+<pre>
+   char global[globalsize];
+</pre>
+and then address a given variable at an offset of k as
+<pre>
+ (*(struct descriptor)(global+k)).
+</pre>
+
+Global variables might all be descriptors, in which case you might simplify
+this by declaring global to be an array of struct descriptor instead of an
+array of char.
+
+<h3> Constants </h3>
+
+You can declare constant data as
+<pre>
+   char constant[constantsize];
+</pre>
+and then address a given variable at a byte-offset of k as
+<pre>
+ (*(struct descriptor)(constant+k)).
+</pre>
+
+The constant region would hold a mixture of descriptors and raw string
+data, unless you chose to implement a "string region", which might be
+a good idea.
+
+<h3> Stack </h3>
+
+The operand stack ("BASIC stack") might be implemented as an array of
+descriptors:
+
+<pre>
+struct descriptor stack[stacksize];
+int stacktop;
+int framepointer;
+int PC;
+void push(struct descriptor *dp) {
+   if (stacktop==stacksize) error("stack overflow");
+   stack[stacktop++] = *dp;
+}
+void pushregs(int stktop, int fp, int pc) {
+   if (stacktop==stacksize) error("stack overflow");
+   stack[stacktop].code = stktop;
+   stack[stacktop].length = fp;
+   stack[stacktop].value.i = pc;
+   framepointer = stacktop;
+   stacktop++;
+}
+void pop(struct descriptor *dp) {
+   if (stacktop==0) error("stack underflow");
+   *dp = stack[--stacktop];
+}
+void popregs()
+{
+   if (stacktop==0) error("stack underflow");
+   stacktop--;
+   framepointer = stack[stacktop].length;
+   PC = stack[stacktop].value.i;
+}
+</pre>
+
+<h3> Macros </h3>
+
+Several patterns will be common enough to warrant macros.  The "P" on the
+end of some macro names means "predicate", i.e. a boolean test.
+<pre>
+#define G(k) (*(struct descriptor)(global+k))
+#define INTP(d) (d.code == 1)
+#define REALP(d) (d.code == 2)
+#define NUMP(d) ((d.code == 1)||(d.code == 2))
+#define STRINGP(d) (d.code == 3)
+#define ARRAYP(d) (d.code == 4)
+#define INT(d) (d.value.i)
+#define REAL(d) (REALP(d)?(d.value.f):(INTP(d)?((float)(INT(d)))))
+#define STRING(d) (d.value.s)
+#define ARRAY(d) (d.value.a)
+</pre>
+
+<p>
+The following templates assume (for example purposes) that x, y, and z
+are at offsets 0, 8, and 16 in the global region.
+<p>
+
+<table border>
+<tr><th>intermediate<br>code<br>instruction</th><th>C equivalent</th><th>Comment</th></tr>
+<tr><td>
+x := y + z <br>
+(numbers)<td>	if (INTP(8) &amp;&amp; INTP(16)) { <br>
+&nbsp;&nbsp;&nbsp;G(0).code = 1;<br>
+&nbsp;&nbsp;&nbsp;INT(G(0)) = INT(G(8)) + INT(G(16));<br>
+&nbsp;&nbsp;&nbsp;}<br>
+	else { <br>
+&nbsp;&nbsp;&nbsp;G(0).code = 2;<br>
+&nbsp;&nbsp;&nbsp;REAL(G(0)) = REAL(G(8)) + REAL(G(16));<br>
+&nbsp;&nbsp;&nbsp;}<br>
+	<br>
+			
+			
+				<td>
+Typical example of adding two numeric variables.
+If one of the operands is not an integer, we generate code to add operands as
+reals.  One could treat constants in the same way, or generate optimized code
+for them.
+</tr>
+<tr><td>
+x := y + z <br>
+(strings)<td>		call to built-in basic_strcat; see call instruction<br>
+			<br>
+			-or- <br>
+			<br>
+			G(0).code = 3; <br>
+			G(0).length = G(8).length + G(16).length; <br>
+			if (G(0).length < 0) error("string is too long");
+			STRING(G(0)) = malloc(G(0).length);<br>
+			if (STRING(G(0)) == NULL) error("out of memory");
+			strncpy(STRING(G(0)), STRING(G(8)), G(8).length);<br>
+			strncpy(STRING(G(0)+G(8).length), STRING(G(16)), G(16).length);<br>
+<td> 
+
+</tr>
+<tr><td>
+x := - y <br>
+(local variables)<td>	?<br>
+			? <br>
+			?	<td>
+</tr>
+<tr><td>
+x := y <br>
+<td>	G(0) = G(8); <br>
+			?	<td>
+</tr>
+<tr><td>
+x := &y <br>
+x := *y <br>
+*x := y <td> n/a <td> These TA instructions not used?
+</tr>
+<tr><td>
+goto L100 <td>		goto L100;
+</tr>
+<tr><td>
+if x &lt; y then<br>&nbsp;&nbsp;&nbsp; goto L100 <td>	if (REAL(G(0)) < REAL(G(8))) goto L100;<br>
+</tr>
+<tr><td>
+if x then goto L <td>		?<br>
+				?
+</tr>
+<tr><td>
+if !x then goto L <td>		?<br>
+				?
+</tr>
+<tr><td>
+param x <td>			bas_push(&G(0))	<td>
+<tr><td>
+call p,n,x <td>			p(n, &(G(0))); <td> built-in call = C call
+<tr><td>
+call L100,n,x <td>		pushregs(stacktop, framepointer, next(PC));<br>
+				goto L100;
+				
+<tr><td>
+return <td>			popregs();<br>
+				goto gotoPC;<br>
+...<br>
+gotoPC: switch(PC)
+				
+<tr><td>
+global x,n1,n2 <td><td>
+<tr><td>
+proc x,n1,n2 <td><td>
+<tr><td>
+local x,n <td>			.limit locals <em>n</em><td> no local declarations needed other than a count of how many
+<tr><td>
+label Ln <td>			Ln:
+<tr><td>
+end <td>			.end method
+</table>
+
+
+
+
+    <hr>
+    <address><a href="mailto:jeffery@cs.uidaho.edu">Clint Jeffery</a></address>
+  </body>
+</html>

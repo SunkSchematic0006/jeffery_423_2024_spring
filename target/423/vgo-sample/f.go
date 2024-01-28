@@ -1,0 +1,6 @@
+package main
+// don't expect every example to be useful other than for testing
+void f(int p)
+{
+   p = p+1
+}

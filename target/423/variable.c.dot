@@ -1,0 +1,7 @@
+digraph {
+N3 [shape=box label="declaration#0"];
+N3 -> N0;
+N0 [shape=box style=dotted label=" INT \n text = int \l lineno = 0 \l"];
+N3 -> N1;
+N1 [shape=box style=dotted label=" IDENTIFIER \n text = x \l lineno = 0 \l"];
+}

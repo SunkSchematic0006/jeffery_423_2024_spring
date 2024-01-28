@@ -1,0 +1,113 @@
+<h2> CSE 423 Lab #12: Control Flow in Intermediate Code </h2>
+
+Turnin: a .zip on Canvas
+<p>
+
+This week's lab consists of practice and Q&amp;A
+with the control flow aspects of intermediate code.
+
+<h3> Using a Label Maker </h3>
+
+<h4>1. Add fields to tree nodes to hold labels </h4>
+
+<ul>
+<li> These are .first, .follow, .onTrue, .onFalse
+<li> You may want a bool (flag) for each to say if they are ever used!
+</ul>
+
+
+<h4>2. Add a genlabel() function</h4>
+
+The prototype
+<pre>
+struct addr genlabel();
+</pre>
+that returns a unique label each time it is called.
+
+<pre>
+int counter;
+struct addr genlabel()
+{
+   struct addr a;
+   a.region = R_LABEL;
+   a.offset = counter++;
+   return a;
+}
+</pre>
+
+<h4>3. Write traversal functions that assign labels </h4>
+
+<dl>
+<dt>3.1 Write a traversal function that assign .first labels.
+<dd>
+<ul>
+<li> What type of attribute is it? synthesized.
+<li> What type of traversal? Bottom-up postfix.
+<li> What type of production rules need these? Anything that could
+     be a target.
+</ul>
+
+<pre>
+void assign_first(struct tree *t)
+{  int i;
+   for(i=0; i&lt;t-&gt;nkids; i++) assign_first(t-&gt;kids[i]);
+   switch(t->prodrule) {
+     /* ??? */
+   }
+}
+</pre>
+
+
+
+<dt>3.2 Write a traversal function that assign .follow labels.
+<dd>
+<ul>
+<li> What type of attribute is it? inherited.
+<li> What type of traversal? Bottom-up postfix.
+<li> What type of production rules need these? Anything that could
+     be a target.
+</ul>
+
+<dt>3.3 Write a traversal function that assign .onTrue and .onFalse labels.
+<dd>
+These both depend on the .first and the .follow.
+<ul>
+<li> What type of attribute is it??
+<li> What type of traversal??
+<li> What type of production rules need these? Anything that could
+     be a target.
+</ul>
+</dl>
+
+<h3>Write traversal functions for codegen</h3>
+Enough to do boolean exprs and while loops. From the lecture notes we might
+want to start with enough to do:
+
+<pre>void print(int i);
+void main()
+{
+   int i;
+   i = 0;
+   while (i &lt; 20)
+      i = i * i + 1;
+   print(i);
+}
+</pre>
+
+and if we managed that, extend it in various ways, enough to handle e.g.:
+
+<pre>void print(int i);
+void main()
+{
+   int i;
+   i = 0;
+   while (i &lt; 20 && i%3==1)
+      i = i + 1;
+   print(i);
+}
+</pre>
+
+
+<h3> What to turn in </h3>
+
+Your compiler, with enough codegen efforts to reflect 2 hours worth of work.

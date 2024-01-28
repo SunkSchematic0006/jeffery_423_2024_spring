@@ -1,0 +1,9 @@
+Category  Text        Lineno    Filename    Ival/Sval
+-------------------------------------------------------------
+NAME      print       0                    ?  ?   
+LPAREN    (           0                    ?  ?   
+STRING    "Hello, CSE "0                    ?  ?   
+NUMBER    423         0                    ?  ?   
+RPAREN    )           0                    ?  ?   
+NEWLINE   \n          0                    ?  ?   
+ENDMARKER              0                    ?  ?   

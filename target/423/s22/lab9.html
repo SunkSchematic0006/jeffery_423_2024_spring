@@ -1,0 +1,98 @@
+<h2> CSE 423 Lab #9: j0 Test Coverage </h2>
+
+Turnin: your test case contributions on Canvas in a .zip file.
+<p>
+
+You are welcome to work in groups and share test cases across teams for
+this lab. Your grade will be based on whether the TA (or instructor) thinks
+your submitted work represents at least two hours of effort.
+<p>
+
+The purpose of this week's lab is to produce a test suite (henceforth named
+tests/ and includable in your future HW submissions) for the j0
+language. The test suite is a directory hierarchy containing source .java files
+that you can use as test input.  Your goal is: cover the Java language
+syntax.  You have three kinds of tests (lexical, syntax, and semantic);
+each test should have a prefix of either lex, syn, or sem.  You also have
+three categories of expected diagnostics, placed in subdirectories of tests/:
+
+<p>
+
+<ul>
+<li> for things that are legal, put them in tests/j0
+<li> for things that are Java but not in j0, put them in tests/java
+<li> for things that are illegal, put them in tests/errors
+</ul>
+
+<p>
+Example 423 project directory structure after this lab:
+<pre>
+   your_423_project/
+      ... your makefile and all your compiler source files, plus subdirectory:
+      tests/
+         ...your testrunner.sh (or .py etc.), plus three subdirectories:
+         errors/
+	    {lex,syn,sem}*.java; test-cases that should be errors
+	 j0/
+	    {lex,syn,sem}*.java; test-cases that should pass
+	 java/
+	    {lex,syn,sem}*.java; test-cases for java-not-j0 errors
+</pre>
+
+
+<p>
+
+For this lab you are assembling a suite of test cases, and your compiler is
+expected to print either "No errors" or print a lexical, syntax, or semantic
+error message (with filename, and line number, and offending character or
+token).
+
+<h4> 1. Download one or more starting points </h4>
+
+<ol>
+<li> Of course you can start by reorganizing any tests you've already written
+<li> Before you go writing 1,000 new test cases, or programs that generate
+test cases, look for what you can find available for free on the internet.
+<li> For Java there should be a lot. For J0, there will be none. But if you
+     look
+     on some Java tutorial websites, many of their toy examples might be
+     good J0 tests.
+</ol>
+
+<h4> 2. Establish Lexical Coverage </h4>
+
+Check whether your tests/j0 directory has tests that use every terminal
+symbol that is legal under j0.  If not, construct new tests lex1.java through
+lexN.java until you have a test that uses each terminal symbol.  Produce as
+many
+lexical error tests as you can think of. At the very least, for each regex
+that is bounded by beginning and ending characters, you should have tests
+where the ending characters are missing.
+
+<h4> 3. Establish Syntactic Coverage </h4>
+
+Check whether your tests/j0 directory has tests that use every rule
+in your grammar that is legal under j0.  If not construct new tests
+syn1.java through synN.java until you have a test that uses each grammar rule.
+Provide as many error tests as you can think of. For each production rule
+that includes terminal symbols, can you make a test case that would use
+that production rule, except it is missing an expected terminal symbol?
+
+
+<h4> 4. Establish Semantic Coverage </h4>
+
+Develop tests for all possible data types on each operator.  Develop tests
+that check for bad function calls, including wrong number of arguments,
+incorrect parameter types, or incorrect return type.
+
+<h4> 5. Write a testrunner script </h4>
+
+Write a script (in any language; bash or python are examples) that runs
+your compiler on all your tests. Run it and redirect your output to a file.
+Examine that output to look for problems.
+<p>
+
+It is usual to save/record the expected output for each test that you add,
+and to re-test your compiler on all tests whenever you make changes. You
+can diff these regression tests against expected output and tell when a
+test output has become broken by a change to your compiler.

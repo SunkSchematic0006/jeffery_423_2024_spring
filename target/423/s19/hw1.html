@@ -1,0 +1,195 @@
+<h3>CS 445 Assignment 1: A Lexical Analyzer</h3>
+
+Due: Sunday January 20, 11:59pm<p>
+
+In this assignment you will write a lexical analyzer in
+<code>flex(1)</code>, for a dialect of Godiva known as the <code>g0</code>
+language. Note that a similar-sounding subset of Godiva called Godiva-0 is
+documented in the main Godiva reference, but it is not the same
+thing. Godiva-0 is a <em>research prototype</em> of Godiva, while
+<code>g0</code> is an <em>instructional subset</em> of the Godiva
+language that is documented in its own reference document, with a
+link given below.
+
+<p>
+<h3> Engineering Requirements </h3>
+
+In this and all subsequent assignments in 445, please meet the following
+engineering requirements. Points will be assigned in grading for them.
+
+<dl>
+<dt> Mandatory .zip file unpacks to the current directory.
+<dd> Turnin Must be a .zip containing a valid compressed archive that can
+     be uncompressed on Linux via unzip. It may not be a .tar or a .rar
+     or a .bzip or whatever, whether disguised or renamed or not.
+     The .zip must unpack into the current directory, not a subdirectory.
+<dt> "make" just works on cs-course42, build g0 executable.
+<dd> You have to supply a makefile that contains build rules as follows.
+<dt> Separate Compilation.
+<dd> The C compiler must be invoked separately on each .c file.
+     All .c files must be linked together via .o object files, no using
+     <code>#include</code> of .c files.  No including any code (function
+     bodies) in .h files.
+<dt> No Warnings
+<dd> The compiler must be invoked with -Wall on all compilation lines
+<dt> Valgrind validation
+<dd> You should test your work on cs-course42 both with and without valgrind.
+     Valgrind output should be free of memory errors.  You will probably also
+     become intimate with gdb in this class, but valgrind is your first line
+     of defense.
+</dl>
+
+<h3> Feature Requiments </h3>
+
+In this document, the term "must" indicates a feature that is
+required for passing grade, while the term "should" indicates a feature
+that is expected for a grade of "A" or "B".  If you do not know what
+something means, or don't know how to do it, you are encouraged to ask
+and find out rather than turning in a homework that does not meet the
+specifications.
+
+<p>
+
+Your program executable should be named <code>g0</code>.  Your program
+should read in any number of source files named on the command line and
+write output with one line for each token, described below.  Source files
+take the extension <code>.g0</code>. The compiler should automatically add
+<code>.g0</code> to the end of filenames if no other extension is given. The
+compiler automatically names the executable the same name as whatever file
+contains procedure <code>main()</code>.  The command
+
+<pre>
+  $ g0 hello goodbye
+</pre>
+
+compiles <code>hello.g0</code> and <code>goodbye.g0</code> and name the
+output binary executable <code>hello</code>.
+
+<p>
+
+Compilers and related tools are used by programs such as <code>make(1)</code>
+that read the process exit status to tell whether all is well. Your
+program's exit status should return 0 if there are no errors, and a nonzero
+number to indicate errors. For lexical errors, return 1.
+
+<h3> Language Details </h3>
+
+The <code>g0</code> language is described at
+<A href="http://www2.cs.uidaho.edu/~jeffery/godiva/g0.html">
+http://www2.cs.uidaho.edu/~jeffery/godiva/g0.html</A>. As this
+is a new language this semester, these details will be corrected
+and amended as needed in response to student questions.
+
+<h3> Lexical Attributes </h3>
+
+In your <code>yylex()</code>, you should compute attributes for each token,
+and store them in a global variable named <code>yytoken</code>. Note that
+this is not part of the lex/yacc public interface, although it is named so
+as to be a recognizable extension of said interface.  You should use the
+following token type, or a compatible extension of it.
+
+<p>
+
+<pre>
+struct token {
+   int category;   /* the integer code returned by yylex */
+   char *text;     /* the actual string (lexeme) matched */
+   int lineno;     /* the line number on which the token occurs */
+   char *filename; /* the source file in which the token occurs */
+   int ival;       /* for integer constants, store binary value here */
+   double dval;	   /* for real constants, store binary value here */
+   char *sval;     /* for string constants, malloc space, de-escape, store */
+                   /*    the string (less quotes and after escapes) here */
+   }
+</pre>
+
+<p>
+
+In this homework your <code>main()</code> procedure should 
+build a LINKED LIST of all the token structs, each of which is created by
+<code>yylex()</code>.  In the next assignment, we will
+insert all these tokens in a giant (syntax) tree.<p>
+
+Example linked list structure:
+
+<pre>
+   struct tokenlist {
+      struct token *t;
+      struct tokenlist *next;
+      }
+</pre>
+
+Use the <code>malloc()</code> function to allocate chunks of memory for
+<code>struct token</code> and <code> struct tokenlist</code>.
+
+<h3> <code>yylex()</code> and <code>main()</code> </h3>
+
+Your <code>yylex()</code> should return a different unique integer &gt; 257
+for each reserved word, and for each other token category (identifier,
+integer literal constant, string literal constant, addition operator, etc).
+Numbers &gt; 257 are required for the sake of compatibility with the YACC
+parser generator tool.  For each such number, you must <code>#define</code>
+a symbol, as in
+
+<pre>
+#define IDENTIFIER 260
+</pre>
+
+This is required for the sake of readability.
+Your <code>yylex()</code> should return -1 when it hits end of file.
+<p>
+
+In this assignment, there should be (at least) two separately-compiled .c
+files, a .h file and a makefile. The <code>yylex()</code> function must be
+called by a </code>main() procedure in a loop.  The main() procedure should
+for each token, write out a line containing the token category (an integer
+&gt; 257) and lexical attributes.
+
+<h3> Turn in... </h3>
+
+An electronic copy via bblearn.uidaho.edu.  The electronic copy should be a
+compressed archive .zip file, containing makefile, flex clex.l file, main.c
+file, and ytab.h file.  </pre>
+
+If you add any new source files,
+be sure you add it to the set of files that you turn in.
+
+<h3> Example </h3>
+
+<p>
+
+For the input file
+<p>
+<table border>
+<tr><td>
+<pre>
+void main() {
+   write("Hello\tworld")
+}
+</pre>
+</table>
+
+<p>
+
+your output should look something like the following. Integer categories
+are for illustration purposes; yours may be different.
+
+<p>
+
+<table border>
+<tr><td>
+<pre>
+Category	Text		Lineno		Filename	Ival/Sval
+-------------------------------------------------------------------------
+262		void		1		hello.c
+271		main		1		hello.c
+290		(		1		hello.c
+291		)		1		hello.c
+292		{		1		hello.c
+271		write		2		hello.c
+290		(		2		hello.c
+271		"Hello\tworld"	2		hello.c		Hello	world
+291		)		2		hello.c
+293		}		3		hello.c
+</pre>
+</table>

@@ -1,0 +1,761 @@
+<HTML>
+<HEAD>
+<TITLE>VGO - Language Reference </TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<br><br><br>
+<br><br>
+<br>
+
+<CENTER>
+<H3>
+<font size=7>VGo</font><br><br>
+<em> a Programming Language</em>
+</H3>
+<A href="http://www.cs.uidaho.edu/~jeffery/">Clinton Jeffery</A>
+<code><a href="mailto:jeffery@cs.uidaho.edu">jeffery</A>@cs.uidaho.edu</code><br>
+<br>
+<em> Draft Version 0.21, September 23, 2019. </em>
+<p>
+<br><br>
+<h2> Language Reference Manual </h2>
+<br>
+<strong>Abstract</strong>
+</CENTER>
+<p>
+
+<blockquote>
+
+<code>VGo</code> (pronounced "Viggo", short for "Vandal Go") is a subset of
+the <A href="http://golang.org">Go programming language</A>, from the
+<A href="https://en.wikipedia.org/wiki/Don%27t_be_evil">"don't be evil"</A>
+evil empire at Google, and such evil geniuses as that celebrity
+obvious-software-patenting researcher, Rob Pike.  I am not going to say
+that even bigger celebrity Ken Thompson is an evil genius; he is just a genius.
+<code>VGo</code> is a tiny
+language intended to be implemented in a compiler construction class.
+
+
+</blockquote>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<center>
+<A href="http://www.uidaho.edu"> University of Idaho</A><br>
+<A href="http://www.cs.uidaho.edu">Department of Computer Science</A><br>
+Moscow, ID 83844 USA
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<H3>Contents </h3>
+
+<OL>
+
+<LI><A HREF="#Introduction">Introduction</A></LI>
+<LI><A HREF="#Lexical">Lexical Rules</A></LI>
+	<UL>
+	<LI> <A HREF="#Comments">Whitespace and Comments</A>
+	<LI> <A HREF="#Reserved">Reserved words</A>
+	<LI> <A HREF="#Operators">Operators</A>
+	<li> <A HREF="#Literals">Literals</A>
+	<li> <A HREF="#Punctuation">Punctuation</A>
+	<LI><A HREF="#SemiColons">Semi-colons</A></LI>
+	</UL>
+<LI><A HREF="#Syntax">Syntax</A></LI>
+	<UL>
+	<LI><A HREF="#FunctionSyntax">Function Syntax</A></LI>
+	<LI><A HREF="#ControlStructures">Control Structures</A></LI>
+	<LI><A HREF="#OOP">How Object Oriented is VGo?</A></LI>
+	<LI><A HREF="#DeclarationSyntax">Variable Declaration Syntax</A></LI>
+	</UL>
+<LI><A HREF="#Types">Data Types and Semantics</A></LI>
+	<UL>
+	<LI><A HREF="#Numbers">Numbers</A></LI>
+	<LI><A HREF="#Arrays">Arrays</A></LI>
+	<LI><A HREF="#Strings">Strings</A></LI>
+	<LI><A HREF="#Tables">Tables</A></LI>
+	</UL>
+
+<LI><A HREF="#Summary">Summary</A>
+</OL>
+<p>
+<HR>
+
+<h2><A NAME="Introduction">1. Introduction</A></h2>
+
+<code>VGo</code> is a subset of Go, a language that is trying to be a better
+C, with some amusing, vague, retro Pascal-ish aspects to
+it.  <code>VGo</code>, the Vandal Go, is intended to correspond roughly to
+the subset of Go that would be covered in a CS1 class such as UIdaho's CS
+120 course.
+
+<p>
+
+The facilities that VGo supports are not particularly new or clever.
+But, Go is interesting enough that students can only benefit from
+learning some of the features that distinguish it from the C or C++
+that they may be more familiar with.
+The remainder of this introduction consists of a "quick tour" of VGo,
+based on <A href="http://tour.golang.org">A Tour of Go</A>.
+
+<p>
+VGo programs are generally legal Go programs with a .go file extension.
+Source files have to specify what package they are in.  A program begins
+with a <code>main()</code> procedure within a <code>main</code> package.
+A non-racist "Hello world" program looks like:
+
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, world")
+}
+</pre>
+
+All legal VGo source files must be declared to be in package
+<code>main</code>.  Other packages are supported only to the extent that
+a small number of the Go library packages are built-ins in VGo. The
+small number of VGo library packages is still under development; see below.
+
+<p>
+
+In Go, <code>import</code> statements and declarations can be "factored"
+together using parentheses as in
+
+<pre>
+import (
+   "fmt"
+   "time"
+)
+</pre>
+This is not allowed in VGo, which only support Go's more traditional syntax:
+<pre>
+import "fmt"
+import "time"
+</pre>
+
+VGo supports a small subset of the functionality of a small subset of Go's
+packages, including "fmt" (Println), "time" (Now), and "math/rand" (Intn).
+While the full Go versions of these packages support many many functions,
+and even types, VGo will be rather minimalist. For example, instead of
+defining 25 public symbols in package <code>fmt</code>, VGo will have
+as few as possible, possibly only one or two. So far, only Println().
+
+<p>
+
+VGo supports Go's name scope rule: only capitalized names are visible in
+other packages.  Since user source code is all in package main, this is
+largely moot in VGo.
+
+<p>
+
+VGo supports Go's interesting function syntax, with examples such as the
+following. Note that the type comes after the variable, and the function
+return type, which is optional, comes after the parameter list.
+
+<pre>
+package main
+
+import "fmt"
+
+func add(x int, y int) int {
+    return x + y
+}
+
+func main() {
+    fmt.Println(add(42, 13))
+}
+</pre>
+
+Go allows the type to be omitted if the next item in a comma separated
+parameter list is the same type.  VGo also allows such omission.
+
+<pre>
+func add(x, y int) int { /* legal in Go and VGo */
+    return x + y
+}
+</pre>
+
+Go allows multiple values to be returned from a single function call.
+VGo does not.
+
+<pre>
+...
+func swap(x, y string) (string, string) { /* legal in Go, not in VGo */
+return y, x
+}
+
+func main() {
+a, b := swap("hello", "world")
+fmt.Println(a, b)
+}
+</pre>
+
+Go supports named return values, to make things less confusing when you have
+a lot of return values. VGo does not.
+
+<pre>
+func split(sum int) (x, y int) { /* legal in Go, not in VGo */
+x = sum * 4 / 9
+y = sum - x
+return
+}
+</pre>
+
+Other than parameters, Go declares package-global and local variables 
+using a var statement.  A single var statement can accommodate a variety
+of types.
+
+<pre>
+var c, p, j bool /* legal VGo, declares three bool variables */
+</pre>
+
+Go uses variable initializers aggressively, to allow implicit
+type declarations.  A single equals sign is used to separate multiple
+variable names from multiple initializer values.  VGo does not do
+implicit types, and does not do initializers.  All variables begin
+with their "zero value" and get assigned via assignment statements.
+Zero values include "false" for boolean, and "" (empty string) for strings.
+
+<pre>
+var c, p, j = true, false, "no!"  /* legal in Go, not in VGo */
+</pre>
+
+Go uses the so-called short assignment statement in place of var to
+declare a variable with implicit type.  VGo does not.
+
+<pre>
+  k := 3   /* legal in Go, not in VGo */
+</pre>
+
+Go features 19 basic types, including "rune" and two types of complex numbers.
+VGo supports:
+
+<pre>
+bool
+string
+int
+float64
+</pre>
+
+Go, and VGo, have no implicit type conversions.  Explicit type conversions
+are via <code>T(v)</code> where T is bool, string, int, or float64.
+
+<p>
+
+Go and VGo include constants, specified via the <code>const</code> keyword.
+Constant declarations in VGo must be single-variable with a single initializer;
+these are the only initializers in the language.
+
+<pre>
+const Pi float64 = 3.14
+</pre>
+
+Go and VGo have only one kind of loop, a for-loop.
+They look like C for-loops, without the parentheses; the loop
+body is ALWAYS a compound statement surrounded by curly braces.
+
+<pre>
+var i, sum int
+sum = 0
+for i = 0; i &lt; 10; i++ {
+   sum += i
+}
+fmt.Println(sum)
+</pre>
+
+Like in C, in Go and VGo, the initialization and post-increment portions of
+the for-loop are optional. If omitted, the semi-colons may also be omitted.
+There is no need for a separate "while" loop construct.
+<p>
+
+<pre>
+sum = 1
+for sum &lt; 1000 { /* a while loop */
+   sum += sum
+   }
+</pre>
+
+The condition is also optional.
+
+<pre>
+   for { /* infinite loop */
+   }
+</pre>
+
+<p>
+
+Conditionals use syntax similar to loops. Curly braces are required.
+Unlike loops, the "test" condition is not optional.  An <code>else</code>
+branch is optional.
+
+<pre>
+if x &lt; 0 {
+   ...
+}
+</pre>
+
+Else branches require curly braces, unless they are (chained) if statements.
+Due to Go's wimpy semi-colon insertion that is not as good as Unicon's semi-colon
+insertion rule, chained <code>else</code>s have to be on the line
+with the curly brace that closes the preceding then-part or else-part.
+
+<pre>
+if x &lt; 0 {
+   ...
+} else if x &lt; 10 {
+   ...
+} else {
+   ...
+}
+</pre>
+
+<p>
+
+
+Go allows a "short statement" prior to the condition. VGo does not
+
+<pre>
+  if v := math.Pow(x, n); v < lim { /* legal Go, not in VGo */
+     return v
+     }
+</pre>
+
+Go has a switch statement as in C, with implicit break statements
+after each branch, and with any basic data type allowed.  VGo does
+not do switch statements.
+
+<pre>
+  switch os {
+  case "darwin":
+  fmt.Println("OS X.")
+  case "linux":
+  fmt.Println("Linux.")
+  default:
+  fmt.Println(os, ".")
+  }
+</pre>
+
+(Switch statements in Go are not limited to constant labels, making
+the switch potentially more like a chain of if-statements.  A moot
+observation for readers concerned mainly with VGo.)
+<p>
+
+Go has a <code>defer</code> statement that specifies a statement (or maybe
+just a function call) that will execute when the function returns. VGo does
+not.
+<p>
+
+Go supports creation of new types via a struct. VGo has structs.
+Go struct literals can be created in which only some fields are initialized
+by name. VGo does not support this syntax.
+
+<pre>
+type Vertex struct {
+X, Y int
+}
+...
+var v2 Vertex
+v2 = Vertex{X: 1}  // Y:0 is implicit
+</pre>
+
+Go has pointers, but no pointer arithmetic. VGo should support just enough
+pointers to support linked lists.  Thus, pointers to structs only.
+
+<p>
+
+Go has arrays.  VGo has one-dimensional arrays only, including array literals.
+Go allows declaration of arrays without size; VGo does not.
+Go has slices -- it uses them aggressively. VGo does not have slices.
+Go has a variant of the for loop with a <code>range</code> for iterating
+through an array. VGo does not.
+
+<p>
+
+Go has maps. They look like fun. VGo has maps.  But VGo does not do
+map literals.
+
+<table border>
+<tr> <th> Go not VGo <th> VGo
+<tr><td>
+<pre>
+var m
+m = map[string]Vertex{
+     "Bell Labs": Vertex{ 40.68433, -74.39967, },
+     "Google": Vertex{37.42202, -122.08408, },
+    }
+</pre>
+<td>
+<pre>
+var m map[string]Vertex
+m["Bell Labs"] = Vertex{ 40.68433, -74.39967, }
+m["Google"] = Vertex{37.42202, -122.08408, }
+</pre>
+</table>
+
+This includes a <code>delete()</code> function. It is acceptable for a VGo
+compiler to only allow string and int as index types.
+
+<p>
+
+Go has function values and closures. VGo does not.
+
+<p>
+
+Go has methods that are functions with a special <em>receiver</em> argument.
+VGo does not have methods.
+
+<p>
+
+Go has interfaces. VGo does not.  Go has type assertions. VGo does not.
+Go has type switches. VGo does not.
+
+
+<p>
+
+
+When in doubt about VGo features, refer to the
+<A href="https://golang.org/ref/spec">Go language Specification</A>.
+I will add notes below as needed.  The easiest way to get out of
+having to implement something is to ask about it and negotiate.
+
+
+
+<h3> 2. <A NAME="Lexical">Lexical Rules</A> </h3>
+
+The lexical rules of VGo are: the lexical rules of Go.  <code>VGo</code>
+simplifies and reduces the lexical rules of Go a bit.
+<p>
+
+
+<p>
+<A NAME="Comments"></A><B><FONT SIZE=3>2.1 Whitespace and Comments</B></FONT>
+<p>
+
+Spaces and tabs separate elements of the source program and are not otherwise
+considered, except when within a string literal.
+<p>
+VGo comments use // which comments to the end of a line.
+<p>
+C-style comments using /* ... */ should be recognized and result in an error
+message "C comments not allowed in VGo", along with filename and line number.
+<p>
+
+A newline in Go may trigger the insertion of a semi-colon, if
+the final token prior to the newline was an identifier, literal,
+     <code>break</code>, <code>continue</code>,
+     <code>fallthrough</code>, or <code>return</code>, or one of the
+     operators <code>++</code>, <code>--</code>, <code>)</code>, or
+     <code>}</code>.
+
+<p>
+<A NAME="Reserved"></A><B><FONT SIZE=3>2.2 Reserved Words</B></FONT>
+<p>
+
+VGo uses the following reserved words, which are from
+Go. A <code>vgo</code> compiler must support the following reserved words.
+
+<pre>
+func         map          struct
+else         package
+const        if           type
+for          import       return       var
+</pre>
+
+The rest of the Go reserved words, if they occur should result in a
+"Go keyword not in VGo" error message, along with the filename and
+line number, after which the compiler should stop.  These are
+
+<pre>
+break        default      interface    select
+case         defer        go
+chan         goto         switch
+fallthrough  range
+continue
+</pre>
+
+<p>
+
+Caveat: this degree of minimalism may be too extreme. I might relent and
+add another Go keyword or two, if they seem needed even by toy programs.
+Also: the Go spec does not refer to built-in type names as keywords, but
+they would be reserved keywords in most folks' terminology:
+
+<pre>
+bool        string        int          float64
+</pre>
+
+<p>
+<A NAME="Operators"></A><B><FONT SIZE=3>2.3 Operators</B></FONT>
+<p>
+
+<code>vgo</code> uses the following subset of Go operators. The
+precedence goes from highest at the top, to lowest at the bottom.
+Associativity is from left to right, except for the assignment
+operators which are right to left.
+
+<p>
+
+<table border>
+<tr><th>Operator<th>Meaning
+<tr><td>()<br>[]<br>.<td>Parenthesis<br>Subscript<br>Struct member access
+<tr><td>-<br>!<br><td>Unary minus<br>Unary logical negation
+<tr><td>*<br>/<br>%<br><td>Multiplication<br>Division<br>Modulus
+<tr><td>+<br>-<td>Addition<br>Subtraction
+<tr><td>&lt;<br>&lt;=<br>&gt;<br>&gt;=<td>less than<br>less than or equal<br>greater than<br>greater than or equal
+<tr><td>==<br>!=<td>is equal to<br>is not equal to
+<tr><td>&amp;&amp;<td>logical AND
+<tr><td>||<td>logical OR
+<tr><td>=<br>+= ++<br>-= --<td>assignment. left operand must be a variable<br>increment<br>decrement
+</table>
+
+<p>
+
+Other Go operators should result in the error message
+"Go operator not in VGo", including filename
+and line number, after which the compiler should stop.
+Operators that should result in this message include
+
+<pre>
+&     &=    |      |=     
+^     *=    ^=     <-
+<<    /=    <<=    :=
+>>    %=    >>=    :
+&^    &^=
+</pre>
+
+
+
+<p>
+<A NAME="Literals"></A><B><FONT SIZE=3>2.4 Literals</B></FONT>
+<p>
+
+VGo supports string and numeric literals, and syntax to allow construction
+of array and map values.
+
+<p>
+
+VGo supports ordinary (<em>translated</em>, in Go parlance) String literals
+enclosed in double quotes, with a basic set of escapes.
+
+<p>
+
+Go and VGo integer literals are in familiar
+decimal, octal or hexadecimal formats, as in 123, 066, or 0x22FF.
+Floating point constants in Go require an integer followed by either
+a fractional part, or an exponent part, or both.
+
+<p>
+
+Go has imaginary literals and complex constants. These are not in VGo.
+A VGo compiler should recognize them and emit an appropriate error message.
+
+<p>
+
+Go has Runes, which are integer values that identify Unicode code points.
+VGo is an ASCII subset. A VGo compiler supports the subset of runes that
+are C/C++-style characters. For other runes, it should emit a lexical error.
+A VGo compiler supports a subset of backslash escapes, to include \n and \t.
+Unsupported escapes should result in a lexical error.
+
+<p>
+<A NAME="Punctuation"></A><B><FONT SIZE=3>2.5 Punctuation</B></FONT>
+<p>
+
+Besides () and [] operators, curly braces are
+used a lot in VGo. VGo also uses comma as a
+punctuation token. It might use others.
+
+<p>
+<A NAME="SemiColons"></A><B><FONT SIZE=3>2.6 Semi-colons</B></FONT>
+<p>
+
+Semi-colons exist but are mostly optional and rare in Go and VGo compared
+with C/C++.  Go and VGo perform <em>semi-colon insertion</em>, with a couple
+specific lexical rules. For example, the compiler automatically inserts a
+semicolon at the end of a line if ...  the line ended with an identifier,
+literal, or a closing parenthesis, ++, --, curly brace or square bracket.
+
+So we can write </P>
+
+<PRE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a = 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b = 2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = 0
+</PRE>
+as an equivalent expression for
+<PRE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a = 1; b = 2; c = 0</PRE>
+<p>
+
+Semi-colons are also inserted "for free" before a closing ) or }.
+
+<p>
+<A NAME="Identifiers"></A><B><FONT SIZE=3>2.7 Identifiers</B></FONT>
+<p>
+
+Variables are identified by names called <em>identifiers</em>.
+Go allows arbitrary Unicode letters and digits, but
+VGo follows standard C identifier rules:
+They must begin with a letter from a through z or A through Z,
+and then consist of letters and digits. Underscores are allowed in identifiers
+and treated as letters.
+
+The maximum length of a variable name in VGo is 12 and this limit should
+be enforced.
+
+
+
+<h3> 3. <A NAME="Syntax">Syntax</A> </h3>
+
+The syntax of VGo is based on that of Go.
+
+<p>
+<A NAME="FunctionSyntax"></A><B><FONT SIZE=3>3.1 Function Syntax</B></FONT>
+<p>
+
+VGo function syntax is a small subset of Go syntax.
+A function definition consists of a reserved word <code>func</code> followed by
+an identifier that specifies the function name. These items are followed
+by a parentheses enclosing parameters, which are a comma-separated list
+of zero or more variables names and types.  After the parameter list,
+an optional return type may be given. The rest of the function consists
+of a statement list surrounded by curly braces.
+
+<p>
+
+Unlike C/C++ there are no prototypes in Go and VGo.  Functions appearing in
+another file, or later in the same file, can be called (if they are public)
+using the <code>packagename.Funcname</code> syntax. There is no calling of
+private functions in another file or later in the same file.
+
+
+
+<p>
+<A NAME="ControlStructures"></A><B><FONT SIZE=3>3.2 Control Structures</B></FONT>
+<p>
+
+VGo supports <code>if</code> statements (with an optional
+<code>else</code> clause), and
+<code>for</code> loops. Then-parts, else-parts and loop bodies
+are <em>required</em> to be enclosed by curly brackets by a VGo compiler;
+the only exception to this restriction on Go syntax is that
+else-parts that are themselves <code>if</code> statements are allowed
+without being enclosed in curly brackets.
+<p>
+
+Note that for-loop syntax is somewhat different in Go/VGo than in C/C++.
+
+
+<p>
+<A NAME="Structs"></A><B><FONT SIZE=3>3.3 Structures and no OOP</B></FONT>
+<p>
+
+Go does not do classes, but it does methods on structures. Since methods
+on structures turns out to be an alternate syntax for just declaring
+functions whose first parameter is a struct, VGo does not bother with
+methods; programs are expected to write functions whose first parameter
+are structs.
+
+
+<p>
+<A NAME="DeclarationSyntax"></A><B><FONT SIZE=3>3.4 Declaration Syntax</B></FONT>
+<p>
+
+Variables must be declared in VGo. Variable declarations like
+<pre>
+   var x, y, z int
+</pre>
+
+can occur at two levels: package scope, and local scope.
+There are no variable initializers.
+
+<p>
+
+
+<h3><A NAME="Types">4. Data Types</A></h3>
+
+
+
+<A NAME="Numbers"></A><B><FONT SIZE=3>4.1 Numbers</B></FONT>
+<p>
+
+VGo has a single size of <code>int</code> and <code>float64</code> numeric types, which are both 64-bits.
+
+A VGo compiler should recognizes others (such as float32 or int32) and emit
+errors ("Go type not in VGo") with filename and line number.
+
+
+<p>
+<A NAME="Strings"></A><B><FONT SIZE=3>4.2 Strings</B></FONT> <BR>
+<p>
+
+VGo has strings. The translated literals are supported, but not the Go
+raw string literals in backquotes.
+
+
+<p>
+<A NAME="Arrays"></A><B><FONT SIZE=3>4.3 Arrays</B></FONT> <BR>
+<p>
+
+Arrays are sequences, indexed using integers.
+<p>
+
+<pre>var a [32]int</pre>
+<p>
+
+
+<p>
+<A NAME="Maps"></A><B><FONT SIZE=3>4.4 Maps</B></FONT>
+<p>
+
+Maps are associative arrays, which is to say that their indices are not in
+sequence. Maps are declared like this:
+
+<pre>
+map[string]int
+</pre>
+
+<p>
+
+Maps use built-in functions <code>len()</code> and <code>make()</code>
+to report their size, or construct a map respectively. Function
+<code>make()</code> is not a normal function in that its parameter is
+a compile time type, not a runtime value. For type checking, its return
+type is always its parameter's type. For code generation, it could generate
+a function call to a function that takes N parameters and returns a pointer.
+
+
+<h3><A NAME="Functions">4. Built-In Functions</A></h3>
+
+Unlike C/C++, Go and VGo have some built-in functions.
+In addition, VGo has a small set of predefined packages containing
+functions.
+
+
+
+<A name="Summary">
+<H3>Summary</H3>
+</A>
+
+Sure, VGo may be a toy language designed for a compiler class.
+Even with only this much, it may provide a convenient notation for a
+lot of simple programming tasks such as those faced by students in CS 120.
+
+</BODY>
+</HTML>

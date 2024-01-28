@@ -1,0 +1,167 @@
+%********** Interlude **********
+\interlude{C++ Compared to C}
+\addtocounter{chapter}{-1}
+Although C++ is widely used, C (the precursor to C++) remains a very important language.  C is a particularly good language when there is a need to optimize speed and memory use.  Thus, in addition to ``regular'' applications, C is often used for programming microcontrollers, embedded computers, and other small-scale computing devices.  This makes the ability to program in C  a very useful and marketable skill.  
+
+ C++ is an extension of C and was designed to be backwards compatible with C, so any C program can be compiled by a C++ compiler (although not vice versa).  Learning the differences between the two languages, particularly what features of C++ are not available in C and what C uses instead, grants many of the benefits of knowing two programming languages, without having to learn two complete languages.
+
+The major difference between C++ and C is that C does not support classes.  Instead, C uses a similar, but more ``primitive,'' data entity known as a \emph{structure}\index{structure} (which was introduced in Interlude 3).  Because C does not support classes, code that depends upon classes is also not supported, most notably the \codefont{iostream} and \codefont{fstream} libraries and the \codefont{string} class.  C has a separate set of input and output functions instead of those defined in the \codefont{iostream} and \codefont{fstream} libraries, and C has a separate structure, C-style strings, instead of C++'s \codefont{string} class.  To maintain backward compatibility, all of these elements of C are legal in C++ code as well.
+
+\section{Structures}
+
+Because C does not support classes, any program that depends on or uses classes cannot be a C program.   Thus, the \codefont{pet} class used in the Electronic Pet project and the  \codefont{square} class used in the Generic Board Game program cannot be created or used in C.  
+
+Instead of classes C uses structures that are defined using the keyword \codefont{struct}\index{struct} (see Interlude 3).  Like classes, C structures can contain multiple data members.  However, structures don't have function members.  Instead functions can be written to accept structures as arguments or to return structures.  
+
+For example, in C a \codefont{pet} structure would be defined:\\
+\codefont{
+typedef struct pet\{\\
+\hspace*{0.5cm} int happy;\\
+\hspace*{0.5cm} int hunger;\\
+\hspace*{0.5cm} char name[100];\\
+\} pet;\\
+}
+Note that with this definition, a \codefont{pet} structure has the equivalent of three data members: two integers (\codefont{happy} and \codefont{hunger}) and an array of characters (\codefont{name}).  There are no member functions, although functions can be written to accept structures as arguments or to return structures.   Because strings are not supported in C, an array of characters (characters were introduced in Chapter 6) is used to store pets' names.  These character arrays are known as a C-style strings and are described below.
+
+Once a structure has been defined, it can be used very much like any other type.  Variables can be declared:\\
+\codefont{pet pet1, pet2;}\\
+and functions can both accept structures as arguments and can return them:\\
+\codefont{pet function(pet p, pet p2)}\\
+The ``data members'' of a structure are accessed using the same dot notation as class members:\\
+\codefont{pet1.hunger = 50;\\
+pet1.happy = 50;\\
+}
+but all of the data is public.
+
+Thus, to change the \codefont{pet} class in the Electronic Pet program into a C-style structure, two major changes are necessary.  First, the class declaration have to be changed into a structure containing only the data elements.  Second, all of the member function definitions have to be rewritten as nonmember functions with \codefont{pet} structures as parameters.
+
+For example, the \cf{print()} function from the pet class would be rewritten to take a pet structure as an argument and then would print its data members:\\
+\cf{
+void print(pet p)\{\\
+\hspace*{2cm}// print p.name\\
+\hspace*{2cm}// print p.hunger\\
+\hspace*{2cm}...\\
+\}
+}
+Note that the pet structure to be printed is passed in as an argument.  The dot notation is used to access and print its data members.  This new \cf{print()} function is not a member of any class.
+
+\section{C Input and Output}
+
+Because classes are not supported in C, neither are the \codefont{iostream} and \codefont{fstream} libraries.  Thus, the input and output classes and their associated objects and operators (\codefont{cin}, \codefont{cout}, \codefont{$<<$}, \codefont{$>>$}, etc.) are not available in C.  C has its own set of functions for input and output, the most common of which are listed in Table~\ref{tab:operators2}.
+
+\begin{table}[h]
+\centering
+\caption{Common C Input and Output Functions.  These are also available in C++.}
+\begin{tabular}{|  l |  p{7cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\textbf{Function} &  \textbf{Use} \\
+\hline
+\codefont{printf()} & Output to the screen \\
+\hline
+\codefont{scanf()} & Input from the keyboard \\
+\hline
+\codefont{fprintf()} & Output to files \\
+\hline
+\codefont{fscanf()} & Input from files \\
+\hline
+\end{tabular}\label{tab:operators2}
+\end{table}
+
+All of the output functions use a similar format.  They are passed a single \emph{format string}\index{format string} that may include \emph{format specifiers}\index{format specifiers}, denoted by a \%, which are used to print variables.  This format string is followed by the arguments to be printed, one argument for each of the format specifiers listed in the format string.
+For example, the code:\\
+\codefont{
+int X = 7, Y = 9, Z;\\
+Z = X + Y;\\
+printf("The value of \%d plus \%d is \%d.", X, Y, Z);\\
+}
+will print:\\
+\codefont{
+The value of 7 plus 9 is 16.\\
+}
+Each format specifier (e.g., \cf{\%d}) in the format string is replaced by the value of the corresponding variable.  For example, the value of \codefont{X} is substituted for the first format specifier, the value of \codefont{Y} for the second format specifier, etc.  The type of the argument must match the format specifier; for example, the format specifier \codefont{\%d} must be matched to an integer.  Table~\ref{tab:formatspecifiers} lists a few of the common format specifiers and their corresponding types.  A format specifier can also specify how a number is printed, for example, it's printed precision, as shown in  Table~\ref{tab:formatspecifiers}.  
+
+The input functions are handled similarly to the output functions.  For example, the command:\\
+\codefont{
+scanf("\%d \%f", \&x, \&f);\\
+}
+reads an integer and a decimal number from the input and stores them in the variables \codefont{x} and \codefont{f}, respectively (assuming that \codefont{x} and \codefont{f} have the appropriate types -- otherwise, the compiler produces an error).  The \codefont{scanf()} expects pointers (discussed in Chapter 7), which requires that an \& be used in front of the variables: \codefont{x} and \codefont{f}, unless the variables were declared as pointers.
+
+The functions for reading from and writing to a file are \codefont{fscanf()} and \codefont{fprintf()}.  In C++, reading from or writing to a file requires creating and using a file stream object.  In C, it requires using a pointer  (see Chapter 6) to a variable of type \codefont{FILE}. The basic code is:\\
+\codefont{
+FILE *openfile;\\
+int f;\\
+openfile = fopen("filename","r");\\
+fscanf(openfile, "\%f", \&f);\\
+}
+The asterisk (*) in the declaration \codefont{FILE *openfile} makes \codefont{openfile} a pointer to a \codefont{FILE} (pointers are discussed in Chapter 6).  The character string \codefont{``r''} defines the \emph{mode}\index{files!mode} for opening the file.  Common modes are read (\codefont{r}), write (\codefont{w}), and append (\codefont{a}).  If the program attempts to open a file for writing or appending that does not exist the program will attempt to create the file.  
+
+
+\begin{table}[h]
+\centering
+\caption{Common C Format Specifiers.}
+\begin{tabular}{|  c  |  p{12cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\textbf{Specifier} &  \textbf{Type and precision} \\
+\hline
+\codefont{\%d} & Signed integer \\
+\hline
+\codefont{\%f} & Floating-point number \\
+\hline
+\codefont{\%c} & Character \\
+\hline
+\codefont{\%s} & C-style string of characters \\
+\hline
+\codefont{\%e} & Floating-point number in scientific notation \\
+\hline
+\codefont{\%\%} & Prints a \% symbol \\
+\hline
+\codefont{\%10d} & Signed integer, with a width of 10, right-justified, and with leading blanks \\
+\hline
+\codefont{\%4.2f} & Floating-point number with width 4 and a printed precision of 2\\
+\hline
+\end{tabular}\label{tab:formatspecifiers}
+\end{table}
+
+\section{C-style Strings}\index{strings!C-style}
+
+The lack of classes in C means that the \codefont{string} class used throughout this text is not supported in C.  The most common alternative is to use \emph{C-style strings}\index{C-style strings}.  Although the \cf{string} class has a number of useful and powerful capabilities, there are good reasons to learn to use C-style strings even for a strict C++ programmer.   First, command-line arguments (see Interlude 6) are C-style strings, not objects of the \cf{string} class.  Second, there are some applications for which C-style strings are more appropriate or easier to use than string objects.  Finally, because C-style strings are often used in C++ programs, it is useful to be able to read and understand code that uses C-style strings.
+
+C-style strings are simply arrays of characters that are terminated by a null terminator,\footnote{Sometimes called the \emph{null character}.}\index{null terminator}\index{null character} the character `\textbackslash 0', which has the ASCII code 0.  The null terminator solves the problem of not knowing the length of a character -- the array is simply read until the null terminator is reached.  Thus, a typical piece of code to manipulate C-style strings contains a loop like:\\
+\codefont{
+int i = 0;\\
+while(str[i] != '\textbackslash 0')\{ \\
+\hspace*{0.5cm} // Do something with each character str[i]\\
+\hspace*{0.5cm} i++;\\
+\}\\
+}
+where \codefont{str} is the name of the C-style string.
+
+When an array of characters is created and initialized, the null terminator is automatically added.  So, the statement\\
+\codefont{char str[] = "string";}\\
+creates an array with seven elements, with the seventh element being the null terminator.
+
+The \codefont{cstring}\index{libraries!cstring@{\cf{cstring}}}\index{cstring@{\cf{cstring}}} library contains a number of functions that can be used to manipulate C-style strings.  Table~\ref{tab:cstrings} lists a few of the most useful ones.
+
+\begin{table}[h]
+\centering
+\caption{A few of the more useful functions for manipulating C-style strings.  These are found in the \codefont{cstring} library.  The asterisks (*) in the function definitions refer to pointers, which are covered in the next chapter.  Generally, any place in the code where \codefont{char *} appears a C-style array of characters is appropriate. }
+\begin{tabular}{|  c  |  p{7cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\textbf{Function} &  \textbf{Use} \\
+\hline
+\codefont{char *strcpy(char *str1, char *str2)} & Copies \codefont{str2} into \codefont{str1} and returns the new string. \\
+\hline
+\codefont{char *strcat(char *str1, char *str2)} & Concatenates \codefont{str2} onto the end of \codefont{str1} and returns the new string.\\
+\hline
+\codefont{char *strncat(char *str1, char *str2, int n)} & Concatenates at most the first \codefont{n} characters from \codefont{str2} onto the end of \codefont{str1} and returns the new string.\\
+\hline
+\codefont{char *strchr(char *str1, char c)} & Returns a pointer to the first occurrence of \codefont{c} in \codefont{str1}, or \codefont{NULL} if there is none.\\
+\hline
+\end{tabular}\label{tab:cstrings}
+\end{table}
+
+
+\addtocounter{chapter}{1}

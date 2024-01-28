@@ -1,0 +1,53 @@
+<h3> CS 445 HW#5 </h3>
+
+Due: Friday December 12 11:59pm -- (midnight)
+<p>
+
+Generate final code for 120++.  Please turnin cscheckin electronic copy of
+your whole project in a hw5.tar.
+
+
+Take your 120++ compiler, and add target code generation. You have the
+following recommended options:
+<ol>
+<li> <a href="code-c.html">TAC-C</A>: generate out C code with no more than 3 addresses per statement. (75 points)
+<li> <a href="code.html">x86_64</A> assembler code (100 points)
+</ol>
+<p>
+Note that Option #1 is easier and worth less points than Option #2.  It is
+possible to end with an "A" doing option #1 if you ace midterm and final.
+It is considerably easier to end with an "A" if you do option #2.
+You may generate code for some other target if the instructor approves of
+the target in advance; generally, approvals will be granted for lower
+level language targets that run on Wormulon.
+<p>
+
+Finals week demos: you are encouraged to demonstrate your compiler
+to your professor in its final state.  This allows you to show what works
+and ensures that you get credit for as much as you are able to accomplish.
+Minor corrections and resubmission will be allowed in reponse to a finals
+week demo.
+
+
+<h4> Notes </h4>
+<ul>
+<li> your executable should still be named "120"
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> take in files with .cpp extensions and write out corresponding
+     final code in files with an appropriate (e.g. .s or .c) extension.
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> If no errors and -s was given, generate assembler (as)
+<li> If no errors and -c was given, call the assembler (as) or compiler (cc)
+     to produce an object code file in your target language.
+<li> If no errors and no -c was given, call the assembler or compiler to
+     produce a .o file, and if that was successful, go ahead and call a
+     linker and produce an executable
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+</ul>

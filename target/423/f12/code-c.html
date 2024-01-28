@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>code generation -c</title>
+  </head>
+
+  <body>
+    <h1>ANSI C Code Generation Guide</h1>
+
+This document provides a guide to the generation of C code
+from intermediate three-address instructions.  The goal is to
+use the C compiler to do the native code generation for us,
+having done the memory layout and control flow work to show
+that the three-address code logic is correct.
+<p>
+
+<h3> Variables </h3>
+
+Three-address code has region:offset addresses, not variable names.
+You can declare global data as
+<pre>
+   char global[globalsize];
+</pre>
+and then address a given variable at an offset of k as
+<pre>
+ (*(<em>k's type</em> *)(global+k)).
+</pre>
+
+<h3> Constants </h3>
+
+As a concession to what the assembler would do for us, immediates of
+type "int" are allowed.  For anything else, you can declare and initialize
+a single variable for the entire constant data region as
+<pre>
+   char constant[constantsize] = { .../* your bytes here */... } ;
+</pre>
+and then address a given variable at a byte-offset of k as
+<pre>
+ (*(<em>k's type</em> *)(constant+k)).
+</pre>
+
+Most likely this would be solely for string data.
+
+<h3> Stack </h3>
+
+TAC-C uses the regular C stack, but parameters and locals for all functions
+are given as a (sized) array of char.  Locals must include space for both
+named locals and temporary variables. They look like
+<pre>
+char loc[<em>regionsize</em>];
+</pre>
+<p>
+
+Parameters are a bit more awkward; we can pass an array parameter, but someone
+(the caller) must allocate the parameter region.  Where would a parameter region
+be allocated?  On the stack.  How do we allocate the parameter region?  As a
+temporary variable in the caller. Its size should be the maximum of the size
+needed by any function that it calls directly.
+
+
+The general form of a function, then is
+
+<pre>
+<em>returntype</em> func(char par[]) {
+   char loc[<em>locsize+tmpsize+parmsize</em>];
+}
+</pre>
+
+
+<table border>
+<tr><th>&nbsp;&nbsp;intermediate&nbsp;&nbsp;<br>code<br>instruction</th>
+<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;equivalent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Comment</th></tr>
+<tr><td>
+x := y + z <br>
+(integer locals)<td> *(int *)(loc+16) = *(int *)(loc+20) + *(int *)(loc+24);
+
+	<br>
+			
+			
+				<td>
+Typical example of adding two numeric variables.
+If one of the operands is not an integer, we generate code to add operands as
+reals.  One could treat constants in the same way, or generate optimized code
+for them.
+</tr>
+
+<tr><td>
+x := - y <br>
+(local variables)<td> *(int *)(loc+16) = - *(int *)(loc+20);
+
+<td>
+</tr>
+<tr><td>
+x := y <br>
+<td>	*(int *)(loc+16) = *(int *)(loc+20);
+	<td>
+</tr>
+<tr><td>
+x := &y <td> *(int **)(loc+16) = (int *)(loc+20); <br>
+</tr>
+<tr><td>
+x := *y <td> *(int *)(loc+16) = **(int **)(loc+20); <br>
+</tr>
+<tr><td>
+*x := y <td> **(int **)(loc+16) = *(int *)(loc+20);
+ <td>
+</tr>
+<tr><td>
+goto L100 <td>		goto L100;
+</tr>
+<tr><td>
+if x &lt; y then<br>&nbsp;&nbsp;&nbsp; goto L100 <td>	if (*(int *)(loc+16) &lt; *(int *)(loc+20)) goto L100;<br>
+</tr>
+<tr><td>
+if x then goto L <td>	if (*(int *)(loc+16)) goto L;
+</tr>
+<tr><td>
+if !x then goto L <td>	if (!*(int *)(loc+16)) goto L;
+</tr>
+<tr><td>
+param x <td>	*(int *)(loc+(parbase+paroff)) = *(int *)(loc+16);	<td>
+<tr><td>
+call p,n,x <td>			*(int *)(loc+16) = p(loc+parbase); <td> except built-ins, which are called normally
+<tr><td>
+return x <td>			return *(int *)(loc+16);
+				
+<tr><td>
+global x,n1,n2 <td><td>No individual globals?  References in code generally use offsets.
+<tr><td>
+proc x,n1,n2 <td>		int x(char par[n1]){ <td>
+<tr><td>
+local x,n <td>		<td> No individual locals. References in code generally use offsets.
+<tr><td>
+label Ln <td>			Ln:
+<tr><td>
+end <td>	}
+</table>
+
+
+
+
+    <hr>
+    <address><a href="mailto:jeffery@cs.uidaho.edu">Clint Jeffery</a></address>
+  </body>
+</html>

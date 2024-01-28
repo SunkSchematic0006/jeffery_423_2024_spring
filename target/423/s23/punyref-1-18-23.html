@@ -1,0 +1,561 @@
+<HTML>
+<HEAD>
+<TITLE>Puny - Language Reference </TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<br><br><br>
+<br><br>
+<br>
+
+<CENTER>
+<H3>
+<font size=7>PunY</font><br><br>
+<em> a Programming Language</em>
+</H3>
+<A href="http://www.cs.nmt.edu/~jeffery/">Clinton Jeffery</A>
+<code><a href="mailto:jeffery@cs.nmt.edu">jeffery</A>@cs.nmt.edu</code><br>
+with input from CSE 423 students
+<br><br>
+<em> Draft Version 0.1, January 16, 2023. </em>
+<p>
+<br><br>
+<h2> Language Reference Manual </h2>
+<br>
+<strong>Abstract</strong>
+</CENTER>
+<p>
+
+<blockquote>
+
+<b>PunY</b> (pronounced "Puny", short for
+Python-outside-Unicon) is a subset of the Python Programming Language.
+<b>PunY</b> is a tiny
+language intended to be implemented in a compiler construction class.
+
+
+</blockquote>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<center>
+<A href="http://www.nmt.edu"> New Mexico Institute of Mining and Technology</A><br>
+<A href="http://www.cs.nmt.edu">Department of Computer Science and Engineering</A><br>
+Socorro, NM 87801 USA
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<H3>Contents </h3>
+
+<OL>
+
+<LI><A HREF="#Introduction">Introduction</A></LI>
+<LI><A HREF="#Lexical">Lexical Rules</A></LI>
+	<UL>
+	<LI> <A HREF="#Comments">Whitespace and Comments</A>
+	<LI> <A HREF="#Reserved">Reserved words</A>
+	<LI> <A HREF="#Operators">Operators</A>
+	<li> <A HREF="#Literals">Literals</A>
+	<li> <A HREF="#Punctuation">Punctuation</A>
+	<LI><A HREF="#SemiColons">Semi-colons</A></LI>
+	</UL>
+<LI><A HREF="#Syntax">Syntax</A></LI>
+	<UL>
+	<LI><A HREF="#FunctionSyntax">Function Syntax</A></LI>
+	<LI><A HREF="#ControlStructures">Control Structures</A></LI>
+	<LI><A HREF="#DeclarationSyntax">Variable Declaration Syntax</A></LI>
+	</UL>
+<LI><A HREF="#Types">Data Types and Semantics</A></LI>
+	<UL>
+	<LI><A HREF="#Numbers">Numbers</A></LI>
+	<LI><A HREF="#Arrays">Arrays</A></LI>
+	<LI><A HREF="#Strings">Strings</A></LI>
+	</UL>
+
+<LI><A HREF="#Summary">Summary</A>
+</OL>
+<p>
+<HR>
+
+<h2><A NAME="Introduction">1. Introduction</A></h2>
+
+The name of the language is PunY but we will accept Puny and puny as synonyms.
+The name of the PunY compiler will be <code>puny</code>, because real Linux
+tools do not waste time on uppercase.
+Broadly, <code>puny</code> will correspond roughly to
+the subset of Python that would be covered in an intro Python class,
+in NMT's case, the CSE 107 course.
+The facilities that <code>puny</code> supports are interesting
+enough to write some non-trivial computations in it.
+
+<p>
+<code>puny</code> programs are legal Python programs with a .py file extension.
+A program consists of a sequence of executable python statements that may
+include class and function declarations, etc.
+A "Hello world" program looks like:
+
+<pre>
+print('Hello, world!')
+</pre>
+
+The Python import facility is severely restricted to a set of built-in system
+imports used in CSE 107, which are faked in puny.
+
+<p>
+
+Python features many basic types.
+puny supports:
+
+<pre>
+int
+float
+str
+list
+dict
+bool
+</pre>
+
+<p>
+
+The types <code>int</code> and <code>float</code> both refer to 64-bit values.
+
+<p>
+  
+puny has <code>while</code> and <code>for</code> loops.
+
+<pre>
+while <em>expr</em>:
+   <em>statement(s)</em>
+</pre>
+
+Statements following a while are part of its body, until their indentation
+is less than or equal to the indentation of the while line.  It is an error
+for the statement after the while line to not be indented more than the while
+line.
+
+<p>
+
+Conditionals in puny consist of if statements.
+An <code>else</code> branch is optional.
+
+<pre>
+if <em>expr</em>:
+   <em>statement(s)</em>
+</pre>
+
+Statements following an if are part of its body, until their indentation
+is less than or equal to the indentation of the if line.  It is an error
+for the statement after the if line to not be indented more than the if
+line.
+
+
+<code>else</code> branches are optional, indented at the same level as a
+preceding if line.
+
+<pre>
+if x &lt; 0:
+   ...
+else:
+   ...
+</pre>
+
+<p>
+
+<p>
+Puny supports creation of new types via a class.
+<p>
+
+Puny has no pointers or references.
+
+<p>
+
+Puny has no arrays, it has lists.
+
+<p>
+
+When in doubt about Puny features, refer to the Python language specification.
+I will add notes below as needed.  The easiest way to get out of
+having to implement something is to ask about it and negotiate.
+
+
+
+<h3> 2. <A NAME="Lexical">Lexical Rules</A> </h3>
+
+The lexical rules of Puny start with: the lexical rules of Python.
+<code>puny</code>
+may simplify and reduce the lexical rules of Python a bit.
+<p>
+
+
+<p>
+<A NAME="Comments"></A><B><FONT SIZE=3>2.1 Whitespace and Comments</B></FONT>
+<p>
+
+Of the Python whitespace characters, puny must support and implement
+space, tab, carriage return, and newline.  Of particular interest are
+spaces at the beginnings of lines, which are used in Python and Puny
+to determine nesting of statements inside enclosing statements.
+
+<p>
+
+  Puny supports Python comments.
+  Comments use # to comment from that point to the end of a line.
+  Examples:
+  <pre> x = 1; #single line comment
+    #multiple line
+    #comments
+    ### are just multiple separate comments</pre>
+  
+<p>
+<A NAME="Reserved"></A><B><FONT SIZE=3>2.2 Reserved Words (Keywords)</B></FONT>
+<p>
+
+  Python has approximately 33 reserved words, which they call keywords.
+  The reserved words in all of Python are shown below.
+  Those not in puny have strikethrough and
+  should result in a fatal error ("this Python feature is not in puny").
+
+<p>
+
+<pre>
+False	def	if	raise
+None	del	import	return
+True	elif	in	try
+and	else	is	while
+as	except	lambda	with
+assert	finally	nonlocal	yield
+break	for	not	
+class	from	or	
+continue	global	pass
+</pre>
+
+
+
+<p>
+<A NAME="Operators"></A><B><FONT SIZE=3>2.3 Operators</B></FONT>
+<p>
+
+puny supports the following operators<p>
+  
+<table border>
+  <tr> <td> = <td> assignment. </tr>
+  <tr> <td> + - * / ** // <td> binary arithmetic, int and float</tr>
+  <tr> <td> % <td> binary arithmetic, int</tr>
+  <tr> <td> ++ -- <td> unary increment and decrement, int only, suffix only</tr>
+  <tr> <td> - <td> unary negation, prefix</tr>
+  <tr> <td> == != &gt; &lt; &gt;= &lt;= <td> binary comparison</tr>
+  <tr> <td> and or not <td> logical AND, OR, and NOT </tr>
+  <tr> <td> is, is not, in, not in <td> these are not in puny </tr>
+  <tr> <td> [ ] . <td> Does Python do binary subscript and dot? What others?
+
+</table>
+
+<p>
+
+Puny reports an error for operators in Python but not in puny:
+<ul>
+  <li> bitwise or shift operators
+    ~, &lt;&lt;, &gt;&gtl; &amp;=, |=, ^=, &gt;&gt;=, &lt;&lt;=, &amp;, |, ^
+<li> other augmented assignment operators
+</ul>
+
+
+
+<p>
+<A NAME="Literals"></A><B><FONT SIZE=3>2.4 Literals</B></FONT>
+<p>
+
+<h4>Integers</h4>
+<ul>
+    <li> unsupported formats are recognized and reported as lexical errors
+    <li> unsigned designation is a lexical error
+   <li> long designation (L suffix) allowed and ignored since all ints are long
+</ul>
+
+   <h4>Reals</h4>
+
+   <ul>
+    <li> unsupported formats are recognized and reported as lexical errors
+   </ul>
+
+   <h4> Characters </h4>
+
+<ul>
+  <li> puny allows simple character literals consisting of a single character
+       enclosed in apostrophes
+  <li> the character may be a printable character from the keyboard, or an
+       escape character, see below
+  <li> puny recognizes and reports an error for character literals with more
+    than one character, e.g. 'abc'
+</ul>
+
+   <h4> Strings </h4>
+
+<ul>
+  <li> puny allows simple string literals consisting of zero or more
+       characters enclosed in double quotes
+  <li> characters may be a printable character from the keyboard, or an
+       escape character, see below
+</ul>
+ 
+
+<h4>Escape Sequences (Character and String Literals)</h4>
+
+Puny supports \n, \t, \', \" \a, \f, \r, \0 octals <br>
+Puny does not support \b, \v, \?, \x hexadecimals <br>
+Unsupported escapes should be recognized and report a lexical error.
+<p>
+
+   <table><tr>
+       <th>
+Escape sequence<th>Hex value in ASCII<th>	Character represented
+<tr><td>\a<td>	07<td>	Alert (Beep, Bell)
+<tr><td>\b<td>	08<td>	Backspace
+<tr><td>\f<td>	0C<td>	Formfeed Page Break
+<tr><td>\n<td>	0A<td>	Newline (Line Feed); see notes below
+<tr><td>\r<td>	0D<td>	Carriage Return
+<tr><td>\t<td>	09<td>	Horizontal Tab
+<tr><td>\v<td>	0B<td>	Vertical Tab
+<tr><td>\\<td>	5C<td>	Backslash
+<tr><td>\'<td>	27<td>	Apostrophe or single quotation mark
+<tr><td>\"<td>	22<td>	Double quotation mark
+<tr><td>\?<td>	3F<td>	Question mark (used to avoid trigraphs)
+<tr><td>\nnn<td>any<td>	octal escapes
+<tr><td>\xhh<td>any<td> hexadecimal escapes
+<tr><td>\uhhhh<td>none<td> Unicode code points
+</table>
+
+   
+<p>
+<A NAME="Punctuation"></A><B><FONT SIZE=3>2.5 Punctuation</B></FONT>
+<p>
+
+  Punctuation characters are lexemes that are supported in puny that are
+  not part of other lexemes (not operators, not identifiers, not literals).
+
+  <pre>
+(  )  ,  ;  {  }  , :
+  </pre>
+
+  Other punctuation characters generally should be reported as lexical errors,
+  including
+
+  <pre>
+#  $  @  \  `
+  </pre>
+
+  One exception: a line beginning with # in the following format is a
+  line directive and is to be interpreted as per GCC. It gives a line number
+  N and (quoted) filename to be used for reporting on the line(s) that follow.
+  The ... is (optional) other stuff you can treat as a comment and ignore
+  up until the next newline character.
+
+  <pre>
+# N "f" ...
+  </pre>
+
+<p>
+<A NAME="Identifiers"></A><B><FONT SIZE=3>2.6 Identifiers</B></FONT>
+<p>
+
+Identifiers in puny are as per the C language, not Java: a letter followed by
+zero or more additional letters or digits. They are case-sensitive.
+
+<h3> 3. <A NAME="Syntax">Syntax</A> </h3>
+
+A good fraction of standard Python syntax will denote constructs that are not
+supported in Puny.
+The easiest thing is probably to start from the whole Python language grammar,
+less the parts that have been ruled out via lexical errors, and then define
+portions of it that will be unsupported and trigger an error in HW#3.
+
+<p>
+<A NAME="FunctionSyntax"></A><B><FONT SIZE=3>3.1 Function Syntax</B></FONT>
+<p>
+
+Function definitions in puny follow the following format.
+
+(tbd)
+<!--
+<pre>
+<em>return type</em> identifier ( <em>parameter_list</em> ) { <em>function body</em> }
+</pre>
+-->
+  
+<p>
+<A NAME="ControlStructures"></A><B><FONT SIZE=3>3.2 Control Structures</B></FONT>
+<p>
+
+<pre>
+if (statement) {}
+if (statement) {} else {}
+if (statement) {} else if (statement) {} else {}
+while (statement) {}
+for ( init; condition; increment) {}
+switch(integer){
+case literal:
+statements;
+...
+default:
+statements;
+}
+</pre>
+
+  
+<p>
+<A NAME="Classes"></A><B><FONT SIZE=3>3.3 Classes</B></FONT>
+<p>
+
+puny classes are a subset of Python classes:
+
+<pre>
+class <em>tag</em>:
+  <em>members</em>
+</pre>
+
+References to classes as fields within a class is allowed.
+
+<p>
+<A NAME="DeclarationSyntax"></A><B><FONT SIZE=3>3.4 Declaration Syntax</B></FONT>
+<p>
+
+Declaration syntax is only allowed for global variables and at the top of
+the bodies of function definitions, before the first executable statement.
+puny allows only simple initializers including int, float and char.
+
+<pre>
+type identifier;
+type identifier [];
+type identifier = literal;
+</pre>
+
+A slightly simpler syntax is allowed for parameter lists, which do
+not allow initializers.
+<p>
+
+In Jzero Level One, only one identifier is declared with each
+such variable declaration.  In Jzero Level Two, variable declarations may
+be comma-separated lists of identifiers, each of which may have array or
+initializer suffixes.
+
+<h3><A NAME="Types">4. Data Types</A></h3>
+
+
+
+<A NAME="Numbers"></A><B><FONT SIZE=3>4.1 Numbers</B></FONT>
+<p>
+
+All data types listed are used by puny and are described in the reserved words section.
+char, short, int, long, float, double
+
+<p>
+
+Although the C language automatically converts between numeric types as
+needed (promotion and demotion), puny does not.
+
+
+<p>
+<A NAME="Strings"></A><B><FONT SIZE=3>4.2 Strings</B></FONT> <BR>
+<p>
+
+These are sequences of characters.
+<p>
+
+<p>
+<A NAME="Lists"></A><B><FONT SIZE=3>4.3 Lists</B></FONT> <BR>
+<p>
+
+Mainstream languages have arrays; Python has lists, borrowed from Lisp
+and Icon. For example:
+
+<p>
+  <em>Insert Python list example here</em>
+<!--
+<p>
+  <pre>int [] num = new int[100]; </pre>
+<p>
+  or
+  <pre>int [] num;
+num = new int[100]; </pre>
+-->
+<p>  
+
+<p>
+  
+
+<h3><A NAME="Functions">4. Library Functions</A></h3>
+
+puny supports a small subset of the functionality of a small subset of Python's
+standard libraries.
+
+<p>
+
+<!--
+<table border><tr><th>Function<th>Import?<th>Use
+<tr><td>System.out.println(s)<td><td>Prints to stdout, simplified
+  <tr><td><td><td> random number
+  <tr><td><td><td> string stuff
+  <tr><td><td><td> ...
+  </table>
+
+
+<pre>
+array .get() and .set()
+System.out.print(s)
+System.out.println(s)
+String.charAt(n)
+String.equals(s)
+String.compareTo(s)  // ? do we need both this and equals()?
+String.length()
+String.toString(i) vs. String.valueOf()  ??
+InputStream.read()   // ? is there a better input?
+System.in.read() ?
+  </pre>
+
+At Jzero Level 2, add:
+
+<pre>
+String.substring(x,y)
+java.util.Random.nextInt()
+java.lang.Math.abs()
+java.lang.Math.max()
+java.lang.Math.min()
+java.lang.Math.pow()
+</pre>
+
+At Jzero Level 3, add:
+
+<pre>
+String.indexOf()
+String.split()
+java.lang.Math.cos()
+java.lang.Math.sin()
+java.lang.Math.tan()
+</pre>
+-->
+
+
+<A name="Summary">
+<H3>Summary</H3>
+</A>
+
+Sure, puny may be a toy language designed for a compiler class.
+Even with only this much, it may provide a convenient notation for a
+lot of simple programming tasks such as those faced by students in CSE 107.
+
+</BODY>
+</HTML>

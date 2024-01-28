@@ -1,0 +1,125 @@
+<h3> CSE 423 HW#4 </h3>
+
+Due: Wednesday March 22 11:59pm
+<p>
+
+
+Perform the first part of semantic analysis for PunY.  This consists of the
+following items. Please turnin an electronic copy of your whole project in a
+.zip file on Canvas. Please create your .zip file in such a way that it
+unpacks into the current directory, rather than a subdirectory.
+
+<dl>
+<dt> Symbol tables
+<dd> Build a symbol table data type that you can instantiate for each scope:
+     one "global" scope, one scope per package/file and per class type
+     <!--class--> for that type's members,
+     and one scope per function for parameters and locals.  You do not have
+     to support nested local scopes.
+     For each symbol, you should insert a symbol table entry, which is
+     a struct consisting of enough information
+     to support the semantic analysis. Typically this will include symbol
+     name, reference to which scope (containing symbol table) the symbol is
+     defined in, declared data type (required in the next homework), and any
+     auxiliary flags, e.g. const.
+     For full credit, implement a hash table; a binary tree would be a
+     fine alternative (90% credit); a linked list would work but not be
+     as good (80% credit).
+<dt> Predefined symbol tables
+<dd> In addition to the symbol tables for user code, we need to allow
+     the little toy PunY programs to use predefined objects/classes
+     mentioned in the PunY specification.
+<dt> Variable declarations
+<dd> Normally I would ask for errors for undeclared and redeclared variables,
+     but that is not exactly how Python works, is it?
+<ul>
+<li> Variables are automatically declared by assigning to them
+<li> A variable's scope is normally implicit based on whether the assignment
+     is inside a function or not.
+<li> <code>global foo</code> declares a global
+<li> A variable that used that hasn't been assigned is an error
+<li> In principle Python requires run-time checks for this, but in PunY we should
+     settle for compile-time checks.
+</ul>
+<!--
+<dt> Types
+<dd> Support the base types: char, int, double, and void.
+     Support 1D arrays, and simple classes.
+
+<dt> Type Checking
+<dd> Require and check types everywhere at compile-time.
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> The semantic rules for operators are all nearly the same; at the
+     semantic analysis phase we will support those actually used in CS 120,
+     not everything mentioned in passing with no use in an example program.
+     This includes the operators =, +, -, *, /, and subscript ([ ]).
+     Support the boolean/relational operators &lt, &gt; &amp;&amp; || and !.
+
+<dt> Built-in Classes
+<dd> If the appropriate include file and "using namespace" are present, you
+     should insert into the global symbol table the names of classes
+     string and fstream, and the global symbols cin, cout, endl.
+
+<dt> Nesting
+<dd> Expressions will generally get combined to form larger expressions.
+     In the object-oriented realm, 120++ includes expressions such as
+     the following
+<pre>
+     o1.f(o2.g())
+     a[i].m()
+     (h->g())->i() == n
+</pre>
+     However, x.y.z might never occur because 120++ does not require
+     public member variables.
+-->
+</dl>
+
+<h4> Output </h4>
+
+For this Assignment, you should implement a <em>command-line option</em>
+<code>-symtab</code> and print your symbol tables in a human readable
+format if it is given on the command line.  The symbol table output should
+look like:
+
+<pre>
+--- symbol table for: package main ---
+    x
+    y
+    f
+---
+--- symbol table for: func f ---
+    a
+    b
+---
+</pre>
+
+In the absence of the -symtab command line option, you should
+just print messages for any errors encountered, or "No errors".
+If any errors are encountered when invoked with -symtab, you do
+not have to print symbol tables.
+
+<p>
+
+<h4>Notes</h4>
+<ul>
+<li> your executable must be named puny
+<li> your makefile must compile all your .c files using the -Wall option,
+     and produce .o files for them.
+<li> your makefile must have a separate link step that builds the puny
+     executable from .o files only (no .c files in the link)
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> write out the name of the file to standard out when you open it
+<li> DO NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em>
+     (<code>stderr</code>) not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+</ul>

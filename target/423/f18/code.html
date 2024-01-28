@@ -1,0 +1,248 @@
+<html>
+  <head>
+    <title>code generation</title>
+  </head>
+
+  <body>
+    <h1>code generation</h1>
+
+This document provides a guide to the generation of target code
+from intermediate three-address instructions.
+
+Perhaps the methodology for creating it is more important than its
+unfinished contents, albeit very simple. This guide is produced by
+reverse-engineering, that is to say, by examining the output of "gcc -S".
+
+<p>
+
+<table border>
+<tr><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>code<br>instruction</th>
+<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x86_64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br> equivalent
+</th><th>Comment</th></tr>
+<tr><td> int x; (global)
+<td><code>
+.comm	x,4,4
+</code>
+<td> name,size,alignment
+</tr>
+<tr><td>
+x := y + z <br>
+(C global variables)<td>
+<code>
+	movl	y(%rip), %edx <br>
+	movl	z(%rip), %eax <br>
+	leal	(%rdx,%rax), %eax <br>
+	movl	%eax, x(%rip)
+</code>
+	<td> 
+The register <code>%rip</code>,
+which is not mentioned in Bryant/O'Halloran Figure 2, is
+the instruction pointer, a.k.a program counter, 64-bit edition.
+</tr>
+<tr><td>
+x := y + z <br>
+(local variables)<td>
+<code>
+	movl	-4(%rbp), %eax	<br>
+	movl	-8(%rbp), %edx			<br>
+	leal	(%rdx,%rax), %eax			 <br>
+	movl	%eax, -12(%rbp)
+</code>
+<td> 
+</tr>
+<tr><td>
+x := y + z <br>
+(class foo variables)
+<td>
+<code>
+	movq	%rdi, -8(%rbp) ; t1 = self <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	8(%rax), %rdx ;  rdx = self->y <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	16(%rax), %rax ; rax = self->z <br>
+	addq	%rax, %rdx ; rdx = y+z <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	%rdx, (%rax)   ; self->x = rdx
+</code>
+<p>
+optimizes (-O2) to
+<p>
+<code>
+	movq	16(%rdi), %rax <br>
+	addq	8(%rdi), %rax <br>
+	movq	%rax, (%rdi)
+</code>
+
+<td>
+Note main issue of memory layout for fields x,y,z at offsets
+0,8,16; these are known at compile-time for static/non-virtual OOP.
+A dynamic/virtual would treat as<br>
+self.x = self.y + self.z <br>
+and implement field op via runtime call<br>
+or table lookup.
+</tr>
+<tr><td>
+x := y / z <br>
+(C global variables)<td>
+<code>
+	movl	y(%rip), %eax <br>
+	movl	%eax, %edx <br>
+	sarl	$31, %edx <br>
+	idivl	z(%rip) <br>
+	movl	%eax, x(%rip)
+</code>
+	<td> 
+Sarl, the shift-right, seems to fill dx out with the sign bit of ax.
+idivl seems to use a 64-bit numerator and divide it by a 32-bit denominator.
+</tr>
+
+<tr><td>
+x := - y <br>
+(local variables)<td>
+<code>
+movl -4(%rbp), %eax <br>
+negl %eax<br>
+movl %eax, -8(%rbp)
+</code>
+<td> 
+</tr>
+<tr><td>
+x := y <br>
+(local variables)<td>
+<code>
+movl -4(%rbp), %eax <br>
+movl %eax, -8(%rbp)
+</code>
+<td> 
+Note: mov does not do direct memory-to-memory copy
+</tr>
+<tr><td>
+x := &amp;y (y global)
+<td> <code>
+movq	$y, -8(%rbp)
+</code>
+<td>
+Note: $y apparently gives absolute address of y, mov instruction
+apparently will store this to a memory address in register-relative form
+</tr>
+<tr><td>
+x := &amp;y (y local)
+<td> <code>
+leaq	-12(%rbp), %rax <br>
+movq	%rax, -8(%rbp)
+</code>
+<td>
+Load effective address. Instead of fetching contents of -12(%rbp).
+</tr>
+<tr><td>
+x := *y
+<td>  <td>
+</tr>
+<tr><td>
+*x := y <td>  <td>
+</tr>
+<tr><td>
+goto L <td> <code>jmp L</code>
+</tr>
+<tr><td>
+if x &lt; y then goto L <td>
+<code>
+movl x, %rax <br>
+cmpq y, %rax <br>
+jle  L
+</code>
+<td>
+Full set of "condition code bits" in the condition registers, for the
+various comparison operators.
+</tr>
+<tr><td>
+if x then goto L <td>
+<code>
+cmpq $0, -8(%rbp) <br>
+jne  L
+</code>
+</tr>
+<tr><td>
+if !x then goto L <td>
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmpq $0, -8(%rbp)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jne   L'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jmp   L<br>
+L':
+</code>
+<td>
+Why not:<br> <code>cmpq $0, -8(%rbp)<br>je L</code>
+</tr>
+<tr><td>
+param x <td>
+<code>
+movq -8(%rbp), <em>reg</em>
+</code>
+<td> Calculate what parameter # you are by counting how many instructions
+     in the linked list until you get to the CALL instruction. Params 1-6
+     are passed in registers. Others on the stack.
+     <table border><tr><th>param #<th>1<th>2<th>3<th>4<th>5<th>6
+     <tr><td><td>%rdi<td>%rsi<td>%rdx<td>%rcx<td>%r8<td>%r9
+     </table>
+
+<tr><td>
+call p,n,x <td>
+<td>
+     If call is to a member function, I hope you remembered to insert/push
+     "self" object as first parameter for method invocation
+
+<tr><td>
+return x <td>
+<code>
+movl -8(%bsp), %eax <br>
+jmp  Lend
+</code>
+<td>
+Load return value to into ax register, then jump to end to return
+<tr><td>
+global x,n1,n2 <td><td> treat globals as class variables of some "global"
+singleton?
+<tr><td>
+proc x,n1,n2 <td>
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;	.text <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.p2align 4,,15 <br>
+.globl f <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.type	f, @function <br>
+f: <br>
+.LFB<em>n</em>: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.cfi_startproc <br>
+...<br>
+</code>
+<td> .LFB<em>n</em> 
+<tr><td>
+local x,n <td>
+
+<td>
+<tr><td>
+label Ln <td>
+<tr><td>
+end <td> <code>
+Lend: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leave<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.cfi_def_cfa 7, 8<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.cfi_endproc<br>
+.LFE<em>n</em>: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.size <em>func<em>, .-<em>func</em>
+</code>
+<td> Counter for <code>.LFE<em>n</em></code> incremented for each function in file
+<tr><td>
+x := y field z <td>
+
+<td> may involve y's class
+
+<tr><td>
+class x,n1,n2 <td>
+
+<tr><td>
+field x,n <td>
+</table>
+</body>
+</html>

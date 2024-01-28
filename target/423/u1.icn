@@ -1,0 +1,10 @@
+procedure main()
+	7
+	42
+	1228
+	3.14
+	"hello"
+	x := 3.14
+	x := y.z
+end
+

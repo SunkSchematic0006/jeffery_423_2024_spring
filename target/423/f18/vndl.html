@@ -1,0 +1,240 @@
+<H2> Vndl - a small programming language </h2>
+
+The programming language <code>Vndl</code> (pronounced "Vandal") is a
+"theme park" language that is invented for instructional and entertainment
+purposes.
+
+
+<h3> Program Organization </h3>
+
+Programs are sequences of one or more "procedures". A procedure consists
+of a reserved word <code>procedure</code> followed by an identifier,
+followed by a parenthesized list of zero or more comma-separated arguments.
+Execution starts with procedure main().
+It is a semantic error for a program to not contain a
+procedure main(). This example is the shortest legal Vndl program:
+
+<pre>
+procedure main()
+end
+</pre>
+
+The body of a procedure consists of zero or more <em>expressions</em>.
+There are several kinds of expressions, one of which is a <em>call</em>
+expression consisting of an identifier followed by a parenthesized list
+of zero or more comma-separated <em>parameters</em>. This example writes
+<code>hello, world</code> by calling
+a build-in function named <code>write</code>:
+
+<pre>
+procedure main()
+   write("hello, world")
+end
+</pre>
+
+<h3> Values and Types </h3>
+
+Vndl has a small number of atomic types, and two composite types.
+
+<h4> Atomic Types </h4>
+
+Atomic types have literal (constant) formats and are immutable.
+<p>
+
+<table border>
+<tr><th> type <th> values
+<tr><td> <code>null</code><td> null is a value denoting the absence of a value.
+<tr><td> <code>number</code> <td> 64-bit signed values from -2^63..2^63-1
+<tr><td> <code>string</code> <td> sequences of zero or more ASCII symbols.
+</table>
+
+<pre>
+procedure main()
+   write(null)
+   write(5)
+   write("hello")
+end
+</pre>
+
+It is worth pondering that although string is an immutable,
+atomic type in Vndl, it supports many of the same operations
+as a list. There is no character type in Vndl. Whenever an
+element from a string is accessed, it is a substring. Whenever
+syntax appears to modify a string, a new string is created.
+
+<h4> Composite Types </h4>
+
+Composite types are containers that hold zero or more atomic or composite
+values. They are constructed at runtime and are mutable.
+
+<p>
+
+<table border>
+<tr><th> type <th> values
+<tr><th> list <td> A list in Vndl is an array, sized at creation time.
+                   Lists use 1-based subscripts, not 0-based.
+<tr><th> table <td> maps of string keys to associated values.
+                   Tables have default values: 0, "", null, etc.
+</table>
+
+<p>
+
+Composite values are constructed in one of two ways.  A built-in function
+by the same name as the type can create a composite instance. Alternatively,
+a composite instance can be created by supplying a JSON value.
+
+<p>
+
+
+<pre>
+procedure main()
+   T : table(integer)
+   L : list(string)
+
+   L := list(10, 0) # list of 10 zeroes
+   L[1] := 7
+   T := { "WA": 0, "ID": 5}
+end
+</pre>
+
+
+<h3> Variables </h3>
+
+Vndl has two kinds of variables: global and local. Global variables are
+declared outside any procedure, while locals are declared at the top of a
+procedure body and visible only within that procedure.
+Here is a local variable declaration:
+
+<pre>
+procedure main()
+   local x : integer
+   x := 0
+   write(x)
+end
+</pre>
+
+<h3> Control Structures </h3>
+
+Control structures in Vndl feature "mandatory compound bodies".
+The meaning of this is: curly braces are always required, so each
+occurrence of "else" can be unambiguously attached to
+its corresponding "if".
+
+<p>
+
+From traditional languages, there are only if and while:
+
+<pre>
+procedure main()
+  local s : string
+  if s := read() then { write(s) } else { write("no input") }
+end
+</pre>
+
+
+
+
+<H3> Lexical Rules </h3>
+
+<h4> Whitespace </h4>
+
+Spaces and tabs are ignored.  Newlines are not (see below).
+
+<h4> Comments </h4>
+
+Comments start with # and extend to the end of the line. They are ignored
+(treated like whitespace) by the compiler.  There are no multi-line
+comments, just adjacent collections of single-line comments. The comment
+character does not start a comment when it appears inside string quotes.
+
+<h4> Constants </h4>
+
+Integer constants are decimal format only. String constants are
+double quoted and recognize the following escapes:
+<pre>
+ \n \t \" \\
+</pre>
+
+<h4> Reserved words </h4>
+
+The following words are reserved.
+
+<pre>
+ d         end
+ global    if
+ integer   list   local  null
+ procedure string table  while
+</pre>
+
+<h4> Operators </h4>
+
+<table border>
+<tr><th> operator <td> examples / meaning
+<tr><th> + - * /<td> The usual arithmetic operators are defined for integers.
+<tr><th> || <td> s1 || s2 concatenates list, string, or table s.
+<tr><th> * <td> unary *s is length of list, string, or table s.
+<tr><th> d N <td> unary random: d2, d3, d4, d6, d8, d10, d12, d20, d100
+<tr><th> M d N <td> binary random / 3d6
+<tr><th> []  <td> x[y] selects an element from list or table x
+</table>
+
+<h4> Identifiers </h4>
+
+Identifiers are sequences of one or more letters that are not reserved words.
+
+<h3> Syntax Rules </h3>
+
+Vndl has no semi-colons or multi-line expressions; a newline implies a
+semi-colon.
+
+<h3> Semantic Rules </h3>
+
+<!--
+<h4> Predefined classes </h4>
+
+vndl has predefined <em>classes</em>.  A class is a compound
+data type consisting of several <em>field pairs</em>.  A field
+pair consists of a name associated with two values, accessed by
+different operators.  A primary value is accessed through the . operator,
+and a secondary value is accessed through the .+ operator.
+
+<p>
+
+Names of fields may be spelled out in full, or given in abbreviated form;
+the full spelling and abbreviation are interchangeable and synonymous ways
+to refer to the same value:
+
+
+<table border>
+<tr><th> name <td> abbreviation <td> primary <td> secondary
+<tr><th> Strength <td> Str <td> x.Str <td> y.+Str strength modifier
+<tr><th> Dexterity <td> Dex <td> ... <td> ...
+<tr><th> Constitution <td> Con
+<tr><th> Intelligence <td> Int
+<tr><th> Wisdom <td> Wis
+<tr><th> Charisma <td> Cha
+</table>
+
+Class Character is a subclass of Entity with the fields listed above, plus:
+
+<table border>
+<tr><th> name <td> abbreviation <td> primary example <td> secondary example
+<tr><th> Name
+<tr><th> Class
+<tr><th> Race
+<tr><th> HitPoints <td> HP <td>
+<tr><th> ArmorClass <td> AC <td>
+<tr><th> Experience <td> XP <td>
+<tr><th> Money
+<tr><th> Alignment
+</table>
+
+
+Class Monster is a subclass of Entity with the fields listed above, plus:
+
+<table border>
+<tr><th> name <td> abbreviation <td> primary example <td> secondary example
+<tr><tr> Hit Dice <td> HD
+</table>
+
+-->

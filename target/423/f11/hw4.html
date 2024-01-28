@@ -1,0 +1,113 @@
+<h3> CS 445 HW#4 </h3>
+
+Due: Monday October 31 11:30am
+<p>
+
+
+Perform semantic analysis for EctoScript.  This shall consist of the
+following items. Please turnin cscheckin electronic copy of your whole
+project in a .tar but turnin paper copy only for those modules involved
+in the semantic analysis, including symbol tables and type checking.
+
+<dl>
+<dt> Symbol tables
+<dd> Build a symbol table data type that you can instantiate for each
+     scope: packages, classes, methods.  For each symbol, you should
+     enter a symbol table entry, a struct consisting of enough information
+     to support the semantic analysis. Typically this will include symbol
+     name, reference to which scope (parent symbol table) the symbol is
+     defined in, declared data type, and any auxiliary flags, e.g. const.
+     It is recommended that you implement a hash table, but a binary tree
+     would work great; a linked list would work but not be so great.
+<dt> Variable declarations
+<dd> You must emit an error if a variable is redeclared in the same scope.
+     You must detect and report an error for undeclared variables.
+      * EctoScript is allowed to require variable declarations to occur prior
+       to their use in a given source file.
+     You must emit an error if a const variable is assigned other than in its
+      initializer.
+<dt> Types
+<dd> EctoScript supports the standard built-in types, and classes.
+     Built-in types include int, void, Boolean, String, Number, uint, Null,
+         Object
+<dt> Type Checking
+<dd> EctoScript supports only the "strict" subset,
+     in which types are required and checked everywhere at compile-time.
+     You may choose to support the "standard dialect", but if so you will
+     have to implement runtime type checking. The "strict" mode entails:
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Report expressions with incompatible types
+<Li>    +++ Report duplicate definition conflicts
+<Li>    +++ Report unbound references
+<Li>    +++ Unfound packages
+<Li>    *** Report dynamic addition of properties on sealed objects
+<Li>    *** Report writing to const variables
+<Li>    *** Report code that deletes fixed properties
+</ul>
+<dt> Functions
+<dd> Functions don't have to be methods (inside classes) in ActionScript.
+     Think: like C++.
+<dt> Classes
+<dd> Enjoy the classes in your object-oriented language.
+     Inheritance is not required and would be "extra credit".
+<dt> Interfaces
+<dd> EctoScript does not bother with interfaces.  Lucky you!
+<dt> "final"
+<dd> EctoScript does not need "final" classes and methods.
+<dt> "dynamic"
+<dd> EctoScript does not care for "dynamic" or unsealed classes
+<dt> "static"
+<dd> EctoScript does not cow to "static" imperialist pig-dogs
+<dt> qualified references
+<dd> EctoScript disrespects and utterly neglects :: in object and package references.
+<dt> Packages
+<dd> it is pretty hard to get away from packages in Java-based languages.
+     But there are too many cans of worms here.
+     You should implement user-defined packages that contain classes,
+     functions, variables and constants.
+     What we said in class was: an import is never really a whole package,
+     it is always one class (one .as file) from within a "package" where a
+     package is just a directory structure.
+<dt> Built-in Functions!
+<dd> Without importing, we will implement the following "built-in" functions:
+<pre> trace(s)
+</pre> which is equivalent to printf("%s\n" ,s) and
+<pre> String read()
+</pre>
+which is somewhat similar to gets(), returning one line of text input.
+
+<!--
+<table border>
+<tr><td>mx.graphics<td>IFill,IStroke,SolidColor,SolidColorStroke
+<tr><td>flash.events<td>Event, IOErrorEvent, EventDispatcher, MouseEvent, TimerEvent
+<tr><td>flash.geom<td>Point, RoundedRectangle, PerspectiveProjection, Matrix, Transform
+<tr><td>flash.text<td>StaticText
+<tr><td>flash.net<td>URLLoader, URLRequest
+<tr><td>flash.filesystem<td>File, FileMode, FileStream
+<tr><td>flash.display<td>LineScaleMode, DisplayObject
+<tr><td>flash.utils<td>Timer
+<tr><td>spark.components<td> ToggleButton, Group, Button, Label, HGroup, VGroup, VScrollBar, HSlider
+<tr><td>spark.primitives<td> Ellipse,Rect,Path
+
+</table>
+-->
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "ec"
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return -1,
+     for a syntax error -2, for a semantic error -3, and for no errors,
+     return 0.
+</ul>
+

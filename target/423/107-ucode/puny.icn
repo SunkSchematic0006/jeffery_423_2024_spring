@@ -1,0 +1,85 @@
+# puny.icn, the puny runtime system, version 0.1
+# this first approximation of Python semantics needs refinement
+link numbers
+
+procedure rando_boolean_examples()
+x := &null
+x := 1
+
+if /x then ...
+if \x then ...
+
+L := [&null, &null]
+L := list(8, 0)
+end
+
+procedure abs(x)
+  return if x < 0 then -x else x
+end
+
+procedure bool(x)
+  case type(x) of {
+  "integer": {
+     if x = 0 then return 0 else return 1
+     }
+  "list" |
+  "string": {
+     if *x = 0 then return 0 else return 1
+     }
+  default: {
+     }
+     }
+end
+procedure chr(i)
+  return char(i)
+end
+procedure dict(x[])
+   case *x of {
+      case type(x[1]) of {
+         }
+      }
+end
+procedure float(x)
+  stop("not implemented yet")
+end
+procedure print(s[])
+   write ! s
+end
+procedure input(s)
+   writes(s)
+   return read()
+end
+procedure int(x)
+   if not (rv := integer(x)) then
+      stop("PunY type mismatch error. ",type(x), "cannot convert to int")
+   return rv
+end
+procedure float(x)
+   if not (rv := real(x)) then
+      stop("PunY type mismatch error. ",type(x), "cannot convert to float")
+   return rv
+end
+
+procedure list() # but what parameters does Python accept
+  write(type(list))
+  write(type(proc("list",0)))
+  stop("not implemented yet")
+end
+
+
+procedure puny_dot(leftoperand, methodname, parameters[])
+   case type(leftoperand) of {
+      "string": {
+         case methodname of {
+            "upper": {
+               ...
+               }
+            }
+         }
+      }
+end
+
+class String()
+   method upper()
+   end
+end

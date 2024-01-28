@@ -1,0 +1,4 @@
+link puny
+procedure main()
+   L := list()
+end

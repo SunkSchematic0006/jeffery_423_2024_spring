@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <title>code generation</title>
+  </head>
+
+  <body>
+    <h1>code generation</h1>
+
+This document provides a guide to the generation of target code
+from intermediate three-address instructions.
+
+Perhaps the methodology for creating it is more important than its
+unfinished contents, albeit very simple. This guide is produced by
+reverse-engineering, that is to say, by examining the output of "gcc -S".
+
+<p>
+
+<table border>
+<tr><th>intermediate<br>code<br>instruction</th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x86_64 equivalent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Comment</th></tr>
+<tr><td>
+x := y + z <br>
+(C global variables, possibly not relevant for actionscript)<td>
+<code>
+	movl	y(%rip), %edx <br>
+	movl	z(%rip), %eax <br>
+	leal	(%rdx,%rax), %eax <br>
+	movl	%eax, x(%rip)
+</code>
+	<td> 
+Note that %rip, which is not mentioned in Bryant/O'Halloran Figure 2, means
+"relative to the instruction pointer".
+</tr>
+<tr><td>
+x := y + z <br>
+(local variables)<td>
+<code>
+	movl	-4(%rbp), %eax	<br>
+	movl	-8(%rbp), %edx			<br>
+	leal	(%rdx,%rax), %eax			 <br>
+	movl	%eax, -12(%rbp)
+</code>
+<td> 
+</tr>
+<tr><td>
+x := y + z <br>
+(class foo variables)
+<td>
+<code>
+	movq	%rdi, -8(%rbp) ; t1 = self <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	8(%rax), %rdx ;  rdx = self->y <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	16(%rax), %rax ; rax = self->z <br>
+	addq	%rax, %rdx ; rdx = y+z <br>
+	movq	-8(%rbp), %rax ; rax = self <br>
+	movq	%rdx, (%rax)   ; self->x = rdx
+</code>
+<p>
+optimizes (-O2) to
+<p>
+<code>
+	movq	16(%rdi), %rax <br>
+	addq	8(%rdi), %rax <br>
+	movq	%rax, (%rdi)
+</code>
+
+<td>
+Note main issue of memory layout for fields x,y,z at offsets
+0,8,16; these are known at compile-time for static/non-virtual OOP.
+A dynamic/virtual would treat as<br>
+self.x = self.y + self.z <br>
+and implement field op via runtime call<br>
+or table lookup.
+</tr>
+
+<tr><td>
+x := - y <br>
+(local variables)<td>
+
+<td> 
+</tr>
+<tr><td>
+x := y <br>
+(local variables)<td>
+
+<td> 
+</tr>
+<tr><td>
+x := &y <br>
+x := *y <br>
+*x := y <td> n/a <td>
+</tr>
+<tr><td>
+goto L <td>		goto L
+</tr>
+<tr><td>
+if x &lt; y then goto L <td>
+
+</tr>
+<tr><td>
+if x then goto L <td>
+
+</tr>
+<tr><td>
+if !x then goto L <td>
+
+</tr>
+<tr><td>
+param x <td>
+
+<td> insert/push "self" object as first parameter for method invocation
+
+<tr><td>
+call p,n,x <td>
+
+<tr><td>
+return x <td>
+
+<tr><td>
+global x,n1,n2 <td><td> treat globals as class variables of some "global"
+singleton?
+<tr><td>
+proc x,n1,n2 <td>
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;	.text <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.p2align 4,,15 <br>
+.globl f <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.type	f, @function <br>
+f: <br>
+.LFB7: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.cfi_startproc <br>
+...<br>
+(before start of next procedure) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;	ret<br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.cfi_endproc<br>
+.LFE7:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;	.size	f, .-f
+</code>
+<td> could treat procedures as methods of some "global" singleton class
+<tr><td>
+local x,n <td>
+
+<td>
+<tr><td>
+label Ln <td>
+<tr><td>
+end <td>
+<tr><td>
+x := y field z <td>
+
+<td> may involve y's class
+
+<tr><td>
+class x,n1,n2 <td>
+
+<tr><td>
+field x,n <td>
+</table>
+
+    <hr>
+    <address><a href="mailto:jeffery@cs.uidaho.edu">Clint Jeffery</a></address>
+  </body>
+</html>

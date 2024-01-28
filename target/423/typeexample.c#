@@ -1,0 +1,13 @@
+
+int main()
+{
+
+int x, y;
+
+printf("Hey its: %d\n",
+
+       ((x + 12) * (y - 7)) / f(3)
+
+       );
+
+}

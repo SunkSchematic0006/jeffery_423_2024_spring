@@ -1,0 +1,216 @@
+<h2> CSE 423 Lab #4: Trees </h2>
+
+Turnin: on Canvas in a .zip file.
+
+<p>
+
+<h4>1. Adding a tree type to your compiler </h4>
+
+"Your compiler" in this case refers to the output of Lab #3, where you've
+got Bison and Flex talking together as a syntax checker.
+
+<ol>
+<li> Add a <code>tree.h</code> file to your project, containing a
+    <code>struct</code> definition as per
+    HW#3, or your own preferred superset tree representation. Today's lab
+    will be written as if your tree type is
+<pre>
+struct tree {
+   int prodrule;
+   char *symbolname;
+   int nkids;
+   struct tree *kids[9]; /* if nkids &gt;0 */
+   struct token *leaf;   /* if nkids == 0; NULL for &epsilon; productions */
+};
+</pre>
+
+Actually, to be honest, you probably want to write a full tree abstract data
+type in a tree.c with functions to create, destroy, and traverse trees.
+Initially for this lab, you will at least need functions to allocate and
+initialize leaves and internal nodes.
+
+<li> Add <code>#include "tree.h"</code> directives to the header of
+     your lex and yacc specifications. Typically this is inside %{ ... %}:
+     <pre>
+%{
+#include "tree.h"
+%}
+     </pre>
+<li> Whenever you add an <code>#include</code> directive, you need to add
+     a dependency to your
+     <code>makefile</code> that will trigger recompilation if the include
+     file is modified.
+     In this case, the gcc compiles of lex.yy.o and cgram.tab.o depend on
+     tree.h, not just lex.yy.c and j0gram.tab.c.  Change rules like
+<pre>
+lex.yy.o : lex.yy.c
+	gcc -c -g lex.yy.c
+</pre>
+to instead say
+<pre>
+lex.yy.o : lex.yy.c tree.h
+	gcc -c -g lex.yy.c
+</pre>
+</ol>
+
+<h4>2. Adding the %union to your bison </h4>
+
+Once your Bison .y file knows about your tree type, you can add
+<pre>
+%union {
+   struct tree *treeptr;
+}
+</pre>
+
+to the header of your Bison file.
+As shown in lecture #12 or so, adding this %union is one thing, and
+using it in your grammar rules is another; you have to declare all
+your terminal and non-terminal symbols as to what member (in this
+case treeptr) before you can refer to them in actions as $$ or $1 etc.
+
+
+<h4>3. Adding the leaves to your lex </h4>
+
+It is time to make the leaves available to Bison.
+With the %union declared, the output code that Bison writes will
+have a variable named <code>yylval</code> of type YYSTYPE where
+YYSTYPE is the union type given by %union.
+<p>
+
+On each shift action, the parser will copy (push) what is in yylval.treeptr
+onto the value stack. So our lexer should allocates a tree leaf and assign
+it to yylval.treeptr where we previously allocated a token and assigned it
+to yytoken.
+<p>
+
+For some of you, this will be a small tweak, for others this is a major
+change, depending on how you implemented your HW#2.  If you have
+already performed a given step here, you may skip forward.
+
+<ol>
+<li> If you have raw return statements in your lex file like this:
+<pre>
+[0-9]+		{ return ICON; }
+</pre>
+You need to allocate your token inside your yylex() per HW#2 specs.
+Something like the following.
+<pre>
+[0-9]+		{ return alctoken(ICON); }
+</pre>
+where alctoken() is a helper function that you write to allocate a token.
+You have to do this (duh) for all the regular expressions that return a token.
+
+<li> In your code to allocate a token, change it to allocate a leaf that
+contains/wraps that token pointer.  Change
+<pre>
+int alctoken(int category){
+   yytoken = malloc(sizeof (struct token));
+   yytoken-&gt;cat = category;
+   ...
+   return category;
+}
+</pre>
+to something like
+<pre>
+int alctoken(int category){
+   yylval.treeptr = malloc(sizeof (struct tree));
+   ... initialize other tree fields, prodrule = category, nkids = 0...
+   yylval.treeptr-&gt;token = malloc(sizeof (struct token));
+   yylval.treeptr-&gt;token-&gt;cat = category;
+   ... initialize other token fields...
+   return category;
+}
+</pre>
+Note: you may want to write additional helper functions.
+</ol>
+
+<h4>4. Proving that you've got leaf information </h4>
+
+There are two places where you could insert print statements to prove
+that you have leaf information: from inside the Flex-generated yylex()
+code, and from inside Bison-generated yyparse() code.
+
+<ol>
+<li> Write a print function, perhaps printnode(t) that can takes a pointer
+     to a struct tree as a
+     parameter, and prints a line of detailed information about it. For a
+     tree leaf, have it print the tree's token information (text, line #...)
+     as per HW#2.
+<li> Inside the yylex() function, for example, inside an alctoken() function,
+     you can call printnode() right before you return, to see all the tokens
+     as they come out of yylex().
+<li> From inside yyparse() things are a bit more hairy. Consider a
+     grammar rule like
+<pre>
+     identifier : IDENTIFIER ;
+</pre>
+     Once you have declared <code>%token &lt;treeptr&gt; IDENTIFIER</code>
+     in your you can print the token information for IDENTIFIER as follows:
+<pre>
+     identifier : IDENTIFIER { printnode($1); } ;
+</pre>
+     You could go ahead and print all your terminal symbols in all your rules
+     in this way, but for this lab, you are asked to just do a couple
+    categories to verify that the leaf information is present and usable.
+
+</ol>
+
+
+<h4>5. Adding internal nodes (not required for Lab 4, but in HW#) </h4>
+
+Syntax tree construction consists of specifying for every
+production rule in the grammar, what its corresponding syntax tree should
+be, by assigning $$ a value.
+<p>
+
+<ol>
+<li> For each production rule that has more than one child, allocate
+an internal node. Example:
+<pre>
+translation_unit: translation_unit external_declaration {
+        $$ = alctree(TU_TU_ED, "translation_unit", 2, $1, $2);
+	} ;
+</pre>
+
+<li> Set $$ to NULL for epsilon productions.  Example:
+<pre>
+   parameters : { $$ = NULL; /* empty parameter list */ } ;
+</pre>
+
+Note that epsilon productions are a frequent cause of ambiguity
+(e.g. reduce/reduce conflicts) and most grammar files go out of their way
+to avoid doing any of these!
+
+
+<li> Bison uses <code>$$=$1</code> as its default semantic action.
+     This works great when a non-terminal has only one child.
+     You don't have to write
+     this semantic action at all. No <code>{ }</code> is required. Example: 
+<pre>
+   parameters : parameter_list ;
+</pre>
+     Note that you can add a semantic action here, such as one that
+     allocates a tree node with one child. Do so if it will help you
+     understand your tree afterwards.
+<pre>
+   parameters : parameter_list { $$ = alctree(PS_PL, "parameters", 1, $1); };
+</pre>
+
+<li> Write (or adapt from the HW#3 spec) a tree traverser to print your tree.
+     You can either call it from the start symbol action, or set the root of
+     the tree and call it after yyparse() returns. Either:
+<pre>
+file : translation_unit {
+       tree_print($1); /* can call rest of compiler from here */
+     } ;
+</pre>
+or define a global variable for the tree root
+<pre>
+file : translation_unit { root = $1; } ;
+<pre>
+... and then, after yyparse() in main:
+<pre>
+  tree_print(root);
+</pre>
+
+</ol>

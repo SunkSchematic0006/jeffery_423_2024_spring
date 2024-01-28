@@ -1,0 +1,61 @@
+
+\interlude{Command-Line Arguments}
+\addtocounter{chapter}{-1}
+
+\begin{figure}[b]
+%\centerline{\includegraphics[width=9cm,height=6cm]{images/scope1.eps}}
+\setlength{\unitlength}{1cm}
+\begin{picture}(10,3.3)
+\linethickness{0.3mm}
+
+%\put(0.3,3.3){\line(1,0){14}}
+%\put(0.3,0){\line(1,0){14}}
+%\put(0.3,3.3){\line(0,-1){3.3}}
+%\put(14.3,3.3){\line(0,-1){3.3}}
+\put(2.5,2.8){\large{Command line: \codefont{>a.out these are args}}}
+\put(2.5,2.2){\large{Resulting data structures:}}
+\put(6.3,1.7){\codefont{argv[0]} \hspace*{1.5cm}  a . o u t \textbackslash 0}
+\put(6.3,1.2){\codefont{argv[1]}  \hspace*{1.5cm} t h e s e \textbackslash 0}
+\put(6.3,0.7){\codefont{argv[2]}  \hspace*{1.5cm} a r e \textbackslash 0}
+\put(6.3,0.2){\codefont{argv[3]}  \hspace*{1.5cm} a r g s \textbackslash 0}
+
+\put(3.5,1.8){\codefont{argc}}
+\put(4.6,1.2){\codefont{4}}
+
+\color{\mycolor}{
+\put(7.8,1.8){\vector(1,0){1.3}}
+\put(7.8,1.3){\vector(1,0){1.3}}
+\put(7.8,0.8){\vector(1,0){1.3}}
+\put(7.8,0.3){\vector(1,0){1.3}}
+
+\put(4.5,1.1){\line(0,1){0.5}}
+\put(5.5,1.1){\line(0,1){0.5}}
+\put(4.5,1.1){\line(1,0){1.0}}
+\put(4.5,1.6){\line(1,0){1.0}}
+}
+\end{picture}
+\caption{Illustration of command-line arguments in C++.  This shows the data structures created when the command-line command: ``\codefont{a.out these are args}" is run.  The program name is \codefont{a.out}, the arguments are  \cf{these}, \cf{are}, and \cf{args}. The parameter \codefont{argc} gets the value 4 because there are four arguments total, including the program name (\codefont{a.out} in this example), which is also treated as an argument.  Note that \codefont{argv} is an array of pointers to C-style strings and each argument is stored as a C-style array of characters (an array of individual characters ending with the \codefont{null} character \textbackslash 0; see Interlude 5).}
+\label{fig:args}
+\end{figure}
+
+Because \codefont{main()} is a function, it can both return a value and can accept arguments.  To write a C++ program that accepts command-line arguments, the \codefont{main()} function is written as:\\
+\codefont{
+int main(int argc, char* argv[])\footnote{Another, equivalent option is \codefont{int main(int argc, char **argv).}}\\
+}
+with \emph{exactly} those variable names.  The variable \codefont{argc} (short for ``ARGument Count'') is the number of arguments passed to \codefont{main()}.  The variable \codefont{argv} (short for ``ARGument Vector'') is an array of pointers to C-style character strings (see Interlude 5).   Figure~\ref{fig:args} illustrates these data structures and their contents if the program is run using the arguments listed previously.  Notice that the first string pointed to by the \codefont{argv} array is the program name, \codefont{a.out}.
+
+Running a program called \codefont{a.out} from the command line with arguments would look like this:\\
+\codefont{
+>a.out these are args\\
+}
+where \codefont{>} is the command-line prompt and the extra arguments are \cf{these}, \cf{are}, and, \cf{args}  By default the name of the program (in this case, ``a.out'') is also passed to the program as an argument.  This allows a program to ``know'' its own name when it runs.
+
+The projects in this text don't involve passing arguments to \codefont{main()} because many Integrated Development Environments (IDEs) don't normally use the command line.  It is always possible to run a program from the command line, but the steps vary somewhat by IDE and operating system.  For example, in a Windows environment, running a program from the command line may require opening  a command window, moving to the directory containing the compiled program (the executable), and running the program with associated arguments.  Thus, the projects in this text are designed to be used without command line arguments.
+
+The arguments to \codefont{main()} are \emph{always} treated as C-style strings, even if they are meant to be integers.  For example, if a program is run with the command-line argument \codefont{415}, it is treated as a string of characters: \cf{415}.  To get the argument as an actual integer a function such as \codefont{atoi()} needs to be used.  The function \codefont{atoi()} is defined in the \codefont{cstdlib} (see Section~\ref{appendix:libraries} of Appendix A), is short for Ascii TO Integer, and converts a C-style string into an integer.  For example, the command:\\
+\codefont{X = atoi(``415'');}\\
+will change the string ``415'' into the integer \codefont{415} and store it in \codefont{X}.
+
+Command-line arguments can be useful for setting important parameters within a program.  For example, in the NIM program, a command-line argument could be used to set the initial number of objects.  In the Electronic Pet program, a command-line argument could be used to supply the name of the pet to be played with (or the name of the file containing the pet if the program has been modified to save and reload pets).  In the Generic Board Game, a command-line argument could be used to supply the name of the game to be played (or the name of the game file to open).  Of course, all of this data could also be supplied using input/output commands when the program is running.  Command-line arguments are generally only required when one program is starting another program and can't easily respond to user-oriented input/output.
+
+\addtocounter{chapter}{1}

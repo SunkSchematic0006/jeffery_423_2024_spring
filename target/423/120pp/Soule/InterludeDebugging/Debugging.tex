@@ -1,0 +1,68 @@
+%********** Intermission **********
+\interlude{Debugging\index{debugging}}
+
+
+Errors are common when programming.  Even when copying an existing program, such as the Fortune Teller program, typos occur that need to be corrected before the program will compile and run.  Because errors are so common, the process of fixing the errors, often referred to as \emph{debugging}, is a major, and often frustrating, part of programming.  However, there are a number of things that can make the process easier.
+
+First, when discussing errors it is helpful to know and understand the general types of errors that can occur in a program.  Errors are commonly divided into three categories: \emph{compiler errors}\index{compiler errors}\index{errors!compiler}, \emph{run-time errors}\index{errors!run-time}\index{run-time errors}, and \emph{logical errors}\index{logical errors}\index{errors!logical}.  Each of these types of errors has its own causes and solutions.
+
+\mysubsubsection{Compiler Errors}
+
+Compiler errors are errors that are identified and reported by the compiler.   Compiler errors are often the result of simple mistakes like forgetting a semicolon at the end of a line, missing a final closing \}, or misspelling a variable name.  
+
+%[Box compiler warnings and different compiler `strictness' settings]?
+\begin{wrapfigure}{R}{0.5\textwidth} \framebox[\linewidth][l]{\parbox{0.96\linewidth}{\codefont{Compiler Warnings and Strictness} \\
+In some cases, a compiler will give a warning rather than an error.  This means that the program successfully compiled and will run, but there's something risky about the way it was written.  It's always a good idea to fix the code to remove the warning; otherwise, a run-time or logical error is very likely.  Most compilers also have strictness settings that determine how ``picky'' the compiler is about errors.  Using a stricter compiler setting will often identify problems in a program that are causing run-time or logical errors.
+}}
+\vspace{-0.5cm}
+\end{wrapfigure}
+
+For compiler errors, the compiler will print some type of error message.   These can be fairly obscure and may vary between compilers.  However, if read carefully they do give useful information about errors and include a line number, which can be very helpful in finding errors.  It's generally a good idea to fix the errors in the order they are listed by the compiler; fixing one error will sometimes resolve severals at once.
+
+A particularly common compiler error occurs when a program attempts to use a variable (or a function) that has not been declared.  In this case, the compiler error is likely to look something like\\
+\codefont{
+ifs.cpp: In function `int main()':\\
+ifs.cpp:8: error: `z' was not declared in this scope\\
+}
+which means that within the function \codefont{main()}, the variable \codefont{z} was used on line 8 without having been declared.  Typically, the programmer either forgot to declare the variable altogether or mistyped the name (e.g., declared a variable called \codefont{lucky}, but referred to a variable called \codefont{lukcy}).  
+
+\mysubsubsection{Run-time Errors}
+
+Run-time errors are errors that occur when the program is running.  They usually cause the program to ``crash'' -- to suddenly stop running.  Run-time errors are caused when the program attempts an illegal operation.  Two of the most common sources of run-time errors are trying to divide by zero and trying to access memory that is outside the program's allowed space.\footnote{When a program begins running, the operating system assigns it a block of memory to use.  If the program attempts to access memory outside that block, the operating system steps in and stops the program.  The resulting error message is called a segmentation fault.}  Run-time errors can be particularly difficult to fix because when the program crashes, it usually doesn't give very much information about the problem or where in the program it occurred.  
+
+\mysubsubsection{Logical Errors}
+
+Logical errors don't keep the program from compiling or running, but they do cause it to behave in ways that are unexpected and undesirable.  The causes of logical errors are endless, but a few of the most common include:
+\begin{tight_itemize}
+\item Incorrect conditions - Using the wrong Boolean condition within a conditional or loop.
+\item Uninitialized variables - Not setting the initial value for a variable.
+\item Missing cases - Forgetting to include code for a particular case; for example, not including code to handle the case where the user enters a negative number.  Or, in the Fortune Teller, not covering one of the lucky numbers.
+\end{tight_itemize}
+
+\subsubsection{Fixing Errors -- Debugging}
+
+There are a number of basic techniques that can make the process of debugging easier:  
+\begin{tight_itemize}
+
+\item Most importantly, be patient and think before you act - Learn as much as you can about the error, such as where it occurred in the program and how the program behaved as a result.  Then try to confirm the cause of the error, before making changes. Making random changes that don't fix the actual error just produces confused code and even more errors.  This is especially hard when working against a deadline, but it saves time in the long run.
+
+\item Read the error message - For compiler errors, it is important to read the error message.  At first, they will seem obscure, but with experience they will become more useful.
+
+\item Fix the first error first - Especially with compiler errors, a single mistake can sometimes cause a sequence of errors.  For example, a single missing closing quotes or curly brace can cause the compiler to produce multiple error messages. 
+
+\item Localize the error using \codefont{cout} statements - For logical errors and run-time errors, the first step is to find out where in the code the error is occurring.  Adding extra \codefont{cout} statements (even ones that just print \codefont{here 1} and \codefont{here 2}) can help determine the location of the error.
+
+\item Check values using \codefont{cout} statements - Logical errors almost always involve variables having unexpected values or the program taking unexpected branches.  Simple \codefont{cout} statements can be used to check whether variables have the expected values.
+
+\item Use comments - If a particular piece of code appears to be the source of the problem, comment it out rather than deleting it.  If it turns out the code wasn't at fault, it's much easier to uncomment the code than to retype it from memory.  
+
+\item Use someone else's eyes - Just as in editing a paper, its often difficult for someone to see their own mistakes because they know what they meant.  Someone with no preconceived notions of how code is supposed to work can often spot mistakes that the code's author misses.
+
+\item Use a debugger - A debugger is a program that tests and finds errors in code.  Debuggers have useful features like the ability to step through code one line at a time, to list the values of all of the variables in a program, or to insert `break-points' that cause the program to temporarily halt so the programmer can check for errors.  Debugging tools are particularly helpful when fixing run-time crashes because they supply more information about the problem.  Different debuggers exist for different programming environments and languages, so you will need to find the one that works for you.
+\end{tight_itemize}
+
+To minimize the difficultly of finding and fixing errors, make small, incremental changes to a program and recompile and rerun the program after each change.  Finding and fixing errors is much simpler when only a few lines of code and one new error were added to a program, instead of lots of new code and several errors.  
+
+Of course, even better than fixing errors is avoiding them in the first place.  There are a number of programming techniques that help minimize errors.  Good \emph{software design} techniques, which help with the design of a program, can dramatically reduce the occurrence of errors.  The basics of software design are introduced in Interlude 4.  \emph{Testing} is used to systematically find errors in a program, it's introduced in Interlude 2.  Planning the test cases in advance helps the programmer identify the special cases that often lead to errors and address them before they lead to errors.   
+
+Finally, remember to keep working backup versions of a program as it's being developed.  In the worst case, an error that resists all attempts to fix it, you can revert to an earlier, working version and start over.\footnote{Large--scale programming projects almost always include some form of automated revision control.  Programmers submit the latest version of the program, but the system keeps track of  changes and previous versions, allowing the programming team to revert to an earlier version when necessary. }

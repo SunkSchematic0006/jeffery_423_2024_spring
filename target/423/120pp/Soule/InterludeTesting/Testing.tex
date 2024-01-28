@@ -1,0 +1,31 @@
+%********** Interlude **********
+\interlude{Testing}\index{testing}
+
+Computer programs are now an integral part of many safety-critical systems: power plants, airplanes, and even the brakes and steering on your car probably depend on computer programs.  As the projects in the book have probably made clear, programs rarely work correctly the first, or even the tenth, time they are run.  Even more troubling from a reliability and safety perspective, a program often functions properly most of the time, but fails for very specific conditions or inputs.  
+
+Because of the growing importance of computer code and the difficulty of getting code perfect the first time, testing has become a fundamental step in the software design process and is an important field within computer science.  Testing often represents a significant percentage of the total time and effort spent on commercial software projects.
+
+Testing is fundamentally different from debugging.  In debugging, the goal is to fix known errors; in testing, the goal is to discover errors.  Testing should be approached as a challenge: ``How can I make this program fail?'' Unfortunately,  exhaustive testing is often \emph{impossible}. 
+
+ Consider a program with three menus, each of which has 10 options.  There are at least 30 different cases to test because the user has a total of 30 options to choose from.  However, often a program's behavior depends on a sequence of choices.  For example, if a user chooses option eight from menu one and then option five from menu three, the result is different than if the user chooses option nine from menu one before choosing option five from menu three.  In this case, all two-option permutations need to be tested and there are $30^2$ = $900$ of them. 
+
+ If it is important to test all three--option permutations, there are $30^3$, or 27,000, cases to test.   An even more serious problem arises if a program takes numeric or character input.  It's not feasible to test all possible numbers or combinations of letters. 
+
+Automated \emph{test suites}\index{test suites}, in which one program runs another program on a whole array of test cases and checks for incorrect or unexpected answers or behaviors, is a partial solution.  Test suites have become standard practice for any reasonably complex software project.  But even with automated test suites, it may be impossible to test all cases.   Thus, a big part of the testing process is to come up with a test suite with enough carefully chosen cases that, if a program passes all of them, it is convincing evidence that the program will work properly in \emph{all} cases.  
+
+For the programs in this book, the main concern is user input.  Do the programs  work for expected inputs?  Do they work for unexpected inputs?  And what does it mean to ``work'' if the inputs are bad?  For example, what is the ``right answer'' if a user tries to divide a number by zero?  Often the best available option is to print a clear error message or to fail gracefully.  
+
+Within the scope of this book there are a number of cases that generally should be considered:
+\begin{tight_itemize}
+\item Correct input - For example, in the NIM program, if the user chooses to remove 1, 2, or 3, objects, does the program respond correctly?
+\item Out-of-range inputs - For example, in the NIM program, if the user inputs a move larger than 3 or less than 1, what happens? 
+\item Too much data - Often programs are written to expect a maximum amount of data, which ends up being exceeded.
+\item Edge cases - A common error is to have a condition that accepts values less than $N$ when the programmer meant for it to accept values less than \emph{equal to} $N$.  Thus, testing edge cases is useful.
+\item Special cases - Another common error is to overlook an unusual case.  For example, in NIM the player is normally allowed to remove 1, 2, or 3 objects, but not if there are only 2 objects left.  Thus, extra code or an extra condition is necessary to check whether a move is legal.
+\end{tight_itemize}
+Each of the programs should be tested against these cases and, if necessary, modified to handle them gracefully.  For some cases, this may mean printing an error message and, for example, asking for new input; or, in more extreme cases, printing an error message and exiting.     But if at all possible, a program shouldn't just quit, without giving the user any information about why.
+
+Part of what makes testing difficult is that it is hard to imagine all of the possible things a user might do, or more generally, to imagine all of the situations that might arise while a program is running.  This is especially difficult because the programmer knows what user and the program are ``supposed to do'' -- it's hard to plan for the unexpected.  Thus, it can be useful to have someone who doesn't already know what the program is supposed to do test the program.  Such a person is much more likely to try something unexpected than is the person who wrote the program.
+
+Perhaps the most important thing to remember about testing is that it is far better for the programmer to find (via testing) and fix an error, than it is for users to find errors.  
+

@@ -1,0 +1,21 @@
+#
+# Unicon program to generate #define's for non-terminal symbols in
+# a Bison grammar.
+#
+procedure main(argv)
+   ctr := 1000
+   if *argv>0 then f := open(argv[1]) | stop("can't open ", argv[1])
+   else f := &input
+   while line := read(f) do if line == "%%" then {
+      while line := read(f) do {
+	 if line == "%%" then stop()
+	 line ? {
+	    if (nt := tab(many(&letters++'_'++&digits))) &
+               (tab(many(' \t')) | "") & =":" & pos(0) then {
+	       write("#define ",nt," ",ctr)
+	       ctr +:= 1000
+	       }
+	    }
+	 }
+      }
+end

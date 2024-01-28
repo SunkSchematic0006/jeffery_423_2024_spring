@@ -1,0 +1,134 @@
+<h2> CSE 423 Lab #8: Adding Type Info to Trees and Symbol Tables </h2>
+
+Turnin: your drafty compiler... on canvas.<br>
+Due Sunday 3/27, 11:59pm
+<p>
+
+In this week's lab you should add a representation for j0 types, and add
+types to your knowledge about variables in your symbol table.  Turn in as far
+as you get by next Sunday evening; you will be graded as having done the lab
+as long as it looks like you did two or more hours of work.
+
+<p>
+
+<h4> <a href="type.h">type.h</A> and <A href="type.c">type.c</A> </h4>
+
+Look at these modules, modify them as needed in order for them to fit
+j0.  We should probably be able to figure out what changes are
+needed during the lab period on Wednesday.  Compile and link them in
+to your j0 compiler.
+
+<p>
+
+<h4>makefile</h4>
+
+Add dependencies for compiling and linking in type.o
+
+<h4>type.h</h4>
+
+<pre>
+#ifndef TYPE_H
+#define TYPE_H
+
+#include "tree.h"
+typedef struct param {
+   char *name;
+   struct typeinfo *type;
+   struct param *next;
+   } *paramlist;
+
+/* base types. In the real thing, there will be many more base types */
+#define NULL_TYPE    1000000
+#define INT_TYPE     1000001
+#define CLASS_TYPE  1000002
+#define ARRAY_TYPE   1000003
+#define DOUBLE_TYPE 1000004
+#define FUNC_TYPE    1000005
+
+typedef struct typeinfo {
+   int basetype;
+   union {
+      struct classinfo {
+	 struct sym_table *st;
+	 } c;
+      struct arrayinfo {
+         int size;
+	 struct typeinfo *elemtype;
+         }a;
+      struct funcinfo {
+	 char *name; /* ? */
+	 struct sym_table *st;
+	 struct typeinfo *returntype;
+	 int nparams;
+	 struct param *parameters;
+	 }f;
+      } u;
+   } *typeptr;
+
+extern struct typeinfo integer_type;
+extern struct sym_table *foo;
+
+typeptr alctype(int);
+char *typename(typeptr t);
+
+extern typeptr integer_typeptr;
+extern typeptr null_typeptr;
+extern typeptr String_typeptr;
+extern char *typenam[];
+
+#endif
+
+</pre>
+
+<h4>type.c</h4>
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "type.h"
+#include "symtab.h"
+
+struct typeinfo integer_type = { INT_TYPE };
+struct typeinfo null_type = { NULL_TYPE };
+typeptr null_typeptr = &null_type;
+typeptr integer_typeptr = &integer_type;
+typeptr String_typeptr;
+char *typenam[] = {"null", "int", "class", "method"};
+
+typeptr alctype(int base)
+{
+   typeptr rv;
+   if (base == INT_TYPE) return &integer_type;
+   rv = (typeptr) calloc(1, sizeof(struct typeinfo));
+   if (rv == NULL) return rv;
+   rv-&gt;basetype = base;
+   return rv;
+}
+
+/* in order for this to make any sense, you have to pass in the subtrees
+ * for the return type (r) and the parameter list (p), but the calls to
+ * to this function in the example are just passing NULL at present!
+ */
+typeptr alcfunctype(struct tree * r, struct tree * p, SymbolTable st)
+{
+   typeptr rv = alctype(FUNC_TYPE);
+   if (rv == NULL) return NULL;
+   rv-&gt;u.f.st = st;
+   /* fill in return type and paramlist by traversing subtrees */
+   return rv;
+}
+char *typename(typeptr t)
+{
+   if (!t) return "(NULL)";
+   else return typenam[t-&gt;basetype-1000000];
+}
+</pre>
+
+
+<h4> Finishing up and turning in </h4>
+
+Demonstrate your type information being constructed by printing out type
+information in the symbol table printout (as originally implied by the HW#4 example
+output, which was revised), and from a syntax tree printout in which you print
+identifers' types when you print out their leaves in the executable code expressions
+found within the compound statements of your function bodies.

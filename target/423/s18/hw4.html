@@ -1,0 +1,72 @@
+<h3> CS 445 HW#4 </h3>
+
+Due: Friday March 30 11:59pm
+<p>
+
+Perform the rest of semantic analysis for 120++.  This shall consist
+of the following items. Please turnin via bblearn an electronic copy of your
+whole project in a .zip. Please create your .zip file in such a way that it
+unpacks into the current directory, rather than a subdirectory.
+<p>
+
+<font color=red>New: add -Wall</font> to your makefile compile rules,
+and for maximum credit, turn in a solution that compiles with no warnings
+when -Wall warnings have been turned on.
+
+
+<dl>
+<dt> Types
+<dd> Support the CS 120 C++ base types: char, int, double, and void.
+     Support 1D arrays, pointer to char, and simple classes
+     (120++ supports a small subset of C++ classes).
+
+<dt> Type Checking
+<dd> Require and check types everywhere at compile-time.
+<ul>
+<Li>    Check that function call signatures match
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> The semantic rules for operators are all nearly the same; at the
+     semantic analysis phase we will support those actually used in CS 120,
+     not everything mentioned in passing with no use in an example program.
+     This includes the operators =, +, -, *, /, and subscript ([ ]).
+     Support the boolean/relational operators &lt, &gt; &amp;&amp; || and !.
+
+<dt> Built-in Classes
+<dd> If the appropriate include file and "using namespace" are present, you
+     should insert into the global symbol table the names of classes
+     string and fstream, and the global symbols cin, cout, endl.
+
+<dt> Nesting
+<dd> Expressions will generally get combined to form larger expressions.
+     In the object-oriented realm, 120++ includes expressions such as
+     the following
+<pre>
+     o1.f(o2.g())
+     a[i].m()
+     (h->g())->i() == n
+</pre>
+     However, x.y.z might never occur because 120++ does not require
+     public member variables.
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "120++"
+
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+
+</ul>
+

@@ -1,0 +1,103 @@
+<h3> CS 445 HW#5 </h3>
+
+Due: Monday November 26 11:30am
+<p>
+
+
+Generate 3-address intermediate code for Ct.
+Please turnin via cscheckin an electronic copy of your whole
+project in a hw5.tar but turnin paper copy only for those modules involved
+in the code generation.
+
+<ul>
+<li> Create abstract data type(s) for lists of 3-address instructions.
+     Define integers for each opcode.  Implement operations to create
+     a new list with one instruction, and list concatenation.
+<li> Include instructions for creation, insert, and lookup on tables.
+     You can include separate instructions for subscripting with strings
+     and for subscripting with integers.
+<li> Define a data type for "memory address". A memory address is a
+     &lt;region,offset&gt; pair, where region is one of GLOBAL,
+     PARAMETER, or LOCAL.  Offsets start with 0 in each region.
+<li> Write out "declarations" (pseudocode instructions) for functions.
+<li> For each variable in each symbol table, assign it a memory address.
+     Compute offsets assuming ints require 4 bytes, and arrays and table
+     references require 8 bytes.
+<li> Compute a synthesized attribute "location" for every expression.
+     Allocate a "temporary variable" out of the LOCAL region for each
+     value computed by an operator or function invocation.
+<li> Compute a synthesized attribute "code" that builds
+     a link list of 3-address instructions, and a memory address
+     for each expression.
+</ul>
+
+Output from this phase should consist of a file containing intermediate
+code instructions.  It should contain a .string region for string constants,
+a .data region for global variables, and a .code region for instructions.
+If the input was foo.c, the output file should be
+named foo.ic ("intermediate code").
+
+<p>
+Example:
+<p>
+
+For an input file foo.as containing source code:
+<p>
+<table border>
+<tr><td>
+<pre>
+int main() { printf("%d\n", 10+2); return 0;}
+</table>
+<p>
+
+your output should look something like that below.
+loc/ is the local region
+(offset from base pointer). im/ is immediate mode (numeric constants).
+string/ is an offset into a string constant region (global, read-only).
+
+<table border>
+<tr><td> output <td> interpretation
+<tr><td>
+<pre>
+.string	4
+	%d\012\000
+.code
+main:
+	addr	loc/0,string/0
+	parm8	loc/0
+	add	loc/8,im/10,im/2
+	parm	loc/8
+	call	printf,12,loc/12
+	return	im/0
+</pre>
+<td>
+<pre>
+declare string region 4 bytes
+string data, &gt;= 16 bytes per line, non-printables given as octal escapes
+code region
+procedure pseudo instruction
+store (address of) string region offset 0 in local offset 0
+push contents of local offset 0
+add immediates 10+2, result in local offset 8 (local 0-7 holds string addr)
+push contents stored at local address offset 8
+call printf, 12 bytes of parameters, result in local offset 12
+return from main
+</pre>
+</table>
+
+<h4> Notes </h4>
+<ul>
+<li> your executable should still be named "ct"
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> take in files with .c extensions and write out corresponding
+     intermediate code in files with a .ic (intermediate code) extension.
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+</ul>

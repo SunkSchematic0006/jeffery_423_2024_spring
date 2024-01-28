@@ -1,0 +1,9 @@
+procedure main()
+elements := [3, 2, 4, 5, 12]
+ 
+every i := 0 to *elements do {
+        j := (*(elements)) - i
+    rev_elements := elements[j, *(elements)]
+
+every write( rev_elements )
+end

@@ -1,0 +1,157 @@
+<font size=5>
+<center>
+CS 370<br>
+Homework Assignment 1: Doing Lexical Analysis by Hand<br>
+</center>
+</font>
+<p>
+
+Due: Tuesday August 30, 11:30am (firm deadline)<p>
+
+This first assignment is intended to be an easy warm-up.  It must completed
+and turned in successfully, electronically and on paper.
+
+<p>
+
+Your task is to write a C program that reads in text files and breaks
+them up into lexemes (which are strings of one or more
+non-whitespace characters).
+Your program should discard spaces, tabs and newlines (called "whitespace"
+from here on), and write each contiguous sequence of non-whitespace
+characters on a separate line.  You should identify each lexeme's category
+within the following table, and write the integer code on the line preceding
+the characters from the lexeme.
+
+<center>
+<table border>
+<tr><th>category name<th> integer code <th> description
+<tr><td>identifier   <td> 1            <td> 1+ letters, initial lowerCase
+<tr><td>name         <td> 2            <td> 1+ letters, first letter was Capital
+<tr><td>number       <td> 3            <td> 1+ digits from 0-9, optional leading - and decimal point
+<tr><td>punctuation  <td> 4            <td> something not in categories 1-3
+<tr><td>mixture      <td> 5            <td> a mixture of characters from categories 1-4
+</table>
+</center>
+
+<p>
+In addition, you must do this following a particular organization, described
+below to prepare you for the next assignment.
+
+<dl>
+<dt> Organization </dt>
+<dd> Your program must include two source files named <tt>main.c</tt>
+and <tt>yylex.c</tt> as well as a <tt>makefile</tt>.
+<dt> Input and Output
+<dd> Your input could be any file; no coredumps allowed even if I run it
+on executable files!  But mainly it will be tested on "program source code"
+files.  Your output should consist of one line per lexeme, each line
+containing some non-whitespace character(s) that were grouped together.
+<dt> main.c
+<dd> Your main.c must contain a main() function that performs as follows:
+<pre>
+    FILE *yyin;
+    char yytext[1024];
+    /* the following is pseudocode, you must write C code */
+    for each filename given on the command line
+	open the file and store its reference in global variable yyin
+	while not end-of-file do
+	    call a function yylex() to obtain the next lexeme
+	    if yylex() returned -1 at end-of-file, quit this loop
+	    print the lexeme
+	close the file, move to the next filename
+</pre>
+    See the course lecture notes web page for an example of reading files
+    and command line argument processing in C.
+
+<dt> yylex.c
+<dd> Your yylex.c function must contain a function yylex() that performs
+	several tasks.  Each time yylex() is called it processes one 
+	lexeme of non-whitespace characters and stores them in an array
+        of characters named yytext.
+	yylex() returns a category (1, 2, 3, or 4) if it finds characters,
+        and a -1 if it hits end of file. Details are given below:
+<ul>
+   <li> Discard whitespace characters, continue reading.
+   <li> Return -1 if EOF (End of File) occurs before any non-whitespace
+	character
+   <li> Read from input until 1 or more non-whitespace
+	characters are found in input.
+   <li> Store as many contiguous (whitespace in the middle)
+	characters as you can find in a NUL-terminated
+	string in the global array named <code>yytext</code>.
+   <li> Determine whether the lexeme is category 1, 2, 3, or 4 either as
+        you put the characters into yytext, or by examine yytext afterwards.
+   <li> Return a 1, 2, 3, or 4 if you found characters.
+</ul>
+<dt> makefile
+<dd> You must write a makefile, per the discussion in class.
+Your makefile must include separate rules to compile each source file
+individually (a rule to build yylex.o and main.o) and a rule to link the
+files together to form an executable file named scan.  The first (default)
+rule should be the link rule, which should in turn depend on the other two
+rules, so if I just type "make" your program will compile to an executable.
+It must also include a rule named turnin that looks like the following,
+where <em>userid</em> is your UNIX user id.
+<pre>
+turnin:
+	tar cf <em>userid</em>.tar makefile main.c yylex.c
+</pre>
+</dl>
+
+<p>
+<br>
+Example:
+<p>
+
+For the input file
+<p>
+<table border>
+<tr><td>
+<pre>
+void main() { printf(" Twelve =%d", 10 + 2); }
+</table>
+<p>
+
+your output should look like:
+<p>
+
+<table>
+<tr><td>
+<pre>
+1	void
+5	main()
+4	{
+5	printf("
+2	Twelve
+5	=%d",
+3	10
+4	+
+5	2);
+4	}
+</pre>
+</table>
+
+<p>
+In the next few weeks, your scanner will have to become much smarter about
+breaking up source code into actual words.
+
+<h3> Turning your Program In </h3>
+
+Please test your program carefully and then turn your program in
+electronically using the cscheckin command:
+<pre>
+cscheckin -f warmup.tar -c cs445
+</pre>
+<p>
+
+Please be careful to turn it in as your warmup.tar; cscheckin will stamp
+your userid on it.  But please stick your name prominently in comments
+at the top of each file.
+My script must be able to unpack your assignment and
+compile it in order for you to get any credit.  You will get your hard copy
+back with written comments as well as the results from executing your
+program on tests.<p>
+
+Please also print a paper copy of your program and turn it in either in
+class or to Dr. J's office (JEB 230) by 11:30am.  If my door is not open for
+some reason, you may slip assignments under the door.

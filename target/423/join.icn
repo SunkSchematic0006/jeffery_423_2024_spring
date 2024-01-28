@@ -1,0 +1,17 @@
+procedure main()
+   s := join(",", 1, 2, 3)
+   write(s)
+   s := join(",", [1, 2, 3])
+   write(s)
+end
+procedure join(separator, items[])
+  if type(items[1]) == "list" then {
+     return join ! (push(items[1], separator))
+     }
+
+  if *items = 0 then return ""
+  if *items = 1 then return items[1]
+  result := items[1]
+  every result ||:= separator || items[2 to *items]
+  return result
+end

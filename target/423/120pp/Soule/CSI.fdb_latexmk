@@ -1,0 +1,103 @@
+# Fdb version 3
+["pdflatex"] 1344878317 "CSI.tex" "CSI.pdf" "CSI" 1344878367
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx10.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi12.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi6.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmmi8.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr12.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr17.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr6.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmr8.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy10.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy6.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmsy8.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmti10.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmti8.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/tfm/public/cm/cmtt10.tfm" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/context/base/supp-pdf.mkii" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/infwarerr.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/generic/oberdiek/ltxcmds.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/00miktex/graphics.cfg" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/bk10.clo" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/book.cls" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/base/omscmr.fd" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/epsfig.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphics.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/graphicx.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/keyval.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/graphics/trig.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/pdftex-def/pdftex.def" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/preprint/fullpage.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.cfg" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/subfigure/subfigure.sty" 0 -1 0 ""
+  "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/wrapfig/wrapfig.sty" 0 -1 0 ""
+  "C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map" 0 -1 0 ""
+  "C:/Users/tsoule/AppData/Local/MiKTeX/2.9/miktex/data/le/pdftex/pdflatex.fmt" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/CSI.aux" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/CSI.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/appendix/appendix.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap1/chap1.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap2/chap2.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap3/chap3.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap4/chap4.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap5/chap5.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/chap6/chap6.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/images/scope1.eps" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/images/variables.bmp" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/interlude1/interlude1.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/interlude2/interlude2.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/interlude3/interlude3.tex" 0 -1 0 ""
+  "C:/Users/tsoule/Documents/BOOK/CSI/interlude4/interlude4.tex" 0 -1 0 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii" 1306918461 71592 fe353e1fbd982ffc647f3e98ff74da96 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty" 1303567693 8246 44fc0853af9e7ece6144710a84888533 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty" 1303567701 17180 db156ca1c519734d940d502167e99114 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg" 1169166149 1599 cc574e5c201b0aea0b14dad7e51fd367 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\bk10.clo" 1309393538 8882 41e4149a0e29b927a7d5a0e13d2ebab4 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\book.cls" 1309393538 23695 94c3d869be52f7302728a4358b7372c2 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd" 1309393540 2109 c400bd6c901edc4a09e4d53fcffd3b3c ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\epsfig.sty" 1253897124 3106 a896e5fe135d4485f72ce6c9d8459d2e ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty" 1253897124 14183 42a8fc761b806986eef292369afc2988 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty" 1253897124 7882 3bd78469d444e8d494e27cfd7ca92719 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty" 1253897124 2266 7054435e4584a41cf53b0a7ca624d0cb ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty" 1253897124 3153 c50e6bd54d2dd3933fc52bcf369bec4a ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def" 1306444860 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\preprint\fullpage.sty" 1258706332 2867 54369642ea975a2058d872ad1450145a ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfigure\subfigure.cfg" 1114314970 2114 d58fe17d5b074917f8049edb5f6513a8 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfigure\subfigure.sty" 1114314970 14815 b4d52c12b78a31ae4a862944749d2f62 ""
+  "C:\Program Files (x86)\MiKTeX 2.9\tex\latex\wrapfig\wrapfig.sty" 1044403200 26220 3701aebf80ccdef248c0c20dd062fea9 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\CSI.aux" 1344878320 8696 59bb8cc0d1478e1463262a27d6da86ba ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\CSI.tex" 1344878189 1590 d7e52367a811852dc4ee93775ec36c77 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\appendix/appendix.tex" 1341252321 3731 fea545f20b65a66837670880c5348f97 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap1/chap1.tex" 1341246428 3844 a08f54401a84d08e41e32293bb1f1877 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap2/chap2.tex" 1344877847 42072 1c856d3217eb279b020a960432561a37 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap3/chap3.tex" 1344225355 35002 ec6f5dc8e183790585b78548ab8bc14d ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap4/chap4.tex" 1341003419 497 ca6f5601e76d4273e02e4142b3e69358 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap5/chap5.tex" 1340655658 489 929cff040ea0b8fac8ebdbeb3b0248c0 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\chap6/chap6.tex" 1340655646 440 880a3acf8594e57495addf6f2b5fa0a5 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\interlude1/interlude1.tex" 1341003257 1631 ac58aa9099689099c61536476b0993cb ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\interlude2/interlude2.tex" 1341003349 840 3645dbd4dfd67fd657c55d0defe255e5 ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\interlude3/interlude3.tex" 1340916770 762 2cfb34e80fa2707a4a90b5d92e7f50dd ""
+  "C:\Users\tsoule\Documents\BOOK\CSI\interlude4/interlude4.tex" 1341003191 582 8a7f4dd8d83f6f595264ccb3c87d481a ""
+  "CSI.aux" 1344878320 8696 59bb8cc0d1478e1463262a27d6da86ba ""
+  "CSI.tex" 1344878189 1590 d7e52367a811852dc4ee93775ec36c77 ""
+  (generated)
+  "CSI.pdf"
+  "CSI.log"
+  "CSI.aux"
+  "CSI.log"
+  "CSI.pdf"

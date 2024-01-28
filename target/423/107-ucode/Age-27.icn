@@ -1,0 +1,11 @@
+global Age
+procedure main()
+Age := 80
+
+if Age = 60 then
+   write ("Senior Discount")
+else if 18 <= Age < 60 then
+   write ("No Discount")
+else
+   write ("Junior Discount")
+end

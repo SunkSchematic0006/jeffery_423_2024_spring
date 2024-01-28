@@ -1,0 +1,116 @@
+<h2> CSE 423 Lab #6: Hashing and Symbol Tables </h2>
+
+Turnin: on canvas. Due Friday 3/5, 11:59pm
+<p>
+
+This week's lab asks you to implement a symbol table data type.
+Turn in as far as you get by Friday evening; you will be graded as
+having done the lab as long as it looks like you did two or more
+hours of work.
+
+<p>
+
+<h4> Symbols </h4>
+
+Write a syntax tree traversal function printsyms(struct tree *) that calls
+the following helper function for each identifier. You will use it in
+today's lab only.
+
+<pre>
+void printsymbol(char *s)
+{
+   printf("%s\n", s); fflush(stdout);
+}
+</pre>
+
+Integrate a call to printsyms into your compiler, calling it on the root of
+your syntax tree for each file.  If you run this on all the source files of
+your compiler (*.[chly]), how many symbols occur?  You can pipe the results
+into UNIX <code>wc(1)</code> for a quick count.  Then pipe the results into
+UNIX <code>uniq</code> to see how many unique symbols there are after removing
+duplicates.
+
+
+<h4> Symbol Table Entries </h4>
+
+A symbol table is a collection of symbol table entries.  For today, each
+entry has an empty data payload; there is nothing in it except the symbol
+itself and all it can be used for is to answer the yes/no question of
+whether the symbol is declared in a given scope.
+
+<pre>
+typedef struct sym_entry {
+/*   SymbolTable table;			/* what symbol table do we belong to*/
+   char *s;				/* string */
+   /* more symbol attributes go here for code generation */
+   struct sym_entry *next;
+   } *SymbolTableEntry;
+</pre>
+
+Put this in a header file, symtabentry.h.
+Whatever modules #include this file, should have it added to their makefile
+dependencies. To add it to foo.c:
+<pre>
+foo.o: foo.c <font color=red>symtabentry.h</font>
+	gcc $(CFLAGS) foo.c
+</pre>
+
+<h4> A Symbol table that is a linked list</h4>
+
+You can build a symbol table as a linked list
+first, and then turn it into a hash table if you have time.
+
+<pre>
+typedef struct sym_table {
+   int nEntries;			/* # of symbols in the table */
+/*   struct sym_table *parent;		/* enclosing scope, superclass etc. */
+   struct sym_entry *next;
+   /* more per-scope/per-symbol-table attributes go here */
+   } *SymbolTable;
+</pre>
+
+Write a constructor function mksymtab() to create one of these symbol tables
+and return a pointer to it.
+
+<h4> Symbol Table Population </h4>
+
+Walk through your tree, looking for nodes whose production rule indicates
+that they are variable declarations.  Find the list of variable names and
+insert them into the current symbol table (scope).
+<p>
+
+
+
+<h4>A hash function </h4>
+
+You can use this one, or anything better that you can invent or find,
+so long as you cite sources.
+
+<pre>
+int hash(SymbolTable st, char *s)
+{
+   register int h = 0;
+   register char c;
+   while (c = *s++) {
+      h += c & 0377;
+      h *= 37;
+      }
+   if (h < 0) h = -h;
+   return h % st->nBuckets;
+}
+</pre>
+
+
+<h4> Symbol Table that uses an Array of Linked Lists </h4>
+
+<pre>
+typedef struct sym_table {
+   int nBuckets;			/* # of buckets */
+   int nEntries;			/* # of symbols in the table */
+/*   struct sym_table *parent;		/* enclosing scope, superclass etc. */
+   struct sym_entry **tbl;
+   /* more per-scope/per-symbol-table attributes go here */
+   } *SymbolTable;
+</pre>
+
+<h4> Wrapping Up: How do you tell you have your symbols in place? </h4>

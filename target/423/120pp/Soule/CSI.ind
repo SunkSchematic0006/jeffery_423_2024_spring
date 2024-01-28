@@ -1,0 +1,271 @@
+\begin{theindex}
+
+  \item addresses, 96
+  \item {\cf{AND}}, 83
+  \item arguments, 39
+    \subitem pass-by-reference, 72, 73, 102
+    \subitem pass-by-value, 41
+  \item arrays, 72, 76
+    \subitem bounds, 77
+    \subitem two-dimensional, 93
+  \item ASCII, 80
+  \item assignment, 13
+
+  \indexspace
+
+  \item binary, 7, 136
+  \item Boolean
+    \subitem {\cf{AND}}, 83
+    \subitem {\cf{OR}}, 26
+  \item bottom-up, 70
+  \item {\cf{break}}, 46
+  \item buffer, 13
+
+  \indexspace
+
+  \item C-style strings, 91
+  \item Calculator, 37
+  \item {\cf{case}}, 45
+  \item cast, 42
+  \item {\cf{char}}, 72, 80
+  \item character, 80
+  \item characters, 72
+  \item {\cf{cin}}, 13
+  \item classes, 55, 58
+    \subitem data member, 58
+    \subitem function member, 58
+    \subitem methods, 58
+    \subitem private, 63
+    \subitem public, 63
+  \item {\cf{close()}}, 66
+  \item {\texttt  {cmath}}, 50
+  \item comments, 5, 7
+  \item compiler, 3
+  \item compiler errors, 18
+  \item condition, 10
+  \item conditionals, 5, 10, 21, 23
+  \item const, 81
+  \item constant, 81
+  \item constants, 72
+  \item constructor, 60
+  \item conversion, 42
+  \item {\cf{cout}}, 12
+  \item {\cf{cstdlib}}, 25
+  \item {\cf{cstring}}, 92
+
+  \indexspace
+
+  \item data member, 58
+  \item data structure, 55
+  \item debugging, 18
+  \item decimal, 136
+  \item {\cf{default}}, 46
+  \item dereference, 97
+  \item divide by zero, 44
+  \item {\cf{do-while loop}}, 25
+  \item dot notation, 58
+  \item {\cf{double}}, 41
+
+  \indexspace
+
+  \item Electronic Pet, 55
+  \item {\cf{else}}, 23
+  \item encapsulation, 63
+  \item {\cf{eof()}}, 81
+  \item errors
+    \subitem compiler, 18
+    \subitem logical, 18
+    \subitem memory leak, 99
+    \subitem out-of-bounds, 77
+    \subitem run-time, 18
+  \item escape character, 27
+  \item escape sequence, 27
+  \item Expressions, 5
+  \item expressions, 9
+
+  \indexspace
+
+  \item files, 55, 66
+    \subitem {\cf{close()}}, 66
+    \subitem {\cf{eof()}}, 81
+    \subitem mode, 91
+    \subitem {\cf{open()}}, 66
+    \subitem read, 66, 81
+    \subitem write, 66
+  \item {\cf{for} loop}, 82
+  \item format specifiers, 90
+  \item format string, 90
+  \item Fortune Teller, 5
+  \item {\cf{fstream}}, 81
+  \item function member, 58
+  \item functions, 37, 39
+    \subitem arguments, 39
+    \subitem inline, 103
+    \subitem parameters, 39
+    \subitem pass-by-reference, 73
+    \subitem pass-by-value, 41
+    \subitem return, 40
+
+  \indexspace
+
+  \item Generic Board Game, 72
+  \item global, 79, 81
+  \item globals, 72
+
+  \indexspace
+
+  \item hexadecimal, 136
+  \item high-level language, 3
+
+  \indexspace
+
+  \item I/O, 5, 8, 12
+  \item IDE, 3
+  \item {\cf{if}}, 10, 23
+  \item {cf{if-else}}, 23
+  \item {\cf{ifstream}}, 81
+  \item {\cf{ignore()}}, 15
+  \item include, 11, 25
+  \item indirection, 97
+  \item infinite loops, 25
+  \item information hiding, 63
+  \item inline, 103
+  \item input validation, 13
+  \item integer, 8
+  \item Integrated Development Environment, 3
+  \item interpreted language, 3
+  \item interpreter, 3
+  \item {\cf{iostream}}, 11, 25
+
+  \indexspace
+
+  \item libraries, 5, 11, 25
+    \subitem {\texttt  {cmath}}, 50
+    \subitem {\cf{cstring}}, 92
+    \subitem {\cf{ctime}}, 29
+    \subitem {\cf{ifstream}}, 81
+    \subitem {\cf{string}}, 58
+    \subitem user-defined, 93
+  \item library, 11
+  \item linked list, 112, 115
+  \item literal strings, 12
+  \item logical errors, 18
+  \item loops, 21, 23, 25
+    \subitem {\cf{do-while}}, 25
+    \subitem {\cf{for}}, 82
+    \subitem {\cf{while}}, 26
+  \item low-level language, 3
+
+  \indexspace
+
+  \item magic numbers, 23, 27
+  \item {\cf{main()}}, 12, 25
+  \item memory
+    \subitem deallocation, 99
+  \item memory leak, 99
+  \item methods, 58
+  \item modularity, 63
+  \item modules, 63
+  \item modulus, 13, 27
+
+  \indexspace
+
+  \item namespace, 11
+  \item new line, 27
+  \item NIM, 21
+  \item {\cf{NULL}}, 100
+  \item null character, 91
+  \item null terminator, 91
+
+  \indexspace
+
+  \item object, 55, 58
+  \item object-oriented programming (OOP), 64
+  \item OOP, 64
+  \item {\cf{open()}}, 66
+  \item operations
+    \subitem assignment, 13
+    \subitem modulus, 13, 27
+  \item {\cf{OR}}, 26
+  \item out-of-bounds, 77
+
+  \indexspace
+
+  \item parameters, 39
+  \item pass-by-reference, 72, 73, 102
+  \item pass-by-value, 41
+  \item pointers, 93, 96
+    \subitem  as arguments, 102
+  \item preprocessor, 11
+  \item private, 59, 63
+  \item projects
+    \subitem Calculator, 37
+    \subitem Electronic Pet, 55
+    \subitem Fortune Teller, 5
+    \subitem Generic Board Game, 72
+    \subitem Linked Robots, 112
+    \subitem NIM, 21
+    \subitem Robot World, 93
+  \item promotion, 42
+  \item prototype, 40
+  \item pseudorandom number, 29
+  \item public, 59, 63
+
+  \indexspace
+
+  \item queue, 123
+
+  \indexspace
+
+  \item {\cf{rand()}}, 27
+  \item random, 27
+    \subitem {\cf{rand()}}, 27
+    \subitem seed, 29
+    \subitem {\cf{srand()}}, 29
+  \item random access, 116
+  \item Random numbers, 24
+  \item read, 66
+  \item recursion, 117
+  \item return, 15, 28, 40
+  \item Robot World, 93
+  \item run-time errors, 18
+
+  \indexspace
+
+  \item scope, 37, 47
+  \item software engineering, 70
+  \item {\cf{srand()}}, 29
+  \item streams, 8
+  \item strings, 55, 58
+    \subitem C-style, 91
+  \item struct, 53, 89
+  \item structure, 53, 89
+  \item stubs, 70
+  \item {\cf{switch}}, 37, 45
+
+  \indexspace
+
+  \item test suites, 35
+  \item testing, 35
+  \item {\cf{time()}}, 29
+  \item top-down, 70
+  \item truncation, 9
+  \item type, 7
+    \subitem {\cf{char}}, 72, 80
+    \subitem {\cf{double}}, 41
+    \subitem {\cf{int}}, 8
+
+  \indexspace
+
+  \item variables, 5, 7, 12, 25
+    \subitem constant, 81
+    \subitem global, 79, 81
+    \subitem undefined, 25
+  \item {\cf{void}}, 40
+
+  \indexspace
+
+  \item {\cf{while loop}}, 26
+  \item write, 66
+
+\end{theindex}

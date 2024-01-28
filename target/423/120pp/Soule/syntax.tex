@@ -1,0 +1,129 @@
+\chapter{Syntax}
+
+This chapter discusses lexical rules inferred from the text of ``A
+Project-Based Introduction to C++''.  You are to implement a subset
+of C++ to include at least the following syntax constructs.
+
+\section{Namespaces}
+
+You are allowed, but not required, to require the declaration
+\begin{verbatim}
+using namespace std;
+\end{verbatim}
+
+The preferred handling would be to require it if system includes are present.
+
+\section{Function prototypes}
+
+120++ allows zero or more parameters which consist of a type followed
+by optional square-brackets or ampersand.  Examples:
+
+\begin{verbatim}
+type name();
+type name(type,type);
+type name(type []);
+type name(type &);
+type name(type *); /* doublecheck */
+\end{verbatim}
+
+\section{Function bodies}
+
+120++ functions have a return type, a function name with optional
+classname:: prefix, zero or more parameters, declarations and
+statements inside appropriate parentheses and curly braces. Examples:
+
+\begin{verbatim}
+type name() { declarations statements }
+type name::name() { declarations statements }
+type name(type name,type name) { declarations statements }
+\end{verbatim}
+
+\section{Classes}
+
+Although the Soule text mentions the existence of structs and typedefs
+in C, it does not use them and 120++ will not include them.
+120++ does include simple classes, with no inheritance.
+
+\begin{verbatim}
+class name { fields methods } ;
+\end{verbatim}
+
+\section{Variable Declarations}
+
+120++ includes common forms of C++ variable declarations.
+Note that variable declarations are all global or at the beginning
+of their respective scope blocks, with an allowance for variables
+declared spontaneously inside for-loops.  This is a restriction on
+standard C++ which allows variable declarations at any point within
+any statement block.
+
+\begin{verbatim}
+type name;
+type name1, name2, name3;
+type name4 = value;
+const type name4 = value;
+type name[size];
+type *name;
+type *name[size1][size2];
+\end{verbatim}
+
+Note that although I saw in one place in the Soule text some code
+that suggested the pattern
+
+\begin{verbatim}
+type [size] name;
+\end{verbatim}
+
+I cannot confirm this as legal C++ and it is not in 120++
+
+\section{Statements}
+
+Statements in 120++ include the following, along with void
+function calls.
+Statements are often terminated with semi-colons.
+
+\begin{verbatim}
+if (expr) statement
+if (expr) { statements }
+if (expr) { statements } else { statements }
+if (expr) { statements } else statement
+switch (expr) { statements }
+case intvalue: statements break
+case charvalue: statements break
+case (value): statements break
+case val1: case val2: statements break
+default : statements
+break
+do { statements } while (expr);
+while (expr) { statements }
+for (type var = val ; expr ; expr) { statements }
+for (var = val ; expr ; expr) { statements }
+\end{verbatim}
+
+\section{Expressions}
+
+\begin{verbatim}
+cout << string ;
+cout << string1 << expr << string2 ;
+cin >> name ;
+cin >> name >> name2 >> name3 ;
+&x
+*p
+p->field
+NULL
+new type
+new type(args)
+(type)(expr)
+delete p
+name1 = expr ;
+name1.name2 = expr;
+return expr;
+expr op expr
+expr++
+expr--
+(expr)
+f()
+f(expr,expr)
+type(expr)
+name1.name2
+\end{verbatim}

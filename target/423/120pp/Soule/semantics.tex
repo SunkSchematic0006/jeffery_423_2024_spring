@@ -1,0 +1,140 @@
+\chapter{Semantics}
+
+This chapter presents various aspects of the 120++ language as they
+pertain to the semantic analysis of the input.
+
+\section{Scope Rules}
+
+120++ implements three levels of scoping: global, class, and local.
+Classes inside classes are not supported.  Nested local scopes inside
+(compound) statements are treatd as part of the enclosing local scope.
+
+\subsection{Storage Classifiers}
+
+Storage classifiers do not appear in 120++. Some (such as
+register) might be ignored
+if found on an input source file.
+120++ uses const only in global and local variable declarations;
+it does not use them in parameters.
+
+120++ does not use extern. It can be treated as a semantic error,
+ignored (for prototypes), or implemented.
+
+120++ does not use static.  A static outside any function could be
+reported as a semantic error, treated as a global, or implemented.
+A static inside a function could be reported as a semantic error,
+treated as a global with name-mangling, or implemented.
+
+\section{Type Checking}
+
+120++ would report errors for any illegal combination of types, such as
+trying to add an object to a real number.
+
+\subsection{Type Promotion}
+
+120++ only supports two sizes: byte (1 byte, used by char and bool) 
+and word (8 bytes, used by all other types).  It does not discuss
+type promotion or compatibility. 120++ is free to require that types
+be exact matches, with the exception of the common interchangeability
+of pointers and arrays.
+
+\subsection{Parameter Types}
+
+120++ does use pointers, references, and base types as parameters.
+
+\subsection{Pointers}
+
+120++ does not do pointer arithmetic.  It does use new, delete, \&,
+\*, and $->$ operators.
+
+\section{Control Structure Constraints}
+
+Although the grammar may allow interesting things, 120++ does not allow
+anything that C++ does not allow, and may be further constrained as follows.
+
+\subsection{No Gotos or Labels (Other Than Switch Cases)}
+
+This goes without saying.
+
+\subsection{No Cases Outside of Switches}
+
+Although one would think the C++ compiler would complain, some might not.
+
+\subsection{No Breaks Outside of Loops or Switches}
+
+The keyword break must always have an obvious enclosing control structure.
+
+\section{Function and Operator Overloading}
+
+Although the Soule text mentions the existence of multiple constructors,
+it never uses this feature, or function overloading in general.
+
+Operator overloading does not appear in 120++.
+
+\section{Object Oriented Features}
+
+120++ supports simple classes, without inheritance, but with
+member variables that are direct instances of other classes,
+as well as member variable pointers to the same or other classes,
+such as those used for link lists.
+
+\subsection{Constructors and Destructors}
+
+120++ mentions the concept of function overloading as it pertains to
+class constructors, but never utilizes it in a live example. It does
+utilize constructors that have parameters as well as ones that do not.
+It does contain a class (world, in chapter 6) that has no constructor
+and is therefore using a default constructor.  There is something ironic
+about world having a set\_up() method instead of a consructor. It would
+be useful for it to have a constructor that calls set\_up(), to illustrate
+a common implementation pattern which is to have an object that can be
+reset to its start state.
+
+\subsection{Virtual}
+
+The keyword virtual does not appear in 120++.
+
+\subsection{New and Delete}
+
+120++ uses new and delete expressions, albeit exceedingly sparingly.
+delete is used in an actual program example only once (delete temp
+in listing 7.5).  New is used more aggressively, in contexts such as:
+
+\begin{verbatim}
+p = new int;
+p = new node;
+p = new robot(1);
+\end{verbatim}
+
+\section{``Built-in'' Classes}
+
+If the correct include and ``using namespace'' declarations are
+present, 120++ supports at least the following classes as built-ins.
+
+\begin{verbatim}
+class ifstream {
+   public:
+      void close();
+      bool eof();
+      void ignore();
+      void open(char *);
+   }
+class ofstream {
+   public:
+      void close();
+      void open(char *);
+   }
+class string {
+   public:
+   char *c_str();
+   }
+\end{verbatim}
+
+The main operations on the stream built-ins are of course $<<$ and $>>$.
+There is also a function getline(ifstream, string\&).
+
+\section{Miscellaneous}
+
+There are neither friend functions nor friend classes in 120++.
+There are no templates.
+

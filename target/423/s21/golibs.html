@@ -1,0 +1,70 @@
+<h3> On standard library functions </h3>
+
+This is a commentary on Go, I think. <p>
+
+I started with just Println, but it is pretty hard to write even toy
+programs if you can't read in input. What should we do?
+
+<p>
+
+<table border><tr><td>
+<pre>reader = bufio.NewReader(os.Stdin)
+text, _ = reader.ReadString('\n')
+</pre>
+<td>
+<img src="yuk.jpg">
+</table>
+
+
+
+
+<!--
+<h3> Playing with a Real Go Compiler</h3>
+
+One way to tell what your compiler should do in VGo is to compare it with
+what a real Go compiler does on any given input. I played with
+one and immediately learned some things:
+
+<ul>
+<li> go compiler command line arguments require a subcommand:
+<pre>
+   go run hello.go   # executes immediately
+   go build hello.go # compiles to an executable named "hello"
+</pre>
+<li> for me, "go build" worked but the resulting executable
+     did not have its execute-permission bit set !? You might have to
+<pre>
+   chmod u+x hello
+</pre>
+<li> Go's semi-colon insertion has at least one major laughable consequence
+     that we may also live with: open-curly to start a function body has
+     to be on the same line where the "func" was:
+<p>
+
+<table>
+<tr><td>
+<pre>
+func main() {
+   ...
+}
+</pre>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; not: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<td>
+<pre>
+func main()
+{
+   ...
+}
+</pre>
+</table>
+</ul>
+
+
+<h3> What to do about Go's standard library functions, cont'd </h3>
+
+We will do a literal, minimalist interpretation of what is necessary
+to support functions like reader.ReadString(). VGo will support two kinds of
+calls: ones that return a single value, and ones that return a single value
+plus a boolean flag that indicates whether the function succeeded or failed.
+
+-->

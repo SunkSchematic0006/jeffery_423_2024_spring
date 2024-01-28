@@ -1,0 +1,625 @@
+<HTML>
+<HEAD>
+<TITLE>Jzero - Language Reference </TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<br><br><br>
+<br><br>
+<br>
+
+<CENTER>
+<H3>
+<font size=7>Jzero</font><br><br>
+<em> a Programming Language</em>
+</H3>
+<A href="http://www.cs.nmt.edu/~jeffery/">Clinton Jeffery</A>
+<code><a href="mailto:jeffery@cs.nmt.edu">jeffery</A>@cs.nmt.edu</code><br>
+with input from CSE 423 students
+<br><br>
+<em> Draft Version 0.1a, April 3, 2022. </em>
+<p>
+<br><br>
+<h2> Language Reference Manual </h2>
+<br>
+<strong>Abstract</strong>
+</CENTER>
+<p>
+
+<blockquote>
+
+<code>j0</code> (pronounced "Jay Zero", short for
+Java 0 Compiler) is a subset of the Java Programming Language.
+<code>j0</code> is a tiny
+language intended to be implemented in a compiler construction class.
+
+
+</blockquote>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<center>
+<A href="http://www.nmt.edu"> New Mexico Institute of Mining and Technology</A><br>
+<A href="http://www.cs.nmt.edu">Department of Computer Science and Engineering</A><br>
+Socorro, NM 87801 USA
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<H3>Contents </h3>
+
+<OL>
+
+<LI><A HREF="#Introduction">Introduction</A></LI>
+<LI><A HREF="#Lexical">Lexical Rules</A></LI>
+	<UL>
+	<LI> <A HREF="#Comments">Whitespace and Comments</A>
+	<LI> <A HREF="#Reserved">Reserved words</A>
+	<LI> <A HREF="#Operators">Operators</A>
+	<li> <A HREF="#Literals">Literals</A>
+	<li> <A HREF="#Punctuation">Punctuation</A>
+	<LI><A HREF="#SemiColons">Semi-colons</A></LI>
+	</UL>
+<LI><A HREF="#Syntax">Syntax</A></LI>
+	<UL>
+	<LI><A HREF="#FunctionSyntax">Function Syntax</A></LI>
+	<LI><A HREF="#ControlStructures">Control Structures</A></LI>
+	<LI><A HREF="#DeclarationSyntax">Variable Declaration Syntax</A></LI>
+	</UL>
+<LI><A HREF="#Types">Data Types and Semantics</A></LI>
+	<UL>
+	<LI><A HREF="#Numbers">Numbers</A></LI>
+	<LI><A HREF="#Arrays">Arrays</A></LI>
+	<LI><A HREF="#Strings">Strings</A></LI>
+	</UL>
+
+<LI><A HREF="#Summary">Summary</A>
+</OL>
+<p>
+<HR>
+
+<h2><A NAME="Introduction">1. Introduction</A></h2>
+
+<code>j0</code> is a family of subsets of Java.
+Broadly, <code>j0</code> is intended to correspond roughly to
+the subset of Java that would be covered in a CS1 class,
+or in NMT's case, the CSE 213 course.
+The facilities that j0 supports are interesting
+enough to write some non-trivial computations in it.
+How much of j0 you must implement depends on your team size:
+<ul>
+<li> teams of size 1 should implement j0.1 (Jzero Level One)
+<li> teams of size 2 should implement j0.2 (Jzero Level Two)
+<li> teams of size 3 should implement j0.3 (Jzero Level Three)
+</ul>
+
+<p>
+j0 programs are legal Java programs with a .java file extension.
+A program consists of a class that contains
+a <code>main()</code> procedure where execution starts.
+A "Hello world" program looks like:
+
+<pre>
+public class HelloWorld {
+   public static void main(String[] args) {
+      System.out.println("Hello, World");
+   }
+}
+</pre>
+
+The Java import facility is restricted to only those built-in system
+imports used in CSE 213, which are faked in j0.
+
+<p>
+
+Java features many basic types.
+j0 supports:
+
+<pre>
+char
+int
+float
+boolean
+String
+</pre>
+
+<p>
+
+The types <code>int</code> and <code>float</code> both refer to 64-bit values.
+The types <code>short</code>, <code>long</code>, and <code>double</code> are
+allowed in j0 and denote aliases for <code>int</code> and <code>float</code>.
+Booleans and chars are stored in a single byte (like C, rather than Java
+16-bit characters)
+
+<p>
+  
+  j0 has <code>while</code> and <code>for</code> loops.
+  Curly braces around the loop body are required.
+  For loops require non-empty expressions for all three parts of the header.
+  For loop clauses do not allow variable declaration in the initializer,
+  nor use of the comma operator to initialize or update multiple variables
+  each iteration.
+  In j0.1 for loop headers may ONLY consist of an assignment to a variable,
+  a boolean test of that variable, and an increment/decrement/assignment of
+  that variable.  In j0.2+ the second and third parts of a for-loop are
+  expressions constrained to produce boolean and integer values.
+
+<p>
+
+Conditionals in j0 consist of if statements. j0.2+ has switch statements.
+If statements use syntax similar to while loops. Curly braces are required.
+An <code>else</code> branch is optional.
+
+
+<pre>
+if (x &lt; 0) {
+   ...
+}
+</pre>
+
+<code>else</code> branches require curly braces, unless they are (chained) if statements.
+
+<pre>
+if (x &lt; 0) {
+   ...
+} else if (x &lt; 10) {
+   ...
+} else {
+   ...
+}
+</pre>
+
+<p>
+  j0.2+ supports switch statements.
+  Switch statements in j0 require constant, non-duplicate switch cases.
+  A break is
+  required at the end of each pre-final, non-empty chunk of code
+  (no fall-through).
+  A default clause is required at the end, with no break.
+
+
+  <pre>
+    switch (c) {
+    case 1: case 2:
+       printf("1 or 2\n"); break;
+    case 3: case 4:
+       printf("3 or 4\n"); break;
+    default:
+       printf("some other value\n");
+    }
+  </pre>
+
+
+<p>
+Java supports creation of new types via a class.
+j0.1 does not have (user-defined) classes
+j0.2+ has user-defined (simple) classes.
+<p>
+
+Java has no pointers; it has references. j0 should support enough
+in terms of references to allow operations essential for Strings
+and arrays.
+
+<p>
+
+Java has arrays, which are a weird built-in thing that are not class
+instances and have special syntax support.
+j0 has one-dimensional arrays only.
+
+<p>
+
+When in doubt about j0 features, refer to the Java language specification.
+I will add notes below as needed.  The easiest way to get out of
+having to implement something is to ask about it and negotiate.
+
+
+
+<h3> 2. <A NAME="Lexical">Lexical Rules</A> </h3>
+
+The lexical rules of j0 start with: the lexical rules of Java.
+<code>j0</code>
+may simplify and reduce the lexical rules of Java a bit.
+<p>
+
+
+<p>
+<A NAME="Comments"></A><B><FONT SIZE=3>2.1 Whitespace and Comments</B></FONT>
+<p>
+
+Of the Java whitespace characters, j0 must implement space, tab, carriage
+return, and newline.
+
+<p>
+
+  j0 supports both styles of Java comments.
+  Comments may be text placed between the delimiters /* and */. They may
+  not be nested.
+  Comments can also use // to comment from that point to the end of a line.
+  Examples:
+  <pre> x = 1; //single line comment
+    /* this is a
+    multiple line
+    comment */</pre>
+  
+<p>
+<A NAME="Reserved"></A><B><FONT SIZE=3>2.2 Reserved Words</B></FONT>
+<p>
+
+  Java has many reserved words.
+  The reserved words (also called keywords) in all of j0 are in bold.
+  Those not in any j0 have strikethrough and
+  should result in a fatal error ("this C feature is not in j0").
+  Words with neither bold nor strikethrough are in Level Two or Level Three
+  of j0.
+
+<p>
+
+Supported reserved words:
+<b>boolean</b>, break, case, <b>char</b>, <b>class</b>, continue, default, <b>double</b>, <b>else</b>, <b>float</b>,
+<b>for</b>, <b>if</b>, instanceof, <b>int</b>, <b>long</b>, new, <b>public</b>, <b>return</b>, <b>static</b>, switch, <b>void</b>,
+<b>while</b>.
+
+<p>
+
+Java reserved words not in Jzero:
+<s>abstract, assert, byte, catch, const, do, enum, exports, extends,
+final, finally, goto, implements, import, interface, module, native,
+package, protected, requires, short, strictfp, super, synchronized,
+this, throw, throws, transient, try, var, volatile, private</s>.
+
+<p>
+
+
+<p>
+<A NAME="Operators"></A><B><FONT SIZE=3>2.3 Operators</B></FONT>
+<p>
+
+  j0 supports the following operators<p>
+  
+<table border>
+  <tr> <td> = <td> assignment. j0.2+ includes +=, -=. </tr>
+  <tr> <td> + - * / <td> binary arithmetic, int and float</tr>
+  <tr> <td> % <td> binary arithmetic, int</tr>
+  <tr> <td> ++ -- <td> unary increment and decrement, int only, suffix only</tr>
+  <tr> <td> - <td> unary negation, prefix</tr>
+  <tr> <td> == != &gt; &lt; &gt;= &lt;= <td> binary comparison</tr>
+  <tr> <td> &amp;&amp; || ! <td> logical AND, OR, and NOT </tr>
+  <tr> <td> instanceof <td> j0.3 includes instanceof </tr>
+  <tr> <td> [ ] . <td> binary subscript and dot
+
+  <tr> <td> (type) <td> j0.2+ does type casts </tr>
+</table>
+
+<p>
+
+An error is reported for
+<ul>
+  <li> bitwise or shift operators
+    ~, &lt;&lt;, &gt;&gtl; &amp;=, |=, ^=, &gt;&gt;=, &lt;&lt;=, &amp;, |, ^
+<li> other augmented assignment operators
+<li> ternary ?: operator
+<li> reference operations
+</ul>
+
+The comma operator <code>,</code> is not in j0,
+but the comma is legal punctuation in variable
+declaration lists and function parameter lists.
+
+
+<p>
+<A NAME="Literals"></A><B><FONT SIZE=3>2.4 Literals</B></FONT>
+<p>
+
+<h4>Integers</h4>
+<ul>
+    <li> j0.1 only does decimal integer literals
+    <li> j0.2+ does hexadecimal
+    <li> j0.3 also does octal and binary
+    <li> unsupported formats are recognized and reported as lexical errors
+    <li> unsigned designation is a lexical error
+   <li> long designation (L suffix) allowed and ignored since all ints are long
+</ul>
+
+   <h4>Reals</h4>
+
+   <ul>
+   <li> j0.1 does not have to do real numbers.
+   <li> j0.2 only does simple real numbers involving
+       one or more integers to the left or right (or both) of a decimal
+   <li> j0.3 shall allow scientific/exponent
+    <li> unsupported formats are recognized and reported as lexical errors
+   <li> long designation (L suffix) allowed and ignored since all floats are
+           doubles
+   </ul>
+
+   <h4> Characters </h4>
+
+<ul>
+  <li> j0 allows simple character literals consisting of a single character
+       enclosed in apostrophes
+  <li> the character may be a printable character from the keyboard, or an
+       escape character, see below
+  <li> j0 recognizes and reports an error for character literals with more
+    than one character, e.g. 'abc'
+</ul>
+
+   <h4> Strings </h4>
+
+<ul>
+  <li> j0 allows simple string literals consisting of zero or more
+       characters enclosed in double quotes
+  <li> characters may be a printable character from the keyboard, or an
+       escape character, see below
+</ul>
+ 
+
+<h4>Escape Sequences (Character and String Literals)</h4>
+
+j0.1 supports \n, \t, \', \" <br>
+j0.2 also supports \a, \f, \r, \0 octals <br>
+j0.3 also supports \b, \v, \?, \x hexadecimals <br>
+Unsupported escapes should be recognized and report a lexical error.
+<p>
+
+   <table><tr>
+       <th>
+Escape sequence<th>Hex value in ASCII<th>	Character represented
+<tr><td>\a<td>	07<td>	Alert (Beep, Bell)
+<tr><td>\b<td>	08<td>	Backspace
+<tr><td>\f<td>	0C<td>	Formfeed Page Break
+<tr><td>\n<td>	0A<td>	Newline (Line Feed); see notes below
+<tr><td>\r<td>	0D<td>	Carriage Return
+<tr><td>\t<td>	09<td>	Horizontal Tab
+<tr><td>\v<td>	0B<td>	Vertical Tab
+<tr><td>\\<td>	5C<td>	Backslash
+<tr><td>\'<td>	27<td>	Apostrophe or single quotation mark
+<tr><td>\"<td>	22<td>	Double quotation mark
+<tr><td>\?<td>	3F<td>	Question mark (used to avoid trigraphs)
+<tr><td>\nnn<td>any<td>	octal escapes
+<tr><td>\xhh<td>any<td> hexadecimal escapes
+<tr><td>\uhhhh<td>none<td> Unicode code points
+</table>
+
+   
+<p>
+<A NAME="Punctuation"></A><B><FONT SIZE=3>2.5 Punctuation</B></FONT>
+<p>
+
+  Punctuation characters are lexemes that are supported in j0 that are
+  not part of other lexemes (not operators, not identifiers, not literals).
+
+  <pre>
+(  )  ,  ;  {  }  , :
+  </pre>
+
+  Other punctuation characters generally should be reported as lexical errors,
+  including
+
+  <pre>
+#  $  @  \  `
+  </pre>
+
+  One exception: a line beginning with # in the following format is a
+  line directive and is to be interpreted as per GCC. It gives a line number
+  N and (quoted) filename to be used for reporting on the line(s) that follow.
+  The ... is (optional) other stuff you can treat as a comment and ignore
+  up until the next newline character.
+
+  <pre>
+# N "f" ...
+  </pre>
+
+<p>
+<A NAME="Identifiers"></A><B><FONT SIZE=3>2.6 Identifiers</B></FONT>
+<p>
+
+Identifiers in j0 are as per the C language, not Java: a letter followed by
+zero or more additional letters or digits. They are case-sensitive.
+
+<h3> 3. <A NAME="Syntax">Syntax</A> </h3>
+
+A good fraction of standard Java syntax will denote constructs that are not
+supported in j0.
+The easiest thing is probably to support the whole Java language grammar,
+less the parts that have been ruled out via lexical errors, and then define
+portions of it that will be unsupported and trigger an error in HW#3.
+
+<p>
+<A NAME="FunctionSyntax"></A><B><FONT SIZE=3>3.1 Function Syntax</B></FONT>
+<p>
+
+  Function definitions in j0 follow the following format. In j0.1 they are all
+  static, with the static keyword required before the return type.
+<pre>
+<em>return type</em> identifier ( <em>parameter_list</em> ) { <em>function body</em> }
+</pre>
+
+  
+<p>
+<A NAME="ControlStructures"></A><B><FONT SIZE=3>3.2 Control Structures</B></FONT>
+<p>
+
+<pre>
+if (statement) {}
+if (statement) {} else {}
+if (statement) {} else if (statement) {} else {}
+while (statement) {}
+for ( init; condition; increment) {}
+switch(integer){
+case literal:
+statements;
+...
+default:
+statements;
+}
+</pre>
+
+  
+<p>
+<A NAME="Classes"></A><B><FONT SIZE=3>3.3 Classes</B></FONT>
+<p>
+
+j0.1 has only one class, within which the program is a set of static methods.
+j0.2+ classes are a subset of Java classes:
+
+<pre>
+public class <em>tag</em> {
+  <em>data</em>
+  };
+</pre>
+
+j0 does not support nested classes inside other classes.
+References to classes as fields within a class is allowed.
+j0 does not have anonymous (non-labeled or lambda) classes.
+
+
+<p>
+<A NAME="DeclarationSyntax"></A><B><FONT SIZE=3>3.4 Declaration Syntax</B></FONT>
+<p>
+
+Declaration syntax is only allowed for global variables and at the top of
+the bodies of function definitions, before the first executable statement.
+j0 allows only simple initializers including int, float and char.
+
+<pre>
+type identifier;
+type identifier [];
+type identifier = literal;
+</pre>
+
+A slightly simpler syntax is allowed for parameter lists, which do
+not allow initializers.
+<p>
+
+In Jzero Level One, only one identifier is declared with each
+such variable declaration.  In Jzero Level Two, variable declarations may
+be comma-separated lists of identifiers, each of which may have array or
+initializer suffixes.
+
+<h3><A NAME="Types">4. Data Types</A></h3>
+
+
+
+<A NAME="Numbers"></A><B><FONT SIZE=3>4.1 Numbers</B></FONT>
+<p>
+
+All data types listed are used by j0 and are described in the reserved words section.
+char, short, int, long, float, double
+
+<p>
+
+Although the C language automatically converts between numeric types as
+needed (promotion and demotion), j0 does not.
+
+
+<p>
+<A NAME="Strings"></A><B><FONT SIZE=3>4.2 Strings</B></FONT> <BR>
+<p>
+
+These are usual C null-terminated char* arrays.
+<p>
+
+  Note that (void *) values automatically convert to any other pointer type,
+  but no other pointer type conversions, nor casts, are supported in j0.
+  I wouldn't care about supporting void * at all, if you want to implement
+  malloc as returning char *, that's fine.
+
+<p>
+<A NAME="Arrays"></A><B><FONT SIZE=3>4.3 Arrays</B></FONT> <BR>
+<p>
+
+As listed in the introduction Java has multidimensional arrays whereas j0
+single dimensional arrays. For example:
+
+<p>
+  <pre>int [] num = new int[100]; </pre>
+<p>
+  or
+  <pre>int [] num;
+num = new int[100]; </pre>
+<p>  
+
+Such array construction is the only use of reserved word
+<code>new</code> in j0.
+<p>
+  
+Java supports empty square brackets array syntax on either side of the
+identifier, but j0 only supports empty square brackets on the left of
+the identifier.
+
+<h3><A NAME="Functions">4. Library Functions</A></h3>
+
+j0 supports a small subset of the functionality of a small subset of Java's
+standard libraries.
+
+<p>
+
+<table border><tr><th>Function<th>Import?<th>Use
+<tr><td>System.out.println(s)<td><td>Prints to stdout, simplified
+  <tr><td><td><td> random number
+  <tr><td><td><td> string stuff
+  <tr><td><td><td> ...
+  </table>
+
+
+<pre>
+array .get() and .set()
+System.out.print(s)
+System.out.println(s)
+String.charAt(n)
+String.equals(s)
+String.compareTo(s)  // ? do we need both this and equals()?
+String.length()
+String.toString(i) vs. String.valueOf()  ??
+InputStream.read()   // ? is there a better input?
+System.in.read() ?
+  </pre>
+
+At Jzero Level 2, add:
+
+<pre>
+String.substring(x,y)
+java.util.Random.nextInt()
+java.lang.Math.abs()
+java.lang.Math.max()
+java.lang.Math.min()
+java.lang.Math.pow()
+</pre>
+
+At Jzero Level 3, add:
+
+<pre>
+String.indexOf()
+String.split()
+java.lang.Math.cos()
+java.lang.Math.sin()
+java.lang.Math.tan()
+</pre>
+
+
+
+<!--<img src="j0libfuncs.png" width=800>-->
+
+<A name="Summary">
+<H3>Summary</H3>
+</A>
+
+Sure, j0 may be a toy language designed for a compiler class.
+Even with only this much, it may provide a convenient notation for a
+lot of simple programming tasks such as those faced by students in CSE 113.
+
+</BODY>
+</HTML>

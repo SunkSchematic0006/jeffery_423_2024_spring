@@ -1,0 +1,12 @@
+package main
+int y
+
+void main()
+{
+  int x
+  write( "helo" )
+  x = read()
+  if (x > 2) {
+    write( "goodbye" )
+  }
+}

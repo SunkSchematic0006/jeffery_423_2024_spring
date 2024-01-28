@@ -1,0 +1,30 @@
+<h3>cgram.y token names</h3>
+
+<table>
+<tr><th> token (names) <th> description (respectively)
+
+<tr><td> BAD_TOKEN <td> a lexical error */
+<tr><td> ICON CCON FCON <td> integer, character, and floating literals */
+<tr><td> ENUMERATION_CONSTANT <td> once its an enum val, yylex() returns this */
+<tr><td> TYPEDEF_NAME <td> once its a typedef name, yylex() returns this */
+<tr><td> IDENTIFIER <td> what yylex() returns for names if not typedef or num */
+<tr><td> STRING <td> string literal */
+<tr><td> SIZEOF <td> reserved word sizeof */
+<tr><td> INCOP DECOP SHL SHR LE GE EQ NE <td> ++ -- << >> <= >= == != */
+<tr><td> ANDAND OROR MUASN DIASN MOASN PLASN ASN <td> && || *= /= %= += = */
+<tr><td> MIASN SLASN SRASN ANASN <td> -= <<= >>= &= */
+<tr><td> ERASN ORASN <td> ^= |= */
+<tr><td> CM SM LT GT <td> , ; < > */
+<tr><td> PLUS MINUS MUL DIV MOD <td> + - * / % */
+<tr><td> LP RP LB RB LC RC COLON <td> ( ) [ ] { } : */
+<tr><td> QUEST AND OR ER NOT FOLLOW BANG DOT <td> ? & | ^ ! -> ! . */
+<tr><td> SP DTAB ITAB EOL TAB ECNT <td> 
+
+<td> reserved words */
+<tr><td> TYPEDEF EXTERN STATIC AUTO REGISTER 
+<tr><td> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
+<tr><td> STRUCT UNION ENUM ELSE
+<tr><td> CASE DEFAULT IF SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+
+<tr><td> ELIPSIS <td> ... */
+</table>

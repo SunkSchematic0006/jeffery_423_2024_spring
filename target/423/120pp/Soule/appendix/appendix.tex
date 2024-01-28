@@ -1,0 +1,402 @@
+%********** Appendix **********
+\chapter{Reference}
+
+\section{Variables and Types}\label{appendix:types}
+
+Computer programs use variables to store data.  A \emph{variable} can be thought of as a box with a name that contains a value -- the data.  Before a variable is used, it must be declared.  The basic variable declaration consists of two parts: the type and the variable name.  For example, the command:\\
+\codefont{
+int radius; \\
+}
+declares a variable of type \codefont{int}, which is short for \emph{integer} and whose name is \codefont{radius}.  It can be thought of as a box named \codefont{radius} that can contain an integer number.  
+
+The type is important for several reasons.  
+\begin{enumerate}
+\item The type determines how big the ``box'' that holds the data needs to be (e.g., a single character takes up less space in memory than a real number).   
+\item The type determines how to interpret the data stored in the ``box'' -- all data is fundamentally stored as a binary number (i.e., a series of 1's and 0's), but how the number is interpreted depends on the data's type.  
+\item The type determines how operations should be applied to the data stored in the ``box.''  For example, if the division operation is applied to two real numbers it returns a real number, but if it is applied to two integers, it truncates the answer and returns an integer.
+\end{enumerate}
+
+The most commonly used types in C/C++ are introduced in Table~\ref{tab:types}.
+
+There are several commonly used forms a of variable declaration:\\
+\cf{
+int x;\\
+int v1, v2, v3;\\
+int v = 7;\\
+}
+The first example simply declares a single variable called \cf{x}.  The second example is a multiple declaration that declares three variables, all of type \cf{int}, named \cf{v1}, \cf{v2}, and \cf{v3}.  Any number of variables can be declared in one line as long as they all have the same type.  The third example declares a variable named \cf{v} and assigns it the initial value 7.  It's often a good idea to assign variables an initial value, otherwise the variable's value is undefined, which may cause errors if an attempt is made to use the variable's value without setting it somewhere else in the program.\footnote{Many languages require all variables to be assigned an initial value, assign variables a default initial value such as zero, or check that a variable has been assigned a value before the variable can be used.  C++ does none of these things, instead leaving it up to the programmer to make sure that variables are assigned reasonable values before they are used.}
+
+
+\begin{table}
+\centering
+\caption{Common Variable Types in C++.  Note that the actual number of bytes used to store a variable, and hence the allowed range of the variable, may vary from system to system.}
+\begin{tabular}{|  p{1.5cm}  | p{2.5cm} | l |p{2.5cm}| p{6.5cm}|}
+\hline
+\textbf{Type} & \textbf{Name} & \textbf{Size(bytes)} & \textbf{Range} & \textbf{Description} \\
+\hline
+\codefont{int} & Integer & 4&  -2147483648 to 2147483647  & Variable holding an integer number; a positive or negative number without a decimal. \\
+\hline
+\codefont{short int} (or \codefont{short}) & Short integer & 2&  -32768 to 32767  & Variable holding a short integer number; a positive or negative number without a decimal. \\
+\hline
+\codefont{long int} (\codefont{long}) & Long integer & 4 &   -2147483648 to 2147483647  & Often the same as an integer; may be larger, for example, on a 64-bit machine. \\
+\hline
+\codefont{float} & Floating point & 4 & $\pm3.4e^{\pm38}$ ($\sim$7 digits of precision) &  Variable holding a positive or negative real number.  Floating-point numbers are stored using an exponent, which allows the decimal place to ``float.'' \\
+\hline
+\codefont{double} & Double-precision floating point & 8 & $\pm1.7e^{\pm308}$ ($\sim$15 digits of precision) &  Often the same as a \cf{float}, but may use 16 bytes. \\
+\hline
+\codefont{long double} & Long double-precision floating point & 8 & $\pm1.7e^{\pm308}$ ($\sim$15 digits of precision) &  Often the same as a \cf{double}; may be larger depending on the machine it's running on. \\
+\hline
+\codefont{char} & Character & 1 & 0 to 255 &  Stores a single character (`a', `b', `4', `\$', `+', etc.). \\
+\hline
+\codefont{unsigned} & Unsigned number & Varies & Varies & The modifier \cf{unsigned} can be applied to \cf{int}s (including long and short \cf{int}s).  It makes the number unsigned (always positive) and doubles the maximum range of the variable.  For example, an unsigned \codefont{int} has a range of 0 to 4294967295.\\
+\hline
+\end{tabular}\label{tab:types}
+\end{table}
+
+\subsection{Naming Variables}
+
+Variables should be given names that make it easier to read the program.  For example, variable names from the first two projects include: \cf{lucky} for the user's lucky number, \cf{favorite} for the user's favorite integer, and \cf{num\_objects} for the number of objects remaining in the game of NIM.  
+
+The rules for valid variable names are fairly simple.  Variable names can use letters, underscores (\_), and digits, but cannot start with a digit and must contain at least one letter.   They may not be a reserved word, such as \codefont{if}, \codefont{int}, or \codefont{main}.  Case matters in variable names: \codefont{Lucky} is not the same variable as \codefont{lucky}.  Legal variable names include: \codefont{X}, \codefont{a\_variable}, and \codefont{variable7}, but \emph{not} \codefont{7variable} (starts with a digit), \codefont{\_123} (doesn't contain a letter), or \codefont{do} (a reserved word).  There are a number of conventions for choosing variable names and software companies often enforce the use of a particular convention.  Several  conventions are used in this text to demonstrate the range of variable naming styles.
+
+%Other Appendices:
+
+%\section{I/O: cin, cout, files}
+
+
+\section{Conditionals: \codefont{if, if-else, switch}}\label{appendix:conditionals}
+ % ------------------------------------ conditionals ---------------------------
+
+\emph{Conditionals} are commands that allow a program to take different actions depending on specific conditions.  The most common conditionals in C++ are \codefont{if},  \codefont{if-else}, and \codefont{switch}.
+
+The structure of an \codefont{if} statement is\\
+\codefont{
+if(\emph{condition}) \{\\
+\hspace*{0.5cm}Execute this block of code\\ 
+\hspace*{0.5cm}if the condition is true\\
+\}\\
+Always executed\\
+}
+If the condition in the  \codefont{if} statement is, or evaluates to, zero, it is treated as false; otherwise, it is treated as true.  Thus, the condition can be anything that C++ can interpret as an integer.  However, to make programs readable, the condition should generally be a test of some kind, such as  \codefont{ X $<$ Y}, which is true if \codefont{X} is less than \codefont{Y} and false otherwise.
+
+The structure of an \codefont{if-else} statement is:\\
+\codefont{
+if(\emph{condition}) \{\\
+\hspace*{0.5cm}Execute this block of code 
+\hspace*{0.5cm}if the condition is true\\
+\}\\
+else \{\\
+\hspace*{0.5cm}Execute this block of code otherwise\\
+\}\\
+Always executed\\
+}
+In both conditionals, the curly brackets defining the block after the \codefont{if} and the \codefont{else} may be omitted if only a single command is used after the  \codefont{if} or the \codefont{else}.  For example,\\
+\codefont{
+if(condition)\\
+\hspace*{1cm} Single command to be executed\\
+Always executed\\
+}
+However, it is good programming practice to include the curly braces, even when they are not  necessary.  It makes the code easier to read and avoids potential errors if additional commands are added to the \cf{if} or \cf{else} clause.
+
+% switch ---------------------------------------------------------
+
+The switch statement allows a program to make multiple decisions based on an integer or character value.  The basic structure of a switch statements is:\\
+\codefont{
+switch(\emph{variable} of type int or char)\{\\
+\hspace*{0.5cm}      case 1:\\
+\hspace*{1.0cm}  code block 1\\
+\hspace*{1.0cm} break;\\
+\hspace*{0.5cm}   case 2:\\
+\hspace*{1.0cm}  code block 2\\
+\hspace*{1.0cm}   break;\\
+\hspace*{0.5cm}    ...\\
+\hspace*{0.5cm}    default:\\
+\hspace*{1.0cm}  code block N\\
+\hspace*{1.0cm}   break;\\
+\}\\
+}
+The program examines the value stored in the \codefont{variable} and jumps to the matching case.  For example, if the \codefont{variable} has the value 2, then the program jumps to case 2.  If none of the cases match, then the program jumps to the default case.  (A default case is not required; if one is missing and the \codefont{variable} value doesn't match any other case, the \codefont{switch} is simply skipped.)  Once the program reaches a case, it continues to execute instructions sequentially, including later cases.  Thus, the \codefont{break} statement is included, which causes the program to jump to the end of the switch statement instead of continuing to the other cases.
+
+Generally the \cf{variable} is an integer, as shown in the example.  Alternatively the \cf{variable} could by a \cf{char} in which case the cases should be labeled with characters in single quotes, such as \cf{case: 'a'}.\footnote{
+The \cf{variable} can be an expression that evaluates to either an integer or a character, in which case the program evaluates the expression and jumps to the case matching the result.  However, this can make for very confusing code.  If an expression is necessary it's better to include it as a separate line of code before the switch statement and store the result of the expression in a variable that's used to control the switch.}  
+
+
+% ---------------- Loops --------------------------------------
+\section{Loops: \codefont{for}, \codefont{while}, \codefont{do-while}}\label{appendix:loops}
+
+\emph{Loops} allow a program to execute the same block of code repeatedly.  Without loops, writing repetitive programs would be extremely tedious (even with cut and paste).  The three common types of loops in C++ are  \codefont{do-while}, \codefont{while}, and \codefont{for}.  
+
+The \cf{do-while} loop is used when the code within the loop should be executed at least once.    The basic structure of a  \cf{do-while} loop is\\
+\codefont{
+do\{\\
+\hspace*{0.5cm} Execute this code the first time and \\
+\hspace*{0.5cm} while the condition is true\\
+\}while(\emph{condition});\\
+Jump to the code here when the condition is false\\
+}
+Because the condition comes at the end of the loop, the code within the loop is executed at least once before the condition is checked.  
+ 
+The basic structure of a  \cf{while} loop is:\\
+\codefont{
+while(condition)\{\\
+\hspace*{0.5cm} Execute this code while the condition is true\\
+\}\\
+Jump to the code here when the condition is false\\
+}
+The condition comes at the beginning of the loop, so if the condition is false the first time it is tested, the statements within the loop won't be executed.
+
+\cf{For} loops are generally used for ``counting'' tasks, doing something $N$ times.  The basic structure of the \cf{for} loop is\\
+\codefont{
+for(statement 1;  \emph{conditional};  statement 32)\{\\
+\hspace*{0.5cm} Execute this code while the condition is true\\
+\}\\
+Jump to the code here when the condition is false\\
+}
+For loops are generally controlled by a \emph{counter} variable that is used to determine how many times the loop will be executed.
+\codefont{Statement 1} is the \emph{initializer}, it is executed when the loop begins and is used to initialize the counter variable for the loop.  The \codefont{condition} is checked at the beginning of each loop, if it is true the loop code is run and if its false the loop is exited and the program jumps to the code after the loop. \codefont{Statement 2} is executed at the end of each loop and is used to increment the counter variable.  
+
+The easiest way to understand a \cf{for} loop is by example.  For example, a \cf{for} loop to print the numbers from 1 to 100 is:\\
+\codefont{
+for(int i = 1 ;  i <= 100 ;  i++)\{\\
+\hspace*{1cm}     cout << i << endl;\\
+\}\\
+}
+The first statement creates a new integer and sets it equal to 1, the second statement (the conditional) checks whether the counter has reached 100, and the third statement increments the counter.
+ 
+As is usual in C++, the curly brackets defining the block after a loop statement can be omitted if only a single statement is used in the body of the loop.  
+
+%\pagebreak
+%---------------------- operations ------------------------------------
+\section{Mathematical Operators}\label{appendix:operators}
+
+Mathematical operators are simply used to perform calculations within a program.
+Table~\ref{tab:operators} presents the common C++ mathematical operators.  C++ uses the standard rules for order of operation and precedence when evaluating complex expressions.  For example, multiplication and division are applied before addition and subtraction, and addition and subtraction are applied from left to right.  However, there are several reasons why it is a good idea to use parentheses in complex mathematical expressions.   First, many of the operators available in C++ are unusual (\codefont{++}, \codefont{\%}, \codefont{+=}, etc.) and their order of operation is not immediately clear.  Using parentheses guarantees that expressions are evaluated in the desired order.  Second, well-placed parentheses, and spacing, make complex expressions easier to read and understand.
+
+In mathematical expressions with variables or literals of different types C++ will often automatically convert compatible numeric types.  Generally, C++ will convert lower precision types (e.g., \cf{int}) in to higher precision types (e.g., \cf{double}).   This is known as \emph{implicit conversion}, \emph{implicit casting}, or \emph{promotion}.  For example, the expression \codefont{9.0/5} will return the value 1.8 - the integer 5 has been promoted to a \codefont{double} to match the type of the 9.0.  
+
+The programmer can also force C++ to \emph{temporarily} convert a type for a single operation.  For example,\\
+\cf{
+int x = 7;\\
+cout << double(x)/14;\\
+}
+will print 0.5 because the \cf{x} is temporarily treated as a \cf{double}.  An equivlelent 
+
+Caution has to be used when using implicit conversion.   The expression \codefont{9/5} will return the value 1 - both values are integers so no conversion takes place and the answer is \emph{truncated} to return an integer.  More subtly the expression \cf{1.5 * (5/9)} will return the value 0 because the operation \cf{(5/9)} is performed first and it returns 0 (no conversion is done because 5 and 9 are both integers).  Thus, it's a good idea to use explicit conversion
+
+\begin{table}
+\centering
+\caption{Common C++ Mathematical Operators.}
+\begin{tabular}{|  c  | c |  p{7cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\textbf{Operation} &  \textbf{Symbol} & \textbf{Description} \\
+\hline
+Addition &  \codefont{+} & Addition  \\
+\hline
+Subtraction & \codefont{-} & Subtraction \\
+\hline
+Multiplication & \codefont{*} & Multiplication \\
+\hline
+Division & \codefont{/} & Division; division of two integers results in an integer, the decimal is truncated \\
+\hline 
+Modulus & \codefont{\%} & Performs division and returns the remainder\\
+\hline
+Increment & \codefont{++} & Increments a variable by 1; note that \codefont{x++} and \codefont{++x} have different orders of operation in compound expressions.\\
+\hline
+Decrement & \codefont{--} & Decrements a variable by 1; note that \codefont{x--} and \codefont{--x} have different orders of operation in compound expressions.\\
+\hline
+Addition assignment & \codefont{+=} & Increases a variable by the given amount; e.g., \codefont{x += 7} increases \codefont{x} by $7$. \\
+\hline
+Subtraction assignment & \codefont{-=} & Decreases a variable by the given amount; e.g., \codefont{x -= 7} decreases \codefont{x} by $7$. \\
+\hline
+Multiplication assignment & \codefont{*=} & Multiplies a variable by the given amount; e.g., \codefont{x *= 7} increases \codefont{x} by a factor of $7$ and stores the result in \codefont{x}. \\
+\hline
+Division assignment & \codefont{/=} & Divides a variable by the given amount; e.g., \codefont{x /= 7} divides \codefont{x} by $7$ and stores the result  in \codefont{x}. \\
+\hline
+Modulus assignment & \codefont{\%=} & Divides a variable by the given amount and takes the remainder; e.g., \codefont{x \%= 7} divides \codefont{x} by $7$ and stores the \emph{remainder} in \codefont{x}. \\
+\hline
+
+\end{tabular}\label{tab:operators}
+\end{table}
+
+
+
+%------------------------ Boolean ---------------------------------------
+\section{Comparison and Boolean Operators}\label{appendix:Boolean}
+
+Comparison and Boolean operators are used to compare values and to construct logical expressions.  They are almost always used to define the conditions in conditional statements and loops.
+Table~\ref{tab:BooleanOperators} lists the common comparison and Boolean operators used in C++.  Boolean operators always return a 1 representing \codefont{true} or a 0 representing \codefont{false}.  Thus, a comparison such as \codefont{$7 < 9$} has the value 1, which is treated as true in conditionals.  So,\\
+\codefont{cout << 7 < 9 << "\textbackslash n";}\\ would print the value 1 (not \cf{true}), but \codefont{$7 < 9$} is treated as true in Boolean operations.
+ 
+Similarly, a comparison such as \codefont{$9 < 7$} has the value 0, which is treated as false in conditionals, and the statement
+\codefont{cout << 9 < 7 << "\textbackslash n";} would print 0.  
+More generally, any nonzero value is treated as \codefont{true} and a zero value is treated as \codefont{false} within conditionals.  Thus, a statement such as \codefont{if(6)} is treated as \codefont{if(true)} because 6 is not zero; and \codefont{if(6 - 3*2)} is treated as \codefont{if(false)} because \codefont{6 - 3*2} is zero.
+
+\begin{table}
+\centering
+\caption{Common C++ Comparisons and Boolean Operators.}
+\begin{tabular}{|  c  | c |  p{7cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\textbf{Operation} &  \textbf{Symbol} & \textbf{Description} \\
+\hline
+Less than & $<$ & Is true if the left operand is less than the right operand\\
+\hline
+Greater than & $>$ & Is true if the left operand is greater than the right operand \\
+\hline
+Less than or equal  & $<=$ & Is true if the left operand is less than or equal to the right operand\\
+\hline 
+Greater or equal  & $>=$ & Is true if the left operand is greater than or equal to the right operand \\
+\hline
+Equal  & == & Is true if both operands are equal \\
+\hline
+Not equal & != & Is true if the operands are not equal \\
+\hline
+AND & \&\& & Boolean AND; is true only if both operands are true \\
+\hline 
+OR & $||$ & Boolean OR; is true if either operand is true \\
+\hline 
+NOT & ! & Boolean NOT; is true if the operand is false \\
+\hline
+\end{tabular}\label{tab:BooleanOperators}
+\end{table}
+
+There are a few common mistakes to avoid when using these operators.  First, in addition to the Boolean operators \&\& and $||$ C++ has operators \& and $|$.  The \& and $|$  operators perform \emph{binary} AND and OR operations, which are very different from the \emph{Boolean} operations.  If a compound conditional is not behaving as expected check that it has \&\& or $||$ and not  \& or $|$.  
+
+A similar, common, mistake is to use a single equals sign $=$ instead of a double equals sign $==$ in a condition.  The double equal sign compares two values and returns \emph{true} (1) if they are the same and \emph{false} (0) if they are different.  The single equal sign is an assignment.  Thus, the (incorrect) statement:\\
+\cf{
+if(x = 7)\{\\
+\hspace*{0.5cm}Execute this block of code if true\\
+\}\\
+}
+\emph{assigns} \cf{x} the value 7 and always executes the code within the \cf{if} (because \cf{x = 7} has the value 7, which is treated as true). 
+
+%\section{ASCII Characters}
+
+
+\section{The \cf{String} Class}\label{appendix:string}
+
+The \cf{string} class defines \cf{string} objects, which are used to store strings of characters.  Strings are useful for storing names, addresses, and other pieces of text longer than a single character.
+Table~\ref{tab:strings} lists some of the more useful functions that are defined as part of the \cf{string} class.  Keep in mind that a \cf{string} object is different from a C-style string (see Interlude 5), but that the member function \codefont{c\_str()} can be used to return a C-style string from a \cf{string} object.
+
+\begin{table}
+\centering
+\caption{Useful Functions Related to the \cf{string} Class.}
+\begin{tabular}{|  c|  c| p{6.5cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\multicolumn{3}{|c|}{The examples use the following definitions: } \\
+\multicolumn{3}{|c|}{\codefont{char c\_str[]}} \\
+\multicolumn{3}{|c|}{\codefont{string str1, str2}} \\
+\multicolumn{3}{|c|}{\codefont{int N}} \\
+\hline
+\textbf{Operation} &  \textbf{Example} & \textbf{Description} \\
+\hline
+\codefont{=} & \codefont{str1 = "some characters";} & Assigns a string of characters to a \cf{string} object.\\
+\hline
+\codefont{c\_str()} & \codefont{str1.c\_str()} & Returns the string of characters as a C-style string. \\
+\hline
+\codefont{length()} & \codefont{str1.length()} & Returns the length of the string. \\
+\hline
+\codefont{size()} & \codefont{str1.size()} & Returns the length of the string. \\
+\hline
+\codefont{empty()} & \codefont{str1.empty()} & Returns true if the string is empty (length is 0); otherwise, it returns false. \\
+\hline
+\codefont{[int]} & \codefont{str1[N]} & Returns the character at location \codefont{N} in the string.  The first position in the string is 0, not 1.\\
+\hline
+\codefont{at(int)} & \codefont{str1.at(N)} & Returns the character at location \codefont{N} in the string.  The first position in the string is 0, not 1. Unlike the \codefont([]) operator, \codefont{at()} performs bounds checking and will return an error if out of bounds.\\
+\hline
+\codefont{find(string)} & \codefont{str1.find(str2)} & Returns the location of \cf{str2} in \cf{str1}. \\
+\hline
+\codefont{+=} & \codefont{str1+= str2} & Appends \codefont{str2} onto \codefont{str1}. \\
+\hline
+\codefont{+} & \codefont{str1 = str2 + " " + str3} & Concatenates \codefont{str3} onto \codefont{str2} and stores the result in \cf{str1}. \\
+\hline
+\codefont{getline(istream,string)} & \codefont{getline(cin,str1)} & Gets a string of characters (including spaces and tabs) up to a new line character from the given input stream (\codefont{cin} in the example) and stores them in the given string object (\codefont{str1} in the example). \\
+\hline
+\codefont{==, !=, $<$,  } & \codefont{str1 == str2} & Boolean operators that compare two strings lexigraphically. \\
+\codefont{$<=$, $>$, $>=$} &&\\
+\hline
+\end{tabular}\label{tab:strings}
+\end{table}
+% --------------------------------------------------------------------------
+
+\section{\cf{iostream} Operations}\label{appendix:iostream}
+
+The iostream library defines classes, objects, and functions related to input and output.  
+Table~\ref{tab:iostream} lists some of the functions that can be applied to \cf{iostream} objects.  Most of these can be applied to either to \codefont{cin} or to an input file or to \codefont{cout} or an output file.
+
+
+\begin{table}
+\centering
+\caption{Useful Functions of the \cf{iostream} and \cf{fstream} classes.  Most, but not all, of these functions can be applied to \codefont{cin} or an input file or \codefont{cout} or an output file.  Many of them have variants to control the number of characters read, format of output, delimiting characters, etc.}
+\begin{tabular}{|  c| p{5cm} | p{8.0cm} |}
+\hline
+%\bold{Command} & \bold{Full Name} & \bold{Description} \\
+\multicolumn{3}{|c|}{The examples use the following definitions: } \\
+\multicolumn{3}{|c|}{\codefont{char char\_str[]} // a c\_style array of characters}\\
+\multicolumn{3}{|c|}{\codefont{string str}  // a string object}\\
+\multicolumn{3}{|c|}{\codefont{ifstream infile} } \\
+\multicolumn{3}{|c|}{\codefont{ofstream outfile} } \\
+\multicolumn{3}{|c|}{\codefont{int N} } \\
+\hline
+\textbf{Operation} &  \textbf{Examples} & \textbf{Description} \\
+\hline
+\codefont{open()} & \codefont{infile.open(char\_str) \newline outfile.open(char\_str) infile.open(str.c\_str()) \newline outfile.open(str.c\_str())} & Opens a file stream (input or output) with the given name.  Note that the argument must be C-style array of characters (\codefont{char [] or char *}).  Not used with \codefont{cin} or \codefont{cout}.\\
+\hline
+\codefont{close()} & \codefont{infile.close() \newline outfile.close()} & Closes a file stream (input or output).  Not used with \codefont{cin} or \codefont{cout}.\\
+\hline
+\codefont{$>>$} & \codefont{infile $>>$ str \newline cin $>>$ str} & Gets a string of characters (up to the first whitespace character) from the input stream.  The string object \codefont{str} can be replaced with other standard types (\cf{int}, \cf{char}, \cf{double}, etc.).\\
+\hline
+\codefont{$<<$}  & \codefont{outfile $<<$ str \newline cout $<<$ str} & Sends the string of characters from the given \cf{string} object to the output stream. The string object \codefont{str} can be replaced with  other standard types (\cf{int}, \cf{char}, \cf{double}, etc.).\\
+\hline
+\codefont{get()} & { \codefont{infile.get() \newline cin.get()} }&Gets and returns a character from the input stream.  Variants allow the programmer to store the character, get multiple characters, get characters up to a delimiter, etc.\\
+\hline
+\codefont{ignore()} & \codefont{infile.ignore() \newline cin.ignore()} & Reads and discards the next character from the input stream.  Variants allow the programmer to ignore up to $N$ characters and/or characters up to a specific character. \\
+\hline
+\codefont{getline()} & \codefont{infile.getline(char\_str,N) \newline cin.getline(char\_str,N)} & Reads characters from the input stream, up to \codefont{N-1} characters or a new line character, whichever comes first, and stores them in a C-style array of characters.  Variants allow the programmer to specify the delimiting character.\\
+\hline
+\codefont{eof()} & \codefont{infile.eof()} & Returns true if the input stream's end of file bit has been set and false otherwise.  Only regularly used with files.\\
+\hline
+\codefont{peek()} & \codefont{infile.peek() \newline cin.peek()} & Returns the next character without removing it from the input stream. \\
+\hline
+\end{tabular}\label{tab:iostream}
+\end{table}
+
+% --------------------------------------------------------------------------
+
+\section{Libraries}\label{appendix:libraries}
+
+Many useful libraries have been created to extend C++.  If you are starting a project that will require lots of specialized code, for example, complex mathematical functions, the ability to manipulate vectors, or complex data structures, it's a good idea to see if an appropriate library already exists.  It's rare that a library will contain code to do exactly what you want your program to do, but there are often libraries that will provide the basic code for your program, making it much easier to write.
+
+Table~\ref{tab:libraries} lists some of the more useful and commonly used libraries.  Many, but not all, of these are used in the text.  More information on the functions defined within these libraries can be found on-line.
+
+\begin{table}
+\centering
+\caption{Some Useful Libraries.}
+\begin{tabular}{|  c| p{11.0cm} |}
+
+\hline
+\textbf{Library} &  \textbf{Description} \\
+\hline
+\cf{cstdlib} & Contains many general purpose-functions: conversion from C-style strings to numbers, generation of random numbers, and dynamic memory management.\\
+\hline
+\cf{cmath} & Contains useful mathematical functions: trigonometric, hyperbolic, exponential, rounding, etc.\\
+\hline
+\cf{ctime} & Contains useful functions relating to time: get the current time, calculate the difference between times, convert times to strings, etc.\\
+\hline
+\cf{cstring} & Contains useful functions for manipulating C-style strings: concatenate strings, compare strings, search strings, etc.\\
+\hline
+\cf{fstream} & Defines the \cf{fstream} classes (file stream) used in C++. \\ 
+\hline
+\cf{iostream} & Defines the \cf{iostream} classes used in C++. \\ 
+\hline
+\cf{string} & Defines the \cf{string} class for C++. \\ 
+\hline
+\cf{iomanip} & Defines stream manipulators used in C++.  These are used for formatting output to streams, setting width, precision, scientific notation, etc. \\ 
+\hline
+%standard template library &  
+%\hline
+\end{tabular}\label{tab:libraries}
+\end{table}
+

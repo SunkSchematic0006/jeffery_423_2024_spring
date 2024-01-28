@@ -1,0 +1,60 @@
+%***** Appendix 2 *****************
+\chapter{Structures}\label{appendix:structures}
+
+Because C does not support classes, any program that depends on or uses classes cannot be a C program.   Thus, the \codefont{pet} class used in the Electronic Pet (Chapter~\ref{ch:pet}) project and the  \codefont{square} class used in the Generic Board Game project (Chapter~\ref{ch:boardgame}) cannot be created or used in C.  
+
+Instead of classes C has a precursor to classes known as a \emph{structure}\index{structure} that is defined using the keyword \codefont{struct}\index{struct}.  C structures allow a programmer to group multiple data types into one compound data type. 
+
+The basic format of a structure definition is:\\
+\cf{
+struct fraction\{\\
+\hspace*{0.5cm} int numerator;\\
+\hspace*{0.5cm} int denominator;\\
+\}; \\}
+This creates a new, compound type called \cf{struct fraction} that contains two \cf{ints}.
+
+However, programmers find using the name \cf{struct fraction} awkward and so most structure definitions are actually written like:\\
+\cf{
+\textcolor{\mycolor}{typedef} struct fraction\{\\
+\hspace*{0.5cm} int numerator;\\
+\hspace*{0.5cm} int denominator;\\
+\} \textcolor{\mycolor}{fraction}; \\}
+Note the keyword \cf{typedef} at the beginning and the extra \cf{fraction} at the end of the structure declaration.  This redefines the type \cf{struct fraction} with the new name \cf{fraction}.\footnote{The \cf{typedef} command can be used to rename any type, for example \cf{typedef int bob;} renames the type \cf{int} as \cf{bob}.  However, there are only a few places that \cf{typedef} is frequently used, dropping the \cf{struct} from structure names is one of them.}
+
+Now there is a \cf{fraction} type:\\
+\cf{fraction f1, x, my\_fraction;}\\
+declares three new variables of type \cf{fraction}.
+
+Each of these new variables is a compound variable containing two integers.  To access the data the \emph{dot notation} is used.  For example, the commands:\\
+\cf{f1.numerator = 1;\\
+f1.denominator = 2;\\
+}
+makes the variable \cf{f1} effectively store the number 1/2.  
+
+Similarly, printing a structure requires printing each piece of data explicitly.  for example the command: \\
+\cf{
+cout $<<$ f1.numerator $<<$ "/" $<<$ f1.denominator;
+}\\
+will print \emph{1/2}.
+
+
+Functions can be written that both accept structures as arguments and return structures.  For example:\\
+\codefont{fraction add(fraction, fraction)}\\
+Defines a function called \cf{add()} that takes two \cf{fraction} structures as arguments and returns a \cf{fraction} structure.  Presumably, the function adds the two fractions together, but that is determined by how the function is coded.
+
+Like most programming constructs, structures can be nested, can contain other data types, and can contain a mixture of types.  For example, in program for a fantasy game the programmer might create a structure for holding data about a player's character:\\
+\cf{
+typedef struct character\{\\
+\hspace*{0.5cm} char[100] name;  \hspace*{1.3cm}  // character's name\\
+\hspace*{0.5cm} int maxhealth;     \hspace*{1.4cm}  // maximum health\\
+\hspace*{0.5cm} int currenthealth; \hspace*{0.55cm}  // current health\\
+\hspace*{0.5cm} weapon currentweapon;\hspace*{0.1cm} // another structure holding weapon information\\
+\hspace*{0.5cm} float armorvalue; \hspace*{0.85cm}// current armor value \\
+\} character;\\
+}
+Now all of the information about a player's character can be stored in one variable.
+
+Careful use of structures can greatly simplify a complex program by grouping data together.  For example, if you find yourself creating multiple functions that all have the same long parameter list it's may be a good idea to create a single structure to hold all of the data.  Then the functions can be rewritten to have one a single parameter whose type is the new structure. 
+
+
+

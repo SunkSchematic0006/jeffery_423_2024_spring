@@ -1,0 +1,36 @@
+CC=gcc
+CFLAGS=-c -g -Wall
+OBJ=vgo.o lex.yy.o go.tab.o yyerror.o
+
+vgo: $(OBJ)
+	$(CC) -o vgo $(OBJ)
+
+vgo.o: vgo.c
+	$(CC) $(CFLAGS) vgo.c
+
+lex.yy.o: lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+lex.yy.c: go.l go.tab.h
+	flex go.l
+
+go.tab.o: go.tab.c
+	$(CC) $(CFLAGS) go.tab.c
+
+go.tab.c: go.y
+	bison go.y
+
+go.tab.h: go.y
+	bison -d go.y
+
+yyerror.o: yyerror.c
+	$(CC) $(CFLAGS) yyerror.c
+
+hellollvm: hello.ll
+	llvm-as hello.ll
+	llc hello.bc
+	as hello.s -o hello.o
+	gcc hello.o -o hellollvm
+
+foo2:
+	sed -i 's/the/this/g' foo

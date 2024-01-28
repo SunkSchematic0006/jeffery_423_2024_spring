@@ -1,0 +1,223 @@
+#
+# final-tac.icn - Final Code Generation (TAC-C) Demo
+#
+# This is just a pseudocode DEMO. It runs on a hardwired example sequence
+# of three address code, generating TAC-C code from it.
+#
+$define WORDSIZE 4
+
+
+global
+   opcodeset,	# set of defined instructions
+   pseudoset,	# set of defined pseudo-instructions
+   curproc,	# string name of current function for whom code is being gened
+   lfbcount,	# count of what function we are, not sure why at 7??
+   nlocals,	# number of locals in current function, hard-wired at present
+   activation_record_bytes
+
+#
+# main procedure opens files, constructs list of intermediate code
+#
+procedure main(args)
+   if args[1] == "-o" then fout := open(args[2],"w")
+   else fout := &output
+   lfbcount := 0
+   curproc := "undefined"
+   nlocals := 6
+
+   in := genTAC()
+   write("intermediate code\n-----------------")
+   every i := !in do i.print()
+
+   write(repl("-----------------",4))
+
+   write("final code\n----------")
+   final(in, fout)
+   write("...done")
+   if fout ~=== &output then close(fout)
+end
+
+#
+# This list of tac (three-address-code) objects is hardwired at present.
+# The three address code here is for a fibonacci function.
+# In future this should be generalized to be able to read from a file.
+#
+procedure genTAC()
+   return [
+	 tac("proc", "fib", WORDSIZE, 24),
+	 tac("LEQ", addr("LOCAL",0), addr("PARAM",0), 1 ),
+	 tac("BIF", addr("LOCAL",0), addr("LABEL", 0)),
+	 tac("GOTO", addr("LABEL", 1)),
+	 tac("label", addr("LABEL", 0)),
+	 tac("RET", 1),
+	 # normally there would be a goto at the end of the then-part;
+	 # it might be optimized away by a then-part that unconditionally
+	 # returns
+	 # tac("GOTO", addr("LABEL", 2)),
+	 tac("label", addr("LABEL", 1)),
+	 tac("SUB", addr("LOCAL",1), addr("PARAM",0), 1),
+	 tac("PARM", addr("LOCAL",1)),
+	 tac("CALL", "fib", 1, addr("LOCAL", 2)),
+	 tac("SUB", addr("LOCAL",3), addr("PARAM",0), 2),
+	 tac("PARM", addr("LOCAL",3)),
+	 tac("CALL", "fib", 1, addr("LOCAL", 4)),
+	 tac("ADD", addr("LOCAL",5), addr("LOCAL", 2), addr("LOCAL", 4)),
+	 tac("RET", addr("LOCAL",5)),
+	 tac("end")
+	 ]
+end
+
+#
+# Addresses in three address code are region+offset pairs.
+# This class can render these in GNU assembler syntax when needed.
+#
+class addr(region,offset)
+   method memref()
+      case region of {
+	 "CONST": return offset
+	 "LOCAL":{
+		 return "*(int *)(loc+" || ((offset+1)*WORDSIZE) || ")"
+	 }
+	 "LABEL": return "L" || offset
+	 ""     : return offset
+	 "PARAM": {
+	    return "*(int *)(par+"||(offset*WORDSIZE)||")"
+	    }
+	 default: stop("need memory reference for ", string())
+	}
+    end
+    method string()
+	return ((\region || ":")|"") || (\offset|"")
+    end
+initially
+    if /offset then {
+	if type(region) == "integer" then {
+	    offset := region
+	    region := "CONST"
+	}
+	else if type(region) == "string" then {
+	    offset := region
+	    region := ""
+	}
+    }
+end
+
+#
+# The main class for a three-address code instruction
+# Can print itself for debugging purposes; otherwise
+# just a struct with a sanity-checked constructor.
+#
+class tac(opcode, addr1, addr2, addr3)
+
+    method print()
+	if member(opcodeset, opcode) then writes("\t")
+	writes(opcode, "\t")
+	if writes((\addr1).string()) then {
+	    
+	    if s2 := (\addr2).string() then {
+		if *s2 > 0 then writes(", ", s2)
+		s3 := (\addr3).string()
+		if *\s3 > 0 then writes(", ", s3)
+	    }
+	}
+	write()
+    end
+initially
+    /opcodeset := set(["ADD","SUB","MUL","DIV","NEG","ASN","ADDR",
+		       "LCONT","SCONT",
+		       "GOTO","BLESS","BLEQ","BGREAT","BGREQ","BEQ","BNEQ",
+		       "LEQ",
+		       "BIF","BNIF","PARM","CALL","RET"])
+    /pseudoset := set(["global", "proc", "local", "label", "end"])
+    if (not member(opcodeset, opcode)) & (not member(pseudoset,opcode)) then
+	stop("bad opcode ", image(opcode))
+
+    if type(\ addr1) ~== "addr__state" then addr1 := addr(addr1)
+    if type(\ addr2) ~== "addr__state" then addr2 := addr(addr2)
+    if type(\ addr3) ~== "addr__state" then addr3 := addr(addr3)
+end
+
+procedure final(L, f)
+local nparms
+   /f := &output
+   nparms := 0
+   write(f, "/*\t\"tacdemo.c\" */")
+
+   while ic := pop(L) do {
+      case ic.opcode of {
+	 "ADD": {
+	    write(f,"\t",ic.addr1.memref()," = ", ic.addr2.memref(), " + ",
+		  ic.addr3.memref(), ";")
+	    }
+	 "SUB": {
+	    write(f,"\t",ic.addr1.memref()," = ", ic.addr2.memref(), " - ",
+		  ic.addr3.memref(), ";")
+	    }
+	 "PARM": {
+	    write(f,"\t*(int *)(loc+parbase+",(nparms*WORDSIZE),") = ",
+		  ic.addr1.memref(), ";")
+	    nparms +:= 1
+	    }
+	 "CALL": {
+	    write(f,"\t", ic.addr3.memref(), " = ",ic.addr1.memref(), "(loc+parbase);")
+	    nparms := 0
+	    }
+	 "BIF": {
+	    write(f,"\tif ( ", ic.addr1.memref(), " ) goto ", ic.addr2.memref(), ";")
+	    }
+	 "GOTO": {
+	    write(f,"\tgoto\t", ic.addr1.memref(), ";")
+	    }
+	 "LEQ": {
+	    write(f,"\t", ic.addr1.memref(), " = (",
+		  ic.addr2.memref()," <= ", ic.addr3.memref(), ");")
+	    }
+	 "RET": {
+	    # if there is a return value store it to %rax
+	    if \ ic.addr1 then {
+	       write(f,"\treturn\t", ic.addr1.memref(),";")
+	       }
+	    else
+		write(f,"\treturn;")
+	    }
+	 "proc": {
+	    write("out of curiosity, let's rifle through L")
+	    maxparmbytes := 0
+	    thiscallparmbytes := 0
+	    every i := 1 to *L do {
+		foo := L[i]
+		if foo.opcode == "end" then break
+		write("...",foo.opcode)
+		if foo.opcode == "PARM" then thiscallparmbytes +:= WORDSIZE
+		if foo.opcode == "CALL" then {
+		    maxparmbytes <:= thiscallparmbytes
+		    thiscallparmbytes := 0
+		}
+	    }
+	    write("maxparmbytes is ", maxparmbytes)
+
+	    curproc := ic.addr1.offset
+	    write(f,"int ", curproc, "(char par[",ic.addr2.offset,"]){")
+	    activation_record_bytes := ic.addr2.offset+ic.addr3.offset
+	    write(f,"\tchar loc[", activation_record_bytes + maxparmbytes,
+		  "]; int parbase = ",activation_record_bytes,";")
+
+
+
+	    }
+	 "label": {
+	    write(f,ic.addr1.memref(),":")
+	    }
+	 "end": {
+	    write(f,"}")
+	    lfbcount +:= 1
+	    }
+	 default: {
+	    writes("UNIMPLEMENTED ")
+	    ic.print()
+	    stop()
+	    }
+	}
+   }
+   write(f, "\t/*\t\"final-tac 0.1\" */")
+end

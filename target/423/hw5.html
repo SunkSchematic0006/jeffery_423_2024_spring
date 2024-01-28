@@ -1,0 +1,67 @@
+<h3> CS 423 HW#5 </h3>
+
+Due: Monday April 3 11:59pm
+<p>
+
+Perform the rest of semantic analysis for PunY.  This shall consist
+of the following items. Please turnin via Canvas an electronic copy of your
+whole project in a .zip. Please create your .zip file in such a way that it
+unpacks into the current directory, rather than a subdirectory.
+<p>
+
+Note: if you haven't already, add -Wall to your makefile compile rules,
+and for maximum credit, turn in a solution that compiles with no warnings
+when -Wall warnings have been turned on.
+
+
+<dl>
+<dt> Types
+<dd> Support the PunY base types.
+     Support lists, dicts, classes* and methods*,
+     including PunY's strings class.
+
+<dt> Type Checking
+<dd> Check types everywhere at compile-time.
+<ul>
+<li>    Allow the type Any, but when type declarations are present:
+<Li>    Check that method call signatures match method declarations
+<Li>    Check that operators' operands are compatible
+</ul>
+<dt> Operators
+<dd> The semantic rules for operators are all nearly the same as
+     discussed previously. PunY supports
+     the operators =, +, -, *, /, subscript ([ ]) and dot ( . ), etc.
+     Support the boolean/relational operators &lt, &gt; and, or, not, etc.
+
+<dt> Built-ins
+<dd> You should insert into the symbol tables the names of
+     built-in PunY class library objects and methods.
+
+<dt> Nesting
+<dd> Expressions will generally get combined to form larger expressions.
+     This includes nested calls as parameters to other calls, chains of
+     dot operators for structs, etc.
+</dl>
+
+<p>
+
+Notes:
+<ul>
+<li> your executable should be named "puny"
+
+<!--
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line, treating
+        them as one big program with a shared global name space.
+-->
+<li> write out the name of the source file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+
+</ul>
+

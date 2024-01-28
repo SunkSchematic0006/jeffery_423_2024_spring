@@ -1,0 +1,77 @@
+<h3> CS 445 HW#5 </h3>
+
+Due: Saturday November 26 12:00pm -- noon
+<p>
+
+
+Generate 3-address intermediate code for EctoScript.
+Please turnin cscheckin electronic copy of your whole
+project in a hw5.tar but turnin paper copy only for those modules involved
+in the code generation.
+
+<ul>
+<li> Create abstract data type(s) for lists of 3-address instructions.
+     Define integers for each opcode.  Implement operations to create
+     a new list with one instruction, and list concatenation.
+<li> Define a data type for "memory address". A memory address is a
+     &lt;region,offset&gt; pair, where region is one of GLOBAL, CLASS,
+     PARAMETER, or LOCAL.  Offsets start with 0 in each region.
+<li> Write out "declarations" (pseudocode instructions) for classes and
+     methods.  Globals (functions and and variables) should be placed
+     inside a "class foo", where foo was the base name of the source file.
+<li> For each variable in each symbol table, assign it a memory address.
+     Compute offsets assuming everything requires 4 bytes.
+<li> Compute a synthesized attribute "location" for every expression.
+     Allocate a "temporary variable" out of the LOCAL region for each
+     value computed by an operator or method invocation.
+<li> Compute a synthesized attribute "code" that builds
+     a link list of 3-address instructions, and a memory address
+     for each expression.
+</ul>
+
+Output from this phase should consist of a file containing intermediate
+code instructions.  If the input was foo.as, the output file should be
+named foo.eic ("ectoscript intermediate code").
+
+<p>
+Example:
+<p>
+
+For an input file foo.as containing source code:
+<p>
+<table border>
+<tr><td>
+<pre>
+package {
+void public function main() { trace(String(10+2)); }
+}
+</table>
+<p>
+
+your output should look something like that below.
+
+<pre>
+	add	bp/0,im/10,im/2
+	parm	bp/0
+	call	String,1,bp/1
+	parm	bp/1
+	call	trace,1,bp/2
+</pre>
+
+<h4> Notes </h4>
+<ul>
+<li> your executable should still be named "ec"
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> take in files with .as extensions and write out corresponding
+     intermediate code in files with a .ic (intermediate code) extension.
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return -1,
+     for a syntax error -2, for a semantic error -3, and for no errors,
+     return 0.
+</ul>
+

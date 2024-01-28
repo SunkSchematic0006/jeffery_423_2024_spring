@@ -1,0 +1,125 @@
+<h3> CS 445 HW#2 </h3>
+
+Due: Monday October 6 start of class. Do not print hard copies of
+.tab.c (or lex.yy.c) files.  In addition to a cscheckin of a .tar file
+named hw2.tar, I would like hard copies of your Makefile,
+.y, .l, and other (non-generated) .{h,c,cpp} files.
+<p>
+<pre>
+cscheckin -f hw2.tar -c cs445
+</pre>
+<p>
+
+
+Write or find a C++ grammar that works with Bison and adapt it
+to match the 120++ language.  Potential starting points are:
+<p>
+<ul>
+<li> Ed Willink's <A href="Cxx/CxxGrammar.y">CxxGrammar.y</A> with accompanying
+     <A href="Cxx/CxxLexer.l">CxxLexer.l</A> (1200 LOC, downloaded from
+     <A href="http://www.willink.me.uk/">www.willink.me.uk</A>,
+     license unclear, not recommended), or
+<li> Sandro Sigala's <A href="parser.y">parser.y</A> and
+     <A href="lexer.l">lexer.l</A> (1500 LOC, downloaded from
+     <A href="http://www.sigala.it/sandro/software.php">www.sigala.it/sandro/software.php</A>, license explicitly allows mods and redistribution)
+<li> The 120++ reference implementation mods of Sigala <A href="120pp/120gram.y">120gram.y</A>,
+     <A href="120pp/120lex.l">120lex.l</A>,
+and
+     <A href="120pp/Makefile">Makefile</A>
+     (work in progress, with help from you-all).
+</ul>
+
+Note that of these two, I have only tried Sigala's and believe it to "work",
+as far as it goes, despite its reporting 100 reduce/reduce conflicts and 567
+shift/reduce conflicts. I would normally advice students to ignore/allow
+any number of shift/reduce conflicts, but to not tolerate any reduce/reduce
+conflicts -- they generally require grammar changes such as refactoring
+common sequences within two or more production rules.
+Willink's did not have Bison conflicts but
+is otherwise untested. Whatever grammar/parser you use, you are responsible
+for making it work for 120++ and for any bugs. You may write
+your own grammar if you prefer, although one or both of these correspond
+fairly closely to (an old version of) the standard C++ grammar.  120++ does
+not depend on recent additions to C++.
+
+<p>
+Your parser should include at least the following:
+<ul>
+<li> Rename terminal symbols from your HW#1 or from the .y file you use to be
+compatible.
+<li> Add terminal symbols required by the .y file, possibly adapting missing
+     symbols' regular expressions from their .l file.
+<li> Resolve matters regarding type names and the need to return
+     different terminal symbol codes for "identifier" regular expressions,
+     depending on syntactic context.
+<li> For every production rule in the grammar:
+<ul>
+<li> if the production rule is not legal in 120++, add a
+ <code>semantic_error("C++ operation not supported")</code> and set $$ = NULL.
+<li> if the production rule is legal in 120++ and the right hand side
+     has &gt; 1 children, add a semantic action to
+     construct a construct a tree node and assign $$ to point at it
+<li> if the production rule is legal in 120++ and the right hand side
+     has 0 or 1 children, add a semantic action to set $$ to NULL
+     (0 children) or to the child (if there is 1 child)
+</ul>
+<li> Place a pointer to your token in a yylval field on each call to yylex(),
+     and ensure that those tokens get inserted as leaves into your syntax
+     tree.
+<li> If the parse succeeds, assign the root of the tree to a global variable
+     from the semantic action associated with your start symbol.
+<li> Revise the main() procedure from HW#1 to call yyparse() and use its
+return value and/or global variables to ascertain whether the parse succeeded.
+<li> If the parse succeeded, traverse/print your syntax tree as described below.
+</ul>
+
+<p>
+
+If there is a syntax error, you should report the filename and line number.
+Your program's exit status should be 0
+if there are no errors, and a nonzero number to indicate errors. For
+lexical errors, use the exit status 1. For syntax errors, the exit status
+should be 2.  For "C++ operations not supported in 120++" the exit status
+should be 3.
+<p>
+
+If there are no errors, you should print a text representation of a syntax
+tree.
+<p>
+Suppose we have a tree structure that looks something like:
+
+<pre>
+struct tree {
+   int prodrule;
+   int nkids;
+   struct tree *kids[9];
+   struct token *leaf;
+}
+
+int treeprint(struct tree *t, int depth)
+{
+  int i;
+
+  printf("%*s %s: %d\n", depth*2, " ", humanreadable(t->prodrule), t->nkids);
+  
+  for(i=0; i&lt;t-&gt;nkids; i++)
+    treeprint(t->kids[i], depth+1);
+
+}
+</pre>
+
+you might get output that looks something like
+
+<pre>
+program: 1
+ function: 2
+  function header: 3
+   typedecl: 1
+   functioname: 1
+   parmlist: 3
+    ....
+
+</pre>
+
+For leaves, print out the integer code and the lexeme (yytext[]) for the
+token, if any.

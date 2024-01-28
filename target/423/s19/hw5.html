@@ -1,0 +1,110 @@
+<h3> CS 445 HW#5 </h3>
+
+Due: Sunday November 18 11:59pm
+<p>
+
+
+Generate 3-address intermediate code for g0.  Please turnin via bblearn
+an electronic copy of your whole project in a hw5.zip. You do not need to turn
+in a paper copy.
+
+<ul>
+<li> Create one or more structs for working with lists of 3-address instructions.
+     Define integers for each opcode.  Implement operations to create
+     a new list with one instruction, and list concatenation.
+<li> Include separate instructions/opcodes for each operator, for each
+     operand type combination that it supports.
+<li> Define a data type for "memory address". A memory address is a
+     &lt;region,offset&gt; pair, where region is one of GLOBAL, OBJECT,
+     PARAMETER, or LOCAL.  Offsets start with 0 in each region.
+<li> Write out "declarations" (pseudocode instructions) for functions.
+<li> For each variable in each symbol table, assign it a memory address.
+     Compute offsets assuming ints, pointers, and list/table/object
+     references require 8 bytes.
+<li> Compute a synthesized attribute "location" (or .place)
+     for every expression.
+<li> Allocate a "temporary variable" out of the LOCAL region for each
+     value computed by an operator or function invocation.
+<li> Compute a synthesized attribute "code" that builds
+     a link list of 3-address instructions that compute a value
+     for each expression.
+</ul>
+
+Output from this phase should consist of a file containing intermediate
+code instructions.  It should contain a .string region for string constants,
+a .data region for global variables, and a .code region for instructions.
+If the input was foo.g0, the output file should be
+named foo.ic ("intermediate code").  Output should always be written to
+the current directory, so if the input was /usr/local/temp/foo.g0 the
+output would still just be named foo.ic.
+
+<p>
+Example:
+<p>
+
+For an input file foo.g0 containing source code:
+<p>
+<table border>
+<tr><td>
+<pre>
+int main() { printf("%d\n", 10+2); return 0;}
+</table>
+<p>
+
+your output should look something like that below.
+loc: is the local region
+(offset from base pointer). const: is immediate mode (numeric constants).
+string: is an offset into a string constant region (global, read-only).
+Your output does <b>not</b> need to include the interpretation column,
+just the output column.  "interpretation" here is just my explanation
+to you. However, if your three address code does not look something like this,
+I may require you to hand-annotate it with interpretation so I can read it.
+<p>
+
+<table border>
+<tr><td> output <td> interpretation
+<tr><td>
+<pre>
+.string	4
+	%d\012\000
+.code
+main:
+	addr	loc:0,string:0
+	add	loc:8,const:10,const:2
+	parm	loc:8
+	parm	loc:0
+	call	printf,2,loc:16
+	return	const:0
+</pre>
+<td>
+<pre>
+declare string region 4 bytes
+string data, &lt;= 16 bytes per line, non-printables given as octal escapes
+code region
+procedure pseudo instruction
+store (address of) string region offset 0 in local offset 0
+add immediates 10+2, result in local offset 8 (local 0-7 holds string addr)
+push contents stored at local address offset 8 (parameter 2)
+push contents of local offset 0 (parameter 1)
+call printf, 2 words of parameters, result in local offset 16
+return from main
+</pre>
+</table>
+
+<h4> Notes </h4>
+<ul>
+<li> your executable should still be named g0
+<li> your program should accept and process an arbitrary
+	number of source filenames on the command line
+<li> take in files with .g0 extensions and write out corresponding
+     intermediate code in files with a .ic (intermediate code) extension,
+     using the filename conventions described above.
+<li> write out the name of the file to standard out when you open it
+<li> do NOT write out the tree, or other debugging information, by default;
+     you may add command line options to print that info if you want.
+<li> error messages should be written to <em>standard error</em> not stdout
+<li> if ANY file has a lexical error,
+     your process exit status should return 1,
+     for a syntax error 2, for a semantic error 3, and for no errors,
+     return 0.
+</ul>
