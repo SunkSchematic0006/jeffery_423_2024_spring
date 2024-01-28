@@ -19,4 +19,4 @@ LOCAL_DEST=./jeffery_423_2024_spring/target
 rsync -r "$LOVECRAFT:$TO_COPY" $LOCAL_DEST --delete-excluded --exclude='*~'
 
 git add .
-git commit -m "Update $(date)"
+git commit -m "Update $(date)" || true
