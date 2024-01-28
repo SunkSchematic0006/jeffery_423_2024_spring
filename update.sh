@@ -10,8 +10,8 @@ IFS=$'\n\t'
 
 
 IDENTITY_FILE=~/.ssh/path-to-key
-eval $(ssh-agent) # Create agent and environment variables
-ssh-add $IDENTITY_FILE
+eval $(ssh-agent) > /dev/null # Create agent and environment variables
+ssh-add $IDENTITY_FILE > /dev/null
 
 
 # Lovecraft credentials.
