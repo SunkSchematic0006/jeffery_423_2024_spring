@@ -8,15 +8,23 @@ set -euo pipefail
 IFS=$'\n\t'
 #ensure single-line whitespace is kept
 
+
+IDENTITY_FILE=~/.ssh/path-to-key
+eval $(ssh-agent) # Create agent and environment variables
+ssh-add $IDENTITY_FILE
+
+
 # Lovecraft credentials.
 LOVECRAFT_USERNAME=username
 LOVECRAFT_ADDRESS=login.cs.nmt.edu
 LOVECRAFT="$LOVECRAFT_USERNAME@$LOVECRAFT_ADDRESS"
 
 TO_COPY=/fserv/home/jeffery/html/courses/423
-LOCAL_DEST=./jeffery_423_2024_spring/target
+LOCAL_DIR=.
+LOCAL_DEST=$LOCAL_DIR/target
 
 rsync -r "$LOVECRAFT:$TO_COPY" $LOCAL_DEST --delete-excluded --exclude='*~'
 
 git add .
-git commit -m "Update $(date)" || true
+git commit -m "Update $(date)" > /dev/null || true
+# Ignore errors, send output to /dev/null
