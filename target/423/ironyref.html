@@ -290,36 +290,36 @@ const
 <font color=green> return</font>
 <font color=red> self</font>
 <font color=red> Self</font>
- static
- struct
- super
- trait
- true
- type
- unsafe
- use
- where
- while
-<s> async</s>
-<s> await</s>
-<s> dyn</s>
+<font color=green> static</font>
+<font color=red> struct</font>
+<font color=red> super</font>
+<font color=red> trait</font>
+<font color=green> true</font>
+<font color=red> type</font>
+<font color=red> unsafe</font>
+<font color=red> use</font>
+<font color=red> where</font>
+<font color=green> while</font>
+<font color=red><s> async</s></font>
+<font color=red><s> await</s></font>
+<font color=red><s> dyn</s></font>
 </pre>
 
 <td>
 <pre>
-<s> abstract</s>
-<s> become</s>
-<s> box</s>
-<s> do</s>
-<s> final</s>
-<s> macro</s>
-<s> override</s>
-<s> priv</s>
-<s> typeof</s>
-<s> unsized</s>
-<s> virtual</s>
-<s> yield</s>
-<s>try</s>
+<font color=red><s> abstract</s></font>
+<font color=red><s> become</s></font>
+<font color=red><s> box</s></font>
+<font color=red><s> do</s></font>
+<font color=red><s> final</s></font>
+<font color=red><s> macro</s></font>
+<font color=red><s> override</s></font>
+<font color=red><s> priv</s></font>
+<font color=red><s> typeof</s></font>
+<font color=red><s> unsized</s></font>
+<font color=red><s> virtual</s></font>
+<font color=red><s> yield</s></font>
+<font color=red><s>try</s></font>
 
 
 
@@ -330,10 +330,9 @@ const
 
 <td>
 <pre>
-<s>macro_rules</s>
-<s>union</s>
-<s>static</s>
-<s>dyn</s>
+<font color=red><s>macro_rules</s></font>
+<font color=red><s>union</s></font>
+<font color=red><s>dyn</s></font>
 
 
 
@@ -567,24 +566,6 @@ identifier : type
 fn f(s : &str, age:i64) -> String {
    return format!("{} number {}", s, i);
 }
-</pre>
-
-The rules are: if you assign a value to a variable without a declaration,
-the variable is implicitly declared to be of type Any.  For example you
-can say
-<pre>
-x  = 5
-</pre>
-Since anything can be assigned to variable of type Any, it is fine receiving
-a 5.  Suppose now that you declare a variable of type int, and assign x to it.
-<pre>
-y : int
-y = x
-</pre>
-If the compiler does not know the type of x,
-the generated code for assignment to y must look like
-<pre>
-y = int(x)
 </pre>
 
 
