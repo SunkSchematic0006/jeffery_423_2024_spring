@@ -1400,12 +1400,20 @@ yylex(). See below.
 </dd><dt> Can I add parameters to <code>yylex()</code>?
 </dt><dd> No, you can't add your own parameters, <code>yylex()</code> is a
      public interface.
-     You might be tempted to return a token structure pointer, or
-     add some parameters to tell it what filename it is reading from.
+     You might be tempted to
+    add some parameters to tell it what filename it is reading from, or
+    other such stuff.
      But you can't.  Leave <code>yylex()</code>'s interface alone,
      the parser will call it with its current interface.
-
-</dd>
+    <dt> Can I change yylex()'s return type to return a <code>struct token *</code>?
+      <dd> No, you can't change yylex()'s return type, <code>yylex()</code> is
+	a public interface.
+	You might be tempted to return a token structure pointer. Heck, the
+	Jflex that we use wants yylex() to return a class
+	instance by default.  But this isn't about what you or JFlex wants.
+	It is about what the parser wants. The parser wants an integer
+	category, which it interprets as a <em>Terminal Symbol</em> in
+	its grammar. Give the parser what it wants.
 
 <dt> There are bugs in your <A href="ironyref.html">ironyref.html</A> file
 <dd> Please report issues. Also, think of the specification document as
@@ -1428,88 +1436,7 @@ yylex(). See below.
 
 <dl>
 
-<dt> Are you going to provide us the list of tokens required, or the .h file?
-</dt><dd> I provide a language reference, from which you are to make the
-    list. Actually, in the case of PunY, HW#2 provides a list of tokens
-    from the Python references, but some of it seems vague. By asking the
-    right questions, you may induce me to add details
-    to the language reference that may concretely determine the list of
-    tokens required, pretty much. We may revise the list as-needed for
-    HW#3, since it is really the parser that specifies what terminal symbols
-    the lexer should produce.
-
-<table border>
-<tr><th>Token<th>Meaning/Comment
-<tr><th>ENDMARKER<td> Some grammars expect a token upon seeing EOF!
-<tr><th>NAME<td> identifier
-<tr><th>NUMBER<td> what, python doesn't distinguish reals from integers??!
-      From <A href="https://realpython.com/python-numbers/">realpython</A> we note
-      that numbers can have _ in them, as in 1_000. Leading - seems to be
-      part of the number. Real numbers include
-      scientific notation, like 1e6. Exponent can have + or - after the e or E.
-<tr><th>STRING<td> all kinds ' " and '''
-<tr><th>NEWLINE<td> LOGICAL newline
-<tr><th>INDENT<td> this line's initial whitespace larger than previous line
-<tr><th>DEDENT<td> this line's initial whitespace smaller than previous line
-
-<tr><th>LPAR<td>                    '('
-<tr><th>RPAR<td>                    ')'
-<tr><th>LSQB<td>                    '['
-<tr><th>RSQB<td>                    ']'
-<tr><th>COLON<td>                   ':'
-<tr><th>COMMA<td>                   ','
-<tr><th>SEMI<td>                    ';'
-<tr><th>PLUS<td>                    '+'
-<tr><th>MINUS<td>                   '-'
-<tr><th>STAR<td>                    '*'
-<tr><th>SLASH<td>                   '/'
-<tr><th>VBAR<td>                    '|'
-<tr><th>AMPER<td>                   '&'
-<tr><th>LESS<td>                    '<'
-<tr><th>GREATER<td>                 '>'
-<tr><th>EQUAL<td>                   '='
-<tr><th>DOT<td>                     '.'
-<tr><th>PERCENT<td>                 '%'
-<tr><th>LBRACE<td>                  '{'
-<tr><th>RBRACE<td>                  '}'
-<tr><th>EQEQUAL<td>                 '=='
-<tr><th>NOTEQUAL<td>                '!='
-<tr><th>LESSEQUAL<td>               '<='
-<tr><th>GREATEREQUAL<td>            '>='
-<tr><th>TILDE<td>                   '~'
-<tr><th>CIRCUMFLEX<td>              '^'
-<tr><th>LEFTSHIFT<td>               '<<'
-<tr><th>RIGHTSHIFT<td>              '>>'
-<tr><th>DOUBLESTAR<td>              '**'
-<tr><th>PLUSEQUAL<td>               '+='
-<tr><th>MINEQUAL<td>                '-='
-<tr><th>STAREQUAL<td>               '*='
-<tr><th>SLASHEQUAL<td>              '/='
-<tr><th>PERCENTEQUAL<td>            '%='
-<tr><th>AMPEREQUAL<td>              '&='
-<tr><th>VBAREQUAL<td>               '|='
-<tr><th>CIRCUMFLEXEQUAL<td>         '^='
-<tr><th>LEFTSHIFTEQUAL<td>          '<<='
-<tr><th>RIGHTSHIFTEQUAL<td>         '>>='
-<tr><th>DOUBLESTAREQUAL<td>         '**='
-<tr><th>DOUBLESLASH<td>             '//'
-<tr><th>DOUBLESLASHEQUAL<td>        '//='
-<tr><th>AT<td>                      '@'
-<tr><th>ATEQUAL<td>                 '@='
-<tr><th>RARROW<td>                  '->'
-<tr><th>ELLIPSIS<td>                '...'
-<tr><th>COLONEQUAL<td>              ':='
-
-<tr><th>OP<td> don't know what this is yet. Grammar does not have it.
-<tr><th>AWAIT<td> I guess this is a not-in-PunY new reserved word
-<tr><th>ASYNC<td> I guess this is a not-in-PunY new reserved word
-<tr><th>TYPE_IGNORE<td> # type: ignore, special comment, not in PunY
-<tr><th>TYPE_COMMENT<td> e.g. # type:(str) -> str, not in PunY
-<tr><th>ERRORTOKEN<td> turn lexical error into a syntax error
-</table>
-
-
-</dd><dt> Will you always call "make" on our submissions?
+<dt> Will you always call "make" on our submissions?
 </dt><dd> Yes. I expect you to use make and provide a makefile in each
      homework. Turn in the whole source, not just "changed" or
      "new" files for some assignments. My script will
@@ -1548,9 +1475,10 @@ yylex() before it returns each time.
      Should we still accept and run our compiler on other file extensions
      that could be provided or should we return an error of some sort?
 </dt><dd> Accept no other extensions. If any file has an illegal extension,
-     you can stop with a message like: "Usage: puny [options] filename[.py] ..."
+     you can stop with a message like: "Usage: fec [options] filename[.rs] ..."
 </dd><dt> how am i supposed to import the lexer into my main.c file?
-</dt><dd> Do not import or #include your lexer. Instead,
+</dt><dd> Do not <code>import</code> or <code>#include</code> your lexer.
+     Instead,
      link your lexer into the executable, and tell <code>main()</code>
      how to call it, by providing a prototype for <code>yylex()</code>.
      If <code>yylex()</code>
@@ -1700,13 +1628,15 @@ yypush_buffer_state().
      Be sure to
      check ALL your C library calls for error returns in this class!
 
-</dd><dt> The O'Reilly book recommended using Flex states instead of that big
+<!--
+<dt> The O'Reilly book recommended using Flex states instead of that big
      regular expression for C comments.  Is that reasonable?
-</dt><dd> You may implement the most elegant correct answer you can
+<dd> You may implement the most elegant correct answer you can
      devise, not just what you see in class. If you use something from
      anywhere other than our course texts, you must cite it!
-</dd><dt> Are we free to explore non-optimal solutions?
-</dt><dd> I do not want to read lots of extra pages of junk code, but you are free
+-->
+<dt> Are we free to explore non-optimal solutions?
+<dd> I do not want to read lots of extra pages of junk code, but you are free
      to explore alternatives and submit the most elegant solution you come
      up with, regardless of its optimality. Note that there are some parts
      of the implementation that I might mandate. For example, the symbol table
@@ -1714,10 +1644,10 @@ yypush_buffer_state().
      structure that you love, but if you give me a linked list I will be
      disappointed. Then again, a working linked list implementation would get
      more points than a failed complicated implementation.
-</dd><dt> Is it OK to allocate a token structure inside main() after yylex()
+<dt> Is it OK to allocate a token structure inside main() after yylex()
      returns the token?
 
-</dt><dd> No. In the next phase of your compiler, you will not call
+<dd> No. In the next phase of your compiler, you will not call
 <code>yylex()</code>, the Bison-generated parser will call
 <code>yylex()</code>.  There is a way for
 the parser to grab your token if you've stored it in a global variable,
@@ -1725,26 +1655,27 @@ but there is not a way for the parser to build the token structure itself.
 However you <em>are</em> expected to allocate the linked list nodes in main(), and
 in the next homework that linked list will be discarded. Don't get attached.
 
-</dd><dt> My tokens' "text" field in my linked list are all messed up when I go
+<dt> My tokens' "text" field in my linked list are all messed up when I go
      back through the list at the end. What do I do?
-</dt><dd> Remember to make a physical copy of <code>yytext</code> each token,
+<dd> Remember to make a physical copy of <code>yytext</code> each token,
      because it overwrites itself each time it matches a regular expression
      in <code>yylex()</code>.  Typically a physical copy of a C string is
      made using <code>strdup()</code>, which is a <code>malloc()</code>
      followed by <code>strcpy()</code>.
 
-</dd><dt> C++ concatenates adjacent string literals, e.g. "Hello" " world"
+<dt> C++ concatenates adjacent string literals, e.g. "Hello" " world"
 Does our lexer need to do that?
-</dt><dd>
+<dd>
 No, you do not have to do it.
 But if you did, can you think of a way to get the job done without too
 much pain?
 It could be done in the lexer, in the parser, or sneakily in-between.
 Be careful to consider 3+ adjacent string literals
 ("Hello" " world, " "how are you" and so on)
-</dd><dt> How do I handle escapes in svals? Do I need to worry about more than
+
+<dt> How do I handle escapes in svals? Do I need to worry about more than
 \n \t \\ and \r?
-</dt><dd>
+<dd>
 You replace the two-or-more characters with a single, encoded character.
 '\\' followed by 'n' become a control-J character.  We need
 \n \t \\ and \" -- these are ubiquitous.
