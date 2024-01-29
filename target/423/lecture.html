@@ -1101,24 +1101,7 @@ does not have a widely-available YACC parser; Ruby apparently does.
 -->
 
 
-  <h3> Mailbag </h3>
-
-<dl>
-<dt> How dare you mark us down on HW#1 !
-  <dd> <ul>
-<li>The good news is: I do not grade 90/80/70/60 so you may be interpreting
-  your grade wrong.
-<li> The other good new is: HW#1 is not a big portion of your grade; later
-  homeworks will be weighted much more.
-<li> The neutral news is: HW#1 was rather vague and open-ended.  How were you
-     supposed to know how much was enough?
-<li> The bad news is: You are graded relative to your peers,
-  some of whom are very smart and maybe even harder-working than you. If you
-  didn't get 10/10 then some of your classmates seem to have outperformed you.
-</ul>  
-</dl>
-
-<h3> <tt>lex(1)</tt> and <tt>flex(1)</tt> </h3>
+<h3> What, again with the <tt>lex(1)</tt> and <tt>flex(1)</tt>? </h3>
 
 These programs generally take a lexical specification given in a .l file
 and create a corresponding C language lexical analyzer in a file named
@@ -1295,13 +1278,12 @@ entire classes just by answering (current and past) students' questions.
 <h3> Mailbag</h3>
 
 <dl>
-<dt> Are Python operators like "not in" individual tokens?
-<dd> Nope. Two separate reserved words.
 <dt> So do I (have to) count words, or not?
-<dd> Lab #1 asked you to adapt a word count program to turn it into a PunY
-  scanner. It asked you to count words.  HW #2 asks you to finish the job
-  of writing a PunY scanner. I don't think it asks you to count words any
+<dd> Lab #1 asked you to adapt a word count program to turn it into a
+  mini-scanner. It asked you to count words.  HW #2 asks you to finish the job
+  of writing a scanner. I don't think it asks you to count words any
   more, but it asks you to count lines and store line numbers in each token.
+<!--
 <dt> How do I distinguish newlines that continue a previous line from
     newlines that start a new line?
 <dd> Well, in terms of regular expressions in your Flex spec, maybe:
@@ -1309,6 +1291,8 @@ entire classes just by answering (current and past) students' questions.
 "\\\n"		{ /* code to continue a line, no logical LINE token */ }
 "\n"		{ return NEWLINE; }
 </pre>
+-->
+<!--
 <dt> When do I count indentation levels?
 <dd> Separate regular expressions for whitespace when at the start of a line
    and whitespace when not at the start of a line. 
@@ -1335,6 +1319,7 @@ int indentlevel(char *s)
 }
 </pre>
 but no guarantees on that. It is not like I tested it.
+-->
 
 <!--
 <dt> I've heard of <code>malloc()</code>, but I haven't had any real experience
@@ -1347,6 +1332,7 @@ but no guarantees on that. It is not like I tested it.
      system. This capability is powerful but dangerous.
 -->
 
+<!--
 <dt> How do I return a "fake" token, e.g. INDENT and DEDENT
 <dd>
 
@@ -1376,6 +1362,7 @@ yylex(). See below.
      /* else return yylex2() */
   }
 </pre>
+-->
 
 
 <dt> What should the lexical analyzer look like?  where do I start?
@@ -1420,8 +1407,8 @@ yylex(). See below.
 
 </dd>
 
-<dt> There are bugs in your <A href="punyref.html">punyref.html</A> file
-<dd> Please report issues. Also, think of the PunY specification document as
+<dt> There are bugs in your <A href="ironyref.html">ironyref.html</A> file
+<dd> Please report issues. Also, think of the specification document as
      a negotiable contract.  If it is missing something that you did well in
      HW#1, has something that shouldn't be there, or needs corrections or
      clarifications, ask for them. English is notoriously ambiguous, and I
