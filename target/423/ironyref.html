@@ -268,17 +268,17 @@ const
 <font color=red>continue</font>
 <font color=red>crate</font>
 <font color=green>else</font>
- enum
- extern
- false
- fn
- for
- if
- impl
- in
- let
- loop
- match
+<font color=red>enum</font>
+<font color=red>extern</font>
+<font color=green>false</font>
+<font color=green> fn</font>
+<font color=green> for</font>
+<font color=green> if</font>
+<font color=red> impl</font>
+<font color=green> in</font>
+<font color=green> let</font>
+<font color=red> loop</font>
+<font color=red> match</font>
  mod
  move
  mut
@@ -536,18 +536,12 @@ For example:
 <p>
 
 <pre>
-if (statement) {}
-if (statement) {} else {}
-if (statement) {} else if (statement) {} else {}
-while (statement) {}
-for ( init; condition; increment) {}
-switch(integer){
-case literal:
-statements;
-...
-default:
-statements;
-}
+if condition { }
+if condition {} else {}
+if condition {} else if condition {} else {}
+while condition {}
+for var in x..y {}
+for var in x..=y {}
 </pre>
 
   
