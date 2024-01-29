@@ -428,7 +428,10 @@ Irony reports an error for operators in Rust but not in irony:
   <li> irony allows simple string literals consisting of zero or more
        characters enclosed in double quotes
   <li> characters may be a printable character from the keyboard, or an
-       escape character, see below
+    escape character, see below
+  <li> Rust allows multi-line strings, both plain and with leading whitespace
+    on subsequent line omitted (if previous line ends with \).  Irony does
+    not (need to) allow multi-line strings.
 </ul>
  
 
