@@ -52,3 +52,32 @@ For Part 2: include in the .zip your set of lexical test cases, in .rs files.
 
 You will receive full credit for the lab if it looks like you did at least
 three hours' worth of lab work.
+
+
+<h3> Answers to Lab Questions </h3>
+
+<dl>
+<dt> Does "categories" mean the six kinds of Tokens Rust Docs talk about?
+<dd> Nope, it means all the subcategories that are syntactically
+     distinguishable
+
+<dt> What do you mean, put the tokens in yylex()?
+<dd> I mean, malloc() an instance of each token inside yylex() and initialize
+     its fields before
+     you return the integer category.  The type definition for tokens
+     should be in a .h file.
+
+<dt> How do I de-escape the string literals for the svals as shown in the HW#2
+     example output?
+
+<dd> You probably write a helper function and build an sval from yytext by
+     doing a "modified copy" where most yytext characters are copied into
+     the sval, but escaped characters in yytext map 2+ characters down to
+     a single character in the sval.
+
+<dt> It seems like you want a lot of stuff to be done inside yylex()
+<dd> Yes, probably in 1+ helper functions called from the yylex()
+     semantic actions code fragments.
+
+
+</dl>
