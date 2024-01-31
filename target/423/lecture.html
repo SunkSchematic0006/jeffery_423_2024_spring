@@ -1711,28 +1711,41 @@ because <A href="https://arxiv.org/pdf/1903.00982.pdf">
 <h3> Mailbag </h3>
 <dl>
 <dt> Can you explain ival/dval/sval again?  What should the output look like?
-  <dd> Source code comes to your compiler as strings of characters from
+<dd>
+<ul>
+<li> Source code comes to your compiler as strings of characters from
     some source file.
+<li>
     ival/dval/sval are lexical attributes that contain the values
-    denoted by corresponding literal constants.  For literal constants
-    ONLY, you compute an ival, dval, or sval (you could add more if your
-    language had more literal types. What about a bval?).  Mostly it
-    means converting from the string to what the string means. For
-    an ival it might be a call to
-    <code>atoi()</code>. For dval perhaps something
-    similar. For sval, I think you have to go character by character
-    through the string and "de-escape" it.
-    The output for ival should look like the yytext did.  The output
+    denoted by corresponding literal constants.
+<li>For literal constant tokens
+  ONLY, you compute the corresponding type of ival, dval, or sval
+<li> you could add more if your
+    language had more literal types. What about a bval?).
+<li> Mostly this all
+    means converting from the string to what the string means.
+<li> For an ival it might be a call to
+  <code>atoi()</code>.
+    The output for ival should look like the yytext did.
+
+  <li> For dval perhaps something
+    similar; an sscanf() maybe.
+  The output
     for dval should look like a real number that is really close to
-    the input, but is often off by .000001 or whatever. The output
+    the input, but is often off by .000001 or whatever.
+<li>
+ For sval, I think you have to go character by character
+    through the string and "de-escape" it.
+ The output
     for sval has the double quotes removed and any escape characters
     have become their true selves, which are usually some non-printing
     control character that affects output appearance.
+</ul>
 
 <dt> How do I handle escapes in svals? Do I need to worry about more than
 \n \t \\ and \r?
 <dd>
-You replace the two-or-more characters with a single, encoded character.
+Escapes entail replacing two-or-more characters with a single, encoded character when building an sval from the yytext.
 '\\' followed by 'n' become a control-J character.  We need
 \n \t \\ and \" -- these are ubiquitous.
 You can do additional ones like \r but they are not required and
