@@ -1675,14 +1675,6 @@ Be careful to consider 3+ adjacent string literals
 ("Hello" " world, " "how are you" and so on)
 -->
 
-<dt> How do I handle escapes in svals? Do I need to worry about more than
-\n \t \\ and \r?
-<dd>
-You replace the two-or-more characters with a single, encoded character.
-'\\' followed by 'n' become a control-J character.  We need
-\n \t \\ and \" -- these are ubiquitous.
-You can do additional ones like \r but they are not required and
-will not be tested.
 </dl>
 
 
@@ -1719,12 +1711,15 @@ because <A href="https://arxiv.org/pdf/1903.00982.pdf">
 <h3> Mailbag </h3>
 <dl>
 <dt> Can you explain ival/dval/sval again?  What should the output look like?
-  <dd> Source code is strings of characters from some source file.
+  <dd> Source code comes to your compiler as strings of characters from
+    some source file.
     ival/dval/sval are lexical attributes that contain the values
     denoted by corresponding literal constants.  For literal constants
-    ONLY, you compute an ival, dval, or sval (or cval).  Mostly it
+    ONLY, you compute an ival, dval, or sval (you could add more if your
+    language had more literal types. What about a bval?).  Mostly it
     means converting from the string to what the string means. For
-    an ival it might be a call to atoi(). For dval perhaps something
+    an ival it might be a call to
+    <code>atoi()</code>. For dval perhaps something
     similar. For sval, I think you have to go character by character
     through the string and "de-escape" it.
     The output for ival should look like the yytext did.  The output
@@ -1734,9 +1729,14 @@ because <A href="https://arxiv.org/pdf/1903.00982.pdf">
     have become their true selves, which are usually some non-printing
     control character that affects output appearance.
 
-<dt> Reserved words were not in your list of tokens on hw2.html, do we
-  have to implement integer categories for them.
-<dd> Yes. Except for ones that are not in PunY, maybe.
+<dt> How do I handle escapes in svals? Do I need to worry about more than
+\n \t \\ and \r?
+<dd>
+You replace the two-or-more characters with a single, encoded character.
+'\\' followed by 'n' become a control-J character.  We need
+\n \t \\ and \" -- these are ubiquitous.
+You can do additional ones like \r but they are not required and
+will not be tested.
 
 <!--
 <dt> Does HW#1 expect semi-colon insertion? It is not mentioned in the hw1
