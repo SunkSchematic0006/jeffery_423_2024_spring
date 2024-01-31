@@ -1697,6 +1697,13 @@ will not be tested.
   <li> Do you have any questions?
 </ul>
 
+<h3> Irony naming </h3>
+
+Boy am I glad we didn't try to name ourselves "Oxide",
+because <A href="https://arxiv.org/pdf/1903.00982.pdf">
+	  these blokes</A> already took that name.
+
+
 <h3> Brief Comments about Lab #1 Grading</h3>
 
 <ul>
@@ -1872,6 +1879,24 @@ good catch, your compiler would ideally range check and emit an error
 if a value that doesn't fit into 64-bits occurs, for either the integer
 or (less likely) float64 literals.  Any ideas on how to detect an out
 of range literal?
+
+    <p>
+      FYI here is what the Rust compiler does:
+      <pre>
+% rustc hello.rs
+error: literal out of range for `i64`
+ --> hello.rs:2:45
+  |
+2 | ...", &amp;(f("golly", 121212121212121212121212121212121212))[..]);
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: the literal `121212121212121212121212121212121212` does not fit into the type `i64` whose range is `-9223372036854775808..=9223372036854775807`
+  = help: consider using the type `i128` instead
+  = note: `#[deny(overflowing_literals)]` on by default
+
+error: aborting due to previous error
+</pre>
+
 
 </dd><dt> I was using valgrind to test memory leaks and saw that there is a
 <code>leak-check=full</code> option.  Should I be testing that as well, or
