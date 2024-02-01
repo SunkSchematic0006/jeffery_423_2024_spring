@@ -9,9 +9,11 @@ IFS=$'\n\t'
 #ensure single-line whitespace is kept
 
 
-IDENTITY_FILE=~/.ssh/path-to-key
+IDENTITY_FILE_SOURCE=~/.ssh/path-to-key
+IDENTITY_FILE_GITHUB=~/.ssh/path-to-key
 eval $(ssh-agent) > /dev/null # Create agent and environment variables
-ssh-add $IDENTITY_FILE > /dev/null
+ssh-add $IDENTITY_FILE_SOURCE > /dev/null
+ssh-add $IDENTITY_FILE_GITHUB > /dev/null
 
 
 # Lovecraft credentials.
@@ -28,3 +30,4 @@ rsync -r "$LOVECRAFT:$TO_COPY" $LOCAL_DEST --delete-excluded --exclude='*~'
 git add .
 git commit -m "Update $(date)" > /dev/null || true
 # Ignore errors, send output to /dev/null
+git push
