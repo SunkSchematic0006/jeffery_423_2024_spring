@@ -830,55 +830,55 @@ named_arg
 ;
 
 ret_ty
-: RARROW '!'         { $$ = mk_none(); }
-| RARROW ty          { $$ = mk_node("ret-ty", 1, $2); }
-| %prec IDENT %empty { $$ = mk_none(); }
+: RARROW '!'         {  }
+| RARROW ty          {  }
+| %prec IDENT %empty {  }
 ;
 
 generic_params
-: '<' '>'                             { $$ = mk_node("Generics", 2, mk_none(), mk_none()); }
-| '<' lifetimes '>'                   { $$ = mk_node("Generics", 2, $2, mk_none()); }
-| '<' lifetimes ',' '>'               { $$ = mk_node("Generics", 2, $2, mk_none()); }
-| '<' lifetimes SHR                   { push_back('>'); $$ = mk_node("Generics", 2, $2, mk_none()); }
-| '<' lifetimes ',' SHR               { push_back('>'); $$ = mk_node("Generics", 2, $2, mk_none()); }
-| '<' lifetimes ',' ty_params '>'     { $$ = mk_node("Generics", 2, $2, $4); }
-| '<' lifetimes ',' ty_params ',' '>' { $$ = mk_node("Generics", 2, $2, $4); }
-| '<' lifetimes ',' ty_params SHR     { push_back('>'); $$ = mk_node("Generics", 2, $2, $4); }
-| '<' lifetimes ',' ty_params ',' SHR { push_back('>'); $$ = mk_node("Generics", 2, $2, $4); }
-| '<' ty_params '>'                   { $$ = mk_node("Generics", 2, mk_none(), $2); }
-| '<' ty_params ',' '>'               { $$ = mk_node("Generics", 2, mk_none(), $2); }
-| '<' ty_params SHR                   { push_back('>'); $$ = mk_node("Generics", 2, mk_none(), $2); }
-| '<' ty_params ',' SHR               { push_back('>'); $$ = mk_node("Generics", 2, mk_none(), $2); }
-| %empty                              { $$ = mk_none(); }
+: '<' '>'                             {  }
+| '<' lifetimes '>'                   {  }
+| '<' lifetimes ',' '>'               {  }
+| '<' lifetimes SHR                   {  }
+| '<' lifetimes ',' SHR               {  }
+| '<' lifetimes ',' ty_params '>'     {  }
+| '<' lifetimes ',' ty_params ',' '>' {  }
+| '<' lifetimes ',' ty_params SHR     {  }
+| '<' lifetimes ',' ty_params ',' SHR {  }
+| '<' ty_params '>'                   {  }
+| '<' ty_params ',' '>'               {  }
+| '<' ty_params SHR                   {  }
+| '<' ty_params ',' SHR               {  }
+| %empty                              {  }
 ;
 
 maybe_where_clause
-: %empty                              { $$ = mk_none(); }
+: %empty                              {  }
 | where_clause
 ;
 
 where_clause
-: WHERE where_predicates              { $$ = mk_node("WhereClause", 1, $2); }
-| WHERE where_predicates ','          { $$ = mk_node("WhereClause", 1, $2); }
+: WHERE where_predicates              {  }
+| WHERE where_predicates ','          {  }
 ;
 
 where_predicates
-: where_predicate                      { $$ = mk_node("WherePredicates", 1, $1); }
-| where_predicates ',' where_predicate { $$ = ext_node($1, 1, $3); }
+: where_predicate                      {  }
+| where_predicates ',' where_predicate {  }
 ;
 
 where_predicate
-: maybe_for_lifetimes lifetime ':' bounds    { $$ = mk_node("WherePredicate", 3, $1, $2, $4); }
-| maybe_for_lifetimes ty ':' ty_param_bounds { $$ = mk_node("WherePredicate", 3, $1, $2, $4); }
+: maybe_for_lifetimes lifetime ':' bounds    {  }
+| maybe_for_lifetimes ty ':' ty_param_bounds {  }
 ;
 
 maybe_for_lifetimes
-: FOR '<' lifetimes '>' { $$ = mk_none(); }
-| %prec FORTYPE %empty  { $$ = mk_none(); }
+: FOR '<' lifetimes '>' {  }
+| %prec FORTYPE %empty  {  }
 
 ty_params
-: ty_param               { $$ = mk_node("TyParams", 1, $1); }
-| ty_params ',' ty_param { $$ = ext_node($1, 1, $3); }
+: ty_param               {  }
+| ty_params ',' ty_param {  }
 ;
 
 // A path with no type parameters; e.g. `foo::bar::Baz`
@@ -886,13 +886,13 @@ ty_params
 // These show up in 'use' view-items, because these are processed
 // without respect to types.
 path_no_types_allowed
-: ident                               { $$ = mk_node("ViewPath", 1, $1); }
-| MOD_SEP ident                       { $$ = mk_node("ViewPath", 1, $2); }
-| SELF                                { $$ = mk_node("ViewPath", 1, mk_atom("Self")); }
-| MOD_SEP SELF                        { $$ = mk_node("ViewPath", 1, mk_atom("Self")); }
-| SUPER                               { $$ = mk_node("ViewPath", 1, mk_atom("Super")); }
-| MOD_SEP SUPER                       { $$ = mk_node("ViewPath", 1, mk_atom("Super")); }
-| path_no_types_allowed MOD_SEP ident { $$ = ext_node($1, 1, $3); }
+: ident                               {  }
+| MOD_SEP ident                       {  }
+| SELF                                {  }
+| MOD_SEP SELF                        {  }
+| SUPER                               {  }
+| MOD_SEP SUPER                       {  }
+| path_no_types_allowed MOD_SEP ident {  }
 ;
 
 // A path with a lifetime and type parameters, with no double colons
@@ -908,17 +908,17 @@ path_no_types_allowed
 // be ambiguous with.
 path_generic_args_without_colons
 : %prec IDENT
-  ident                                                                       { $$ = mk_node("components", 1, $1); }
+  ident                                                                       {  }
 | %prec IDENT
-  ident generic_args                                                          { $$ = mk_node("components", 2, $1, $2); }
+  ident generic_args                                                          {  }
 | %prec IDENT
-  ident '(' maybe_ty_sums ')' ret_ty                                          { $$ = mk_node("components", 2, $1, $3); }
+  ident '(' maybe_ty_sums ')' ret_ty                                          {  }
 | %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident                              { $$ = ext_node($1, 1, $3); }
+  path_generic_args_without_colons MOD_SEP ident                              {  }
 | %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident generic_args                 { $$ = ext_node($1, 2, $3, $4); }
+  path_generic_args_without_colons MOD_SEP ident generic_args                 {  }
 | %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident '(' maybe_ty_sums ')' ret_ty { $$ = ext_node($1, 2, $3, $5); }
+  path_generic_args_without_colons MOD_SEP ident '(' maybe_ty_sums ')' ret_ty {  }
 ;
 
 generic_args
