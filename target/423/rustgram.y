@@ -1016,50 +1016,50 @@ pat_fields
 ;
 
 pat_struct
-: pat_fields                 { $$ = mk_node("PatStruct", 2, $1, mk_atom("false")); }
-| pat_fields ','             { $$ = mk_node("PatStruct", 2, $1, mk_atom("false")); }
-| pat_fields ',' DOTDOT      { $$ = mk_node("PatStruct", 2, $1, mk_atom("true")); }
-| DOTDOT                     { $$ = mk_node("PatStruct", 1, mk_atom("true")); }
-| %empty                     { $$ = mk_node("PatStruct", 1, mk_none()); }
+: pat_fields                 {  }
+| pat_fields ','             {  }
+| pat_fields ',' DOTDOT      {  }
+| DOTDOT                     {  }
+| %empty                     {  }
 ;
 
 pat_tup
-: pat_tup_elts                                  { $$ = mk_node("PatTup", 2, $1, mk_none()); }
-| pat_tup_elts                             ','  { $$ = mk_node("PatTup", 2, $1, mk_none()); }
-| pat_tup_elts     DOTDOT                       { $$ = mk_node("PatTup", 2, $1, mk_none()); }
-| pat_tup_elts ',' DOTDOT                       { $$ = mk_node("PatTup", 2, $1, mk_none()); }
-| pat_tup_elts     DOTDOT ',' pat_tup_elts      { $$ = mk_node("PatTup", 2, $1, $4); }
-| pat_tup_elts     DOTDOT ',' pat_tup_elts ','  { $$ = mk_node("PatTup", 2, $1, $4); }
-| pat_tup_elts ',' DOTDOT ',' pat_tup_elts      { $$ = mk_node("PatTup", 2, $1, $5); }
-| pat_tup_elts ',' DOTDOT ',' pat_tup_elts ','  { $$ = mk_node("PatTup", 2, $1, $5); }
-|                  DOTDOT ',' pat_tup_elts      { $$ = mk_node("PatTup", 2, mk_none(), $3); }
-|                  DOTDOT ',' pat_tup_elts ','  { $$ = mk_node("PatTup", 2, mk_none(), $3); }
-|                  DOTDOT                       { $$ = mk_node("PatTup", 2, mk_none(), mk_none()); }
+: pat_tup_elts                                  {  }
+| pat_tup_elts                             ','  {  }
+| pat_tup_elts     DOTDOT                       {  }
+| pat_tup_elts ',' DOTDOT                       {  }
+| pat_tup_elts     DOTDOT ',' pat_tup_elts      {  }
+| pat_tup_elts     DOTDOT ',' pat_tup_elts ','  {  }
+| pat_tup_elts ',' DOTDOT ',' pat_tup_elts      {  }
+| pat_tup_elts ',' DOTDOT ',' pat_tup_elts ','  {  }
+|                  DOTDOT ',' pat_tup_elts      {  }
+|                  DOTDOT ',' pat_tup_elts ','  {  }
+|                  DOTDOT                       {  }
 ;
 
 pat_tup_elts
-: pat                    { $$ = mk_node("PatTupElts", 1, $1); }
-| pat_tup_elts ',' pat   { $$ = ext_node($1, 1, $3); }
+: pat                    {  }
+| pat_tup_elts ',' pat   {  }
 ;
 
 pat_vec
-: pat_vec_elts                                  { $$ = mk_node("PatVec", 2, $1, mk_none()); }
-| pat_vec_elts                             ','  { $$ = mk_node("PatVec", 2, $1, mk_none()); }
-| pat_vec_elts     DOTDOT                       { $$ = mk_node("PatVec", 2, $1, mk_none()); }
-| pat_vec_elts ',' DOTDOT                       { $$ = mk_node("PatVec", 2, $1, mk_none()); }
-| pat_vec_elts     DOTDOT ',' pat_vec_elts      { $$ = mk_node("PatVec", 2, $1, $4); }
-| pat_vec_elts     DOTDOT ',' pat_vec_elts ','  { $$ = mk_node("PatVec", 2, $1, $4); }
-| pat_vec_elts ',' DOTDOT ',' pat_vec_elts      { $$ = mk_node("PatVec", 2, $1, $5); }
-| pat_vec_elts ',' DOTDOT ',' pat_vec_elts ','  { $$ = mk_node("PatVec", 2, $1, $5); }
-|                  DOTDOT ',' pat_vec_elts      { $$ = mk_node("PatVec", 2, mk_none(), $3); }
-|                  DOTDOT ',' pat_vec_elts ','  { $$ = mk_node("PatVec", 2, mk_none(), $3); }
-|                  DOTDOT                       { $$ = mk_node("PatVec", 2, mk_none(), mk_none()); }
-| %empty                                        { $$ = mk_node("PatVec", 2, mk_none(), mk_none()); }
+: pat_vec_elts                                  {  }
+| pat_vec_elts                             ','  {  }
+| pat_vec_elts     DOTDOT                       {  }
+| pat_vec_elts ',' DOTDOT                       {  }
+| pat_vec_elts     DOTDOT ',' pat_vec_elts      {  }
+| pat_vec_elts     DOTDOT ',' pat_vec_elts ','  {  }
+| pat_vec_elts ',' DOTDOT ',' pat_vec_elts      {  }
+| pat_vec_elts ',' DOTDOT ',' pat_vec_elts ','  {  }
+|                  DOTDOT ',' pat_vec_elts      {  }
+|                  DOTDOT ',' pat_vec_elts ','  {  }
+|                  DOTDOT                       {  }
+| %empty                                        {  }
 ;
 
 pat_vec_elts
-: pat                    { $$ = mk_node("PatVecElts", 1, $1); }
-| pat_vec_elts ',' pat   { $$ = ext_node($1, 1, $3); }
+: pat                    {  }
+| pat_vec_elts ',' pat   {  }
 ;
 
 ////////////////////////////////////////////////////////////////////////
@@ -1069,56 +1069,56 @@ pat_vec_elts
 ty
 : ty_prim
 | ty_closure
-| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident                                      { $$ = mk_node("TyQualifiedPath", 3, $2, $3, $6); }
-| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident { $$ = mk_node("TyQualifiedPath", 3, mk_node("TyQualifiedPath", 3, $2, $3, $6), $7, $10); }
-| '(' ty_sums ')'                                                                      { $$ = mk_node("TyTup", 1, $2); }
-| '(' ty_sums ',' ')'                                                                  { $$ = mk_node("TyTup", 1, $2); }
-| '(' ')'                                                                              { $$ = mk_atom("TyNil"); }
+| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident                                      {  }
+| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident {  }
+| '(' ty_sums ')'                                                                      {  }
+| '(' ty_sums ',' ')'                                                                  {  }
+| '(' ')'                                                                              {  }
 ;
 
 ty_prim
-: %prec IDENT path_generic_args_without_colons                                               { $$ = mk_node("TyPath", 2, mk_node("global", 1, mk_atom("false")), $1); }
-| %prec IDENT MOD_SEP path_generic_args_without_colons                                       { $$ = mk_node("TyPath", 2, mk_node("global", 1, mk_atom("true")), $2); }
-| %prec IDENT SELF MOD_SEP path_generic_args_without_colons                                  { $$ = mk_node("TyPath", 2, mk_node("self", 1, mk_atom("true")), $3); }
-| %prec IDENT path_generic_args_without_colons '!' maybe_ident delimited_token_trees         { $$ = mk_node("TyMacro", 3, $1, $3, $4); }
-| %prec IDENT MOD_SEP path_generic_args_without_colons '!' maybe_ident delimited_token_trees { $$ = mk_node("TyMacro", 3, $2, $4, $5); }
-| BOX ty                                                                                     { $$ = mk_node("TyBox", 1, $2); }
-| '*' maybe_mut_or_const ty                                                                  { $$ = mk_node("TyPtr", 2, $2, $3); }
-| '&' ty                                                                                     { $$ = mk_node("TyRptr", 2, mk_atom("MutImmutable"), $2); }
-| '&' MUT ty                                                                                 { $$ = mk_node("TyRptr", 2, mk_atom("MutMutable"), $3); }
-| ANDAND ty                                                                                  { $$ = mk_node("TyRptr", 1, mk_node("TyRptr", 2, mk_atom("MutImmutable"), $2)); }
-| ANDAND MUT ty                                                                              { $$ = mk_node("TyRptr", 1, mk_node("TyRptr", 2, mk_atom("MutMutable"), $3)); }
-| '&' lifetime maybe_mut ty                                                                  { $$ = mk_node("TyRptr", 3, $2, $3, $4); }
-| ANDAND lifetime maybe_mut ty                                                               { $$ = mk_node("TyRptr", 1, mk_node("TyRptr", 3, $2, $3, $4)); }
-| '[' ty ']'                                                                                 { $$ = mk_node("TyVec", 1, $2); }
-| '[' ty ',' DOTDOT expr ']'                                                                 { $$ = mk_node("TyFixedLengthVec", 2, $2, $5); }
-| '[' ty ';' expr ']'                                                                        { $$ = mk_node("TyFixedLengthVec", 2, $2, $4); }
-| TYPEOF '(' expr ')'                                                                        { $$ = mk_node("TyTypeof", 1, $3); }
-| UNDERSCORE                                                                                 { $$ = mk_atom("TyInfer"); }
+: %prec IDENT path_generic_args_without_colons                                               {  }
+| %prec IDENT MOD_SEP path_generic_args_without_colons                                       {  }
+| %prec IDENT SELF MOD_SEP path_generic_args_without_colons                                  {  }
+| %prec IDENT path_generic_args_without_colons '!' maybe_ident delimited_token_trees         {  }
+| %prec IDENT MOD_SEP path_generic_args_without_colons '!' maybe_ident delimited_token_trees {  }
+| BOX ty                                                                                     {  }
+| '*' maybe_mut_or_const ty                                                                  {  }
+| '&' ty                                                                                     {  }
+| '&' MUT ty                                                                                 {  }
+| ANDAND ty                                                                                  {  }
+| ANDAND MUT ty                                                                              {  }
+| '&' lifetime maybe_mut ty                                                                  {  }
+| ANDAND lifetime maybe_mut ty                                                               {  }
+| '[' ty ']'                                                                                 {  }
+| '[' ty ',' DOTDOT expr ']'                                                                 {  }
+| '[' ty ';' expr ']'                                                                        {  }
+| TYPEOF '(' expr ')'                                                                        {  }
+| UNDERSCORE                                                                                 {  }
 | ty_bare_fn
 | for_in_type
 ;
 
 ty_bare_fn
-:                         FN ty_fn_decl { $$ = $2; }
-| UNSAFE                  FN ty_fn_decl { $$ = $3; }
-|        EXTERN maybe_abi FN ty_fn_decl { $$ = $4; }
-| UNSAFE EXTERN maybe_abi FN ty_fn_decl { $$ = $5; }
+:                         FN ty_fn_decl {  }
+| UNSAFE                  FN ty_fn_decl {  }
+|        EXTERN maybe_abi FN ty_fn_decl {  }
+| UNSAFE EXTERN maybe_abi FN ty_fn_decl {  }
 ;
 
 ty_fn_decl
-: generic_params fn_anon_params ret_ty { $$ = mk_node("TyFnDecl", 3, $1, $2, $3); }
+: generic_params fn_anon_params ret_ty {  }
 ;
 
 ty_closure
-: UNSAFE '|' anon_params '|' maybe_bounds ret_ty { $$ = mk_node("TyClosure", 3, $3, $5, $6); }
-|        '|' anon_params '|' maybe_bounds ret_ty { $$ = mk_node("TyClosure", 3, $2, $4, $5); }
-| UNSAFE OROR maybe_bounds ret_ty                { $$ = mk_node("TyClosure", 2, $3, $4); }
-|        OROR maybe_bounds ret_ty                { $$ = mk_node("TyClosure", 2, $2, $3); }
+: UNSAFE '|' anon_params '|' maybe_bounds ret_ty {  }
+|        '|' anon_params '|' maybe_bounds ret_ty {  }
+| UNSAFE OROR maybe_bounds ret_ty                {  }
+|        OROR maybe_bounds ret_ty                {  }
 ;
 
 for_in_type
-: FOR '<' maybe_lifetimes '>' for_in_type_suffix { $$ = mk_node("ForInType", 2, $3, $5); }
+: FOR '<' maybe_lifetimes '>' for_in_type_suffix {  }
 ;
 
 for_in_type_suffix
@@ -1128,46 +1128,46 @@ for_in_type_suffix
 ;
 
 maybe_mut
-: MUT              { $$ = mk_atom("MutMutable"); }
-| %prec MUT %empty { $$ = mk_atom("MutImmutable"); }
+: MUT              {  }
+| %prec MUT %empty {  }
 ;
 
 maybe_mut_or_const
-: MUT    { $$ = mk_atom("MutMutable"); }
-| CONST  { $$ = mk_atom("MutImmutable"); }
-| %empty { $$ = mk_atom("MutImmutable"); }
+: MUT    {  }
+| CONST  {  }
+| %empty {  }
 ;
 
 ty_qualified_path_and_generic_values
 : ty_qualified_path maybe_bindings
 {
-  $$ = mk_node("GenericValues", 3, mk_none(), mk_node("TySums", 1, mk_node("TySum", 1, $1)), $2);
+  
 }
 | ty_qualified_path ',' ty_sums maybe_bindings
 {
-  $$ = mk_node("GenericValues", 3, mk_none(), mk_node("TySums", 2, $1, $3), $4);
+  
 }
 ;
 
 ty_qualified_path
-: ty_sum AS trait_ref '>' MOD_SEP ident                     { $$ = mk_node("TyQualifiedPath", 3, $1, $3, $6); }
-| ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds { $$ = mk_node("TyQualifiedPath", 3, $1, $3, $6); }
+: ty_sum AS trait_ref '>' MOD_SEP ident                     {  }
+| ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds {  }
 ;
 
 maybe_ty_sums
 : ty_sums
 | ty_sums ','
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 ty_sums
-: ty_sum             { $$ = mk_node("TySums", 1, $1); }
-| ty_sums ',' ty_sum { $$ = ext_node($1, 1, $3); }
+: ty_sum             {  }
+| ty_sums ',' ty_sum {  }
 ;
 
 ty_sum
-: ty_sum_elt            { $$ = mk_node("TySum", 1, $1); }
-| ty_sum '+' ty_sum_elt { $$ = ext_node($1, 1, $3); }
+: ty_sum_elt            {  }
+| ty_sum '+' ty_sum_elt {  }
 ;
 
 ty_sum_elt
@@ -1176,8 +1176,8 @@ ty_sum_elt
 ;
 
 ty_prim_sum
-: ty_prim_sum_elt                 { $$ = mk_node("TySum", 1, $1); }
-| ty_prim_sum '+' ty_prim_sum_elt { $$ = ext_node($1, 1, $3); }
+: ty_prim_sum_elt                 {  }
+| ty_prim_sum '+' ty_prim_sum_elt {  }
 ;
 
 ty_prim_sum_elt
@@ -1186,18 +1186,18 @@ ty_prim_sum_elt
 ;
 
 maybe_ty_param_bounds
-: ':' ty_param_bounds { $$ = $2; }
-| %empty              { $$ = mk_none(); }
+: ':' ty_param_bounds {  }
+| %empty              {  }
 ;
 
 ty_param_bounds
 : boundseq
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 boundseq
 : polybound
-| boundseq '+' polybound { $$ = ext_node($1, 1, $3); }
+| boundseq '+' polybound {  }
 ;
 
 polybound
