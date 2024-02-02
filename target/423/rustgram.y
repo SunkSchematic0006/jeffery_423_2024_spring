@@ -922,36 +922,36 @@ path_generic_args_without_colons
 ;
 
 generic_args
-: '<' generic_values '>'   { $$ = $2; }
-| '<' generic_values SHR   { push_back('>'); $$ = $2; }
-| '<' generic_values GE    { push_back('='); $$ = $2; }
-| '<' generic_values SHREQ { push_back('>'); push_back('='); $$ = $2; }
+: '<' generic_values '>'   {  }
+| '<' generic_values SHR   {  }
+| '<' generic_values GE    {  }
+| '<' generic_values SHREQ {  }
 // If generic_args starts with "<<", the first arg must be a
 // TyQualifiedPath because that's the only type that can start with a
 // '<'. This rule parses that as the first ty_sum and then continues
 // with the rest of generic_values.
-| SHL ty_qualified_path_and_generic_values '>'   { $$ = $2; }
-| SHL ty_qualified_path_and_generic_values SHR   { push_back('>'); $$ = $2; }
-| SHL ty_qualified_path_and_generic_values GE    { push_back('='); $$ = $2; }
-| SHL ty_qualified_path_and_generic_values SHREQ { push_back('>'); push_back('='); $$ = $2; }
+| SHL ty_qualified_path_and_generic_values '>'   {  }
+| SHL ty_qualified_path_and_generic_values SHR   {  }
+| SHL ty_qualified_path_and_generic_values GE    {  }
+| SHL ty_qualified_path_and_generic_values SHREQ {  }
 ;
 
 generic_values
-: maybe_ty_sums_and_or_bindings { $$ = mk_node("GenericValues", 1, $1); }
+: maybe_ty_sums_and_or_bindings {  }
 ;
 
 maybe_ty_sums_and_or_bindings
 : ty_sums
 | ty_sums ','
-| ty_sums ',' bindings { $$ = mk_node("TySumsAndBindings", 2, $1, $3); }
+| ty_sums ',' bindings {  }
 | bindings
 | bindings ','
-| %empty               { $$ = mk_none(); }
+| %empty               {  }
 ;
 
 maybe_bindings
-: ',' bindings { $$ = $2; }
-| %empty       { $$ = mk_none(); }
+: ',' bindings {  }
+| %empty       {  }
 ;
 
 ////////////////////////////////////////////////////////////////////////
@@ -959,60 +959,60 @@ maybe_bindings
 ////////////////////////////////////////////////////////////////////////
 
 pat
-: UNDERSCORE                                      { $$ = mk_atom("PatWild"); }
-| '&' pat                                         { $$ = mk_node("PatRegion", 1, $2); }
-| '&' MUT pat                                     { $$ = mk_node("PatRegion", 1, $3); }
-| ANDAND pat                                      { $$ = mk_node("PatRegion", 1, mk_node("PatRegion", 1, $2)); }
-| '(' ')'                                         { $$ = mk_atom("PatUnit"); }
-| '(' pat_tup ')'                                 { $$ = mk_node("PatTup", 1, $2); }
-| '[' pat_vec ']'                                 { $$ = mk_node("PatVec", 1, $2); }
+: UNDERSCORE                                      {  }
+| '&' pat                                         {  }
+| '&' MUT pat                                     {  }
+| ANDAND pat                                      {  }
+| '(' ')'                                         {  }
+| '(' pat_tup ')'                                 {  }
+| '[' pat_vec ']'                                 {  }
 | lit_or_path
-| lit_or_path DOTDOTDOT lit_or_path               { $$ = mk_node("PatRange", 2, $1, $3); }
-| path_expr '{' pat_struct '}'                    { $$ = mk_node("PatStruct", 2, $1, $3); }
-| path_expr '(' ')'                               { $$ = mk_node("PatEnum", 2, $1, mk_none()); }
-| path_expr '(' pat_tup ')'                       { $$ = mk_node("PatEnum", 2, $1, $3); }
-| path_expr '!' maybe_ident delimited_token_trees { $$ = mk_node("PatMac", 3, $1, $3, $4); }
-| binding_mode ident                              { $$ = mk_node("PatIdent", 2, $1, $2); }
-|              ident '@' pat                      { $$ = mk_node("PatIdent", 3, mk_node("BindByValue", 1, mk_atom("MutImmutable")), $1, $3); }
-| binding_mode ident '@' pat                      { $$ = mk_node("PatIdent", 3, $1, $2, $4); }
-| BOX pat                                         { $$ = mk_node("PatUniq", 1, $2); }
-| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident { $$ = mk_node("PatQualifiedPath", 3, $2, $3, $6); }
+| lit_or_path DOTDOTDOT lit_or_path               {  }
+| path_expr '{' pat_struct '}'                    {  }
+| path_expr '(' ')'                               {  }
+| path_expr '(' pat_tup ')'                       {  }
+| path_expr '!' maybe_ident delimited_token_trees {  }
+| binding_mode ident                              {  }
+|              ident '@' pat                      {  }
+| binding_mode ident '@' pat                      {  }
+| BOX pat                                         {  }
+| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident {  }
 | SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident
 {
-  $$ = mk_node("PatQualifiedPath", 3, mk_node("PatQualifiedPath", 3, $2, $3, $6), $7, $10);
+
 }
 ;
 
 pats_or
-: pat              { $$ = mk_node("Pats", 1, $1); }
-| pats_or '|' pat  { $$ = ext_node($1, 1, $3); }
+: pat              {  }
+| pats_or '|' pat  {  }
 ;
 
 binding_mode
-: REF         { $$ = mk_node("BindByRef", 1, mk_atom("MutImmutable")); }
-| REF MUT     { $$ = mk_node("BindByRef", 1, mk_atom("MutMutable")); }
-| MUT         { $$ = mk_node("BindByValue", 1, mk_atom("MutMutable")); }
+: REF         {  }
+| REF MUT     {  }
+| MUT         {  }
 ;
 
 lit_or_path
-: path_expr    { $$ = mk_node("PatLit", 1, $1); }
-| lit          { $$ = mk_node("PatLit", 1, $1); }
-| '-' lit      { $$ = mk_node("PatLit", 1, $2); }
+: path_expr    {  }
+| lit          {  }
+| '-' lit      {  }
 ;
 
 pat_field
-:                  ident        { $$ = mk_node("PatField", 1, $1); }
-|     binding_mode ident        { $$ = mk_node("PatField", 2, $1, $2); }
-| BOX              ident        { $$ = mk_node("PatField", 2, mk_atom("box"), $2); }
-| BOX binding_mode ident        { $$ = mk_node("PatField", 3, mk_atom("box"), $2, $3); }
-|              ident ':' pat    { $$ = mk_node("PatField", 2, $1, $3); }
-| binding_mode ident ':' pat    { $$ = mk_node("PatField", 3, $1, $2, $4); }
-|        LIT_INTEGER ':' pat    { $$ = mk_node("PatField", 2, mk_atom(yytext), $3); }
+:                  ident        {  }
+|     binding_mode ident        {  }
+| BOX              ident        {  }
+| BOX binding_mode ident        {  }
+|              ident ':' pat    {  }
+| binding_mode ident ':' pat    {  }
+|        LIT_INTEGER ':' pat    {  }
 ;
 
 pat_fields
-: pat_field                  { $$ = mk_node("PatFields", 1, $1); }
-| pat_fields ',' pat_field   { $$ = ext_node($1, 1, $3); }
+: pat_field                  {  }
+| pat_fields ',' pat_field   {  }
 ;
 
 pat_struct
