@@ -1,6 +1,6 @@
 <h3> CSE 423 HW#3: a Parser </h3>
 
-Due: Friday February 24 11:59pm.
+Due: Friday February 23 11:59pm.
 <ul>
 <li> Turnin on canvas a .zip file named hw3.zip.
 <li> The .zip should unpack in the current directory, include
@@ -16,11 +16,11 @@ conflicts.
 <p>
 
 
-Write or adapt a Python(-subset) grammar from the Python implementation.
+Write or adapt a Rust(-subset) grammar.
 The recommended starting point is
 <ul>
-<li> This <A href="http://www.cs.nmt.edu/~jeffery/puny/Grammar.html">Python grammar</A> from the Python language implementation.
-<!--
+<li> This <A href="http://www.cs.nmt.edu/~jeffery/irony/rustgram.y">grammar</A>
+<!--<li> This <A href="http://www.cs.nmt.edu/~jeffery/puny/Grammar.html">Python grammar</A> from the Python language implementation.
 <li> <A href="j0gram.y">j0gram.y</A>
  <li> The 120++ reference implementation mods of
       files originally distributed by Sandro Sigala:
@@ -29,8 +29,6 @@ The recommended starting point is
 and
      <A href="120pp/Makefile">Makefile</A>
      <A href="g0gram.y">g0gram.y</A>,
--->
-<!--
      <A href="go.y">go.y</A>, adapted from version 1.2.2 of the Go compiler,
      along with your lexical analyzer.  I will eventually finish a
      <A href="go.l">go.l</A> reference lexical analyzer; it is still under
@@ -39,8 +37,8 @@ and
      for this homework.
 -->
 </ul>
-You will have to reformat it into a .y file that works with Bison, and use it
-to produce a <em>syntax tree</em> for input PunY source files.
+You will have to produce it into a .y file that works with Bison, and use it
+to produce a <em>syntax tree</em> for input Irony source files.
 <p>
 
 To the extent that you modify the grammar, you are advised to ignore/allow
