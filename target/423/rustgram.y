@@ -699,140 +699,134 @@ impl_const
 ;
 
 impl_type
-: attrs_and_vis maybe_default TYPE ident generic_params '=' ty_sum ';'  { $$ = mk_node("ImplType", 5, $1, $2, $4, $5, $7); }
+: attrs_and_vis maybe_default TYPE ident generic_params '=' ty_sum ';'  {  }
 ;
 
 item_fn
 : FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("ItemFn", 5, $2, $3, $4, $5, $6);
+
 }
 | CONST FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("ItemFn", 5, $3, $4, $5, $6, $7);
+
 }
 ;
 
 item_unsafe_fn
 : UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("ItemUnsafeFn", 5, $3, $4, $5, $6, $7);
+
 }
 | CONST UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("ItemUnsafeFn", 5, $4, $5, $6, $7, $8);
+
 }
 | UNSAFE EXTERN maybe_abi FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("ItemUnsafeFn", 6, $3, $5, $6, $7, $8, $9);
+
 }
 ;
 
-fn_decl
-: fn_params ret_ty   { $$ = mk_node("FnDecl", 2, $1, $2); }
+fn_decl : fn_params ret_ty   {  }
 ;
 
-fn_decl_with_self
-: fn_params_with_self ret_ty   { $$ = mk_node("FnDecl", 2, $1, $2); }
+fn_decl_with_self : fn_params_with_self ret_ty   {  }
 ;
 
-fn_decl_with_self_allow_anon_params
-: fn_anon_params_with_self ret_ty   { $$ = mk_node("FnDecl", 2, $1, $2); }
+fn_decl_with_self_allow_anon_params : fn_anon_params_with_self ret_ty   {  }
 ;
 
-fn_params
-: '(' maybe_params ')'  { $$ = $2; }
+fn_params : '(' maybe_params ')'  {  }
 ;
 
 fn_anon_params
-: '(' anon_param anon_params_allow_variadic_tail ')' { $$ = ext_node($2, 1, $3); }
-| '(' ')'                                            { $$ = mk_none(); }
+: '(' anon_param anon_params_allow_variadic_tail ')' {  }
+| '(' ')'                                            {  }
 ;
 
 fn_params_with_self
-: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'              { $$ = mk_node("SelfValue", 3, $2, $4, $5); }
-| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'          { $$ = mk_node("SelfRegion", 3, $3, $5, $6); }
-| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_params ')' { $$ = mk_node("SelfRegion", 4, $3, $4, $6, $7); }
-| '(' maybe_params ')'                                                       { $$ = mk_node("SelfStatic", 1, $2); }
+: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'              {  }
+| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'          {  }
+| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_params ')' {  }
+| '(' maybe_params ')'                                                       {  }
 ;
 
 fn_anon_params_with_self
-: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'              { $$ = mk_node("SelfValue", 3, $2, $4, $5); }
-| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'          { $$ = mk_node("SelfRegion", 3, $3, $5, $6); }
-| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')' { $$ = mk_node("SelfRegion", 4, $3, $4, $6, $7); }
-| '(' maybe_anon_params ')'                                                       { $$ = mk_node("SelfStatic", 1, $2); }
+: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'              {  }
+| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'          {  }
+| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')' {  }
+| '(' maybe_anon_params ')'                                                       {  }
 ;
 
 maybe_params
 : params
 | params ','
-| %empty  { $$ = mk_none(); }
+| %empty  {  }
 ;
 
-params
-: param                { $$ = mk_node("Args", 1, $1); }
-| params ',' param     { $$ = ext_node($1, 1, $3); }
-;
+params  : param                {  }
+	| params ',' param     {  }
+	;
 
-param
-: pat ':' ty_sum   { $$ = mk_node("Arg", 2, $1, $3); }
-;
+param   : pat ':' ty_sum   {  }
+	;
 
 inferrable_params
-: inferrable_param                       { $$ = mk_node("InferrableParams", 1, $1); }
-| inferrable_params ',' inferrable_param { $$ = ext_node($1, 1, $3); }
+: inferrable_param                       {  }
+| inferrable_params ',' inferrable_param {  }
 ;
 
 inferrable_param
-: pat maybe_ty_ascription { $$ = mk_node("InferrableParam", 2, $1, $2); }
+: pat maybe_ty_ascription {  }
 ;
 
 maybe_comma_params
-: ','            { $$ = mk_none(); }
-| ',' params     { $$ = $2; }
-| ',' params ',' { $$ = $2; }
-| %empty         { $$ = mk_none(); }
+: ','            {  }
+| ',' params     {  }
+| ',' params ',' {  }
+| %empty         {  }
 ;
 
 maybe_comma_anon_params
-: ','                 { $$ = mk_none(); }
-| ',' anon_params     { $$ = $2; }
-| ',' anon_params ',' { $$ = $2; }
-| %empty              { $$ = mk_none(); }
+: ','                 {  }
+| ',' anon_params     {  }
+| ',' anon_params ',' {  }
+| %empty              {  }
 ;
 
 maybe_anon_params
 : anon_params
 | anon_params ','
-| %empty      { $$ = mk_none(); }
+| %empty      {  }
 ;
 
 anon_params
-: anon_param                 { $$ = mk_node("Args", 1, $1); }
-| anon_params ',' anon_param { $$ = ext_node($1, 1, $3); }
+: anon_param                 {  }
+| anon_params ',' anon_param {  }
 ;
 
 // anon means it's allowed to be anonymous (type-only), but it can
 // still have a name
 anon_param
-: named_arg ':' ty   { $$ = mk_node("Arg", 2, $1, $3); }
+: named_arg ':' ty   {  }
 | ty
 ;
 
 anon_params_allow_variadic_tail
-: ',' DOTDOTDOT                                  { $$ = mk_none(); }
-| ',' anon_param anon_params_allow_variadic_tail { $$ = mk_node("Args", 2, $2, $3); }
-| %empty                                         { $$ = mk_none(); }
+: ',' DOTDOTDOT                                  {  }
+| ',' anon_param anon_params_allow_variadic_tail {  }
+| %empty                                         {  }
 ;
 
 named_arg
 : ident
-| UNDERSCORE        { $$ = mk_atom("PatWild"); }
-| '&' ident         { $$ = $2; }
-| '&' UNDERSCORE    { $$ = mk_atom("PatWild"); }
-| ANDAND ident      { $$ = $2; }
-| ANDAND UNDERSCORE { $$ = mk_atom("PatWild"); }
-| MUT ident         { $$ = $2; }
+| UNDERSCORE        {  }
+| '&' ident         {  }
+| '&' UNDERSCORE    {  }
+| ANDAND ident      {  }
+| ANDAND UNDERSCORE {  }
+| MUT ident         {  }
 ;
 
 ret_ty
