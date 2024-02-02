@@ -482,151 +482,151 @@ foreign_items
 ;
 
 foreign_item
-: attrs_and_vis STATIC item_foreign_static { $$ = mk_node("ForeignItem", 2, $1, $3); }
-| attrs_and_vis item_foreign_fn            { $$ = mk_node("ForeignItem", 2, $1, $2); }
-| attrs_and_vis UNSAFE item_foreign_fn     { $$ = mk_node("ForeignItem", 2, $1, $3); }
+: attrs_and_vis STATIC item_foreign_static {  }
+| attrs_and_vis item_foreign_fn            {  }
+| attrs_and_vis UNSAFE item_foreign_fn     {  }
 ;
 
 item_foreign_static
-: maybe_mut ident ':' ty ';'               { $$ = mk_node("StaticItem", 3, $1, $2, $4); }
+: maybe_mut ident ':' ty ';'               {  }
 ;
 
 item_foreign_fn
-: FN ident generic_params fn_decl_allow_variadic maybe_where_clause ';' { $$ = mk_node("ForeignFn", 4, $2, $3, $4, $5); }
+: FN ident generic_params fn_decl_allow_variadic maybe_where_clause ';' {  }
 ;
 
 fn_decl_allow_variadic
-: fn_params_allow_variadic ret_ty { $$ = mk_node("FnDecl", 2, $1, $2); }
+: fn_params_allow_variadic ret_ty {  }
 ;
 
 fn_params_allow_variadic
-: '(' ')'                      { $$ = mk_none(); }
-| '(' params ')'               { $$ = $2; }
-| '(' params ',' ')'           { $$ = $2; }
-| '(' params ',' DOTDOTDOT ')' { $$ = $2; }
+: '(' ')'                      {  }
+| '(' params ')'               {  }
+| '(' params ',' ')'           {  }
+| '(' params ',' DOTDOTDOT ')' {  }
 ;
 
 visibility
-: PUB      { $$ = mk_atom("Public"); }
-| %empty   { $$ = mk_atom("Inherited"); }
+: PUB      {  }
+| %empty   {  }
 ;
 
 idents_or_self
-: ident_or_self                    { $$ = mk_node("IdentsOrSelf", 1, $1); }
-| idents_or_self AS ident          { $$ = mk_node("IdentsOrSelf", 2, $1, $3); }
-| idents_or_self ',' ident_or_self { $$ = ext_node($1, 1, $3); }
+: ident_or_self                    {  }
+| idents_or_self AS ident          {  }
+| idents_or_self ',' ident_or_self {  }
 ;
 
 ident_or_self
 : ident
-| SELF  { $$ = mk_atom(yytext); }
+| SELF  {  }
 ;
 
 item_type
-: TYPE ident generic_params maybe_where_clause '=' ty_sum ';'  { $$ = mk_node("ItemTy", 4, $2, $3, $4, $6); }
+: TYPE ident generic_params maybe_where_clause '=' ty_sum ';'  {  }
 ;
 
 for_sized
-: FOR '?' ident { $$ = mk_node("ForSized", 1, $3); }
-| FOR ident '?' { $$ = mk_node("ForSized", 1, $2); }
-| %empty        { $$ = mk_none(); }
+: FOR '?' ident {  }
+| FOR ident '?' {  }
+| %empty        {  }
 ;
 
 item_trait
 : maybe_unsafe TRAIT ident generic_params for_sized maybe_ty_param_bounds maybe_where_clause '{' maybe_trait_items '}'
 {
-  $$ = mk_node("ItemTrait", 7, $1, $3, $4, $5, $6, $7, $9);
+
 }
 ;
 
 maybe_trait_items
 : trait_items
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 trait_items
-: trait_item               { $$ = mk_node("TraitItems", 1, $1); }
-| trait_items trait_item   { $$ = ext_node($1, 1, $2); }
+: trait_item               {  }
+| trait_items trait_item   {  }
 ;
 
 trait_item
 : trait_const
 | trait_type
 | trait_method
-| maybe_outer_attrs item_macro { $$ = mk_node("TraitMacroItem", 2, $1, $2); }
+| maybe_outer_attrs item_macro {  }
 ;
 
 trait_const
-: maybe_outer_attrs CONST ident maybe_ty_ascription maybe_const_default ';' { $$ = mk_node("ConstTraitItem", 4, $1, $3, $4, $5); }
+: maybe_outer_attrs CONST ident maybe_ty_ascription maybe_const_default ';' {  }
 ;
 
 maybe_const_default
-: '=' expr { $$ = mk_node("ConstDefault", 1, $2); }
-| %empty   { $$ = mk_none(); }
+: '=' expr {  }
+| %empty   {  }
 ;
 
 trait_type
-: maybe_outer_attrs TYPE ty_param ';' { $$ = mk_node("TypeTraitItem", 2, $1, $3); }
+: maybe_outer_attrs TYPE ty_param ';' {  }
 ;
 
 maybe_unsafe
-: UNSAFE { $$ = mk_atom("Unsafe"); }
-| %empty { $$ = mk_none(); }
+: UNSAFE {  }
+| %empty {  }
 ;
 
 maybe_default_maybe_unsafe
-: DEFAULT UNSAFE { $$ = mk_atom("DefaultUnsafe"); }
-| DEFAULT        { $$ = mk_atom("Default"); }
-|         UNSAFE { $$ = mk_atom("Unsafe"); }
-| %empty { $$ = mk_none(); }
+: DEFAULT UNSAFE {  }
+| DEFAULT        {  }
+|         UNSAFE {  }
+| %empty {  }
 
 trait_method
-: type_method { $$ = mk_node("Required", 1, $1); }
-| method      { $$ = mk_node("Provided", 1, $1); }
+: type_method {  }
+| method      {  }
 ;
 
 type_method
 : maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
 {
-  $$ = mk_node("TypeMethod", 6, $1, $2, $4, $5, $6, $7);
+
 }
 | maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
 {
-  $$ = mk_node("TypeMethod", 6, $1, $3, $5, $6, $7, $8);
+
 }
 | maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
 {
-  $$ = mk_node("TypeMethod", 7, $1, $2, $4, $6, $7, $8, $9);
+
 }
 ;
 
 method
 : maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 7, $1, $2, $4, $5, $6, $7, $8);
+
 }
 | maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 7, $1, $3, $5, $6, $7, $8, $9);
+
 }
 | maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 8, $1, $2, $4, $6, $7, $8, $9, $10);
+
 }
 ;
 
 impl_method
 : attrs_and_vis maybe_default maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 8, $1, $2, $3, $5, $6, $7, $8, $9);
+
 }
 | attrs_and_vis maybe_default CONST maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 8, $1, $2, $4, $6, $7, $8, $9, $10);
+
 }
 | attrs_and_vis maybe_default maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
 {
-  $$ = mk_node("Method", 9, $1, $2, $3, $5, $7, $8, $9, $10, $11);
+
 }
 ;
 
@@ -648,54 +648,54 @@ impl_method
 item_impl
 : maybe_default_maybe_unsafe IMPL generic_params ty_prim_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
 {
-  $$ = mk_node("ItemImpl", 6, $1, $3, $4, $5, $7, $8);
+
 }
 | maybe_default_maybe_unsafe IMPL generic_params '(' ty ')' maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
 {
-  $$ = mk_node("ItemImpl", 6, $1, $3, 5, $6, $9, $10);
+
 }
 | maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
 {
-  $$ = mk_node("ItemImpl", 6, $3, $4, $6, $7, $9, $10);
+
 }
 | maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
 {
-  $$ = mk_node("ItemImplNeg", 7, $1, $3, $5, $7, $8, $10, $11);
+
 }
 | maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR DOTDOT '{' '}'
 {
-  $$ = mk_node("ItemImplDefault", 3, $1, $3, $4);
+
 }
 | maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR DOTDOT '{' '}'
 {
-  $$ = mk_node("ItemImplDefaultNeg", 3, $1, $3, $4);
+
 }
 ;
 
 maybe_impl_items
 : impl_items
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 impl_items
-: impl_item               { $$ = mk_node("ImplItems", 1, $1); }
-| impl_item impl_items    { $$ = ext_node($1, 1, $2); }
+: impl_item               {  }
+| impl_item impl_items    {  }
 ;
 
 impl_item
 : impl_method
-| attrs_and_vis item_macro { $$ = mk_node("ImplMacroItem", 2, $1, $2); }
+| attrs_and_vis item_macro {  }
 | impl_const
 | impl_type
 ;
 
 maybe_default
-: DEFAULT { $$ = mk_atom("Default"); }
-| %empty { $$ = mk_none(); }
+: DEFAULT {  }
+| %empty {  }
 ;
 
 impl_const
-: attrs_and_vis maybe_default item_const { $$ = mk_node("ImplConst", 3, $1, $2, $3); }
+: attrs_and_vis maybe_default item_const {  }
 ;
 
 impl_type
