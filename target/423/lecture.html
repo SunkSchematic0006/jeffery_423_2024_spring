@@ -2065,6 +2065,8 @@ can't write the expression for "stuff that isn't */" by saying (^ "*/")
 <dt>Is there length enforcement in variable names?
 <dd>I am not yet aware of Rust defining a name length limit.
     It is OK for Irony to live with whatever limit Flex might impose.
+  In real life variable names longer than 60 chars are a pain, and
+  many compilers impose some short practical limit like 256 characters.
 <dt> Can we control for order of flex operations?
     How do we ensure that we do not tokenize lets say a part
     of a variable x5xx as an invalid variable 5xx?
