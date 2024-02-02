@@ -2065,13 +2065,29 @@ can't write the expression for "stuff that isn't */" by saying (^ "*/")
 <dt>Is there length enforcement in variable names?
 <dd>I am not yet aware of Rust defining a name length limit.
     It is OK for Irony to live with whatever limit Flex might impose.
-<dt> Can we control for order of flex operations? I.e.how to ensure we do not tokenize lets say a part
-of a variable x5xx as an invalid variable 5xx? Is this just automatically done by flex?
-What does # do in rust?
-What does #! Do in rust?
-Which type of error should it check?
-For error checking, how descriptive should it be?
-
+<dt> Can we control for order of flex operations?
+    How do we ensure that we do not tokenize lets say a part
+    of a variable x5xx as an invalid variable 5xx?
+    Is this just automatically done by flex?
+<dd> In a declarative language you do not ensure or control, you just
+  use Flex's rules. Flex's rules work left to right and match the
+  longest they can at each point that they are invoked.  If they are
+  invoked at the beginning of "x5xx" and they can match all of "x5xx"
+  there is no way they'll match "5xx" because it will have been eaten already.
+<dt> What does # do in rust?
+<dd> Great question. I am not yet aware of it being used except in #!
+<dt> What does #! Do in rust?
+<dd> It is a kind of comment called a shebang
+     allowed and ignored at the top of files.
+     It allows for the notion of writing rust "scripts", like shell scripts.
+  It would be trivial to support but I don't care about it so Irony doesn't
+  have to handle it.
+<dt>Which type of error should it (HW#2?) check?
+<dd>In HW#2 we are only looking for lexical errors, I think.
+<dt> For error checking, how descriptive should it (HW#2?) be?
+<dd> Filename, linenumber, brief message with the nature of the
+    error as you understand it
+</dl>
 
 <A name=finiteautomata>
 <h3> Finite Automata </h3>
