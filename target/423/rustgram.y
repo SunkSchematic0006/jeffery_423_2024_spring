@@ -342,27 +342,27 @@ use_item
 ;
 
 view_path
-: path_no_types_allowed                                    { $$ = mk_node("ViewPathSimple", 1, $1); }
-| path_no_types_allowed MOD_SEP '{'                '}'     { $$ = mk_node("ViewPathList", 2, $1, mk_atom("ViewPathListEmpty")); }
-|                       MOD_SEP '{'                '}'     { $$ = mk_node("ViewPathList", 1, mk_atom("ViewPathListEmpty")); }
-| path_no_types_allowed MOD_SEP '{' idents_or_self '}'     { $$ = mk_node("ViewPathList", 2, $1, $4); }
-|                       MOD_SEP '{' idents_or_self '}'     { $$ = mk_node("ViewPathList", 1, $3); }
-| path_no_types_allowed MOD_SEP '{' idents_or_self ',' '}' { $$ = mk_node("ViewPathList", 2, $1, $4); }
-|                       MOD_SEP '{' idents_or_self ',' '}' { $$ = mk_node("ViewPathList", 1, $3); }
-| path_no_types_allowed MOD_SEP '*'                        { $$ = mk_node("ViewPathGlob", 1, $1); }
-|                       MOD_SEP '*'                        { $$ = mk_atom("ViewPathGlob"); }
-|                               '*'                        { $$ = mk_atom("ViewPathGlob"); }
-|                               '{'                '}'     { $$ = mk_atom("ViewPathListEmpty"); }
-|                               '{' idents_or_self '}'     { $$ = mk_node("ViewPathList", 1, $2); }
-|                               '{' idents_or_self ',' '}' { $$ = mk_node("ViewPathList", 1, $2); }
-| path_no_types_allowed AS ident                           { $$ = mk_node("ViewPathSimple", 2, $1, $3); }
+: path_no_types_allowed                                    {  }
+| path_no_types_allowed MOD_SEP '{'                '}'     {  }
+|                       MOD_SEP '{'                '}'     {  }
+| path_no_types_allowed MOD_SEP '{' idents_or_self '}'     {  }
+|                       MOD_SEP '{' idents_or_self '}'     {  }
+| path_no_types_allowed MOD_SEP '{' idents_or_self ',' '}' {  }
+|                       MOD_SEP '{' idents_or_self ',' '}' {  }
+| path_no_types_allowed MOD_SEP '*'                        {  }
+|                       MOD_SEP '*'                        {  }
+|                               '*'                        {  }
+|                               '{'                '}'     {  }
+|                               '{' idents_or_self '}'     {  }
+|                               '{' idents_or_self ',' '}' {  }
+| path_no_types_allowed AS ident                           {  }
 ;
 
 block_item
 : item_fn
 | item_unsafe_fn
 | item_mod
-| item_foreign_mod          { $$ = mk_node("ItemForeignMod", 1, $1); }
+| item_foreign_mod          {  }
 | item_struct
 | item_enum
 | item_union
@@ -371,114 +371,114 @@ block_item
 ;
 
 maybe_ty_ascription
-: ':' ty_sum { $$ = $2; }
-| %empty { $$ = mk_none(); }
+: ':' ty_sum {  }
+| %empty {  }
 ;
 
 maybe_init_expr
-: '=' expr { $$ = $2; }
-| %empty   { $$ = mk_none(); }
+: '=' expr {  }
+| %empty   {  }
 ;
 
 // structs
 item_struct
 : STRUCT ident generic_params maybe_where_clause struct_decl_args
 {
-  $$ = mk_node("ItemStruct", 4, $2, $3, $4, $5);
+
 }
 | STRUCT ident generic_params struct_tuple_args maybe_where_clause ';'
 {
-  $$ = mk_node("ItemStruct", 4, $2, $3, $4, $5);
+
 }
 | STRUCT ident generic_params maybe_where_clause ';'
 {
-  $$ = mk_node("ItemStruct", 3, $2, $3, $4);
+
 }
 ;
 
 struct_decl_args
-: '{' struct_decl_fields '}'                  { $$ = $2; }
-| '{' struct_decl_fields ',' '}'              { $$ = $2; }
+: '{' struct_decl_fields '}'                  {  }
+| '{' struct_decl_fields ',' '}'              {  }
 ;
 
 struct_tuple_args
-: '(' struct_tuple_fields ')'                 { $$ = $2; }
-| '(' struct_tuple_fields ',' ')'             { $$ = $2; }
+: '(' struct_tuple_fields ')'                 {  }
+| '(' struct_tuple_fields ',' ')'             {  }
 ;
 
 struct_decl_fields
-: struct_decl_field                           { $$ = mk_node("StructFields", 1, $1); }
-| struct_decl_fields ',' struct_decl_field    { $$ = ext_node($1, 1, $3); }
-| %empty                                      { $$ = mk_none(); }
+: struct_decl_field                           {  }
+| struct_decl_fields ',' struct_decl_field    {  }
+| %empty                                      {  }
 ;
 
 struct_decl_field
-: attrs_and_vis ident ':' ty_sum              { $$ = mk_node("StructField", 3, $1, $2, $4); }
+: attrs_and_vis ident ':' ty_sum              {  }
 ;
 
 struct_tuple_fields
-: struct_tuple_field                          { $$ = mk_node("StructFields", 1, $1); }
-| struct_tuple_fields ',' struct_tuple_field  { $$ = ext_node($1, 1, $3); }
-| %empty                                      { $$ = mk_none(); }
+: struct_tuple_field                          {  }
+| struct_tuple_fields ',' struct_tuple_field  {  }
+| %empty                                      {  }
 ;
 
 struct_tuple_field
-: attrs_and_vis ty_sum                    { $$ = mk_node("StructField", 2, $1, $2); }
+: attrs_and_vis ty_sum                    {  }
 ;
 
 // enums
 item_enum
-: ENUM ident generic_params maybe_where_clause '{' enum_defs '}'     { $$ = mk_node("ItemEnum", 0); }
-| ENUM ident generic_params maybe_where_clause '{' enum_defs ',' '}' { $$ = mk_node("ItemEnum", 0); }
+: ENUM ident generic_params maybe_where_clause '{' enum_defs '}'     {  }
+| ENUM ident generic_params maybe_where_clause '{' enum_defs ',' '}' {  }
 ;
 
 enum_defs
-: enum_def               { $$ = mk_node("EnumDefs", 1, $1); }
-| enum_defs ',' enum_def { $$ = ext_node($1, 1, $3); }
-| %empty                 { $$ = mk_none(); }
+: enum_def               {  }
+| enum_defs ',' enum_def {  }
+| %empty                 {  }
 ;
 
 enum_def
-: attrs_and_vis ident enum_args { $$ = mk_node("EnumDef", 3, $1, $2, $3); }
+: attrs_and_vis ident enum_args {  }
 ;
 
 enum_args
-: '{' struct_decl_fields '}'     { $$ = mk_node("EnumArgs", 1, $2); }
-| '{' struct_decl_fields ',' '}' { $$ = mk_node("EnumArgs", 1, $2); }
-| '(' maybe_ty_sums ')'          { $$ = mk_node("EnumArgs", 1, $2); }
-| '=' expr                       { $$ = mk_node("EnumArgs", 1, $2); }
-| %empty                         { $$ = mk_none(); }
+: '{' struct_decl_fields '}'     {  }
+| '{' struct_decl_fields ',' '}' {  }
+| '(' maybe_ty_sums ')'          {  }
+| '=' expr                       {  }
+| %empty                         {  }
 ;
 
 // unions
 item_union
-: UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'     { $$ = mk_node("ItemUnion", 0); }
-| UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}' { $$ = mk_node("ItemUnion", 0); }
+: UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'     {  }
+| UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}' {  }
 
 item_mod
-: MOD ident ';'                                 { $$ = mk_node("ItemMod", 1, $2); }
-| MOD ident '{' maybe_mod_items '}'             { $$ = mk_node("ItemMod", 2, $2, $4); }
-| MOD ident '{' inner_attrs maybe_mod_items '}' { $$ = mk_node("ItemMod", 3, $2, $4, $5); }
+: MOD ident ';'                                 {  }
+| MOD ident '{' maybe_mod_items '}'             {  }
+| MOD ident '{' inner_attrs maybe_mod_items '}' {  }
 ;
 
 item_foreign_mod
-: EXTERN maybe_abi '{' maybe_foreign_items '}'             { $$ = mk_node("ItemForeignMod", 1, $4); }
-| EXTERN maybe_abi '{' inner_attrs maybe_foreign_items '}' { $$ = mk_node("ItemForeignMod", 2, $4, $5); }
+: EXTERN maybe_abi '{' maybe_foreign_items '}'             {  }
+| EXTERN maybe_abi '{' inner_attrs maybe_foreign_items '}' {  }
 ;
 
 maybe_abi
 : str
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 maybe_foreign_items
 : foreign_items
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 foreign_items
-: foreign_item               { $$ = mk_node("ForeignItems", 1, $1); }
-| foreign_items foreign_item { $$ = ext_node($1, 1, $2); }
+: foreign_item               {  }
+| foreign_items foreign_item {  }
 ;
 
 foreign_item
