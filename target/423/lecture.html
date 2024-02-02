@@ -2100,6 +2100,54 @@ can't write the expression for "stuff that isn't */" by saying (^ "*/")
     error as you understand it
 </dl>
 
+<h3> Mailbag Questions </h3>
+
+<dl>
+<dt> Integer literal values include 0. Since integer literal contains
+  integer value, should we consider negative sign/value in our
+  integer-literal RE or just the positive values including 0?
+  <dd> In some languages the minus sign in -123 is not part of the
+    integer literal, it is
+  an application of the unary negation operator.  So that's two tokens,
+  two calls to yylex() and two codes returned.  And all integer literals
+    are non-negative. However I agree that my intuition begs -123 to be a
+    single token.
+
+<dt> When there is a lexical error, should the scanner terminate with an
+  error message in stdout and stop scanning or just output an error message
+  and keep scanning the rest of the input(s) and at the end return with 1.
+  I think it should output errors with error count and keep reading to find
+  out all the errors and at the end return 1 if error count is more than 0.
+  I just want to make sure about the HW requirement.
+<dd> Thank you for your opinion. A production compiler would probably try to
+  recover from a lexical error and continue.  You are not required or expected
+  to do so.  If a lexical error occurs, you are allowed to print an error
+  message and then terminate with the error exit code.
+
+<dt> since Operators and Punctuations all are one character symbols,
+     why are we dividing in two groups? When we parse using Flex, we
+     are going to assign different token values for each of those
+     allowed symbols? Just to understand it better, whether in HW,
+     should we consider a special case besides just RE match?
+  <dd> In lexical analysis the distinction of operators and punctuation
+    as two groups
+     is unnecessary. It is more of a syntax and semantics differentiation,
+     and even there, since they all return different integer codes, the
+     distinct groups just inform the organization of the document.
+
+<dt> Characters enclosed in apostrophes. i. e. ''  ' '  'a' 'abc' are valid string literal, right?
+<dd> Apostrophes are for character literals, which must always be of length 1.
+  '' can't be empty; the stuff inside '' might be more than one letter if
+  it is an escape sequence or whatever. Rust would allow Unicode in there
+  but Irony does not.
+
+<dt> Do we want apostrophes (') or double quotes (&#8220;)
+     to represent string literal?
+<dd>String literals are always and only enclosed in double quotes.
+
+  </dl>
+
+
 <A name=finiteautomata>
 <h3> Finite Automata </h3>
 </A>
@@ -2410,65 +2458,13 @@ OK, how about this one: </p><p>
 
 <b> Look at <a href="https://www.cs.nmt.edu/~jeffery/courses/423/hw3.html">HW#3</a> </b> (in progress)
 
+<!--
 
 <h3> Mailbag </h3>
 
-Let's start with any new questions and then look at some old ones.
-
 <dl>
-<!--
-<dt> Somehow in c113c.html suddenly there appeared a rule about only
-    the first 6 letters of identifiers being significant.
-    When we parse in flex, and create the linked list, should we keep
-    the whole scanned lexeme or only the first six chars?
-<dd> For HW#2 I am going to be pretty casual about grading this, but the
-    official answer is that if an identifier is longer than 6 characters
-    long, you should go ahead and truncate it. I have seen commercial
-    compilers that kept longer names but only used the first six letters
-    in distinguishing them, but you are not expected to do that. BTW,
-    other commercial compilers limit the length at 32, or 256 letters.-->
-
-<dt> Integer literal values include 0. Since integer literal contains
-  integer value, should we consider negative sign/value in our
-  integer-literal RE or just the positive values including 0?
-  <dd> In some languages the minus sign in -123 is not part of the
-    integer literal, it is
-  an application of the unary negation operator.  So that's two tokens,
-  two calls to yylex() and two codes returned.  And all integer literals
-    are non-negative. However I agree that my intuition begs -123 to be a
-    single token.
-
-<dt> When there is a lexical error, should the scanner terminate with an
-  error message in stdout and stop scanning or just output an error message
-  and keep scanning the rest of the input(s) and at the end return with 1.
-  I think it should output errors with error count and keep reading to find
-  out all the errors and at the end return 1 if error count is more than 0.
-  I just want to make sure about the HW requirement.
-<dd> Thank you for your opinion. A production compiler would probably try to
-  recover from a lexical error and continue.  You are not required or expected
-  to do so.  If a lexical error occurs, you are allowed to print an error
-  message and then terminate with the error exit code.
-
-<dt> since Operators and Punctuations all are one character symbols,
-     why are we dividing in two groups? When we parse using Flex, we
-     are going to assign different token values for each of those
-     allowed symbols? Just to understand it better, whether in HW,
-     should we consider a special case besides just RE match?
-  <dd> In lexical analysis the distinction of operators and punctuation
-    as two groups
-     is unnecessary. It is more of a syntax and semantics differentiation,
-     and even there, since they all return different integer codes, the
-     distinct groups just inform the organization of the document.
-
-<dt> The language requires zero or more characters enclosed in apostrophes. i. e. ''  ' '  'a' 'abc' are valid string literal, right?
-<dd> Apostrophes are for character literals, which must always be of length 1.
-
-<dt> Do we want apostrophes (') or double quotes (&#8220;)
-     to represent string literal?
-<dd>String literals are always and only enclosed in double quotes.
-
 </dl>
-
+-->
 
 <!--<h3> C Comments Redux </h3>
 
