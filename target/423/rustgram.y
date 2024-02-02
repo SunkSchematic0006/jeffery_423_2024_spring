@@ -1655,44 +1655,44 @@ lambda_expr_nostruct
 
 lambda_expr_nostruct_no_first_bar
 : %prec LAMBDA
-  '|' ret_ty expr_nostruct                                 { $$ = mk_node("ExprFnBlock", 3, mk_none(), $2, $3); }
+  '|' ret_ty expr_nostruct                                 {  }
 | %prec LAMBDA
-  inferrable_params '|' ret_ty expr_nostruct               { $$ = mk_node("ExprFnBlock", 3, $1, $3, $4); }
+  inferrable_params '|' ret_ty expr_nostruct               {  }
 | %prec LAMBDA
-  inferrable_params OROR lambda_expr_nostruct_no_first_bar { $$ = mk_node("ExprFnBlock", 3, $1, mk_none(), $3); }
+  inferrable_params OROR lambda_expr_nostruct_no_first_bar {  }
 ;
 
 vec_expr
 : maybe_exprs
-| exprs ';' expr { $$ = mk_node("VecRepeat", 2, $1, $3); }
+| exprs ';' expr {  }
 ;
 
 struct_expr_fields
 : field_inits
 | field_inits ','
-| maybe_field_inits default_field_init { $$ = ext_node($1, 1, $2); }
-| %empty                               { $$ = mk_none(); }
+| maybe_field_inits default_field_init {  }
+| %empty                               {  }
 ;
 
 maybe_field_inits
 : field_inits
 | field_inits ','
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 field_inits
-: field_init                 { $$ = mk_node("FieldInits", 1, $1); }
-| field_inits ',' field_init { $$ = ext_node($1, 1, $3); }
+: field_init                 {  }
+| field_inits ',' field_init {  }
 ;
 
 field_init
-: ident                { $$ = mk_node("FieldInit", 1, $1); }
-| ident ':' expr       { $$ = mk_node("FieldInit", 2, $1, $3); }
-| LIT_INTEGER ':' expr { $$ = mk_node("FieldInit", 2, mk_atom(yytext), $3); }
+: ident                {  }
+| ident ':' expr       {  }
+| LIT_INTEGER ':' expr {  }
 ;
 
 default_field_init
-: DOTDOT expr   { $$ = mk_node("DefaultFieldInit", 1, $2); }
+: DOTDOT expr   {  }
 ;
 
 block_expr
@@ -1703,8 +1703,8 @@ block_expr
 | expr_while_let
 | expr_loop
 | expr_for
-| UNSAFE block                                           { $$ = mk_node("UnsafeBlock", 1, $2); }
-| path_expr '!' maybe_ident braces_delimited_token_trees { $$ = mk_node("Macro", 3, $1, $3, $4); }
+| UNSAFE block                                           {  }
+| path_expr '!' maybe_ident braces_delimited_token_trees {  }
 ;
 
 full_block_expr
@@ -1713,26 +1713,26 @@ full_block_expr
 ;
 
 block_expr_dot
-: block_expr     '.' path_generic_args_with_colons %prec IDENT         { $$ = mk_node("ExprField", 2, $1, $3); }
-| block_expr_dot '.' path_generic_args_with_colons %prec IDENT         { $$ = mk_node("ExprField", 2, $1, $3); }
-| block_expr     '.' path_generic_args_with_colons '[' maybe_expr ']'  { $$ = mk_node("ExprIndex", 3, $1, $3, $5); }
-| block_expr_dot '.' path_generic_args_with_colons '[' maybe_expr ']'  { $$ = mk_node("ExprIndex", 3, $1, $3, $5); }
-| block_expr     '.' path_generic_args_with_colons '(' maybe_exprs ')' { $$ = mk_node("ExprCall", 3, $1, $3, $5); }
-| block_expr_dot '.' path_generic_args_with_colons '(' maybe_exprs ')' { $$ = mk_node("ExprCall", 3, $1, $3, $5); }
-| block_expr     '.' LIT_INTEGER                                       { $$ = mk_node("ExprTupleIndex", 1, $1); }
-| block_expr_dot '.' LIT_INTEGER                                       { $$ = mk_node("ExprTupleIndex", 1, $1); }
+: block_expr     '.' path_generic_args_with_colons %prec IDENT         {  }
+| block_expr_dot '.' path_generic_args_with_colons %prec IDENT         {  }
+| block_expr     '.' path_generic_args_with_colons '[' maybe_expr ']'  {  }
+| block_expr_dot '.' path_generic_args_with_colons '[' maybe_expr ']'  {  }
+| block_expr     '.' path_generic_args_with_colons '(' maybe_exprs ')' {  }
+| block_expr_dot '.' path_generic_args_with_colons '(' maybe_exprs ')' {  }
+| block_expr     '.' LIT_INTEGER                                       {  }
+| block_expr_dot '.' LIT_INTEGER                                       {  }
 ;
 
 expr_match
-: MATCH expr_nostruct '{' '}'                                     { $$ = mk_node("ExprMatch", 1, $2); }
-| MATCH expr_nostruct '{' match_clauses                       '}' { $$ = mk_node("ExprMatch", 2, $2, $4); }
-| MATCH expr_nostruct '{' match_clauses nonblock_match_clause '}' { $$ = mk_node("ExprMatch", 2, $2, ext_node($4, 1, $5)); }
-| MATCH expr_nostruct '{'               nonblock_match_clause '}' { $$ = mk_node("ExprMatch", 2, $2, mk_node("Arms", 1, $4)); }
+: MATCH expr_nostruct '{' '}'                                     {  }
+| MATCH expr_nostruct '{' match_clauses                       '}' {  }
+| MATCH expr_nostruct '{' match_clauses nonblock_match_clause '}' {  }
+| MATCH expr_nostruct '{'               nonblock_match_clause '}' {  }
 ;
 
 match_clauses
-: match_clause               { $$ = mk_node("Arms", 1, $1); }
-| match_clauses match_clause { $$ = ext_node($1, 1, $2); }
+: match_clause               {  }
+| match_clauses match_clause {  }
 ;
 
 match_clause
@@ -1742,28 +1742,28 @@ match_clause
 ;
 
 nonblock_match_clause
-: maybe_outer_attrs pats_or maybe_guard FAT_ARROW nonblock_expr  { $$ = mk_node("ArmNonblock", 4, $1, $2, $3, $5); }
-| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr_dot { $$ = mk_node("ArmNonblock", 4, $1, $2, $3, $5); }
+: maybe_outer_attrs pats_or maybe_guard FAT_ARROW nonblock_expr  {  }
+| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr_dot {  }
 ;
 
 block_match_clause
-: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block      { $$ = mk_node("ArmBlock", 4, $1, $2, $3, $5); }
-| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr { $$ = mk_node("ArmBlock", 4, $1, $2, $3, $5); }
+: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block      {  }
+| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr {  }
 ;
 
 maybe_guard
-: IF expr_nostruct           { $$ = $2; }
-| %empty                     { $$ = mk_none(); }
+: IF expr_nostruct           {  }
+| %empty                     {  }
 ;
 
 expr_if
-: IF expr_nostruct block                              { $$ = mk_node("ExprIf", 2, $2, $3); }
-| IF expr_nostruct block ELSE block_or_if             { $$ = mk_node("ExprIf", 3, $2, $3, $5); }
+: IF expr_nostruct block                              {  }
+| IF expr_nostruct block ELSE block_or_if             {  }
 ;
 
 expr_if_let
-: IF LET pat '=' expr_nostruct block                  { $$ = mk_node("ExprIfLet", 3, $3, $5, $6); }
-| IF LET pat '=' expr_nostruct block ELSE block_or_if { $$ = mk_node("ExprIfLet", 4, $3, $5, $6, $8); }
+: IF LET pat '=' expr_nostruct block                  {  }
+| IF LET pat '=' expr_nostruct block ELSE block_or_if {  }
 ;
 
 block_or_if
@@ -1773,28 +1773,28 @@ block_or_if
 ;
 
 expr_while
-: maybe_label WHILE expr_nostruct block               { $$ = mk_node("ExprWhile", 3, $1, $3, $4); }
+: maybe_label WHILE expr_nostruct block               {  }
 ;
 
 expr_while_let
-: maybe_label WHILE LET pat '=' expr_nostruct block   { $$ = mk_node("ExprWhileLet", 4, $1, $4, $6, $7); }
+: maybe_label WHILE LET pat '=' expr_nostruct block   {  }
 ;
 
 expr_loop
-: maybe_label LOOP block                              { $$ = mk_node("ExprLoop", 2, $1, $3); }
+: maybe_label LOOP block                              {  }
 ;
 
 expr_for
-: maybe_label FOR pat IN expr_nostruct block          { $$ = mk_node("ExprForLoop", 4, $1, $3, $5, $6); }
+: maybe_label FOR pat IN expr_nostruct block          {  }
 ;
 
 maybe_label
 : lifetime ':'
-| %empty { $$ = mk_none(); }
+| %empty {  }
 ;
 
 let
-: LET pat maybe_ty_ascription maybe_init_expr ';' { $$ = mk_node("DeclLocal", 3, $2, $3, $4); }
+: LET pat maybe_ty_ascription maybe_init_expr ';' {  }
 ;
 
 ////////////////////////////////////////////////////////////////////////
@@ -1802,160 +1802,160 @@ let
 ////////////////////////////////////////////////////////////////////////
 
 lit
-: LIT_BYTE                   { $$ = mk_node("LitByte", 1, mk_atom(yytext)); }
-| LIT_CHAR                   { $$ = mk_node("LitChar", 1, mk_atom(yytext)); }
-| LIT_INTEGER                { $$ = mk_node("LitInteger", 1, mk_atom(yytext)); }
-| LIT_FLOAT                  { $$ = mk_node("LitFloat", 1, mk_atom(yytext)); }
-| TRUE                       { $$ = mk_node("LitBool", 1, mk_atom(yytext)); }
-| FALSE                      { $$ = mk_node("LitBool", 1, mk_atom(yytext)); }
+: LIT_BYTE                   {  }
+| LIT_CHAR                   {  }
+| LIT_INTEGER                {  }
+| LIT_FLOAT                  {  }
+| TRUE                       {  }
+| FALSE                      {  }
 | str
 ;
 
 str
-: LIT_STR                    { $$ = mk_node("LitStr", 1, mk_atom(yytext), mk_atom("CookedStr")); }
-| LIT_STR_RAW                { $$ = mk_node("LitStr", 1, mk_atom(yytext), mk_atom("RawStr")); }
-| LIT_BYTE_STR                 { $$ = mk_node("LitByteStr", 1, mk_atom(yytext), mk_atom("ByteStr")); }
-| LIT_BYTE_STR_RAW             { $$ = mk_node("LitByteStr", 1, mk_atom(yytext), mk_atom("RawByteStr")); }
+: LIT_STR                    {  }
+| LIT_STR_RAW                {  }
+| LIT_BYTE_STR               {  }
+| LIT_BYTE_STR_RAW           {  }
 ;
 
 maybe_ident
-: %empty { $$ = mk_none(); }
+: %empty {  }
 | ident
 ;
 
 ident
-: IDENT                      { $$ = mk_node("ident", 1, mk_atom(yytext)); }
+: IDENT                      {  }
 // Weak keywords that can be used as identifiers
-| CATCH                      { $$ = mk_node("ident", 1, mk_atom(yytext)); }
-| DEFAULT                    { $$ = mk_node("ident", 1, mk_atom(yytext)); }
-| UNION                      { $$ = mk_node("ident", 1, mk_atom(yytext)); }
+| CATCH                      {  }
+| DEFAULT                    {  }
+| UNION                      {  }
 ;
 
 unpaired_token
-: SHL                        { $$ = mk_atom(yytext); }
-| SHR                        { $$ = mk_atom(yytext); }
-| LE                         { $$ = mk_atom(yytext); }
-| EQEQ                       { $$ = mk_atom(yytext); }
-| NE                         { $$ = mk_atom(yytext); }
-| GE                         { $$ = mk_atom(yytext); }
-| ANDAND                     { $$ = mk_atom(yytext); }
-| OROR                       { $$ = mk_atom(yytext); }
-| LARROW                     { $$ = mk_atom(yytext); }
-| SHLEQ                      { $$ = mk_atom(yytext); }
-| SHREQ                      { $$ = mk_atom(yytext); }
-| MINUSEQ                    { $$ = mk_atom(yytext); }
-| ANDEQ                      { $$ = mk_atom(yytext); }
-| OREQ                       { $$ = mk_atom(yytext); }
-| PLUSEQ                     { $$ = mk_atom(yytext); }
-| STAREQ                     { $$ = mk_atom(yytext); }
-| SLASHEQ                    { $$ = mk_atom(yytext); }
-| CARETEQ                    { $$ = mk_atom(yytext); }
-| PERCENTEQ                  { $$ = mk_atom(yytext); }
-| DOTDOT                     { $$ = mk_atom(yytext); }
-| DOTDOTDOT                  { $$ = mk_atom(yytext); }
-| MOD_SEP                    { $$ = mk_atom(yytext); }
-| RARROW                     { $$ = mk_atom(yytext); }
-| FAT_ARROW                  { $$ = mk_atom(yytext); }
-| LIT_BYTE                   { $$ = mk_atom(yytext); }
-| LIT_CHAR                   { $$ = mk_atom(yytext); }
-| LIT_INTEGER                { $$ = mk_atom(yytext); }
-| LIT_FLOAT                  { $$ = mk_atom(yytext); }
-| LIT_STR                    { $$ = mk_atom(yytext); }
-| LIT_STR_RAW                { $$ = mk_atom(yytext); }
-| LIT_BYTE_STR               { $$ = mk_atom(yytext); }
-| LIT_BYTE_STR_RAW           { $$ = mk_atom(yytext); }
-| IDENT                      { $$ = mk_atom(yytext); }
-| UNDERSCORE                 { $$ = mk_atom(yytext); }
-| LIFETIME                   { $$ = mk_atom(yytext); }
-| SELF                       { $$ = mk_atom(yytext); }
-| STATIC                     { $$ = mk_atom(yytext); }
-| ABSTRACT                   { $$ = mk_atom(yytext); }
-| ALIGNOF                    { $$ = mk_atom(yytext); }
-| AS                         { $$ = mk_atom(yytext); }
-| BECOME                     { $$ = mk_atom(yytext); }
-| BREAK                      { $$ = mk_atom(yytext); }
-| CATCH                      { $$ = mk_atom(yytext); }
-| CRATE                      { $$ = mk_atom(yytext); }
-| DEFAULT                    { $$ = mk_atom(yytext); }
-| DO                         { $$ = mk_atom(yytext); }
-| ELSE                       { $$ = mk_atom(yytext); }
-| ENUM                       { $$ = mk_atom(yytext); }
-| EXTERN                     { $$ = mk_atom(yytext); }
-| FALSE                      { $$ = mk_atom(yytext); }
-| FINAL                      { $$ = mk_atom(yytext); }
-| FN                         { $$ = mk_atom(yytext); }
-| FOR                        { $$ = mk_atom(yytext); }
-| IF                         { $$ = mk_atom(yytext); }
-| IMPL                       { $$ = mk_atom(yytext); }
-| IN                         { $$ = mk_atom(yytext); }
-| LET                        { $$ = mk_atom(yytext); }
-| LOOP                       { $$ = mk_atom(yytext); }
-| MACRO                      { $$ = mk_atom(yytext); }
-| MATCH                      { $$ = mk_atom(yytext); }
-| MOD                        { $$ = mk_atom(yytext); }
-| MOVE                       { $$ = mk_atom(yytext); }
-| MUT                        { $$ = mk_atom(yytext); }
-| OFFSETOF                   { $$ = mk_atom(yytext); }
-| OVERRIDE                   { $$ = mk_atom(yytext); }
-| PRIV                       { $$ = mk_atom(yytext); }
-| PUB                        { $$ = mk_atom(yytext); }
-| PURE                       { $$ = mk_atom(yytext); }
-| REF                        { $$ = mk_atom(yytext); }
-| RETURN                     { $$ = mk_atom(yytext); }
-| STRUCT                     { $$ = mk_atom(yytext); }
-| SIZEOF                     { $$ = mk_atom(yytext); }
-| SUPER                      { $$ = mk_atom(yytext); }
-| TRUE                       { $$ = mk_atom(yytext); }
-| TRAIT                      { $$ = mk_atom(yytext); }
-| TYPE                       { $$ = mk_atom(yytext); }
-| UNION                      { $$ = mk_atom(yytext); }
-| UNSAFE                     { $$ = mk_atom(yytext); }
-| UNSIZED                    { $$ = mk_atom(yytext); }
-| USE                        { $$ = mk_atom(yytext); }
-| VIRTUAL                    { $$ = mk_atom(yytext); }
-| WHILE                      { $$ = mk_atom(yytext); }
-| YIELD                      { $$ = mk_atom(yytext); }
-| CONTINUE                   { $$ = mk_atom(yytext); }
-| PROC                       { $$ = mk_atom(yytext); }
-| BOX                        { $$ = mk_atom(yytext); }
-| CONST                      { $$ = mk_atom(yytext); }
-| WHERE                      { $$ = mk_atom(yytext); }
-| TYPEOF                     { $$ = mk_atom(yytext); }
-| INNER_DOC_COMMENT          { $$ = mk_atom(yytext); }
-| OUTER_DOC_COMMENT          { $$ = mk_atom(yytext); }
-| SHEBANG                    { $$ = mk_atom(yytext); }
-| STATIC_LIFETIME            { $$ = mk_atom(yytext); }
-| ';'                        { $$ = mk_atom(yytext); }
-| ','                        { $$ = mk_atom(yytext); }
-| '.'                        { $$ = mk_atom(yytext); }
-| '@'                        { $$ = mk_atom(yytext); }
-| '#'                        { $$ = mk_atom(yytext); }
-| '~'                        { $$ = mk_atom(yytext); }
-| ':'                        { $$ = mk_atom(yytext); }
-| '$'                        { $$ = mk_atom(yytext); }
-| '='                        { $$ = mk_atom(yytext); }
-| '?'                        { $$ = mk_atom(yytext); }
-| '!'                        { $$ = mk_atom(yytext); }
-| '<'                        { $$ = mk_atom(yytext); }
-| '>'                        { $$ = mk_atom(yytext); }
-| '-'                        { $$ = mk_atom(yytext); }
-| '&'                        { $$ = mk_atom(yytext); }
-| '|'                        { $$ = mk_atom(yytext); }
-| '+'                        { $$ = mk_atom(yytext); }
-| '*'                        { $$ = mk_atom(yytext); }
-| '/'                        { $$ = mk_atom(yytext); }
-| '^'                        { $$ = mk_atom(yytext); }
-| '%'                        { $$ = mk_atom(yytext); }
+: SHL                        {  }
+| SHR                        {  }
+| LE                         {  }
+| EQEQ                       {  }
+| NE                         {  }
+| GE                         {  }
+| ANDAND                     {  }
+| OROR                       {  }
+| LARROW                     {  }
+| SHLEQ                      {  }
+| SHREQ                      {  }
+| MINUSEQ                    {  }
+| ANDEQ                      {  }
+| OREQ                       {  }
+| PLUSEQ                     {  }
+| STAREQ                     {  }
+| SLASHEQ                    {  }
+| CARETEQ                    {  }
+| PERCENTEQ                  {  }
+| DOTDOT                     {  }
+| DOTDOTDOT                  {  }
+| MOD_SEP                    {  }
+| RARROW                     {  }
+| FAT_ARROW                  {  }
+| LIT_BYTE                   {  }
+| LIT_CHAR                   {  }
+| LIT_INTEGER                {  }
+| LIT_FLOAT                  {  }
+| LIT_STR                    {  }
+| LIT_STR_RAW                {  }
+| LIT_BYTE_STR               {  }
+| LIT_BYTE_STR_RAW           {  }
+| IDENT                      {  }
+| UNDERSCORE                 {  }
+| LIFETIME                   {  }
+| SELF                       {  }
+| STATIC                     {  }
+| ABSTRACT                   {  }
+| ALIGNOF                    {  }
+| AS                         {  }
+| BECOME                     {  }
+| BREAK                      {  }
+| CATCH                      {  }
+| CRATE                      {  }
+| DEFAULT                    {  }
+| DO                         {  }
+| ELSE                       {  }
+| ENUM                       {  }
+| EXTERN                     {  }
+| FALSE                      {  }
+| FINAL                      {  }
+| FN                         {  }
+| FOR                        {  }
+| IF                         {  }
+| IMPL                       {  }
+| IN                         {  }
+| LET                        {  }
+| LOOP                       {  }
+| MACRO                      {  }
+| MATCH                      {  }
+| MOD                        {  }
+| MOVE                       {  }
+| MUT                        {  }
+| OFFSETOF                   {  }
+| OVERRIDE                   {  }
+| PRIV                       {  }
+| PUB                        {  }
+| PURE                       {  }
+| REF                        {  }
+| RETURN                     {  }
+| STRUCT                     {  }
+| SIZEOF                     {  }
+| SUPER                      {  }
+| TRUE                       {  }
+| TRAIT                      {  }
+| TYPE                       {  }
+| UNION                      {  }
+| UNSAFE                     {  }
+| UNSIZED                    {  }
+| USE                        {  }
+| VIRTUAL                    {  }
+| WHILE                      {  }
+| YIELD                      {  }
+| CONTINUE                   {  }
+| PROC                       {  }
+| BOX                        {  }
+| CONST                      {  }
+| WHERE                      {  }
+| TYPEOF                     {  }
+| INNER_DOC_COMMENT          {  }
+| OUTER_DOC_COMMENT          {  }
+| SHEBANG                    {  }
+| STATIC_LIFETIME            {  }
+| ';'                        {  }
+| ','                        {  }
+| '.'                        {  }
+| '@'                        {  }
+| '#'                        {  }
+| '~'                        {  }
+| ':'                        {  }
+| '$'                        {  }
+| '='                        {  }
+| '?'                        {  }
+| '!'                        {  }
+| '<'                        {  }
+| '>'                        {  }
+| '-'                        {  }
+| '&'                        {  }
+| '|'                        {  }
+| '+'                        {  }
+| '*'                        {  }
+| '/'                        {  }
+| '^'                        {  }
+| '%'                        {  }
 ;
 
 token_trees
-: %empty                     { $$ = mk_node("TokenTrees", 0); }
-| token_trees token_tree     { $$ = ext_node($1, 1, $2); }
+: %empty                     {  }
+| token_trees token_tree     {  }
 ;
 
 token_tree
 : delimited_token_trees
-| unpaired_token         { $$ = mk_node("TTTok", 1, $1); }
+| unpaired_token         {  }
 ;
 
 delimited_token_trees
@@ -1964,32 +1964,17 @@ delimited_token_trees
 | brackets_delimited_token_trees
 ;
 
-parens_delimited_token_trees
-: '(' token_trees ')'
-{
-  $$ = mk_node("TTDelim", 3,
-               mk_node("TTTok", 1, mk_atom("(")),
-               $2,
-               mk_node("TTTok", 1, mk_atom(")")));
+parens_delimited_token_trees : '(' token_trees ')' {
+  
 }
 ;
 
-braces_delimited_token_trees
-: '{' token_trees '}'
-{
-  $$ = mk_node("TTDelim", 3,
-               mk_node("TTTok", 1, mk_atom("{")),
-               $2,
-               mk_node("TTTok", 1, mk_atom("}")));
+braces_delimited_token_trees : '{' token_trees '}' {
+  
 }
 ;
 
-brackets_delimited_token_trees
-: '[' token_trees ']'
-{
-  $$ = mk_node("TTDelim", 3,
-               mk_node("TTTok", 1, mk_atom("[")),
-               $2,
-               mk_node("TTTok", 1, mk_atom("]")));
-}
-;
+brackets_delimited_token_trees : '[' token_trees ']' {
+
+	}
+	;

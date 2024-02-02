@@ -2275,15 +2275,15 @@ them efficiently.
 </p><h4> NFA Examples </h4>
 
 &#949;-transitions make it simpler to merge automata:<p>
-<img src="fa-eps.gif">
+<img src="fa-eps.gif" width=500>
 </p><p>
 
 multiple transitions on the same symbol handle common prefixes:</p><p>
-<img src="fa-less.gif">
+<img src="fa-less.gif" widht=500>
 </p><p>
 
 factoring may optimize the number of states.  Is this picture OK/correct?</p><p>
-<img src="fa-less2.gif">
+<img src="fa-less2.gif" width=500>
 </p><p>
 
 
@@ -2311,19 +2311,19 @@ examples such as (a|b)*abb in class and during lab.
 
 <ol>
 <li> For &#949;, draw two states with a single &#949; transition.
-     <br><img src="fa-th2.gif">
+     <br><img src="fa-th2.gif" width=380>
 </li><li> For any letter in the alphabet, 
      draw two states with a single transition labeled with that letter.
-     <br><img src="fa-th1.gif">
+     <br><img src="fa-th1.gif" width=400>
 </li><li> For regular expressions r and s, draw r | s
      by adding a new start state with &#949; transitions to the start
      states of r and s, and a new final state with &#949; transitions
      from each final state in r and s.
-     <br><img src="fa-th4.gif">
+     <br><img src="fa-th4.gif" width=400>
 </li><li> For regular expressions r and s, draw rs
      by adding &#949; transitions from the final states of r to the
      start state of s.
-     <br><img src="fa-th3.gif">
+     <br><img src="fa-th3.gif" width=400>
 </li><li> For regular expression r, draw r*
      by adding new start and final states, and &#949; transitions
 <ul>
@@ -2332,7 +2332,7 @@ examples such as (a|b)*abb in class and during lab.
 	</li><li> from the new start to the old start and from the old final
             states to the new final state.
 </li></ul>
-     <br><img src="kleene.png">
+     <br><img src="kleene.png" width=500>
 </li><li> For parenthesized regular expression (r) you can use the NFA for r.
 </li></ol>
 
@@ -2378,7 +2378,7 @@ while T := unmarked_member(Dstates) do {
 <h3> Practice converting NFA to DFA </h3>
 
 OK, you've seen the algorithm, now can you use it?<p>
-<img src="nfadfa.gif">
+<img src="nfadfa.gif" width=500>
 </p><p>
 ...
 <br>
@@ -2390,14 +2390,14 @@ OK, you've seen the algorithm, now can you use it?<p>
 <br>
 <br>
 ...did you get:</p><p>
-<img src="nfadfa2.gif">
+<img src="nfadfa2.gif" width=500>
 </p><p>
 <br>
 <br>
 <br>
 <br>
 OK, how about this one: </p><p>
-<img src="nfadfa3.gif">
+<img src="nfadfa3.gif" width=550>
 </p><p>
 
 
@@ -2408,7 +2408,7 @@ OK, how about this one: </p><p>
 
 <h3> HW#3 </h3>
 
-</p><h3> Look at <a href="https://www.cs.nmt.edu/~jeffery/courses/423/hw3.html">HW#3</a> </h3>
+<b> Look at <a href="https://www.cs.nmt.edu/~jeffery/courses/423/hw3.html">HW#3</a> </b> (in progress)
 
 
 <h3> Mailbag </h3>
@@ -2448,11 +2448,6 @@ Let's start with any new questions and then look at some old ones.
   recover from a lexical error and continue.  You are not required or expected
   to do so.  If a lexical error occurs, you are allowed to print an error
   message and then terminate with the error exit code.
-
-<dt> In section 2.3 Operators the comma operator ,  -- An error is reported
-but in Section 2.5 Punctuation, comma , is a valid lexeme.
-<dd> Good observation.  A comma is a legal token.  The comment about it
-not being a legal operator in c113c will be addressed in the syntax/grammar.
 
 <dt> since Operators and Punctuations all are one character symbols,
      why are we dividing in two groups? When we parse using Flex, we
