@@ -2065,8 +2065,9 @@ can't write the expression for "stuff that isn't */" by saying (^ "*/")
 <dt>Is there length enforcement in variable names?
 <dd>I am not yet aware of Rust defining a name length limit.
     It is OK for Irony to live with whatever limit Flex might impose.
-<dt> Can we control for order of flex operations? I.e.how to ensure we do not tokenize lets say a part
-of a variable x5xx as an invalid variable 5xx? Is this just automatically done by flex?
+<dt> Can we control for order of flex operations?
+    How do we ensure that we do not tokenize lets say a part
+    of a variable x5xx as an invalid variable 5xx? Is this just automatically done by flex?
 What does # do in rust?
 What does #! Do in rust?
 Which type of error should it check?
