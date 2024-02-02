@@ -1617,8 +1617,9 @@ yypush_buffer_state().
      is not a Flex thing, sorry. How do <em>you</em> think you should limit
      the length of identifiers?  Incidentally: I am astonished, to read
      claims that the Flex scanner buffer doesn't automatically increase
-     in size as needed, and might be limited by default to 8K or so regexes.
-     If you write open-ended regular expressions, but might be advisable
+    in size as needed, and might be limited by default to 8K or so per
+    regex match.
+     If you write open-ended regular expressions, it might be advisable
      in this day of big memory to say something like
 <pre>	i=stat(filename,&amp;st);
 	yyin=fopen(filename,"r");
@@ -2063,10 +2064,18 @@ can't write the expression for "stuff that isn't */" by saying (^ "*/")
 <dd>Irony will use C variable names. Underscore is a letter. A name
     starts with a letter and then has letters or digits.
 <dt>Is there length enforcement in variable names?
-<dd>I am not yet aware of Rust defining a name length limit.
-    It is OK for Irony to live with whatever limit Flex might impose.
-  In real life variable names longer than 60 chars are a pain, and
+  <dd>
+    <ul>
+      <li>I am not aware of Rust defining a name length limit.
+<li>  It is OK for Irony to live with whatever limit Flex might impose.
+<li>  I glossed over a question earlier in the lecture notes that
+  suggested Flex might choke on pattern matches longer than 8K or so
+  by default, and gave code to make that bigger.
+<li>  In real life variable names longer than 60 chars are a pain for
+  viewing/editing of source code, and
   many compilers impose some short practical limit like 256 characters.
+<li>  Such limits were a 1970's and 1980's thing, not a 2020's thing.
+</ul>
 <dt> Can we control for order of flex operations?
     How do we ensure that we do not tokenize lets say a part
     of a variable x5xx as an invalid variable 5xx?
