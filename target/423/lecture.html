@@ -2357,7 +2357,30 @@ automatically by flex’s character encoding right? However, \’ is not one of
 those characters, and we think it should be allowed within a character
 literal. We did what we thought was correct in the above character regular
 expression, but are unsure if this is the right idea.
+
+<dd> Flex interprets \' as a single apostrophe character, but when you write
+  the regular expression for character literals, you have to
+  write a regular expression that explicitly accounts for escape sequences.
+  To get a regular expression that accepts backslash followed by apostrophe
+  you might be writing \\\' not just \'
+
+  <dt>
+    Are types, as in <code>let k: i64 = 1;</code>, identifiers?
 <dd>
+  <code>k</code> is an identifier... in a lot of programming languages like C
+  a built-in type like i64 is not an identifier, but maybe Rust is different.
+  Let's look at that question further.
+
+<dt>
+  Are we doing type paramters for lists like
+  <code>let v: Vec&lt;i64&gt; = [1, 2];</code>?
+  <dd> Well, we are doing "arrays" and their element types are specified.
+    But we are not doing type templates and maybe not doing Vec at all.
+
+<dt>
+If we are, is the whole thing an identifier? Or are the brackets operators?
+
+
   </dl>
 
 
