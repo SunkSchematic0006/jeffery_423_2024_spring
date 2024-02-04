@@ -2374,11 +2374,19 @@ expression, but are unsure if this is the right idea.
 <dt>
   Are we doing type paramters for lists like
   <code>let v: Vec&lt;i64&gt; = [1, 2];</code>?
-  <dd> Well, we are doing "arrays" and their element types are specified.
+  <dd> Irony has "arrays" and their element types are specified.
     But we are not doing type templates and maybe not doing Vec at all.
+    Rust by example seems to suggest the syntax would be
+    <pre>
+let xs : [i64; 2] = [1, 2];
+</pre>
+    Does that look about right to you? Explicit element type and size.
 
 <dt>
 If we are, is the whole thing an identifier? Or are the brackets operators?
+<dd> I expect that if we were doing type templates, the &lt; and &gt; would
+  be separate tokens, and what was inside them would be zero or more tokens
+  (one, in this example).
 
 
   </dl>
