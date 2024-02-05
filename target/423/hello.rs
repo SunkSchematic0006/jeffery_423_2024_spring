@@ -1,3 +1,4 @@
+#!/usr/bin/rustc
    fn main() {
       println!("hello,\t{}! ", &(f("golly", 121212121212121212121212121212121212))[..]);
    }
