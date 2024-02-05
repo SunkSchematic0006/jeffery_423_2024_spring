@@ -408,181 +408,167 @@ enum_args : '{' struct_decl_fields '}'     {  }
 // unions
 item_union : UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'     {  }
 	| UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}' {  }
+	;
 
-item_mod
-: MOD ident ';'                                 {  }
-| MOD ident '{' maybe_mod_items '}'             {  }
-| MOD ident '{' inner_attrs maybe_mod_items '}' {  }
-;
+item_mod : MOD ident ';'                                {  }
+	| MOD ident '{' maybe_mod_items '}'             {  }
+	| MOD ident '{' inner_attrs maybe_mod_items '}' {  }
+	;
 
-item_foreign_mod
-: EXTERN maybe_abi '{' maybe_foreign_items '}'             {  }
-| EXTERN maybe_abi '{' inner_attrs maybe_foreign_items '}' {  }
-;
+item_foreign_mod : EXTERN maybe_abi '{' maybe_foreign_items '}' {  }
+	| EXTERN maybe_abi '{' inner_attrs maybe_foreign_items '}' {  }
+	;
 
-maybe_abi
-: str
-| %empty {  }
-;
+maybe_abi : str
+	| %empty {  }
+	;
 
-maybe_foreign_items
-: foreign_items
-| %empty {  }
-;
+maybe_foreign_items : foreign_items
+	| %empty {  }
+	;
 
-foreign_items
-: foreign_item               {  }
-| foreign_items foreign_item {  }
-;
+foreign_items : foreign_item               {  }
+	| foreign_items foreign_item {  }
+	;
 
-foreign_item
-: attrs_and_vis STATIC item_foreign_static {  }
-| attrs_and_vis item_foreign_fn            {  }
-| attrs_and_vis UNSAFE item_foreign_fn     {  }
-;
+foreign_item : attrs_and_vis STATIC item_foreign_static {  }
+	| attrs_and_vis item_foreign_fn            {  }
+	| attrs_and_vis UNSAFE item_foreign_fn     {  }
+	;
 
 item_foreign_static
-: maybe_mut ident ':' ty ';'               {  }
-;
+	: maybe_mut ident ':' ty ';'               {  }
+	;
 
 item_foreign_fn
-: FN ident generic_params fn_decl_allow_variadic maybe_where_clause ';' {  }
-;
+	: FN ident generic_params fn_decl_allow_variadic maybe_where_clause ';'
+	  {  }
+	;
 
-fn_decl_allow_variadic
-: fn_params_allow_variadic ret_ty {  }
-;
+fn_decl_allow_variadic : fn_params_allow_variadic ret_ty {  }
+	;
 
-fn_params_allow_variadic
-: '(' ')'                      {  }
-| '(' params ')'               {  }
-| '(' params ',' ')'           {  }
-| '(' params ',' DOTDOTDOT ')' {  }
-;
+fn_params_allow_variadic : '(' ')'     {  }
+	| '(' params ')'               {  }
+	| '(' params ',' ')'           {  }
+	| '(' params ',' DOTDOTDOT ')' {  }
+	;
 
-visibility
-: PUB      {  }
-| %empty   {  }
-;
+visibility : PUB      {  }
+	| %empty   {  }
+	;
 
-idents_or_self
-: ident_or_self                    {  }
-| idents_or_self AS ident          {  }
-| idents_or_self ',' ident_or_self {  }
-;
+idents_or_self : ident_or_self                    {  }
+	| idents_or_self AS ident          {  }
+	| idents_or_self ',' ident_or_self {  }
+	;
 
-ident_or_self
-: ident
-| SELF  {  }
-;
+ident_or_self : ident
+	| SELF  {  }
+	;
 
-item_type
-: TYPE ident generic_params maybe_where_clause '=' ty_sum ';'  {  }
-;
+item_type : TYPE ident generic_params maybe_where_clause '=' ty_sum ';'  {  }
+	;
 
-for_sized
-: FOR '?' ident {  }
-| FOR ident '?' {  }
-| %empty        {  }
-;
+for_sized : FOR '?' ident {  }
+	| FOR ident '?' {  }
+	| %empty        {  }
+	;
 
-item_trait
-: maybe_unsafe TRAIT ident generic_params for_sized maybe_ty_param_bounds maybe_where_clause '{' maybe_trait_items '}'
-{
+item_trait : maybe_unsafe TRAIT ident generic_params for_sized
+	     maybe_ty_param_bounds maybe_where_clause '{' maybe_trait_items '}'
+	  {
 
-}
-;
+	  }
+	;
 
-maybe_trait_items
-: trait_items
-| %empty {  }
-;
+maybe_trait_items : trait_items
+	| %empty {  }
+	;
 
-trait_items
-: trait_item               {  }
-| trait_items trait_item   {  }
-;
+trait_items : trait_item               {  }
+	| trait_items trait_item       {  }
+	;
 
-trait_item
-: trait_const
-| trait_type
-| trait_method
-| maybe_outer_attrs item_macro {  }
-;
+trait_item : trait_const
+	| trait_type
+	| trait_method
+	| maybe_outer_attrs item_macro {  }
+	;
 
-trait_const
-: maybe_outer_attrs CONST ident maybe_ty_ascription maybe_const_default ';' {  }
-;
+trait_const : maybe_outer_attrs CONST ident maybe_ty_ascription
+	      maybe_const_default ';' {  }
+	;
 
-maybe_const_default
-: '=' expr {  }
-| %empty   {  }
-;
+maybe_const_default : '=' expr {  }
+	| %empty   {  }
+	;
 
-trait_type
-: maybe_outer_attrs TYPE ty_param ';' {  }
-;
+trait_type : maybe_outer_attrs TYPE ty_param ';' {  }
+	;
 
-maybe_unsafe
-: UNSAFE {  }
-| %empty {  }
-;
+maybe_unsafe : UNSAFE {  }
+	| %empty {  }
+	;
 
-maybe_default_maybe_unsafe
-: DEFAULT UNSAFE {  }
-| DEFAULT        {  }
-|         UNSAFE {  }
-| %empty {  }
+maybe_default_maybe_unsafe : DEFAULT UNSAFE {  }
+	| DEFAULT        {  }
+	|         UNSAFE {  }
+	| %empty {  }
+	;
 
-trait_method
-: type_method {  }
-| method      {  }
-;
+trait_method : type_method {  }
+	| method      {  }
+	;
 
-type_method
-: maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
-{
+type_method : maybe_outer_attrs maybe_unsafe FN ident generic_params
+	      fn_decl_with_self_allow_anon_params maybe_where_clause ';'
+	  {
 
-}
-| maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
-{
+	  }
+	| maybe_outer_attrs CONST maybe_unsafe FN ident generic_params
+	  fn_decl_with_self_allow_anon_params maybe_where_clause ';' {
 
-}
-| maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'
-{
+	  }
+	| maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident
+	  generic_params fn_decl_with_self_allow_anon_params
+	   maybe_where_clause ';' {
 
-}
-;
+	  }
+	;
 
-method
-: maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
-{
+method : maybe_outer_attrs maybe_unsafe FN ident generic_params
+         fn_decl_with_self_allow_anon_params maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-| maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
-{
+	 }
+	| maybe_outer_attrs CONST maybe_unsafe FN ident generic_params
+	  fn_decl_with_self_allow_anon_params maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-| maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident
+	  generic_params fn_decl_with_self_allow_anon_params
+	  maybe_where_clause inner_attrs_and_block {
 
-}
-;
+	  }
+	;
 
-impl_method
-: attrs_and_vis maybe_default maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
-{
+impl_method : attrs_and_vis maybe_default maybe_unsafe FN ident generic_params
+	      fn_decl_with_self maybe_where_clause inner_attrs_and_block {
 
-}
-| attrs_and_vis maybe_default CONST maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| attrs_and_vis maybe_default CONST maybe_unsafe FN ident
+	  generic_params fn_decl_with_self maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-| attrs_and_vis maybe_default maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| attrs_and_vis maybe_default maybe_unsafe EXTERN maybe_abi FN ident
+	  generic_params fn_decl_with_self maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-;
+	  }
+	;
 
 // There are two forms of impl:
 //
@@ -599,91 +585,83 @@ impl_method
 // permitting / requiring the user to provide parens around types when
 // they are ambiguous with traits. We do the same here, regrettably,
 // by splitting ty into ty and ty_prim.
-item_impl
-: maybe_default_maybe_unsafe IMPL generic_params ty_prim_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
-{
+item_impl : maybe_default_maybe_unsafe IMPL generic_params ty_prim_sum
+	     maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}' {
 
-}
-| maybe_default_maybe_unsafe IMPL generic_params '(' ty ')' maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
-{
+	  }
+	| maybe_default_maybe_unsafe IMPL generic_params '(' ty ')'
+	  maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}' {
 
-}
-| maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
-{
+	  }
+	| maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}' {
 
-}
-| maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
-{
+	  }
+	| maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR
+	   ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'
+	  {
 
-}
-| maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR DOTDOT '{' '}'
-{
+	  }
+	| maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR DOTDOT
+	  '{' '}' {
 
-}
-| maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR DOTDOT '{' '}'
-{
+	  }
+	| maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR
+	  DOTDOT '{' '}' {
 
-}
-;
+	  }
+	;
 
-maybe_impl_items
-: impl_items
-| %empty {  }
-;
+maybe_impl_items : impl_items
+	| %empty {  }
+	;
 
-impl_items
-: impl_item               {  }
-| impl_item impl_items    {  }
-;
+impl_items : impl_item               {  }
+	| impl_item impl_items    {  }
+	;
 
-impl_item
-: impl_method
-| attrs_and_vis item_macro {  }
-| impl_const
-| impl_type
-;
+impl_item : impl_method
+	| attrs_and_vis item_macro {  }
+	| impl_const
+	| impl_type
+	;
 
-maybe_default
-: DEFAULT {  }
-| %empty {  }
-;
+maybe_default : DEFAULT {  }
+	| %empty {  }
+	;
 
-impl_const
-: attrs_and_vis maybe_default item_const {  }
-;
+impl_const : attrs_and_vis maybe_default item_const {  }
+	;
 
-impl_type
-: attrs_and_vis maybe_default TYPE ident generic_params '=' ty_sum ';'  {  }
-;
+impl_type : attrs_and_vis maybe_default TYPE ident generic_params
+	    '=' ty_sum ';'  {  }
+	;
 
-item_fn
-: FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
-{
+item_fn : FN ident generic_params fn_decl maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-| CONST FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| CONST FN ident generic_params fn_decl maybe_where_clause
+	   inner_attrs_and_block {
 
-}
-;
+	  }
+	;
 
-item_unsafe_fn
-: UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
-{
+item_unsafe_fn : UNSAFE FN ident generic_params fn_decl maybe_where_clause
+	         inner_attrs_and_block {
 
-}
-| CONST UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| CONST UNSAFE FN ident generic_params fn_decl maybe_where_clause
+	  inner_attrs_and_block {
 
-}
-| UNSAFE EXTERN maybe_abi FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block
-{
+	  }
+	| UNSAFE EXTERN maybe_abi FN ident generic_params fn_decl
+	   maybe_where_clause inner_attrs_and_block {
 
-}
-;
+	  }
+	;
 
 fn_decl : fn_params ret_ty   {  }
-;
+	;
 
 fn_decl_with_self : fn_params_with_self ret_ty   {  }
 ;
