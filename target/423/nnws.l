@@ -1,3 +1,6 @@
+%{
+#include "ns.tab.h"
+%}
 %option noyywrap
 %%
 [a-zA-Z]+ { return NAME; }
