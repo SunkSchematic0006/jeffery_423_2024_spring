@@ -664,38 +664,40 @@ fn_decl : fn_params ret_ty   {  }
 	;
 
 fn_decl_with_self : fn_params_with_self ret_ty   {  }
-;
+	;
 
 fn_decl_with_self_allow_anon_params : fn_anon_params_with_self ret_ty   {  }
-;
+	;
 
 fn_params : '(' maybe_params ')'  {  }
-;
+	;
 
-fn_anon_params
-: '(' anon_param anon_params_allow_variadic_tail ')' {  }
-| '(' ')'                                            {  }
-;
+fn_anon_params : '(' anon_param anon_params_allow_variadic_tail ')' {  }
+	| '(' ')'                                            {  }
+	;
 
-fn_params_with_self
-: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'              {  }
-| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'          {  }
-| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_params ')' {  }
-| '(' maybe_params ')'                                                       {  }
-;
+fn_params_with_self : '(' maybe_mut SELF maybe_ty_ascription
+		       maybe_comma_params ')'              {  }
+	| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')' {
+	  }
+	| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription
+	   maybe_comma_params ')' {  }
+	| '(' maybe_params ')'    {  }
+	;
 
-fn_anon_params_with_self
-: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'              {  }
-| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'          {  }
-| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')' {  }
-| '(' maybe_anon_params ')'                                                       {  }
-;
+fn_anon_params_with_self : '(' maybe_mut SELF maybe_ty_ascription
+	maybe_comma_anon_params ')'              {  }
+	| '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params
+	  ')'          {  }
+	| '(' '&' lifetime maybe_mut SELF maybe_ty_ascription
+	  maybe_comma_anon_params ')' {  }
+	| '(' maybe_anon_params ')'   {  }
+	;
 
-maybe_params
-: params
-| params ','
-| %empty  {  }
-;
+maybe_params : params
+	| params ','
+	| %empty  {  }
+	;
 
 params  : param                {  }
 	| params ',' param     {  }
@@ -704,128 +706,111 @@ params  : param                {  }
 param   : pat ':' ty_sum   {  }
 	;
 
-inferrable_params
-: inferrable_param                       {  }
-| inferrable_params ',' inferrable_param {  }
-;
+inferrable_params : inferrable_param                       {  }
+	| inferrable_params ',' inferrable_param {  }
+	;
 
-inferrable_param
-: pat maybe_ty_ascription {  }
-;
+inferrable_param : pat maybe_ty_ascription {  }
+	;
 
-maybe_comma_params
-: ','            {  }
-| ',' params     {  }
-| ',' params ',' {  }
-| %empty         {  }
-;
+maybe_comma_params : ','            {  }
+	| ',' params     {  }
+	| ',' params ',' {  }
+	| %empty         {  }
+	;
 
-maybe_comma_anon_params
-: ','                 {  }
-| ',' anon_params     {  }
-| ',' anon_params ',' {  }
-| %empty              {  }
-;
+maybe_comma_anon_params : ','                 {  }
+	| ',' anon_params     {  }
+	| ',' anon_params ',' {  }
+	| %empty              {  }
+	;
 
-maybe_anon_params
-: anon_params
-| anon_params ','
-| %empty      {  }
-;
+maybe_anon_params : anon_params
+	| anon_params ','
+	| %empty      {  }
+	;
 
-anon_params
-: anon_param                 {  }
-| anon_params ',' anon_param {  }
-;
+anon_params : anon_param                 {  }
+	| anon_params ',' anon_param {  }
+	;
 
 // anon means it's allowed to be anonymous (type-only), but it can
 // still have a name
-anon_param
-: named_arg ':' ty   {  }
-| ty
-;
+anon_param : named_arg ':' ty   {  }
+	| ty
+	;
 
-anon_params_allow_variadic_tail
-: ',' DOTDOTDOT                                  {  }
-| ',' anon_param anon_params_allow_variadic_tail {  }
-| %empty                                         {  }
-;
+anon_params_allow_variadic_tail : ',' DOTDOTDOT          {  }
+	| ',' anon_param anon_params_allow_variadic_tail {  }
+	| %empty                                         {  }
+	;
 
-named_arg
-: ident
-| UNDERSCORE        {  }
-| '&' ident         {  }
-| '&' UNDERSCORE    {  }
-| ANDAND ident      {  }
-| ANDAND UNDERSCORE {  }
-| MUT ident         {  }
-;
+named_arg : ident
+	| UNDERSCORE        {  }
+	| '&' ident         {  }
+	| '&' UNDERSCORE    {  }
+	| ANDAND ident      {  }
+	| ANDAND UNDERSCORE {  }
+	| MUT ident         {  }
+	;
 
-ret_ty
-: RARROW '!'         {  }
-| RARROW ty          {  }
-| %prec IDENT %empty {  }
-;
+ret_ty : RARROW '!'         {  }
+	| RARROW ty          {  }
+	| %prec IDENT %empty {  }
+	;
 
-generic_params
-: '<' '>'                             {  }
-| '<' lifetimes '>'                   {  }
-| '<' lifetimes ',' '>'               {  }
-| '<' lifetimes SHR                   {  }
-| '<' lifetimes ',' SHR               {  }
-| '<' lifetimes ',' ty_params '>'     {  }
-| '<' lifetimes ',' ty_params ',' '>' {  }
-| '<' lifetimes ',' ty_params SHR     {  }
-| '<' lifetimes ',' ty_params ',' SHR {  }
-| '<' ty_params '>'                   {  }
-| '<' ty_params ',' '>'               {  }
-| '<' ty_params SHR                   {  }
-| '<' ty_params ',' SHR               {  }
-| %empty                              {  }
-;
+generic_params : '<' '>'                             {  }
+	| '<' lifetimes '>'                   {  }
+	| '<' lifetimes ',' '>'               {  }
+	| '<' lifetimes SHR                   {  }
+	| '<' lifetimes ',' SHR               {  }
+	| '<' lifetimes ',' ty_params '>'     {  }
+	| '<' lifetimes ',' ty_params ',' '>' {  }
+	| '<' lifetimes ',' ty_params SHR     {  }
+	| '<' lifetimes ',' ty_params ',' SHR {  }
+	| '<' ty_params '>'                   {  }
+	| '<' ty_params ',' '>'               {  }
+	| '<' ty_params SHR                   {  }
+	| '<' ty_params ',' SHR               {  }
+	| %empty                              {  }
+	;
 
-maybe_where_clause
-: %empty                              {  }
-| where_clause
-;
+maybe_where_clause : %empty                              {  }
+	| where_clause
+	;
 
-where_clause
-: WHERE where_predicates              {  }
-| WHERE where_predicates ','          {  }
-;
+where_clause : WHERE where_predicates              {  }
+	| WHERE where_predicates ','          {  }
+	;
 
-where_predicates
-: where_predicate                      {  }
-| where_predicates ',' where_predicate {  }
-;
+where_predicates : where_predicate                      {  }
+	| where_predicates ',' where_predicate {  }
+	;
 
-where_predicate
-: maybe_for_lifetimes lifetime ':' bounds    {  }
-| maybe_for_lifetimes ty ':' ty_param_bounds {  }
-;
+where_predicate : maybe_for_lifetimes lifetime ':' bounds    {  }
+	| maybe_for_lifetimes ty ':' ty_param_bounds {  }
+	;
 
-maybe_for_lifetimes
-: FOR '<' lifetimes '>' {  }
-| %prec FORTYPE %empty  {  }
+maybe_for_lifetimes : FOR '<' lifetimes '>' {  }
+	| %prec FORTYPE %empty  {  }
+	;
 
-ty_params
-: ty_param               {  }
-| ty_params ',' ty_param {  }
-;
+ty_params : ty_param               {  }
+	| ty_params ',' ty_param {  }
+	;
 
 // A path with no type parameters; e.g. `foo::bar::Baz`
 //
 // These show up in 'use' view-items, because these are processed
 // without respect to types.
-path_no_types_allowed
-: ident                               {  }
-| MOD_SEP ident                       {  }
-| SELF                                {  }
-| MOD_SEP SELF                        {  }
-| SUPER                               {  }
-| MOD_SEP SUPER                       {  }
-| path_no_types_allowed MOD_SEP ident {  }
-;
+path_no_types_allowed : ident                               {  }
+	| MOD_SEP ident                       {  }
+	| SELF                                {  }
+	| MOD_SEP SELF                        {  }
+	| SUPER                               {  }
+	| MOD_SEP SUPER                       {  }
+	| path_no_types_allowed MOD_SEP ident {  }
+	;
 
 // A path with a lifetime and type parameters, with no double colons
 // before the type parameters; e.g. `foo::bar<'a>::Baz<T>`
@@ -838,109 +823,99 @@ path_no_types_allowed
 // They do not have (nor need) an extra '::' before '<' because
 // unlike in expr context, there are no "less-than" type exprs to
 // be ambiguous with.
-path_generic_args_without_colons
-: %prec IDENT
-  ident                                                                       {  }
-| %prec IDENT
-  ident generic_args                                                          {  }
-| %prec IDENT
-  ident '(' maybe_ty_sums ')' ret_ty                                          {  }
-| %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident                              {  }
-| %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident generic_args                 {  }
-| %prec IDENT
-  path_generic_args_without_colons MOD_SEP ident '(' maybe_ty_sums ')' ret_ty {  }
-;
+path_generic_args_without_colons : %prec IDENT ident {
+	  }
+	| %prec IDENT  ident generic_args {
+	  }
+	| %prec IDENT ident '(' maybe_ty_sums ')' ret_ty {
+	  }
+	| %prec IDENT path_generic_args_without_colons MOD_SEP ident {
+	  }
+	| %prec IDENT path_generic_args_without_colons MOD_SEP ident
+	  generic_args                 {  }
+	| %prec IDENT path_generic_args_without_colons MOD_SEP ident
+	  '(' maybe_ty_sums ')' ret_ty {  }
+	;
 
-generic_args
-: '<' generic_values '>'   {  }
-| '<' generic_values SHR   {  }
-| '<' generic_values GE    {  }
-| '<' generic_values SHREQ {  }
+generic_args : '<' generic_values '>'   {  }
+	| '<' generic_values SHR   {  }
+	| '<' generic_values GE    {  }
+	| '<' generic_values SHREQ {  }
 // If generic_args starts with "<<", the first arg must be a
 // TyQualifiedPath because that's the only type that can start with a
 // '<'. This rule parses that as the first ty_sum and then continues
 // with the rest of generic_values.
-| SHL ty_qualified_path_and_generic_values '>'   {  }
-| SHL ty_qualified_path_and_generic_values SHR   {  }
-| SHL ty_qualified_path_and_generic_values GE    {  }
-| SHL ty_qualified_path_and_generic_values SHREQ {  }
-;
+	| SHL ty_qualified_path_and_generic_values '>'   {  }
+	| SHL ty_qualified_path_and_generic_values SHR   {  }
+	| SHL ty_qualified_path_and_generic_values GE    {  }
+	| SHL ty_qualified_path_and_generic_values SHREQ {  }
+	;
 
-generic_values
-: maybe_ty_sums_and_or_bindings {  }
-;
+generic_values : maybe_ty_sums_and_or_bindings {  }
+	;
 
-maybe_ty_sums_and_or_bindings
-: ty_sums
-| ty_sums ','
-| ty_sums ',' bindings {  }
-| bindings
-| bindings ','
-| %empty               {  }
-;
+maybe_ty_sums_and_or_bindings : ty_sums
+	| ty_sums ','
+	| ty_sums ',' bindings {  }
+	| bindings
+	| bindings ','
+	| %empty               {  }
+	;
 
-maybe_bindings
-: ',' bindings {  }
-| %empty       {  }
-;
+maybe_bindings : ',' bindings {  }
+	| %empty       {  }
+	;
 
 ////////////////////////////////////////////////////////////////////////
 // Part 2: Patterns
 ////////////////////////////////////////////////////////////////////////
 
-pat
-: UNDERSCORE                                      {  }
-| '&' pat                                         {  }
-| '&' MUT pat                                     {  }
-| ANDAND pat                                      {  }
-| '(' ')'                                         {  }
-| '(' pat_tup ')'                                 {  }
-| '[' pat_vec ']'                                 {  }
-| lit_or_path
-| lit_or_path DOTDOTDOT lit_or_path               {  }
-| path_expr '{' pat_struct '}'                    {  }
-| path_expr '(' ')'                               {  }
-| path_expr '(' pat_tup ')'                       {  }
-| path_expr '!' maybe_ident delimited_token_trees {  }
-| binding_mode ident                              {  }
-|              ident '@' pat                      {  }
-| binding_mode ident '@' pat                      {  }
-| BOX pat                                         {  }
-| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident {  }
-| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident
-{
+pat : UNDERSCORE                                      {  }
+	| '&' pat                                         {  }
+	| '&' MUT pat                                     {  }
+	| ANDAND pat                                      {  }
+	| '(' ')'                                         {  }
+	| '(' pat_tup ')'                                 {  }
+	| '[' pat_vec ']'                                 {  }
+	| lit_or_path
+	| lit_or_path DOTDOTDOT lit_or_path               {  }
+	| path_expr '{' pat_struct '}'                    {  }
+	| path_expr '(' ')'                               {  }
+	| path_expr '(' pat_tup ')'                       {  }
+	| path_expr '!' maybe_ident delimited_token_trees {  }
+	| binding_mode ident                              {  }
+	|              ident '@' pat                      {  }
+	| binding_mode ident '@' pat                      {  }
+	| BOX pat                                         {  }
+	| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident {  }
+	| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident
+	   maybe_as_trait_ref '>' MOD_SEP ident {
 
-}
-;
+	  }
+	;
 
-pats_or
-: pat              {  }
-| pats_or '|' pat  {  }
-;
+pats_or : pat              {  }
+	| pats_or '|' pat  {  }
+	;
 
-binding_mode
-: REF         {  }
-| REF MUT     {  }
-| MUT         {  }
-;
+binding_mode : REF         {  }
+	| REF MUT     {  }
+	| MUT         {  }
+	;
 
-lit_or_path
-: path_expr    {  }
-| lit          {  }
-| '-' lit      {  }
-;
+lit_or_path : path_expr    {  }
+	| lit          {  }
+	| '-' lit      {  }
+	;
 
-pat_field
-:                  ident        {  }
-|     binding_mode ident        {  }
-| BOX              ident        {  }
-| BOX binding_mode ident        {  }
-|              ident ':' pat    {  }
-| binding_mode ident ':' pat    {  }
-|        LIT_INTEGER ':' pat    {  }
-;
+pat_field :                  ident        {  }
+	|     binding_mode ident        {  }
+	| BOX              ident        {  }
+	| BOX binding_mode ident        {  }
+	|              ident ':' pat    {  }
+	| binding_mode ident ':' pat    {  }
+	|        LIT_INTEGER ':' pat    {  }
+	;
 
 pat_fields
 : pat_field                  {  }
