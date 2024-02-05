@@ -234,215 +234,180 @@ inner_attrs : inner_attr           {  }
 	| inner_attrs inner_attr   {  }
 	;
 
-inner_attr
-: SHEBANG '[' meta_item ']'   {  }
-| INNER_DOC_COMMENT           {  }
-;
+inner_attr : SHEBANG '[' meta_item ']'   {  }
+	| INNER_DOC_COMMENT           {  }
+	;
 
-maybe_outer_attrs
-: outer_attrs
-| %empty                   {  }
-;
+maybe_outer_attrs : outer_attrs
+	| %empty                   {  }
+	;
 
-outer_attrs
-: outer_attr               {  }
-| outer_attrs outer_attr   {  }
-;
+outer_attrs : outer_attr               {  }
+	| outer_attrs outer_attr   {  }
+	;
 
-outer_attr
-: '#' '[' meta_item ']'    {  }
-| OUTER_DOC_COMMENT        {  }
-;
+outer_attr : '#' '[' meta_item ']'    {  }
+	| OUTER_DOC_COMMENT        {  }
+	;
 
-meta_item
-: ident                      {  }
-| ident '=' lit              {  }
-| ident '(' meta_seq ')'     {  }
-| ident '(' meta_seq ',' ')' {  }
-;
+meta_item : ident                      {  }
+	| ident '=' lit              {  }
+	| ident '(' meta_seq ')'     {  }
+	| ident '(' meta_seq ',' ')' {  }
+	;
 
-meta_seq
-: %empty                   {  }
-| meta_item                {  }
-| meta_seq ',' meta_item   {  }
-;
+meta_seq : %empty                   {  }
+	| meta_item                {  }
+	| meta_seq ',' meta_item   {  }
+	;
 
-maybe_mod_items
-: mod_items
-| %empty             {  }
-;
+maybe_mod_items : mod_items
+	| %empty             {  }
+	;
 
-mod_items
-: mod_item                               {  }
-| mod_items mod_item                     {  }
-;
+mod_items : mod_item                               {  }
+	| mod_items mod_item                     {  }
+	;
 
-attrs_and_vis
-: maybe_outer_attrs visibility           {  }
-;
+attrs_and_vis : maybe_outer_attrs visibility           {  }
+	;
 
-mod_item
-: attrs_and_vis item    {  }
-;
+mod_item : attrs_and_vis item    {  }
+	;
 
 // items that can appear outside of a fn block
-item
-: stmt_item
-| item_macro
-;
+item : stmt_item
+	| item_macro
+	;
 
 // items that can appear in "stmts"
-stmt_item
-: item_static
-| item_const
-| item_type
-| block_item
-| view_item
-;
+stmt_item : item_static
+	| item_const
+	| item_type
+	| block_item
+	| view_item
+	;
 
-item_static
-: STATIC ident ':' ty '=' expr ';'  {  }
-| STATIC MUT ident ':' ty '=' expr ';'  {  }
-;
+item_static : STATIC ident ':' ty '=' expr ';'  {  }
+	| STATIC MUT ident ':' ty '=' expr ';'  {  }
+	;
 
-item_const
-: CONST ident ':' ty '=' expr ';'  {  }
-;
+item_const : CONST ident ':' ty '=' expr ';'    {  }
+	;
 
-item_macro
-: path_expr '!' maybe_ident parens_delimited_token_trees ';'  {  }
-| path_expr '!' maybe_ident braces_delimited_token_trees      {  }
-| path_expr '!' maybe_ident brackets_delimited_token_trees ';'{  }
-;
+item_macro : path_expr '!' maybe_ident parens_delimited_token_trees ';'  {  }
+	| path_expr '!' maybe_ident braces_delimited_token_trees      {  }
+	| path_expr '!' maybe_ident brackets_delimited_token_trees ';'{  }
+	;
 
-view_item
-: use_item
-| extern_fn_item
-| EXTERN CRATE ident ';'                      {  }
-| EXTERN CRATE ident AS ident ';'             {  }
-;
+view_item : use_item
+	| extern_fn_item
+	| EXTERN CRATE ident ';'                      {  }
+	| EXTERN CRATE ident AS ident ';'             {  }
+	;
 
-extern_fn_item
-: EXTERN maybe_abi item_fn                    {  }
-;
+extern_fn_item : EXTERN maybe_abi item_fn             {  }
+	;
 
-use_item
-: USE view_path ';'                           {  }
-;
+use_item : USE view_path ';'                          {  }
+	;
 
-view_path
-: path_no_types_allowed                                    {  }
-| path_no_types_allowed MOD_SEP '{'                '}'     {  }
-|                       MOD_SEP '{'                '}'     {  }
-| path_no_types_allowed MOD_SEP '{' idents_or_self '}'     {  }
-|                       MOD_SEP '{' idents_or_self '}'     {  }
-| path_no_types_allowed MOD_SEP '{' idents_or_self ',' '}' {  }
-|                       MOD_SEP '{' idents_or_self ',' '}' {  }
-| path_no_types_allowed MOD_SEP '*'                        {  }
-|                       MOD_SEP '*'                        {  }
-|                               '*'                        {  }
-|                               '{'                '}'     {  }
-|                               '{' idents_or_self '}'     {  }
-|                               '{' idents_or_self ',' '}' {  }
-| path_no_types_allowed AS ident                           {  }
-;
+view_path : path_no_types_allowed                                    {  }
+	| path_no_types_allowed MOD_SEP '{'                '}'     {  }
+	|                       MOD_SEP '{'                '}'     {  }
+	| path_no_types_allowed MOD_SEP '{' idents_or_self '}'     {  }
+	|                       MOD_SEP '{' idents_or_self '}'     {  }
+	| path_no_types_allowed MOD_SEP '{' idents_or_self ',' '}' {  }
+	|                       MOD_SEP '{' idents_or_self ',' '}' {  }
+	| path_no_types_allowed MOD_SEP '*'                        {  }
+	|                       MOD_SEP '*'                        {  }
+	|                               '*'                        {  }
+	|                               '{'                '}'     {  }
+	|                               '{' idents_or_self '}'     {  }
+	|                               '{' idents_or_self ',' '}' {  }
+	| path_no_types_allowed AS ident                           {  }
+	;
 
-block_item
-: item_fn
-| item_unsafe_fn
-| item_mod
-| item_foreign_mod          {  }
-| item_struct
-| item_enum
-| item_union
-| item_trait
-| item_impl
-;
+block_item : item_fn
+	| item_unsafe_fn
+	| item_mod
+	| item_foreign_mod          {  }
+	| item_struct
+	| item_enum
+	| item_union
+	| item_trait
+	| item_impl
+	;
 
-maybe_ty_ascription
-: ':' ty_sum {  }
-| %empty {  }
-;
+maybe_ty_ascription : ':' ty_sum {  }
+	| %empty {  }
+	;
 
-maybe_init_expr
-: '=' expr {  }
-| %empty   {  }
-;
+maybe_init_expr : '=' expr {  }
+	| %empty   {  }
+	;
 
 // structs
-item_struct
-: STRUCT ident generic_params maybe_where_clause struct_decl_args
-{
+item_struct : STRUCT ident generic_params maybe_where_clause struct_decl_args {
 
-}
-| STRUCT ident generic_params struct_tuple_args maybe_where_clause ';'
-{
+	  }
+	| STRUCT ident generic_params struct_tuple_args maybe_where_clause ';'{
 
-}
-| STRUCT ident generic_params maybe_where_clause ';'
-{
+	  }
+	| STRUCT ident generic_params maybe_where_clause ';' {
 
-}
-;
+	  }
+	;
 
-struct_decl_args
-: '{' struct_decl_fields '}'                  {  }
-| '{' struct_decl_fields ',' '}'              {  }
-;
+struct_decl_args : '{' struct_decl_fields '}'         {  }
+	| '{' struct_decl_fields ',' '}'              {  }
+	;
 
-struct_tuple_args
-: '(' struct_tuple_fields ')'                 {  }
-| '(' struct_tuple_fields ',' ')'             {  }
-;
+struct_tuple_args : '(' struct_tuple_fields ')'       {  }
+	| '(' struct_tuple_fields ',' ')'             {  }
+	;
 
-struct_decl_fields
-: struct_decl_field                           {  }
-| struct_decl_fields ',' struct_decl_field    {  }
-| %empty                                      {  }
-;
+struct_decl_fields : struct_decl_field                {  }
+	| struct_decl_fields ',' struct_decl_field    {  }
+	| %empty                                      {  }
+	;
 
-struct_decl_field
-: attrs_and_vis ident ':' ty_sum              {  }
-;
+struct_decl_field : attrs_and_vis ident ':' ty_sum    {  }
+	;
 
-struct_tuple_fields
-: struct_tuple_field                          {  }
-| struct_tuple_fields ',' struct_tuple_field  {  }
-| %empty                                      {  }
-;
+struct_tuple_fields : struct_tuple_field              {  }
+	| struct_tuple_fields ',' struct_tuple_field  {  }
+	| %empty                                      {  }
+	;
 
-struct_tuple_field
-: attrs_and_vis ty_sum                    {  }
-;
+struct_tuple_field : attrs_and_vis ty_sum             {  }
+	;
 
 // enums
-item_enum
-: ENUM ident generic_params maybe_where_clause '{' enum_defs '}'     {  }
-| ENUM ident generic_params maybe_where_clause '{' enum_defs ',' '}' {  }
-;
+item_enum : ENUM ident generic_params maybe_where_clause '{' enum_defs '}' {
+	  }
+	| ENUM ident generic_params maybe_where_clause '{' enum_defs ',' '}' {
+	  }
+	;
 
-enum_defs
-: enum_def               {  }
-| enum_defs ',' enum_def {  }
-| %empty                 {  }
-;
+enum_defs : enum_def             {  }
+	| enum_defs ',' enum_def {  }
+	| %empty                 {  }
+	;
 
-enum_def
-: attrs_and_vis ident enum_args {  }
-;
+enum_def : attrs_and_vis ident enum_args {  }
+	;
 
-enum_args
-: '{' struct_decl_fields '}'     {  }
-| '{' struct_decl_fields ',' '}' {  }
-| '(' maybe_ty_sums ')'          {  }
-| '=' expr                       {  }
-| %empty                         {  }
-;
+enum_args : '{' struct_decl_fields '}'     {  }
+	| '{' struct_decl_fields ',' '}' {  }
+	| '(' maybe_ty_sums ')'          {  }
+	| '=' expr                       {  }
+	| %empty                         {  }
+	;
 
 // unions
-item_union
-: UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'     {  }
-| UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}' {  }
+item_union : UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'     {  }
+	| UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}' {  }
 
 item_mod
 : MOD ident ';'                                 {  }
