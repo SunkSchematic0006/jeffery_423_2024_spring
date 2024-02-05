@@ -1041,154 +1041,124 @@ ty_qualified_path_and_generic_values : ty_qualified_path maybe_bindings {
 	  }
 	;
 
-ty_qualified_path
-: ty_sum AS trait_ref '>' MOD_SEP ident                     {  }
-| ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds {  }
-;
+ty_qualified_path : ty_sum AS trait_ref '>' MOD_SEP ident           {  }
+	| ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds {  }
+	;
 
-maybe_ty_sums
-: ty_sums
-| ty_sums ','
-| %empty {  }
-;
+maybe_ty_sums : ty_sums
+	| ty_sums ','
+	| %empty {  }
+	;
 
-ty_sums
-: ty_sum             {  }
-| ty_sums ',' ty_sum {  }
-;
+ty_sums : ty_sum             {  }
+	| ty_sums ',' ty_sum {  }
+	;
 
-ty_sum
-: ty_sum_elt            {  }
-| ty_sum '+' ty_sum_elt {  }
-;
+ty_sum : ty_sum_elt            {  }
+	| ty_sum '+' ty_sum_elt {  }
+	;
 
-ty_sum_elt
-: ty
-| lifetime
-;
+ty_sum_elt : ty
+	| lifetime
+	;
 
-ty_prim_sum
-: ty_prim_sum_elt                 {  }
-| ty_prim_sum '+' ty_prim_sum_elt {  }
-;
+ty_prim_sum : ty_prim_sum_elt                 {  }
+	| ty_prim_sum '+' ty_prim_sum_elt {  }
+	;
 
-ty_prim_sum_elt
-: ty_prim
-| lifetime
-;
+ty_prim_sum_elt : ty_prim
+	| lifetime
+	;
 
-maybe_ty_param_bounds
-: ':' ty_param_bounds {  }
-| %empty              {  }
-;
+maybe_ty_param_bounds : ':' ty_param_bounds {  }
+	| %empty              {  }
+	;
 
-ty_param_bounds
-: boundseq
-| %empty {  }
-;
+ty_param_bounds : boundseq
+	| %empty {  }
+	;
 
-boundseq
-: polybound
-| boundseq '+' polybound {  }
-;
+boundseq : polybound
+	| boundseq '+' polybound {  }
+	;
 
-polybound
-: FOR '<' maybe_lifetimes '>' bound {  }
-| bound
-| '?' FOR '<' maybe_lifetimes '>' bound {  }
-| '?' bound {  }
-;
+polybound : FOR '<' maybe_lifetimes '>' bound {  }
+	| bound
+	| '?' FOR '<' maybe_lifetimes '>' bound {  }
+	| '?' bound {  }
+	;
 
-bindings
-: binding              {  }
-| bindings ',' binding {  }
-;
+bindings : binding              {  }
+	| bindings ',' binding {  }
+	;
 
-binding
-: ident '=' ty {  }
-;
+binding : ident '=' ty {  }
+	;
 
-ty_param
-: ident maybe_ty_param_bounds maybe_ty_default           {  }
-| ident '?' ident maybe_ty_param_bounds maybe_ty_default {  }
-;
+ty_param : ident maybe_ty_param_bounds maybe_ty_default           {  }
+	| ident '?' ident maybe_ty_param_bounds maybe_ty_default {  }
+	;
 
-maybe_bounds
-: %prec SHIFTPLUS
-  ':' bounds             {  }
-| %prec SHIFTPLUS %empty {  }
-;
+maybe_bounds : %prec SHIFTPLUS ':' bounds             {  }
+	| %prec SHIFTPLUS %empty {  }
+	;
 
-bounds
-: bound            {  }
-| bounds '+' bound {  }
-;
+bounds : bound            {  }
+	| bounds '+' bound {  }
+	;
 
-bound
-: lifetime
-| trait_ref
-;
+bound : lifetime
+	| trait_ref
+	;
 
-maybe_ltbounds
-: %prec SHIFTPLUS
-  ':' ltbounds       {  }
-| %empty             {  }
-;
+maybe_ltbounds : %prec SHIFTPLUS ':' ltbounds       {  }
+	| %empty             {  }
+	;
 
-ltbounds
-: lifetime              {  }
-| ltbounds '+' lifetime {  }
-;
+ltbounds : lifetime              {  }
+	| ltbounds '+' lifetime {  }
+	;
 
-maybe_ty_default
-: '=' ty_sum {  }
-| %empty     {  }
-;
+maybe_ty_default : '=' ty_sum {  }
+	| %empty     {  }
+	;
 
-maybe_lifetimes
-: lifetimes
-| lifetimes ','
-| %empty {  }
-;
+maybe_lifetimes : lifetimes
+	| lifetimes ','
+	| %empty {  }
+	;
 
-lifetimes
-: lifetime_and_bounds               {  }
-| lifetimes ',' lifetime_and_bounds {  }
-;
+lifetimes : lifetime_and_bounds               {  }
+	| lifetimes ',' lifetime_and_bounds {  }
+	;
 
-lifetime_and_bounds
-: LIFETIME maybe_ltbounds         {  }
-| STATIC_LIFETIME                 {  }
-;
+lifetime_and_bounds : LIFETIME maybe_ltbounds         {  }
+	| STATIC_LIFETIME                 {  }
+	;
 
-lifetime
-: LIFETIME         {  }
-| STATIC_LIFETIME  {  }
-;
+lifetime : LIFETIME         {  }
+	| STATIC_LIFETIME  {  }
+	;
 
-trait_ref
-: %prec IDENT path_generic_args_without_colons
-| %prec IDENT MOD_SEP path_generic_args_without_colons {  }
-;
+trait_ref : %prec IDENT path_generic_args_without_colons
+	| %prec IDENT MOD_SEP path_generic_args_without_colons {  }
+	;
 
 ////////////////////////////////////////////////////////////////////////
 // Part 4: Blocks, statements, and expressions
 ////////////////////////////////////////////////////////////////////////
 
-inner_attrs_and_block
-: '{' maybe_inner_attrs maybe_stmts '}'        {  }
-;
+inner_attrs_and_block : '{' maybe_inner_attrs maybe_stmts '}'        {  }
+	;
 
-block
-: '{' maybe_stmts '}'                          {  }
-;
+block : '{' maybe_stmts '}'                          {  }
+	;
 
-maybe_stmts
-: stmts
-| stmts nonblock_expr {  }
-| nonblock_expr
-| %empty              {  }
-;
+maybe_stmts : stmts
+	| stmts nonblock_expr {  }
+	| nonblock_expr
+	| %empty              {  }
+	;
 
 // There are two sub-grammars within a "stmts: exprs" derivation
 // depending on whether each stmt-expr is a block-expr form; this is to
@@ -1214,158 +1184,146 @@ maybe_stmts
 //
 // In non-stmts contexts, expr can relax this trichotomy.
 
-stmts
-: stmt           {  }
-| stmts stmt     {  }
-;
+stmts : stmt           {  }
+	| stmts stmt     {  }
+	;
 
-stmt
-: maybe_outer_attrs let     {  }
-|                 stmt_item
-|             PUB stmt_item {  }
-| outer_attrs     stmt_item {  }
-| outer_attrs PUB stmt_item {  }
-| full_block_expr
-| maybe_outer_attrs block   {  }
-|             nonblock_expr ';'
-| outer_attrs nonblock_expr ';' {  }
-| ';'                   {  }
-;
+stmt : maybe_outer_attrs let     {  }
+	|                 stmt_item
+	|             PUB stmt_item {  }
+	| outer_attrs     stmt_item {  }
+	| outer_attrs PUB stmt_item {  }
+	| full_block_expr
+	| maybe_outer_attrs block   {  }
+	|             nonblock_expr ';'
+	| outer_attrs nonblock_expr ';' {  }
+	| ';'                   {  }
+	;
 
-maybe_exprs
-: exprs
-| exprs ','
-| %empty {  }
-;
+maybe_exprs : exprs
+	| exprs ','
+	| %empty {  }
+	;
 
-maybe_expr
-: expr
-| %empty {  }
-;
+maybe_expr : expr
+	| %empty {  }
+	;
 
-exprs
-: expr                                                        {  }
-| exprs ',' expr                                              {  }
-;
+exprs : expr                                         {  }
+	| exprs ',' expr                             {  }
+	;
 
-path_expr
-: path_generic_args_with_colons
-| MOD_SEP path_generic_args_with_colons      {  }
-| SELF MOD_SEP path_generic_args_with_colons {  }
-;
+path_expr : path_generic_args_with_colons
+	| MOD_SEP path_generic_args_with_colons      {  }
+	| SELF MOD_SEP path_generic_args_with_colons {  }
+	;
 
 // A path with a lifetime and type parameters with double colons before
 // the type parameters; e.g. `foo::bar::<'a>::Baz::<T>`
 //
 // These show up in expr context, in order to disambiguate from "less-than"
 // expressions.
-path_generic_args_with_colons
-: ident                                              {  }
-| SUPER                                              {  }
-| path_generic_args_with_colons MOD_SEP ident        {  }
-| path_generic_args_with_colons MOD_SEP SUPER        {  }
-| path_generic_args_with_colons MOD_SEP generic_args {  }
-;
+path_generic_args_with_colons : ident                        {  }
+	| SUPER                                              {  }
+	| path_generic_args_with_colons MOD_SEP ident        {  }
+	| path_generic_args_with_colons MOD_SEP SUPER        {  }
+	| path_generic_args_with_colons MOD_SEP generic_args {  }
+	;
 
 // the braces-delimited macro is a block_expr so it doesn't appear here
-macro_expr
-: path_expr '!' maybe_ident parens_delimited_token_trees   {  }
-| path_expr '!' maybe_ident brackets_delimited_token_trees {  }
-;
+macro_expr : path_expr '!' maybe_ident parens_delimited_token_trees   {  }
+	| path_expr '!' maybe_ident brackets_delimited_token_trees {  }
+	;
 
-nonblock_expr
-: lit                                                           {  }
-| %prec IDENT
-  path_expr                                                     {  }
-| SELF                                                          {  }
-| macro_expr                                                    {  }
-| path_expr '{' struct_expr_fields '}'                          {  }
-| nonblock_expr '?'                                             {  }
-| nonblock_expr '.' path_generic_args_with_colons               {  }
-| nonblock_expr '.' LIT_INTEGER                                 {  }
-| nonblock_expr '[' maybe_expr ']'                              {  }
-| nonblock_expr '(' maybe_exprs ')'                             {  }
-| '[' vec_expr ']'                                              {  }
-| '(' maybe_exprs ')'                                           {  }
-| CONTINUE                                                      {  }
-| CONTINUE lifetime                                             {  }
-| RETURN                                                        {  }
-| RETURN expr                                                   {  }
-| BREAK                                                         {  }
-| BREAK lifetime                                                {  }
-| YIELD                                                         {  }
-| YIELD expr                                                    {  }
-| nonblock_expr '=' expr                                        {  }
-| nonblock_expr SHLEQ expr                                      {  }
-| nonblock_expr SHREQ expr                                      {  }
-| nonblock_expr MINUSEQ expr                                    {  }
-| nonblock_expr ANDEQ expr                                      {  }
-| nonblock_expr OREQ expr                                       {  }
-| nonblock_expr PLUSEQ expr                                     {  }
-| nonblock_expr STAREQ expr                                     {  }
-| nonblock_expr SLASHEQ expr                                    {  }
-| nonblock_expr CARETEQ expr                                    {  }
-| nonblock_expr PERCENTEQ expr                                  {  }
-| nonblock_expr OROR expr                                       {  }
-| nonblock_expr ANDAND expr                                     {  }
-| nonblock_expr EQEQ expr                                       {  }
-| nonblock_expr NE expr                                         {  }
-| nonblock_expr '<' expr                                        {  }
-| nonblock_expr '>' expr                                        {  }
-| nonblock_expr LE expr                                         {  }
-| nonblock_expr GE expr                                         {  }
-| nonblock_expr '|' expr                                        {  }
-| nonblock_expr '^' expr                                        {  }
-| nonblock_expr '&' expr                                        {  }
-| nonblock_expr SHL expr                                        {  }
-| nonblock_expr SHR expr                                        {  }
-| nonblock_expr '+' expr                                        {  }
-| nonblock_expr '-' expr                                        {  }
-| nonblock_expr '*' expr                                        {  }
-| nonblock_expr '/' expr                                        {  }
-| nonblock_expr '%' expr                                        {  }
-| nonblock_expr DOTDOT                                          {  }
-| nonblock_expr DOTDOT expr                                     {  }
-|               DOTDOT expr                                     {  }
-|               DOTDOT                                          {  }
-| nonblock_expr AS ty                                           {  }
-| nonblock_expr ':' ty                                          {  }
-| BOX expr                                                      {  }
-| expr_qualified_path
-| nonblock_prefix_expr
-;
+nonblock_expr : lit                                                     {  }
+	| %prec IDENT path_expr                                         {  }
+	| SELF                                                          {  }
+	| macro_expr                                                    {  }
+	| path_expr '{' struct_expr_fields '}'                          {  }
+	| nonblock_expr '?'                                             {  }
+	| nonblock_expr '.' path_generic_args_with_colons               {  }
+	| nonblock_expr '.' LIT_INTEGER                                 {  }
+	| nonblock_expr '[' maybe_expr ']'                              {  }
+	| nonblock_expr '(' maybe_exprs ')'                             {  }
+	| '[' vec_expr ']'                                              {  }
+	| '(' maybe_exprs ')'                                           {  }
+	| CONTINUE                                                      {  }
+	| CONTINUE lifetime                                             {  }
+	| RETURN                                                        {  }
+	| RETURN expr                                                   {  }
+	| BREAK                                                         {  }
+	| BREAK lifetime                                                {  }
+	| YIELD                                                         {  }
+	| YIELD expr                                                    {  }
+	| nonblock_expr '=' expr                                        {  }
+	| nonblock_expr SHLEQ expr                                      {  }
+	| nonblock_expr SHREQ expr                                      {  }
+	| nonblock_expr MINUSEQ expr                                    {  }
+	| nonblock_expr ANDEQ expr                                      {  }
+	| nonblock_expr OREQ expr                                       {  }
+	| nonblock_expr PLUSEQ expr                                     {  }
+	| nonblock_expr STAREQ expr                                     {  }
+	| nonblock_expr SLASHEQ expr                                    {  }
+	| nonblock_expr CARETEQ expr                                    {  }
+	| nonblock_expr PERCENTEQ expr                                  {  }
+	| nonblock_expr OROR expr                                       {  }
+	| nonblock_expr ANDAND expr                                     {  }
+	| nonblock_expr EQEQ expr                                       {  }
+	| nonblock_expr NE expr                                         {  }
+	| nonblock_expr '<' expr                                        {  }
+	| nonblock_expr '>' expr                                        {  }
+	| nonblock_expr LE expr                                         {  }
+	| nonblock_expr GE expr                                         {  }
+	| nonblock_expr '|' expr                                        {  }
+	| nonblock_expr '^' expr                                        {  }
+	| nonblock_expr '&' expr                                        {  }
+	| nonblock_expr SHL expr                                        {  }
+	| nonblock_expr SHR expr                                        {  }
+	| nonblock_expr '+' expr                                        {  }
+	| nonblock_expr '-' expr                                        {  }
+	| nonblock_expr '*' expr                                        {  }
+	| nonblock_expr '/' expr                                        {  }
+	| nonblock_expr '%' expr                                        {  }
+	| nonblock_expr DOTDOT                                          {  }
+	| nonblock_expr DOTDOT expr                                     {  }
+	|               DOTDOT expr                                     {  }
+	|               DOTDOT                                          {  }
+	| nonblock_expr AS ty                                           {  }
+	| nonblock_expr ':' ty                                          {  }
+	| BOX expr                                                      {  }
+	| expr_qualified_path
+	| nonblock_prefix_expr
+	;
 
-expr
-: lit                                                 {  }
-| %prec IDENT
-  path_expr                                           {  }
-| SELF                                                {  }
-| macro_expr                                          {  }
-| path_expr '{' struct_expr_fields '}'                {  }
-| expr '?'                                            {  }
-| expr '.' path_generic_args_with_colons              {  }
-| expr '.' LIT_INTEGER                                {  }
-| expr '[' maybe_expr ']'                             {  }
-| expr '(' maybe_exprs ')'                            {  }
-| '(' maybe_exprs ')'                                 {  }
-| '[' vec_expr ']'                                    {  }
-| CONTINUE                                            {  }
-| CONTINUE ident                                      {  }
-| RETURN                                              {  }
-| RETURN expr                                         {  }
-| BREAK                                               {  }
-| BREAK ident                                         {  }
-| YIELD                                               {  }
-| YIELD expr                                          {  }
-| expr '=' expr                                       {  }
-| expr SHLEQ expr                                     {  }
-| expr SHREQ expr                                     {  }
-| expr MINUSEQ expr                                   {  }
-| expr ANDEQ expr                                     {  }
-| expr OREQ expr                                      {  }
-| expr PLUSEQ expr                                    {  }
-| expr STAREQ expr                                    {  }
-| expr SLASHEQ expr                                   {  }
+expr : lit                                                 {  }
+     | %prec IDENT path_expr                               {  }
+     | SELF                                                {  }
+     | macro_expr                                          {  }
+     | path_expr '{' struct_expr_fields '}'                {  }
+     | expr '?'                                            {  }
+     | expr '.' path_generic_args_with_colons              {  }
+     | expr '.' LIT_INTEGER                                {  }
+     | expr '[' maybe_expr ']'                             {  }
+     | expr '(' maybe_exprs ')'                            {  }
+     | '(' maybe_exprs ')'                                 {  }
+     | '[' vec_expr ']'                                    {  }
+     | CONTINUE                                            {  }
+     | CONTINUE ident                                      {  }
+     | RETURN                                              {  }
+     | RETURN expr                                         {  }
+     | BREAK                                               {  }
+     | BREAK ident                                         {  }
+     | YIELD                                               {  }
+     | YIELD expr                                          {  }
+     | expr '=' expr                                       {  }
+     | expr SHLEQ expr                                     {  }
+     | expr SHREQ expr                                     {  }
+     | expr MINUSEQ expr                                   {  }
+     | expr ANDEQ expr                                     {  }
+     | expr OREQ expr                                      {  }
+     | expr PLUSEQ expr                                    {  }
+     | expr STAREQ expr                                    {  }
+     | expr SLASHEQ expr                                   {  }
 | expr CARETEQ expr                                   {  }
 | expr PERCENTEQ expr                                 {  }
 | expr OROR expr                                      {  }
