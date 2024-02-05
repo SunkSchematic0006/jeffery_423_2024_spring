@@ -1,3 +1,4 @@
+<pre>
 %{
 
 /* 
@@ -218,21 +219,25 @@ extern void yyerror(char const *s);
 // Part 1: Items and attributes
 ////////////////////////////////////////////////////////////////////////
 
-crate   : maybe_shebang inner_attrs maybe_mod_items  {  }
-	| maybe_shebang maybe_mod_items  {  }
-	;
+crate
+: maybe_shebang inner_attrs maybe_mod_items  {  }
+| maybe_shebang maybe_mod_items  {  }
+;
 
-maybe_shebang : SHEBANG_LINE
-	| %empty
-	;
+maybe_shebang
+: SHEBANG_LINE
+| %empty
+;
 
-maybe_inner_attrs : inner_attrs
-	| %empty                   { }
-	;
+maybe_inner_attrs
+: inner_attrs
+| %empty                   { }
+;
 
-inner_attrs : inner_attr           {  }
-	| inner_attrs inner_attr   {  }
-	;
+inner_attrs
+: inner_attr               {  }
+| inner_attrs inner_attr   {  }
+;
 
 inner_attr
 : SHEBANG '[' meta_item ']'   {  }
@@ -1967,3 +1972,4 @@ brackets_delimited_token_trees : '[' token_trees ']' {
 
 	}
 	;
+</pre>

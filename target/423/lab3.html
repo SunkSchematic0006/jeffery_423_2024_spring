@@ -89,15 +89,15 @@ a syntax checker for the Irony language.
 <li> Create a new lab3/ subdirectory.
 <li> Download
 <A href="http://www.cs.nmt.edu/~jeffery/courses/423/rustgram.y.html">rustgram.y</A>,
- an adaptation of Rust's Grammar. At present, almost the entire grammar is
- commented out. You probably should work by moving one line at a time from the
- grammar comment up into the Bison grammar section, at least
- until you get a feel for what you are doing.  The start symbol for your
- Bison grammar should probably be non-terminal <code>file_input</code>.
+ an adaptation of Rust's Grammar. You may want to commented out the whole
+ grammar and then add a bit of a time in.
+ The start symbol for your
+ Bison grammar should probably be non-terminal <code>crate</code>.
 
 <li> Edit rustgram.y until it is complete and in legal Bison format.
-     You should include all grammar rules, unless you know for a
-     fact that they cannot occur because one of their required lexical
+     You should plan to eventually enable all grammar rules, unless you
+     ascertain
+     that they cannot occur because one of their required lexical
      elements (tokens) will generate a lexical error that halts execution.
 
 <li> Copy in your rustlex.l flex specification from HW#2.
