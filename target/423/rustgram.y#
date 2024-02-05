@@ -1041,8 +1041,7 @@ ty_qualified_path_and_generic_values : ty_qualified_path maybe_bindings {
 	  }
 	;
 
-ty_qualified_path
-: ty_sum AS trait_ref '>' MOD_SEP ident                     {  }
+ty_qualified_path : ty_sum AS trait_ref '>' MOD_SEP ident                     {  }
 | ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds {  }
 ;
 
