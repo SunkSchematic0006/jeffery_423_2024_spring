@@ -100,19 +100,18 @@ a syntax checker for the Irony language.
  The start symbol for your
  Bison grammar should probably be non-terminal <code>crate</code>.
 
-<li> Edit rustgram.y until it is complete and in legal Bison format.
-     You should plan to eventually enable all grammar rules, unless you
-     ascertain
-     that they cannot occur because one of their required lexical
-     elements (tokens) will generate a lexical error that halts execution.
+<li> Edit rustgram.y as needed!  Figure it is highly probable that you'll
+     have to hack on rustgram.y to get anything to parse correctly.  If you
+     have to, you may write your own new rustgram.y from scratch!
 
 <li> Copy in your rustlex.l flex specification from HW#2.
 <li> Modify rustlex.l and rustgram.y until they have the same set of TERMINAL
      symbol names.  Maybe this means renaming everything in one or the other.
      Note: rustgram.y has a lot of terminal symbols. It might be missing some
-     or you might be missing some.
+     of yours or you might be missing some from it.
      Note that single-character operators and punctuation use their ASCII
-     code as their terminal symbol code.
+     code as their terminal symbol code.  You are not required to adhere
+     to this convention.
 <li> Run bison -d on rustgram.y to make a rustgram.tab.h.
 <li> Modify your rustlex.l to #include rustgram.tab.h instead of whatever
      previous terminal symbol definitions it used in HW#2.
