@@ -917,75 +917,68 @@ pat_field :                  ident        {  }
 	|        LIT_INTEGER ':' pat    {  }
 	;
 
-pat_fields
-: pat_field                  {  }
-| pat_fields ',' pat_field   {  }
-;
+pat_fields : pat_field                  {  }
+	| pat_fields ',' pat_field   {  }
+	;
 
-pat_struct
-: pat_fields                 {  }
-| pat_fields ','             {  }
-| pat_fields ',' DOTDOT      {  }
-| DOTDOT                     {  }
-| %empty                     {  }
-;
+pat_struct : pat_fields                 {  }
+	| pat_fields ','             {  }
+	| pat_fields ',' DOTDOT      {  }
+	| DOTDOT                     {  }
+	| %empty                     {  }
+	;
 
-pat_tup
-: pat_tup_elts                                  {  }
-| pat_tup_elts                             ','  {  }
-| pat_tup_elts     DOTDOT                       {  }
-| pat_tup_elts ',' DOTDOT                       {  }
-| pat_tup_elts     DOTDOT ',' pat_tup_elts      {  }
-| pat_tup_elts     DOTDOT ',' pat_tup_elts ','  {  }
-| pat_tup_elts ',' DOTDOT ',' pat_tup_elts      {  }
-| pat_tup_elts ',' DOTDOT ',' pat_tup_elts ','  {  }
-|                  DOTDOT ',' pat_tup_elts      {  }
-|                  DOTDOT ',' pat_tup_elts ','  {  }
-|                  DOTDOT                       {  }
-;
+pat_tup : pat_tup_elts                                  {  }
+	| pat_tup_elts                             ','  {  }
+	| pat_tup_elts     DOTDOT                       {  }
+	| pat_tup_elts ',' DOTDOT                       {  }
+	| pat_tup_elts     DOTDOT ',' pat_tup_elts      {  }
+	| pat_tup_elts     DOTDOT ',' pat_tup_elts ','  {  }
+	| pat_tup_elts ',' DOTDOT ',' pat_tup_elts      {  }
+	| pat_tup_elts ',' DOTDOT ',' pat_tup_elts ','  {  }
+	|                  DOTDOT ',' pat_tup_elts      {  }
+	|                  DOTDOT ',' pat_tup_elts ','  {  }
+	|                  DOTDOT                       {  }
+	;
 
-pat_tup_elts
-: pat                    {  }
-| pat_tup_elts ',' pat   {  }
-;
+pat_tup_elts : pat                    {  }
+	| pat_tup_elts ',' pat        {  }
+	;
 
-pat_vec
-: pat_vec_elts                                  {  }
-| pat_vec_elts                             ','  {  }
-| pat_vec_elts     DOTDOT                       {  }
-| pat_vec_elts ',' DOTDOT                       {  }
-| pat_vec_elts     DOTDOT ',' pat_vec_elts      {  }
-| pat_vec_elts     DOTDOT ',' pat_vec_elts ','  {  }
-| pat_vec_elts ',' DOTDOT ',' pat_vec_elts      {  }
-| pat_vec_elts ',' DOTDOT ',' pat_vec_elts ','  {  }
-|                  DOTDOT ',' pat_vec_elts      {  }
-|                  DOTDOT ',' pat_vec_elts ','  {  }
-|                  DOTDOT                       {  }
-| %empty                                        {  }
-;
+pat_vec : pat_vec_elts                                  {  }
+	| pat_vec_elts                             ','  {  }
+	| pat_vec_elts     DOTDOT                       {  }
+	| pat_vec_elts ',' DOTDOT                       {  }
+	| pat_vec_elts     DOTDOT ',' pat_vec_elts      {  }
+	| pat_vec_elts     DOTDOT ',' pat_vec_elts ','  {  }
+	| pat_vec_elts ',' DOTDOT ',' pat_vec_elts      {  }
+	| pat_vec_elts ',' DOTDOT ',' pat_vec_elts ','  {  }
+	|                  DOTDOT ',' pat_vec_elts      {  }
+	|                  DOTDOT ',' pat_vec_elts ','  {  }
+	|                  DOTDOT                       {  }
+	| %empty                                        {  }
+	;
 
-pat_vec_elts
-: pat                    {  }
-| pat_vec_elts ',' pat   {  }
-;
+pat_vec_elts : pat                    {  }
+	| pat_vec_elts ',' pat   {  }
+	;
 
 ////////////////////////////////////////////////////////////////////////
 // Part 3: Types
 ////////////////////////////////////////////////////////////////////////
 
-ty
-: ty_prim
-| ty_closure
-| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident                                      {  }
-| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident {  }
-| '(' ty_sums ')'                                                                      {  }
-| '(' ty_sums ',' ')'                                                                  {  }
-| '(' ')'                                                                              {  }
-;
+ty : ty_prim
+	| ty_closure
+	| '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident {  }
+	| SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident
+	  maybe_as_trait_ref '>' MOD_SEP ident {  }
+	| '(' ty_sums ')'                                 {  }
+	| '(' ty_sums ',' ')'                             {  }
+	| '(' ')'                                         {  }
+	;
 
-ty_prim
-: %prec IDENT path_generic_args_without_colons                                               {  }
-| %prec IDENT MOD_SEP path_generic_args_without_colons                                       {  }
+ty_prim : %prec IDENT path_generic_args_without_colons    {  }
+	| %prec IDENT MOD_SEP path_generic_args_without_colons {  }
 | %prec IDENT SELF MOD_SEP path_generic_args_without_colons                                  {  }
 | %prec IDENT path_generic_args_without_colons '!' maybe_ident delimited_token_trees         {  }
 | %prec IDENT MOD_SEP path_generic_args_without_colons '!' maybe_ident delimited_token_trees {  }
