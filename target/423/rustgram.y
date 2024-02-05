@@ -1565,233 +1565,214 @@ nonblock_match_clause : maybe_outer_attrs pats_or maybe_guard FAT_ARROW
 	| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr_dot {  }
 	;
 
-block_match_clause
-: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block      {  }
-| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr {  }
-;
+block_match_clause : maybe_outer_attrs pats_or maybe_guard FAT_ARROW block {  }
+	| maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr {  }
+	;
 
-maybe_guard
-: IF expr_nostruct           {  }
-| %empty                     {  }
-;
+maybe_guard : IF expr_nostruct           {  }
+	| %empty                     {  }
+	;
 
-expr_if
-: IF expr_nostruct block                              {  }
-| IF expr_nostruct block ELSE block_or_if             {  }
-;
+expr_if : IF expr_nostruct block                              {  }
+	| IF expr_nostruct block ELSE block_or_if             {  }
+	;
 
-expr_if_let
-: IF LET pat '=' expr_nostruct block                  {  }
-| IF LET pat '=' expr_nostruct block ELSE block_or_if {  }
-;
+expr_if_let : IF LET pat '=' expr_nostruct block                  {  }
+	| IF LET pat '=' expr_nostruct block ELSE block_or_if {  }
+	;
 
-block_or_if
-: block
-| expr_if
-| expr_if_let
-;
+block_or_if : block
+	| expr_if
+	| expr_if_let
+	;
 
-expr_while
-: maybe_label WHILE expr_nostruct block               {  }
-;
+expr_while : maybe_label WHILE expr_nostruct block               {  }
+	;
 
-expr_while_let
-: maybe_label WHILE LET pat '=' expr_nostruct block   {  }
-;
+expr_while_let : maybe_label WHILE LET pat '=' expr_nostruct block   {  }
+	;
 
-expr_loop
-: maybe_label LOOP block                              {  }
-;
+expr_loop : maybe_label LOOP block                              {  }
+	;
 
-expr_for
-: maybe_label FOR pat IN expr_nostruct block          {  }
-;
+expr_for : maybe_label FOR pat IN expr_nostruct block          {  }
+	;
 
-maybe_label
-: lifetime ':'
-| %empty {  }
-;
+maybe_label : lifetime ':'
+	| %empty {  }
+	;
 
-let
-: LET pat maybe_ty_ascription maybe_init_expr ';' {  }
-;
+let : LET pat maybe_ty_ascription maybe_init_expr ';' {  }
+	;
 
 ////////////////////////////////////////////////////////////////////////
 // Part 5: Macros and misc. rules
 ////////////////////////////////////////////////////////////////////////
 
-lit
-: LIT_BYTE                   {  }
-| LIT_CHAR                   {  }
-| LIT_INTEGER                {  }
-| LIT_FLOAT                  {  }
-| TRUE                       {  }
-| FALSE                      {  }
-| str
-;
+lit : LIT_BYTE                   {  }
+    | LIT_CHAR                   {  }
+    | LIT_INTEGER                {  }
+    | LIT_FLOAT                  {  }
+    | TRUE                       {  }
+    | FALSE                      {  }
+    | str
+    ;
 
-str
-: LIT_STR                    {  }
-| LIT_STR_RAW                {  }
-| LIT_BYTE_STR               {  }
-| LIT_BYTE_STR_RAW           {  }
-;
+str : LIT_STR                    {  }
+    | LIT_STR_RAW                {  }
+    | LIT_BYTE_STR               {  }
+    | LIT_BYTE_STR_RAW           {  }
+    ;
 
-maybe_ident
-: %empty {  }
-| ident
-;
+maybe_ident : %empty {  }
+	| ident
+	;
 
-ident
-: IDENT                      {  }
-// Weak keywords that can be used as identifiers
-| CATCH                      {  }
-| DEFAULT                    {  }
-| UNION                      {  }
-;
+ident : IDENT                      {  }
+// Weak keywords that can be used as identifiers.  Boo! Not in Irony!
+	| CATCH                      {  }
+	| DEFAULT                    {  }
+	| UNION                      {  }
+	;
 
-unpaired_token
-: SHL                        {  }
-| SHR                        {  }
-| LE                         {  }
-| EQEQ                       {  }
-| NE                         {  }
-| GE                         {  }
-| ANDAND                     {  }
-| OROR                       {  }
-| LARROW                     {  }
-| SHLEQ                      {  }
-| SHREQ                      {  }
-| MINUSEQ                    {  }
-| ANDEQ                      {  }
-| OREQ                       {  }
-| PLUSEQ                     {  }
-| STAREQ                     {  }
-| SLASHEQ                    {  }
-| CARETEQ                    {  }
-| PERCENTEQ                  {  }
-| DOTDOT                     {  }
-| DOTDOTDOT                  {  }
-| MOD_SEP                    {  }
-| RARROW                     {  }
-| FAT_ARROW                  {  }
-| LIT_BYTE                   {  }
-| LIT_CHAR                   {  }
-| LIT_INTEGER                {  }
-| LIT_FLOAT                  {  }
-| LIT_STR                    {  }
-| LIT_STR_RAW                {  }
-| LIT_BYTE_STR               {  }
-| LIT_BYTE_STR_RAW           {  }
-| IDENT                      {  }
-| UNDERSCORE                 {  }
-| LIFETIME                   {  }
-| SELF                       {  }
-| STATIC                     {  }
-| ABSTRACT                   {  }
-| ALIGNOF                    {  }
-| AS                         {  }
-| BECOME                     {  }
-| BREAK                      {  }
-| CATCH                      {  }
-| CRATE                      {  }
-| DEFAULT                    {  }
-| DO                         {  }
-| ELSE                       {  }
-| ENUM                       {  }
-| EXTERN                     {  }
-| FALSE                      {  }
-| FINAL                      {  }
-| FN                         {  }
-| FOR                        {  }
-| IF                         {  }
-| IMPL                       {  }
-| IN                         {  }
-| LET                        {  }
-| LOOP                       {  }
-| MACRO                      {  }
-| MATCH                      {  }
-| MOD                        {  }
-| MOVE                       {  }
-| MUT                        {  }
-| OFFSETOF                   {  }
-| OVERRIDE                   {  }
-| PRIV                       {  }
-| PUB                        {  }
-| PURE                       {  }
-| REF                        {  }
-| RETURN                     {  }
-| STRUCT                     {  }
-| SIZEOF                     {  }
-| SUPER                      {  }
-| TRUE                       {  }
-| TRAIT                      {  }
-| TYPE                       {  }
-| UNION                      {  }
-| UNSAFE                     {  }
-| UNSIZED                    {  }
-| USE                        {  }
-| VIRTUAL                    {  }
-| WHILE                      {  }
-| YIELD                      {  }
-| CONTINUE                   {  }
-| PROC                       {  }
-| BOX                        {  }
-| CONST                      {  }
-| WHERE                      {  }
-| TYPEOF                     {  }
-| INNER_DOC_COMMENT          {  }
-| OUTER_DOC_COMMENT          {  }
-| SHEBANG                    {  }
-| STATIC_LIFETIME            {  }
-| ';'                        {  }
-| ','                        {  }
-| '.'                        {  }
-| '@'                        {  }
-| '#'                        {  }
-| '~'                        {  }
-| ':'                        {  }
-| '$'                        {  }
-| '='                        {  }
-| '?'                        {  }
-| '!'                        {  }
-| '<'                        {  }
-| '>'                        {  }
-| '-'                        {  }
-| '&'                        {  }
-| '|'                        {  }
-| '+'                        {  }
-| '*'                        {  }
-| '/'                        {  }
-| '^'                        {  }
-| '%'                        {  }
-;
+unpaired_token : SHL                        {  }
+	| SHR                        {  }
+	| LE                         {  }
+	| EQEQ                       {  }
+	| NE                         {  }
+	| GE                         {  }
+	| ANDAND                     {  }
+	| OROR                       {  }
+	| LARROW                     {  }
+	| SHLEQ                      {  }
+	| SHREQ                      {  }
+	| MINUSEQ                    {  }
+	| ANDEQ                      {  }
+	| OREQ                       {  }
+	| PLUSEQ                     {  }
+	| STAREQ                     {  }
+	| SLASHEQ                    {  }
+	| CARETEQ                    {  }
+	| PERCENTEQ                  {  }
+	| DOTDOT                     {  }
+	| DOTDOTDOT                  {  }
+	| MOD_SEP                    {  }
+	| RARROW                     {  }
+	| FAT_ARROW                  {  }
+	| LIT_BYTE                   {  }
+	| LIT_CHAR                   {  }
+	| LIT_INTEGER                {  }
+	| LIT_FLOAT                  {  }
+	| LIT_STR                    {  }
+	| LIT_STR_RAW                {  }
+	| LIT_BYTE_STR               {  }
+	| LIT_BYTE_STR_RAW           {  }
+	| IDENT                      {  }
+	| UNDERSCORE                 {  }
+	| LIFETIME                   {  }
+	| SELF                       {  }
+	| STATIC                     {  }
+	| ABSTRACT                   {  }
+	| ALIGNOF                    {  }
+	| AS                         {  }
+	| BECOME                     {  }
+	| BREAK                      {  }
+	| CATCH                      {  }
+	| CRATE                      {  }
+	| DEFAULT                    {  }
+	| DO                         {  }
+	| ELSE                       {  }
+	| ENUM                       {  }
+	| EXTERN                     {  }
+	| FALSE                      {  }
+	| FINAL                      {  }
+	| FN                         {  }
+	| FOR                        {  }
+	| IF                         {  }
+	| IMPL                       {  }
+	| IN                         {  }
+	| LET                        {  }
+	| LOOP                       {  }
+	| MACRO                      {  }
+	| MATCH                      {  }
+	| MOD                        {  }
+	| MOVE                       {  }
+	| MUT                        {  }
+	| OFFSETOF                   {  }
+	| OVERRIDE                   {  }
+	| PRIV                       {  }
+	| PUB                        {  }
+	| PURE                       {  }
+	| REF                        {  }
+	| RETURN                     {  }
+	| STRUCT                     {  }
+	| SIZEOF                     {  }
+	| SUPER                      {  }
+	| TRUE                       {  }
+	| TRAIT                      {  }
+	| TYPE                       {  }
+	| UNION                      {  }
+	| UNSAFE                     {  }
+	| UNSIZED                    {  }
+	| USE                        {  }
+	| VIRTUAL                    {  }
+	| WHILE                      {  }
+	| YIELD                      {  }
+	| CONTINUE                   {  }
+	| PROC                       {  }
+	| BOX                        {  }
+	| CONST                      {  }
+	| WHERE                      {  }
+	| TYPEOF                     {  }
+	| INNER_DOC_COMMENT          {  }
+	| OUTER_DOC_COMMENT          {  }
+	| SHEBANG                    {  }
+	| STATIC_LIFETIME            {  }
+	| ';'                        {  }
+	| ','                        {  }
+	| '.'                        {  }
+	| '@'                        {  }
+	| '#'                        {  }
+	| '~'                        {  }
+	| ':'                        {  }
+	| '$'                        {  }
+	| '='                        {  }
+	| '?'                        {  }
+	| '!'                        {  }
+	| '<'                        {  }
+	| '>'                        {  }
+	| '-'                        {  }
+	| '&'                        {  }
+	| '|'                        {  }
+	| '+'                        {  }
+	| '*'                        {  }
+	| '/'                        {  }
+	| '^'                        {  }
+	| '%'                        {  }
+	;
 
-token_trees
-: %empty                     {  }
-| token_trees token_tree     {  }
-;
+token_trees : %empty                     {  }
+	| token_trees token_tree     {  }
+	;
 
-token_tree
-: delimited_token_trees
-| unpaired_token         {  }
-;
+token_tree : delimited_token_trees
+	| unpaired_token         {  }
+	;
 
-delimited_token_trees
-: parens_delimited_token_trees
-| braces_delimited_token_trees
-| brackets_delimited_token_trees
-;
+delimited_token_trees : parens_delimited_token_trees
+	| braces_delimited_token_trees
+	| brackets_delimited_token_trees
+	;
 
 parens_delimited_token_trees : '(' token_trees ')' {
   
-}
-;
+	}
+	;
 
 braces_delimited_token_trees : '{' token_trees '}' {
   
-}
-;
+	}
+	;
 
 brackets_delimited_token_trees : '[' token_trees ']' {
 
