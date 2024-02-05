@@ -2388,6 +2388,19 @@ If we are, is the whole thing an identifier? Or are the brackets operators?
   be separate tokens, and what was inside them would be zero or more tokens
   (one, in this example).
 
+  <dt>
+
+Relating to defining Multiple-byte operators and Punctuation, what would be
+the values associated with them. As each other expression we use their ascii
+representation and for the other keywords I have them continue after 257,
+would we just provide them their own ascii values? In order to not have any
+warning shown on ‘make’ I just assigned them their own values starting at
+300. If in the future there is any required value please let us know,
+thanks!
+
+<dd> Multi-byte operators and punctuation don't have a clean ASCII code to
+  use, so yes, return a unique integer greater than 257 for them. A number
+  greater than 300 works, since it is a number greater than 257.
 
   </dl>
 
