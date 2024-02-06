@@ -341,6 +341,9 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -695,9 +698,9 @@ static int num_hashes;
 static int end_hashes;
 static int saw_non_hash;
 
-#line 699 "lex.yy.c"
+#line 702 "lex.yy.c"
 
-#line 701 "lex.yy.c"
+#line 704 "lex.yy.c"
 
 #define INITIAL 0
 #define str 1
@@ -941,10 +944,10 @@ YY_DECL
 		}
 
 	{
-#line 51 "rustlex.l"
+#line 52 "rustlex.l"
 
 
-#line 948 "lex.yy.c"
+#line 951 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1014,572 +1017,572 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 53 "rustlex.l"
+#line 54 "rustlex.l"
 { }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 55 "rustlex.l"
+#line 56 "rustlex.l"
 { return UNDERSCORE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 56 "rustlex.l"
+#line 57 "rustlex.l"
 { return ABSTRACT; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 57 "rustlex.l"
+#line 58 "rustlex.l"
 { return ALIGNOF; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 58 "rustlex.l"
+#line 59 "rustlex.l"
 { return AS; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 59 "rustlex.l"
+#line 60 "rustlex.l"
 { return BECOME; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 60 "rustlex.l"
+#line 61 "rustlex.l"
 { return BOX; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 61 "rustlex.l"
+#line 62 "rustlex.l"
 { return BREAK; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 62 "rustlex.l"
+#line 63 "rustlex.l"
 { return CATCH; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 63 "rustlex.l"
+#line 64 "rustlex.l"
 { return CONST; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 64 "rustlex.l"
+#line 65 "rustlex.l"
 { return CONTINUE; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 65 "rustlex.l"
+#line 66 "rustlex.l"
 { return CRATE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 66 "rustlex.l"
+#line 67 "rustlex.l"
 { return DEFAULT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 67 "rustlex.l"
+#line 68 "rustlex.l"
 { return DO; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 68 "rustlex.l"
+#line 69 "rustlex.l"
 { return ELSE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 69 "rustlex.l"
+#line 70 "rustlex.l"
 { return ENUM; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 70 "rustlex.l"
+#line 71 "rustlex.l"
 { return EXTERN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 71 "rustlex.l"
+#line 72 "rustlex.l"
 { return FALSE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 72 "rustlex.l"
+#line 73 "rustlex.l"
 { return FINAL; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 73 "rustlex.l"
+#line 74 "rustlex.l"
 { return FN; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 74 "rustlex.l"
+#line 75 "rustlex.l"
 { return FOR; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 75 "rustlex.l"
+#line 76 "rustlex.l"
 { return IF; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 76 "rustlex.l"
+#line 77 "rustlex.l"
 { return IMPL; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 77 "rustlex.l"
+#line 78 "rustlex.l"
 { return IN; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 78 "rustlex.l"
+#line 79 "rustlex.l"
 { return LET; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 79 "rustlex.l"
+#line 80 "rustlex.l"
 { return LOOP; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 80 "rustlex.l"
+#line 81 "rustlex.l"
 { return MACRO; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 81 "rustlex.l"
+#line 82 "rustlex.l"
 { return MATCH; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 82 "rustlex.l"
+#line 83 "rustlex.l"
 { return MOD; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 83 "rustlex.l"
+#line 84 "rustlex.l"
 { return MOVE; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 84 "rustlex.l"
+#line 85 "rustlex.l"
 { return MUT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 85 "rustlex.l"
+#line 86 "rustlex.l"
 { return OFFSETOF; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 86 "rustlex.l"
+#line 87 "rustlex.l"
 { return OVERRIDE; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 87 "rustlex.l"
+#line 88 "rustlex.l"
 { return PRIV; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 88 "rustlex.l"
+#line 89 "rustlex.l"
 { return PROC; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 89 "rustlex.l"
+#line 90 "rustlex.l"
 { return PURE; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 90 "rustlex.l"
+#line 91 "rustlex.l"
 { return PUB; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 91 "rustlex.l"
+#line 92 "rustlex.l"
 { return REF; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 92 "rustlex.l"
+#line 93 "rustlex.l"
 { return RETURN; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 93 "rustlex.l"
+#line 94 "rustlex.l"
 { return SELF; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 94 "rustlex.l"
+#line 95 "rustlex.l"
 { return SIZEOF; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 95 "rustlex.l"
+#line 96 "rustlex.l"
 { return STATIC; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 96 "rustlex.l"
+#line 97 "rustlex.l"
 { return STRUCT; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 97 "rustlex.l"
+#line 98 "rustlex.l"
 { return SUPER; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 98 "rustlex.l"
+#line 99 "rustlex.l"
 { return TRAIT; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 99 "rustlex.l"
+#line 100 "rustlex.l"
 { return TRUE; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 100 "rustlex.l"
+#line 101 "rustlex.l"
 { return TYPE; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 101 "rustlex.l"
+#line 102 "rustlex.l"
 { return TYPEOF; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 102 "rustlex.l"
+#line 103 "rustlex.l"
 { return UNION; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 103 "rustlex.l"
+#line 104 "rustlex.l"
 { return UNSAFE; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 104 "rustlex.l"
+#line 105 "rustlex.l"
 { return UNSIZED; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 105 "rustlex.l"
+#line 106 "rustlex.l"
 { return USE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 106 "rustlex.l"
+#line 107 "rustlex.l"
 { return VIRTUAL; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 107 "rustlex.l"
+#line 108 "rustlex.l"
 { return WHERE; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 108 "rustlex.l"
+#line 109 "rustlex.l"
 { return WHILE; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 109 "rustlex.l"
+#line 110 "rustlex.l"
 { return YIELD; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 111 "rustlex.l"
+#line 112 "rustlex.l"
 { return IDENT; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 113 "rustlex.l"
+#line 114 "rustlex.l"
 { BEGIN(suffix); return LIT_INTEGER; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 114 "rustlex.l"
+#line 115 "rustlex.l"
 { BEGIN(suffix); return LIT_INTEGER; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 115 "rustlex.l"
+#line 116 "rustlex.l"
 { BEGIN(suffix); return LIT_INTEGER; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 116 "rustlex.l"
+#line 117 "rustlex.l"
 { BEGIN(suffix); return LIT_INTEGER; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 117 "rustlex.l"
+#line 118 "rustlex.l"
 { yyless(yyleng - 2); BEGIN(suffix); return LIT_INTEGER; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 119 "rustlex.l"
+#line 120 "rustlex.l"
 { BEGIN(suffix); return LIT_FLOAT; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 120 "rustlex.l"
+#line 121 "rustlex.l"
 { BEGIN(suffix); return LIT_FLOAT; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 122 "rustlex.l"
+#line 123 "rustlex.l"
 { return ';'; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 123 "rustlex.l"
+#line 124 "rustlex.l"
 { return ','; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 124 "rustlex.l"
+#line 125 "rustlex.l"
 { return DOTDOTDOT; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 125 "rustlex.l"
+#line 126 "rustlex.l"
 { return DOTDOT; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 126 "rustlex.l"
+#line 127 "rustlex.l"
 { return '.'; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 127 "rustlex.l"
+#line 128 "rustlex.l"
 { return '('; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 128 "rustlex.l"
+#line 129 "rustlex.l"
 { return ')'; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 129 "rustlex.l"
+#line 130 "rustlex.l"
 { return '{'; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 130 "rustlex.l"
+#line 131 "rustlex.l"
 { return '}'; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 131 "rustlex.l"
+#line 132 "rustlex.l"
 { return '['; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 132 "rustlex.l"
+#line 133 "rustlex.l"
 { return ']'; }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 133 "rustlex.l"
+#line 134 "rustlex.l"
 { return '@'; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 135 "rustlex.l"
+#line 136 "rustlex.l"
 { return '~'; }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 136 "rustlex.l"
+#line 137 "rustlex.l"
 { return MOD_SEP; }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 137 "rustlex.l"
+#line 138 "rustlex.l"
 { return ':'; }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 138 "rustlex.l"
+#line 139 "rustlex.l"
 { return '$'; }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 139 "rustlex.l"
+#line 140 "rustlex.l"
 { return '?'; }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 141 "rustlex.l"
+#line 142 "rustlex.l"
 { return EQEQ; }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 142 "rustlex.l"
+#line 143 "rustlex.l"
 { return FAT_ARROW; }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 143 "rustlex.l"
+#line 144 "rustlex.l"
 { return '='; }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 144 "rustlex.l"
+#line 145 "rustlex.l"
 { return NE; }
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 145 "rustlex.l"
+#line 146 "rustlex.l"
 { return '!'; }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 146 "rustlex.l"
+#line 147 "rustlex.l"
 { return LE; }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 147 "rustlex.l"
+#line 148 "rustlex.l"
 { return SHL; }
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 148 "rustlex.l"
+#line 149 "rustlex.l"
 { return SHLEQ; }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 149 "rustlex.l"
+#line 150 "rustlex.l"
 { return '<'; }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 150 "rustlex.l"
+#line 151 "rustlex.l"
 { return GE; }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 151 "rustlex.l"
+#line 152 "rustlex.l"
 { return SHR; }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 152 "rustlex.l"
+#line 153 "rustlex.l"
 { return SHREQ; }
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 153 "rustlex.l"
+#line 154 "rustlex.l"
 { return '>'; }
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 155 "rustlex.l"
+#line 156 "rustlex.l"
 { return LARROW; }
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 156 "rustlex.l"
+#line 157 "rustlex.l"
 { return RARROW; }
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 157 "rustlex.l"
+#line 158 "rustlex.l"
 { return '-'; }
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 158 "rustlex.l"
+#line 159 "rustlex.l"
 { return MINUSEQ; }
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 159 "rustlex.l"
+#line 160 "rustlex.l"
 { return ANDAND; }
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 160 "rustlex.l"
+#line 161 "rustlex.l"
 { return '&'; }
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 161 "rustlex.l"
+#line 162 "rustlex.l"
 { return ANDEQ; }
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 162 "rustlex.l"
+#line 163 "rustlex.l"
 { return OROR; }
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 163 "rustlex.l"
+#line 164 "rustlex.l"
 { return '|'; }
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 164 "rustlex.l"
+#line 165 "rustlex.l"
 { return OREQ; }
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 165 "rustlex.l"
+#line 166 "rustlex.l"
 { return '+'; }
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 166 "rustlex.l"
+#line 167 "rustlex.l"
 { return PLUSEQ; }
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 167 "rustlex.l"
+#line 168 "rustlex.l"
 { return '*'; }
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 168 "rustlex.l"
+#line 169 "rustlex.l"
 { return STAREQ; }
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 169 "rustlex.l"
+#line 170 "rustlex.l"
 { return '/'; }
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 170 "rustlex.l"
+#line 171 "rustlex.l"
 { return SLASHEQ; }
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 171 "rustlex.l"
+#line 172 "rustlex.l"
 { return '^'; }
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 172 "rustlex.l"
+#line 173 "rustlex.l"
 { return CARETEQ; }
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 173 "rustlex.l"
+#line 174 "rustlex.l"
 { return '%'; }
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 174 "rustlex.l"
+#line 175 "rustlex.l"
 { return PERCENTEQ; }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -1600,15 +1603,15 @@ case YY_STATE_EOF(doc_line):
 case YY_STATE_EOF(blockcomment):
 case YY_STATE_EOF(doc_block):
 case YY_STATE_EOF(suffix):
-#line 176 "rustlex.l"
+#line 177 "rustlex.l"
 { return 0; }
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 178 "rustlex.l"
+#line 179 "rustlex.l"
 ECHO;
 	YY_BREAK
-#line 1612 "lex.yy.c"
+#line 1615 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2669,6 +2672,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 178 "rustlex.l"
+#line 179 "rustlex.l"
 
 

@@ -31,8 +31,8 @@ tac.o: tac.c tac.h
 lex.yy.o: lex.yy.c tree.h
 	gcc $(CFLAGS) lex.yy.c
 
-lex.yy.c : clex.l
-	flex clex.l
+lex.yy.c : rustlex.l
+	flex rustlex.l
 
 cgram.tab.o: cgram.tab.c tree.h
 	gcc $(CFLAGS) cgram.tab.c

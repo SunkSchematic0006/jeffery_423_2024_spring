@@ -1,4 +1,3 @@
-#!/usr/bin/rustc
    fn main() {
       println!("hello,\t! ")
    }

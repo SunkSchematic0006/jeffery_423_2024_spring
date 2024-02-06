@@ -25,6 +25,7 @@ static int saw_non_hash;
 
 %}
 
+%option noyywrap
 %option stack
 %option yylineno
 
@@ -51,6 +52,7 @@ ident [a-zA-Z\x80-\xff_][a-zA-Z0-9\x80-\xff_]*
 %%
 
 [ \n\t\r]             { }
+"//".*                { }
 
 _        { return UNDERSCORE; }
 abstract { return ABSTRACT; }

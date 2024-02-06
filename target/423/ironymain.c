@@ -15,7 +15,3 @@ int main(int argc, char *argv[])
    printf("yyparse returns %d\n", i);
    exit(i);
    }
-
-int yyerror(char *s) {
-   fprintf(stderr, "%s\n", s); exit(1);
-}
