@@ -1,10 +1,14 @@
 CFLAGS= -c -g -Wall
-OBJ= main.o lex.yy.o cgram.tab.o yyerror.o tree.o type.o symtab.o tac.o
-SRC= main.c yyerror.c tree.c type.c symtab.c tac.c
+#OBJ= ironymain.o lex.yy.o cgram.tab.o yyerror.o tree.o type.o symtab.o tac.o
+OBJ=ironymain.o lex.yy.o rustgram.tab.o yyerror.o
+SRC= ironymain.c yyerror.c tree.c type.c symtab.c tac.c
 HDR= tree.h type.h symtab.h tac.h
 
-puny: $(OBJ)
-	gcc -o puny $(OBJ)
+irony: $(OBJ)
+	gcc -o irony $(OBJ)
+
+#puny: $(OBJ)
+#	gcc -o puny $(OBJ)
 
 main.o : main.c
 	gcc $(CFLAGS) main.c

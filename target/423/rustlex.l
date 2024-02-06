@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include "rustgram.tab.h"
 
 static int num_hashes;
 static int end_hashes;
@@ -49,46 +50,7 @@ ident [a-zA-Z\x80-\xff_][a-zA-Z0-9\x80-\xff_]*
 
 %%
 
-<suffix>{ident}            { BEGIN(INITIAL); }
-<suffix>(.|\n)  { yyless(0); BEGIN(INITIAL); }
-
 [ \n\t\r]             { }
-
-\xef\xbb\xbf {
-  // UTF-8 byte order mark (BOM), ignore if in line 1, error otherwise
-  if (yyget_lineno() != 1) {
-    return -1;
-  }
-}
-
-\/\/(\/|\!)           { BEGIN(doc_line); yymore(); }
-<doc_line>\n          { BEGIN(INITIAL);
-                        yyleng--;
-                        yytext[yyleng] = 0;
-                        return ((yytext[2] == '!') ? INNER_DOC_COMMENT : OUTER_DOC_COMMENT);
-                      }
-<doc_line>[^\n]*      { yymore(); }
-
-\/\/|\/\/\/\/         { BEGIN(linecomment); }
-<linecomment>\n       { BEGIN(INITIAL); }
-<linecomment>[^\n]*   { }
-
-\/\*(\*|\!)[^*]       { yy_push_state(INITIAL); yy_push_state(doc_block); yymore(); }
-<doc_block>\/\*       { yy_push_state(doc_block); yymore(); }
-<doc_block>\*\/       {
-    yy_pop_state();
-    if (yy_top_state() == doc_block) {
-        yymore();
-    } else {
-        return ((yytext[2] == '!') ? INNER_DOC_COMMENT : OUTER_DOC_COMMENT);
-    }
-}
-<doc_block>(.|\n)     { yymore(); }
-
-\/\*                  { yy_push_state(blockcomment); }
-<blockcomment>\/\*    { yy_push_state(blockcomment); }
-<blockcomment>\*\/    { yy_pop_state(); }
-<blockcomment>(.|\n)   { }
 
 _        { return UNDERSCORE; }
 abstract { return ABSTRACT; }
@@ -169,28 +131,6 @@ yield    { return YIELD; }
 \[     { return '['; }
 \]     { return ']'; }
 @      { return '@'; }
-#      { BEGIN(pound); yymore(); }
-<pound>\! { BEGIN(shebang_or_attr); yymore(); }
-<shebang_or_attr>\[ {
-  BEGIN(INITIAL);
-  yyless(2);
-  return SHEBANG;
-}
-<shebang_or_attr>[^\[\n]*\n {
-  // Since the \n was eaten as part of the token, yylineno will have
-  // been incremented to the value 2 if the shebang was on the first
-  // line. This yyless undoes that, setting yylineno back to 1.
-  yyless(yyleng - 1);
-  if (yyget_lineno() == 1) {
-    BEGIN(INITIAL);
-    return SHEBANG_LINE;
-  } else {
-    BEGIN(INITIAL);
-    yyless(2);
-    return SHEBANG;
-  }
-}
-<pound>. { BEGIN(INITIAL); yyless(1); return '#'; }
 
 \~     { return '~'; }
 ::     { return MOD_SEP; }
@@ -211,134 +151,6 @@ yield    { return YIELD; }
 \>\>  { return SHR; }
 \>\>= { return SHREQ; }
 \>    { return '>'; }
-
-\x27                                      { BEGIN(ltorchar); yymore(); }
-<ltorchar>static                          { BEGIN(INITIAL); return STATIC_LIFETIME; }
-<ltorchar>{ident}                         { BEGIN(INITIAL); return LIFETIME; }
-<ltorchar>\\[nrt\\\x27\x220]\x27          { BEGIN(suffix); return LIT_CHAR; }
-<ltorchar>\\x[0-9a-fA-F]{2}\x27           { BEGIN(suffix); return LIT_CHAR; }
-<ltorchar>\\u\{([0-9a-fA-F]_*){1,6}\}\x27 { BEGIN(suffix); return LIT_CHAR; }
-<ltorchar>.\x27                           { BEGIN(suffix); return LIT_CHAR; }
-<ltorchar>[\x80-\xff]{2,4}\x27            { BEGIN(suffix); return LIT_CHAR; }
-<ltorchar><<EOF>>                         { BEGIN(INITIAL); return -1; }
-
-b\x22              { BEGIN(bytestr); yymore(); }
-<bytestr>\x22      { BEGIN(suffix); return LIT_BYTE_STR; }
-
-<bytestr><<EOF>>                     { return -1; }
-<bytestr>\\[n\nrt\\\x27\x220]        { yymore(); }
-<bytestr>\\x[0-9a-fA-F]{2}           { yymore(); }
-<bytestr>\\u\{([0-9a-fA-F]_*){1,6}\} { yymore(); }
-<bytestr>\\[^n\nrt\\\x27\x220]       { return -1; }
-<bytestr>(.|\n)                      { yymore(); }
-
-br\x22                      { BEGIN(rawbytestr_nohash); yymore(); }
-<rawbytestr_nohash>\x22     { BEGIN(suffix); return LIT_BYTE_STR_RAW; }
-<rawbytestr_nohash>(.|\n)   { yymore(); }
-<rawbytestr_nohash><<EOF>>  { return -1; }
-
-br/# {
-    BEGIN(rawbytestr);
-    yymore();
-    num_hashes = 0;
-    saw_non_hash = 0;
-    end_hashes = 0;
-}
-<rawbytestr># {
-    if (!saw_non_hash) {
-        num_hashes++;
-    } else if (end_hashes != 0) {
-        end_hashes++;
-        if (end_hashes == num_hashes) {
-            BEGIN(INITIAL);
-            return LIT_BYTE_STR_RAW;
-        }
-    }
-    yymore();
-}
-<rawbytestr>\x22# {
-    end_hashes = 1;
-    if (end_hashes == num_hashes) {
-        BEGIN(INITIAL);
-        return LIT_BYTE_STR_RAW;
-    }
-    yymore();
-}
-<rawbytestr>(.|\n) {
-    if (!saw_non_hash) {
-        saw_non_hash = 1;
-    }
-    if (end_hashes != 0) {
-        end_hashes = 0;
-    }
-    yymore();
-}
-<rawbytestr><<EOF>> { return -1; }
-
-b\x27                           { BEGIN(byte); yymore(); }
-<byte>\\[nrt\\\x27\x220]\x27    { BEGIN(INITIAL); return LIT_BYTE; }
-<byte>\\x[0-9a-fA-F]{2}\x27     { BEGIN(INITIAL); return LIT_BYTE; }
-<byte>\\u([0-9a-fA-F]_*){4}\x27 { BEGIN(INITIAL); return LIT_BYTE; }
-<byte>\\U([0-9a-fA-F]_*){8}\x27 { BEGIN(INITIAL); return LIT_BYTE; }
-<byte>.\x27                     { BEGIN(INITIAL); return LIT_BYTE; }
-<byte><<EOF>>                   { BEGIN(INITIAL); return -1; }
-
-r\x22           { BEGIN(rawstr); yymore(); }
-<rawstr>\x22    { BEGIN(suffix); return LIT_STR_RAW; }
-<rawstr>(.|\n)  { yymore(); }
-<rawstr><<EOF>> { return -1; }
-
-r/#             {
-    BEGIN(rawstr_esc_begin);
-    yymore();
-    num_hashes = 0;
-    saw_non_hash = 0;
-    end_hashes = 0;
-}
-
-<rawstr_esc_begin># {
-    num_hashes++;
-    yymore();
-}
-<rawstr_esc_begin>\x22 {
-    BEGIN(rawstr_esc_body);
-    yymore();
-}
-<rawstr_esc_begin>(.|\n) { return -1; }
-
-<rawstr_esc_body>\x22/# {
-  BEGIN(rawstr_esc_end);
-  yymore();
- }
-<rawstr_esc_body>(.|\n) {
-  yymore();
- }
-
-<rawstr_esc_end># {
-  end_hashes++;
-  if (end_hashes == num_hashes) {
-    BEGIN(INITIAL);
-    return LIT_STR_RAW;
-  }
-  yymore();
- }
-<rawstr_esc_end>[^#] {
-  end_hashes = 0;
-  BEGIN(rawstr_esc_body);
-  yymore();
- }
-
-<rawstr_esc_begin,rawstr_esc_body,rawstr_esc_end><<EOF>> { return -1; }
-
-\x22                     { BEGIN(str); yymore(); }
-<str>\x22                { BEGIN(suffix); return LIT_STR; }
-
-<str><<EOF>>                     { return -1; }
-<str>\\[n\nr\rt\\\x27\x220]      { yymore(); }
-<str>\\x[0-9a-fA-F]{2}           { yymore(); }
-<str>\\u\{([0-9a-fA-F]_*){1,6}\} { yymore(); }
-<str>\\[^n\nrt\\\x27\x220]       { return -1; }
-<str>(.|\n)                      { yymore(); }
 
 \<-  { return LARROW; }
 -\>  { return RARROW; }
