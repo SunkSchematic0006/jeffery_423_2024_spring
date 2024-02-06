@@ -53,6 +53,7 @@ ident [a-zA-Z\x80-\xff_][a-zA-Z0-9\x80-\xff_]*
 
 [ \n\t\r]             { }
 "//".*                { }
+"\""([^\n"\\]|"\\"[\\nt"])*"\""            { return LIT_STR; }
 
 _        { return UNDERSCORE; }
 abstract { return ABSTRACT; }

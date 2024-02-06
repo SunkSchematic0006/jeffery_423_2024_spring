@@ -29,16 +29,16 @@ tac.o: tac.c tac.h
 	gcc $(CFLAGS) tac.c
 
 lex.yy.o: lex.yy.c tree.h
-	gcc $(CFLAGS) lex.yy.c
+	gcc -c lex.yy.c
 
 lex.yy.c : rustlex.l
 	flex rustlex.l
 
-cgram.tab.o: cgram.tab.c tree.h
-	gcc $(CFLAGS) cgram.tab.c
+rustgram.tab.o: rustgram.tab.c tree.h
+	gcc $(CFLAGS) -DYYDEBUG rustgram.tab.c
 
-cgram.tab.h cgram.tab.c : cgram.y
-	bison -d cgram.y
+rustgram.tab.h rustgram.tab.c : rustgram.y
+	bison -d rustgram.y
 
 zip: $(SRC) $(HDR) cgram.y clex.l
 	zip labdemo.zip $(SRC) $(HDR) cgram.y clex.l
