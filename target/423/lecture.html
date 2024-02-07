@@ -3419,7 +3419,7 @@ Definition: a <em>handle</em> is a substring that
       due to other obligations, probably not.
   <dt> Testing is for basic functionality
   <dd> Testing will get more elaborate in later HW's
-  <dt> The executable is to be named puny and not anything else
+  <dt> The executable is to be named fec and not anything else
   <dt> In a Makefile, CFLAGS is for -c compile steps, LDFLAGS is for link steps
   <dd> Typical to define CFLAGS in this class to be -c -g -Wall.
   <dt> Do not mix compile lines with link lines.
@@ -3519,8 +3519,9 @@ semi-colons?
 
 </dd>-->
   <dt>Does our language support empty statements?
-</dt><dd> Most mainstream languages allow these. Did they get used in CSE 107 class?
-   Unlikely. Occasionally I find them handy IRL. I would say they are optional in PunY.
+  <dd> Most mainstream languages allow these. Do they get used in a
+      CSE 107 or 113 class?
+   Unlikely. Occasionally I find them handy IRL. I would say they are optional in Irony.
   </dd>
 
 <dt> In the previous HW, I created one token to handle all cases of
@@ -3781,8 +3782,8 @@ We voted for:
 <dl>
 <dt> During my "make" the linker complains about redefinition of yyparse()
      and missing main(). What's going on?
-</dt><dd> If your main() function is in puny.c, you had better not rename
-     cgram.y as puny.y, or be careful if you do -- on at least some
+</dt><dd> If your main() function is in irony.c, you had better not rename
+     cgram.y as irony.y, or be careful if you do -- on at least some
      platforms (probably this refers to Linux and GNU make) the "make"
      program has default rules that assume if a .c file has the same name
      as a .y file, it is supposed to build the .c from the .y by running
