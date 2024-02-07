@@ -4470,6 +4470,7 @@ concepts of "items" and "sets of items" discussed below.
 <font size="1"> <a name="14">lecture #14</a> began here</font>
 </p><p>
 
+<!--
 <h3> Puny Language Clarification: For-Loops </h3>
 
 I talked with our CSE 107 instructor about what kinds of loops PunY has to
@@ -4489,6 +4490,7 @@ support. He said we have to do while loops, plus the following kinds of for-loop
 
 So far, I have been hoping for PunY that we'd just get by with lists and not
 bother with tuples.  How realistic is that for basic Python programming?
+-->
 
 
 <h3>How To Make Labs More Useful and Productive</h3>
@@ -4617,8 +4619,7 @@ place?  Can we use that information to produce a better error message?
 
 <dt>
 
-What do we do with TYPE_COMMENT, and some other Python-not-Puny keyword
-statements (for example ASYNC, IS NOT, NOT IN)?  Are we just remove them
+What do we do with Rust-not-Irony statements? Do we just remove them
 completely from the grammar?
 
 <dd>
@@ -4628,7 +4629,7 @@ remove them entirely from the grammar.  My only hesitation on this point is
 that removing them from the grammar may in some circumstances cause the
 parser to report a syntax error before it even gets to the illegal token,
 causing confusing or misleading syntax error messages for some
-Python-not-Puny constructs. I'd advise removing such rules from the grammar,
+Rust-not-Irony constructs. I'd advise removing such rules from the grammar,
 but saving them somewhere and restoring them if it turns out that the
 misleading premature syntax error messages are a real thing and not just
 hypothetical.
