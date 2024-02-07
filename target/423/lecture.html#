@@ -3177,6 +3177,7 @@ OR bars denote additional production rules.  Semi-colons are superfluous.
 <li> We do need working HW#2's in order to get HW#3 working.
 <li> As part of lab #2, you-all submitted &gt;
      <A href="lextests.zip">125 test files</A>
+<li> You are encouraged to try your lexical analyzers 
 </ul>
 
 <h3> Reading Assignment </h3>
