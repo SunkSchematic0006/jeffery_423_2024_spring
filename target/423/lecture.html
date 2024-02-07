@@ -182,16 +182,15 @@ we tried various changes.
   </ul>
   <li> Target Language we are implementing
     <ul>
-      <li> Last year: Java subset.
-      <li> This year: Python subset.
-      <li> Everyone will have to know, or learn, Python basics. If you
-	don't know Python you might start with
-	<A href="https://www.cs.nmt.edu/~jeffery/Shipman/www/docs/tcc/help/pubs/python27/python27.pdf">this</A>
-      <li> We will define our Python subset as we go, starting from
-	<A href="punyref.html">this reference</A> (still being
+      <li> Last year: Python subset.
+      <li> This year: Rust subset.
+      <li> Everyone will have to know, or learn, Rust basics. If you
+	don't know Rust you might start with
+	Rust By Example
+      <li> We will define our Rust subset as we go, starting from
+	<A href="ironyref.html">this reference</A> (still being
 	constructed/translated)
-      <li> Every team will have to sort out Python syntax and parsing,
-	including whitespace-based indentation (woot)
+      <li> Everyone will have to sort out Rust syntax and parsing.
     </ul>
   </ul>
 
@@ -3782,8 +3781,8 @@ We voted for:
 <dl>
 <dt> During my "make" the linker complains about redefinition of yyparse()
      and missing main(). What's going on?
-</dt><dd> If your main() function is in irony.c, you had better not rename
-     cgram.y as irony.y, or be careful if you do -- on at least some
+</dt><dd> If your main() function is in irony.c, you had better not name
+     your grammar file irony.y, or be careful if you do -- on at least some
      platforms (probably this refers to Linux and GNU make) the "make"
      program has default rules that assume if a .c file has the same name
      as a .y file, it is supposed to build the .c from the .y by running
@@ -4026,9 +4025,9 @@ int main(int argc, char *argv[]) {
 }
 </pre>
 
-<li> Java compiler writers, you need to include a puny executable such as
+<li> Java compiler writers, you need to include a fec executable such as
       <pre>#!/bin/sh
-java puny $*
+java fec $*
 </pre>
 </ul>
 
