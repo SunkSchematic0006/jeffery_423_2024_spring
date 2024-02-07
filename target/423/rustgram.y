@@ -206,7 +206,7 @@ extern void yyerror(char const *s);
 %left '*' '/' '%'
 %precedence '!'
 
-%precedence '{' '[' '(' '.'
+%precedence '{' LEFTBRACKET '(' '.'
 
 %precedence RANGE
 
@@ -234,7 +234,7 @@ inner_attrs : inner_attr           {  }
         | inner_attrs inner_attr   {  }
         ;
 
-inner_attr : SHEBANG '[' meta_item ']'   {  }
+inner_attr : SHEBANG LEFTBRACKET meta_item ']'   {  }
         | INNER_DOC_COMMENT           {  }
         ;
 
@@ -246,7 +246,7 @@ outer_attrs : outer_attr               {  }
         | outer_attrs outer_attr   {  }
         ;
 
-outer_attr : '#' '[' meta_item ']'    {  }
+outer_attr : '#' LEFTBRACKET meta_item ']'    {  }
         | OUTER_DOC_COMMENT        {  }
         ;
 
@@ -876,7 +876,7 @@ pat : UNDERSCORE                                      {  }
         | ANDAND pat                                      {  }
         | '(' ')'                                         {  }
         | '(' pat_tup ')'                                 {  }
-        | '[' pat_vec ']'                                 {  }
+        | LEFTBRACKET pat_vec ']'                                 {  }
         | lit_or_path
         | lit_or_path DOTDOTDOT lit_or_path               {  }
         | path_expr '{' pat_struct '}'                    {  }
@@ -992,9 +992,9 @@ ty_prim : %prec IDENT path_generic_args_without_colons    {  }
         | ANDAND MUT ty                                             {  }
         | '&' lifetime maybe_mut ty                                 {  }
         | ANDAND lifetime maybe_mut ty                              {  }
-        | '[' ty ']'                                                {  }
-        | '[' ty ',' DOTDOT expr ']'                                {  }
-        | '[' ty ';' expr ']'                                       {  }
+        | LEFTBRACKET ty ']'                                                {  }
+        | LEFTBRACKET ty ',' DOTDOT expr ']'                                {  }
+        | LEFTBRACKET ty ';' expr ']'                                       {  }
         | TYPEOF '(' expr ')'                                       {  }
         | UNDERSCORE                                                {  }
         | ty_bare_fn
@@ -1243,9 +1243,9 @@ nonblock_expr : lit                                                     {  }
         | nonblock_expr '?'                                             {  }
         | nonblock_expr '.' path_generic_args_with_colons               {  }
         | nonblock_expr '.' LIT_INTEGER                                 {  }
-        | nonblock_expr '[' maybe_expr ']'                              {  }
+        | nonblock_expr LEFTBRACKET maybe_expr ']'                              {  }
         | nonblock_expr '(' maybe_exprs ')'                             {  }
-        | '[' vec_expr ']'                                              {  }
+        | LEFTBRACKET vec_expr ']'                                              {  }
         | '(' maybe_exprs ')'                                           {  }
         | CONTINUE                                                      {  }
         | CONTINUE lifetime                                             {  }
@@ -1303,10 +1303,10 @@ expr : lit                                                 {  }
      | expr '?'                                            {  }
      | expr '.' path_generic_args_with_colons              {  }
      | expr '.' LIT_INTEGER                                {  }
-     | expr '[' maybe_expr ']'                             {  }
+     | expr LEFTBRACKET maybe_expr ']'                             {  }
      | expr '(' maybe_exprs ')'                            {  }
      | '(' maybe_exprs ')'                                 {  }
-     | '[' vec_expr ']'                                    {  }
+     | LEFTBRACKET vec_expr ']'                                    {  }
      | CONTINUE                                            {  }
      | CONTINUE ident                                      {  }
      | RETURN                                              {  }
@@ -1364,9 +1364,9 @@ expr_nostruct : lit                                                 {  }
         | expr_nostruct '?'                                   {  }
         | expr_nostruct '.' path_generic_args_with_colons     {  }
         | expr_nostruct '.' LIT_INTEGER                       {  }
-        | expr_nostruct '[' maybe_expr ']'                    {  }
+        | expr_nostruct LEFTBRACKET maybe_expr ']'                    {  }
         | expr_nostruct '(' maybe_exprs ')'                   {  }
-        | '[' vec_expr ']'                                    {  }
+        | LEFTBRACKET vec_expr ']'                                    {  }
         | '(' maybe_exprs ')'                                 {  }
         | CONTINUE                                            {  }
         | CONTINUE ident                                      {  }
@@ -1534,9 +1534,9 @@ full_block_expr : block_expr
 
 block_expr_dot : block_expr '.' path_generic_args_with_colons %prec IDENT {  }
         | block_expr_dot '.' path_generic_args_with_colons %prec IDENT    {  }
-        | block_expr     '.' path_generic_args_with_colons '[' maybe_expr ']' {
+        | block_expr     '.' path_generic_args_with_colons LEFTBRACKET maybe_expr ']' {
           }
-        | block_expr_dot '.' path_generic_args_with_colons '[' maybe_expr ']' {
+        | block_expr_dot '.' path_generic_args_with_colons LEFTBRACKET maybe_expr ']' {
           }
         | block_expr    '.' path_generic_args_with_colons '(' maybe_exprs ')' {
           }
@@ -1774,7 +1774,7 @@ braces_delimited_token_trees : '{' token_trees '}' {
         }
         ;
 
-brackets_delimited_token_trees : '[' token_trees ']' {
+brackets_delimited_token_trees : LEFTBRACKET token_trees ']' {
 
         }
         ;
