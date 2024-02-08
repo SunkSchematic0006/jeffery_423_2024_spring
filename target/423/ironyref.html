@@ -514,7 +514,7 @@ portions of it that will be unsupported and trigger an error in HW#3.
 
 Function definitions in irony consist of an <code>fn</code> followed by
 a function name, a pair of parenthesis containing an optional parameter
-list, an optional return value and then a sequence of statements surrounded
+list, an optional return type and then a sequence of statements surrounded
 by curly braces.  The parameters are comma-separated lists of zero or more
 entries in the format <code><em>name</em> : <em>type</em></code>. The
 function return value syntax, if present is <code>-&gt; <em>type</em></code>.
@@ -527,12 +527,40 @@ For example:
   }
 </pre>
 
-<!--
+If the last expression is not terminated by a semi-colon, it is implicitly
+the function's return value, so
+
+<table border>
+<tr><th>Legal<th>Legal<th>Legal<th>ILLEGAL
+<tr>
+<td>
 <pre>
-<em>return type</em> identifier ( <em>parameter_list</em> ) { <em>function body</em> }
+fn f2( i : i64) -> i64 {
+  i * 2
+  }
 </pre>
--->
+<td>
+<pre>
+fn f2( i : i64) -> i64 {
+  return i * 2;
+  }
+</pre>
+<td>
+<pre>
+fn f2( i : i64) -> i64 {
+  return i * 2
+  }
+</pre>
+<td>
+<pre>
+fn f2( i : i64) -> i64 {
+  i * 2;
+  }
+</pre>
   
+If the last expression is terminated by a semi-colon, no implicit return
+value is provided.
+
 <p>
 <A NAME="ControlStructures"></A><B><FONT SIZE=3>3.2 Control Structures</B></FONT>
 <p>
