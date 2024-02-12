@@ -3971,7 +3971,8 @@ might write:
 <dt> My compiler is complaining about strdup being missing. What up?
 </dt><dd> It turns out -std=c99 removes strdup() because it is not part of that
      standard.  Possibly solutions include: not using -std=c99 when compiling
-     files that call strdup(), or writing/providing your own strdup().
+    files that call <code>strdup()</code>, or writing/providing your own
+    <code>strdup()</code>.
 
 </dd><dt> When I compile my .y file, bison complains spitting out a bunch of
      warnings about useless nonterminals and rules. how much attention
@@ -3985,12 +3986,14 @@ might write:
      we may schedule a Zoom meeting.  You might have to learn some Zoom.
      I might have to setup a camera on my many machines, and remember my
      Zoom credentials.
-</dd><dt> I've been trying to implement implicit concatenation in the grammar
+</dd>
+<!--
+<dt> I've been trying to implement implicit concatenation in the grammar
      and I'm getting reduce/reduce errors. Do you have any tips for
      implementing implicit concatenation? Should I make specific rules
      for concatenating strings and lists and stop trying to integrate
      it into my expression syntax?
-</dt><dd> If you can't get implicit concatenation working, you might resort
+<dd> If you can't get implicit concatenation working, you might resort
      to explicit concatenation via (perhaps) the + operator. Tips to avoid
      reduce/reduce errors include: avoid epsilon rules. MERGE rules that
      look like the same thing (in Ada, functions and arrays both used the
@@ -3998,12 +4001,13 @@ might write:
      implicit concatenation, so in g0 it is a "can we do it?" question.
      I would be happy to consult with folks on your grammarly endeavors
      in office hours and additional appointments.
+-->
 
-</dd><dt> It seems we soon will have to implement a hash table.
+<dt> It seems we soon will have to implement a hash table.
      If this is the case, what would be a reasonable size (# buckets) of
      the table?  n=20?
-</dt><dd> Fixed-size tables should use a prime. For the size of inputs
-     I will ever manage in this class, probably a prime less than 100 would do.
+<dd> Fixed-size tables should use a prime. For the size of inputs
+     I will ever use in this class, probably a prime less than 100 would do.
      How about n=41 ?
 <!--
 <dt> Are we just supporting class, enum, typedef, and namespace identifiers and <em>not</em> structs?
@@ -4057,7 +4061,12 @@ java fec $*
 <h3>Mailbag</h3>
 
 <dl>
-<dt> My syntax checker seems to be having some issues on control words such as “for”, “while” etc.. Interestingly enough if I replace the return type of these statements in my “.l” file with an integer return type then the error goes away.
+
+<dt> My syntax checker seems to be having some issues on control words such
+as "for", "while" etc.. Interestingly enough if I replace the return type of
+these statements in my ".l" file with an integer return type then the error
+goes away.
+
 <dd> return type of yylex() definitely must be int and the integers returned
   definitely must be those yyparse() #define's in a .tab.h file generated
   by running "bison -d" on the .y file.  To check if lexer and parser are
