@@ -92,8 +92,9 @@
 #define YYSTYPE struct node *
 extern int yylex();
 extern void yyerror(char const *s);
+#include "lab4tree.h"
 
-#line 97 "rustgram.tab.c"
+#line 98 "rustgram.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -236,7 +237,7 @@ enum yysymbol_kind_t
   YYSYMBOL_112_ = 112,                     /* '%'  */
   YYSYMBOL_113_ = 113,                     /* '!'  */
   YYSYMBOL_114_ = 114,                     /* '{'  */
-  YYSYMBOL_115_ = 115,                     /* '['  */
+  YYSYMBOL_LEFTBRACKET = 115,              /* LEFTBRACKET  */
   YYSYMBOL_116_ = 116,                     /* '('  */
   YYSYMBOL_117_ = 117,                     /* '.'  */
   YYSYMBOL_RANGE = 118,                    /* RANGE  */
@@ -801,7 +802,7 @@ union yyalloc
 #define YYNSTATES  1646
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   355
+#define YYMAXUTOK   356
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -824,7 +825,7 @@ static const yytype_int8 yytranslate[] =
      103,   102,   104,   101,   125,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,   115,     2,   119,   106,     2,     2,     2,     2,     2,
+       2,     2,     2,   119,   106,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,   114,   105,   124,   126,     2,     2,     2,
@@ -850,105 +851,105 @@ static const yytype_int8 yytranslate[] =
       65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
       75,    76,    77,    78,    79,    80,    81,    82,    83,    84,
       85,    86,    87,    88,    89,    90,    91,    92,    93,    94,
-      95,    96,    97,    98,   100,   118
+      95,    96,    97,    98,   100,   115,   118
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   221,   221,   222,   225,   226,   229,   230,   233,   234,
-     237,   238,   241,   242,   245,   246,   249,   250,   253,   254,
-     255,   256,   259,   260,   261,   264,   265,   268,   269,   272,
-     275,   279,   280,   284,   285,   286,   287,   288,   291,   292,
-     295,   298,   299,   300,   303,   304,   305,   306,   309,   312,
-     315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
-     325,   326,   327,   328,   331,   332,   333,   334,   335,   336,
-     337,   338,   339,   342,   343,   346,   347,   351,   354,   357,
-     362,   363,   366,   367,   370,   371,   372,   375,   378,   379,
-     380,   383,   387,   389,   393,   394,   395,   398,   401,   402,
-     403,   404,   405,   409,   410,   413,   414,   415,   418,   419,
-     422,   423,   426,   427,   430,   431,   434,   435,   436,   440,
-     444,   448,   451,   452,   453,   454,   457,   458,   461,   462,
-     463,   466,   467,   470,   473,   474,   475,   478,   485,   486,
-     489,   490,   493,   494,   495,   496,   499,   503,   504,   507,
-     510,   511,   514,   515,   516,   517,   520,   521,   524,   529,
-     533,   540,   545,   550,   557,   561,   566,   588,   592,   596,
-     599,   604,   608,   614,   615,   618,   619,   622,   623,   624,
-     625,   628,   629,   632,   635,   639,   643,   649,   653,   657,
-     663,   666,   669,   672,   675,   676,   679,   681,   683,   685,
-     688,   690,   692,   694,   697,   698,   699,   702,   703,   706,
-     709,   710,   713,   716,   717,   718,   719,   722,   723,   724,
-     725,   728,   729,   730,   733,   734,   739,   740,   743,   744,
-     745,   748,   749,   750,   751,   752,   753,   754,   757,   758,
-     759,   762,   763,   764,   765,   766,   767,   768,   769,   770,
-     771,   772,   773,   774,   775,   778,   779,   782,   783,   786,
-     787,   790,   791,   794,   795,   798,   799,   806,   807,   808,
-     809,   810,   811,   812,   826,   828,   830,   832,   834,   836,
-     840,   841,   842,   843,   848,   849,   850,   851,   854,   857,
-     858,   859,   860,   861,   862,   865,   866,   873,   874,   875,
-     876,   877,   878,   879,   880,   881,   882,   883,   884,   885,
-     886,   887,   888,   889,   890,   891,   897,   898,   901,   902,
-     903,   906,   907,   908,   911,   912,   913,   914,   915,   916,
-     917,   920,   921,   924,   925,   926,   927,   928,   931,   932,
-     933,   934,   935,   936,   937,   938,   939,   940,   941,   944,
-     945,   948,   949,   950,   951,   952,   953,   954,   955,   956,
-     957,   958,   959,   962,   963,   970,   971,   972,   973,   975,
-     976,   977,   980,   981,   982,   983,   985,   987,   988,   989,
-     990,   991,   992,   993,   994,   995,   996,   997,   998,   999,
-    1000,  1001,  1004,  1005,  1006,  1007,  1010,  1013,  1014,  1015,
-    1016,  1019,  1022,  1023,  1024,  1027,  1028,  1031,  1032,  1033,
-    1036,  1039,  1044,  1045,  1048,  1049,  1050,  1053,  1054,  1057,
-    1058,  1061,  1062,  1065,  1066,  1069,  1070,  1073,  1074,  1077,
-    1078,  1081,  1082,  1085,  1086,  1087,  1088,  1091,  1092,  1095,
-    1098,  1099,  1102,  1103,  1106,  1107,  1110,  1111,  1114,  1115,
-    1118,  1119,  1122,  1123,  1126,  1127,  1128,  1131,  1132,  1135,
-    1136,  1139,  1140,  1143,  1144,  1151,  1154,  1157,  1158,  1159,
-    1160,  1187,  1188,  1191,  1192,  1193,  1194,  1195,  1196,  1197,
-    1198,  1199,  1200,  1203,  1204,  1205,  1208,  1209,  1212,  1213,
-    1216,  1217,  1218,  1226,  1227,  1228,  1229,  1230,  1234,  1235,
-    1238,  1239,  1240,  1241,  1242,  1243,  1244,  1245,  1246,  1247,
-    1248,  1249,  1250,  1251,  1252,  1253,  1254,  1255,  1256,  1257,
-    1258,  1259,  1260,  1261,  1262,  1263,  1264,  1265,  1266,  1267,
-    1268,  1269,  1270,  1271,  1272,  1273,  1274,  1275,  1276,  1277,
-    1278,  1279,  1280,  1281,  1282,  1283,  1284,  1285,  1286,  1287,
-    1288,  1289,  1290,  1291,  1292,  1293,  1294,  1295,  1298,  1299,
-    1300,  1301,  1302,  1303,  1304,  1305,  1306,  1307,  1308,  1309,
-    1310,  1311,  1312,  1313,  1314,  1315,  1316,  1317,  1318,  1319,
-    1320,  1321,  1322,  1323,  1324,  1325,  1326,  1327,  1328,  1329,
-    1330,  1331,  1332,  1333,  1334,  1335,  1336,  1337,  1338,  1339,
-    1340,  1341,  1342,  1343,  1344,  1345,  1346,  1347,  1348,  1349,
-    1350,  1351,  1352,  1353,  1354,  1355,  1356,  1357,  1360,  1361,
-    1362,  1363,  1364,  1365,  1366,  1367,  1368,  1369,  1370,  1371,
-    1372,  1373,  1374,  1375,  1376,  1377,  1378,  1379,  1380,  1381,
-    1382,  1383,  1384,  1385,  1386,  1387,  1388,  1389,  1390,  1391,
-    1392,  1393,  1394,  1395,  1396,  1397,  1398,  1399,  1400,  1401,
-    1402,  1403,  1404,  1405,  1406,  1407,  1408,  1409,  1410,  1411,
-    1412,  1413,  1414,  1415,  1416,  1417,  1418,  1421,  1422,  1423,
-    1424,  1425,  1426,  1427,  1430,  1431,  1432,  1433,  1434,  1435,
-    1436,  1439,  1443,  1447,  1451,  1455,  1461,  1462,  1465,  1466,
-    1469,  1470,  1471,  1472,  1475,  1476,  1477,  1480,  1481,  1482,
-    1483,  1487,  1488,  1489,  1493,  1494,  1497,  1498,  1499,  1500,
-    1503,  1504,  1505,  1508,  1509,  1512,  1513,  1514,  1517,  1520,
-    1521,  1522,  1523,  1524,  1525,  1526,  1527,  1528,  1531,  1532,
-    1535,  1536,  1537,  1539,  1541,  1543,  1544,  1545,  1548,  1549,
-    1550,  1551,  1554,  1555,  1558,  1559,  1560,  1563,  1565,  1568,
-    1569,  1572,  1573,  1576,  1577,  1580,  1581,  1584,  1585,  1586,
-    1589,  1592,  1595,  1598,  1601,  1602,  1605,  1612,  1613,  1614,
-    1615,  1616,  1617,  1618,  1621,  1622,  1623,  1624,  1627,  1628,
-    1631,  1633,  1634,  1635,  1638,  1639,  1640,  1641,  1642,  1643,
-    1644,  1645,  1646,  1647,  1648,  1649,  1650,  1651,  1652,  1653,
-    1654,  1655,  1656,  1657,  1658,  1659,  1660,  1661,  1662,  1663,
-    1664,  1665,  1666,  1667,  1668,  1669,  1670,  1671,  1672,  1673,
-    1674,  1675,  1676,  1677,  1678,  1679,  1680,  1681,  1682,  1683,
-    1684,  1685,  1686,  1687,  1688,  1689,  1690,  1691,  1692,  1693,
-    1694,  1695,  1696,  1697,  1698,  1699,  1700,  1701,  1702,  1703,
-    1704,  1705,  1706,  1707,  1708,  1709,  1710,  1711,  1712,  1713,
-    1714,  1715,  1716,  1717,  1718,  1719,  1720,  1721,  1722,  1723,
-    1724,  1725,  1726,  1727,  1728,  1729,  1730,  1731,  1732,  1733,
-    1734,  1735,  1736,  1737,  1738,  1739,  1740,  1741,  1742,  1743,
-    1744,  1745,  1746,  1747,  1748,  1749,  1750,  1751,  1754,  1755,
-    1758,  1759,  1762,  1763,  1764,  1767,  1772,  1777
+       0,   227,   227,   228,   231,   232,   235,   236,   239,   240,
+     243,   244,   247,   248,   251,   252,   255,   256,   259,   260,
+     261,   262,   265,   266,   267,   270,   271,   274,   275,   278,
+     281,   285,   286,   290,   291,   292,   293,   294,   297,   298,
+     301,   304,   305,   306,   309,   310,   311,   312,   315,   318,
+     321,   322,   323,   324,   325,   326,   327,   328,   329,   330,
+     331,   332,   333,   334,   337,   338,   339,   340,   341,   342,
+     343,   344,   345,   348,   349,   352,   353,   357,   360,   363,
+     368,   369,   372,   373,   376,   377,   378,   381,   384,   385,
+     386,   389,   393,   395,   399,   400,   401,   404,   407,   408,
+     409,   410,   411,   415,   416,   419,   420,   421,   424,   425,
+     428,   429,   432,   433,   436,   437,   440,   441,   442,   446,
+     450,   454,   457,   458,   459,   460,   463,   464,   467,   468,
+     469,   472,   473,   476,   479,   480,   481,   484,   491,   492,
+     495,   496,   499,   500,   501,   502,   505,   509,   510,   513,
+     516,   517,   520,   521,   522,   523,   526,   527,   530,   535,
+     539,   546,   551,   556,   563,   567,   572,   594,   598,   602,
+     605,   610,   614,   620,   621,   624,   625,   628,   629,   630,
+     631,   634,   635,   638,   641,   645,   649,   655,   659,   663,
+     669,   672,   675,   678,   681,   682,   685,   687,   689,   691,
+     694,   696,   698,   700,   703,   704,   705,   708,   709,   712,
+     715,   716,   719,   722,   723,   724,   725,   728,   729,   730,
+     731,   734,   735,   736,   739,   740,   745,   746,   749,   750,
+     751,   754,   755,   756,   757,   758,   759,   760,   763,   764,
+     765,   768,   769,   770,   771,   772,   773,   774,   775,   776,
+     777,   778,   779,   780,   781,   784,   785,   788,   789,   792,
+     793,   796,   797,   800,   801,   804,   805,   812,   813,   814,
+     815,   816,   817,   818,   832,   834,   836,   838,   840,   842,
+     846,   847,   848,   849,   854,   855,   856,   857,   860,   863,
+     864,   865,   866,   867,   868,   871,   872,   879,   880,   881,
+     882,   883,   884,   885,   886,   887,   888,   889,   890,   891,
+     892,   893,   894,   895,   896,   897,   903,   904,   907,   908,
+     909,   912,   913,   914,   917,   918,   919,   920,   921,   922,
+     923,   926,   927,   930,   931,   932,   933,   934,   937,   938,
+     939,   940,   941,   942,   943,   944,   945,   946,   947,   950,
+     951,   954,   955,   956,   957,   958,   959,   960,   961,   962,
+     963,   964,   965,   968,   969,   976,   977,   978,   979,   981,
+     982,   983,   986,   987,   988,   989,   991,   993,   994,   995,
+     996,   997,   998,   999,  1000,  1001,  1002,  1003,  1004,  1005,
+    1006,  1007,  1010,  1011,  1012,  1013,  1016,  1019,  1020,  1021,
+    1022,  1025,  1028,  1029,  1030,  1033,  1034,  1037,  1038,  1039,
+    1042,  1045,  1050,  1051,  1054,  1055,  1056,  1059,  1060,  1063,
+    1064,  1067,  1068,  1071,  1072,  1075,  1076,  1079,  1080,  1083,
+    1084,  1087,  1088,  1091,  1092,  1093,  1094,  1097,  1098,  1101,
+    1104,  1105,  1108,  1109,  1112,  1113,  1116,  1117,  1120,  1121,
+    1124,  1125,  1128,  1129,  1132,  1133,  1134,  1137,  1138,  1141,
+    1142,  1145,  1146,  1149,  1150,  1157,  1160,  1163,  1164,  1165,
+    1166,  1193,  1194,  1197,  1198,  1199,  1200,  1201,  1202,  1203,
+    1204,  1205,  1206,  1209,  1210,  1211,  1214,  1215,  1218,  1219,
+    1222,  1223,  1224,  1232,  1233,  1234,  1235,  1236,  1240,  1241,
+    1244,  1245,  1246,  1247,  1248,  1249,  1250,  1251,  1252,  1253,
+    1254,  1255,  1256,  1257,  1258,  1259,  1260,  1261,  1262,  1263,
+    1264,  1265,  1266,  1267,  1268,  1269,  1270,  1271,  1272,  1273,
+    1274,  1275,  1276,  1277,  1278,  1279,  1280,  1281,  1282,  1283,
+    1284,  1285,  1286,  1287,  1288,  1289,  1290,  1291,  1292,  1293,
+    1294,  1295,  1296,  1297,  1298,  1299,  1300,  1301,  1304,  1305,
+    1306,  1307,  1308,  1309,  1310,  1311,  1312,  1313,  1314,  1315,
+    1316,  1317,  1318,  1319,  1320,  1321,  1322,  1323,  1324,  1325,
+    1326,  1327,  1328,  1329,  1330,  1331,  1332,  1333,  1334,  1335,
+    1336,  1337,  1338,  1339,  1340,  1341,  1342,  1343,  1344,  1345,
+    1346,  1347,  1348,  1349,  1350,  1351,  1352,  1353,  1354,  1355,
+    1356,  1357,  1358,  1359,  1360,  1361,  1362,  1363,  1366,  1367,
+    1368,  1369,  1370,  1371,  1372,  1373,  1374,  1375,  1376,  1377,
+    1378,  1379,  1380,  1381,  1382,  1383,  1384,  1385,  1386,  1387,
+    1388,  1389,  1390,  1391,  1392,  1393,  1394,  1395,  1396,  1397,
+    1398,  1399,  1400,  1401,  1402,  1403,  1404,  1405,  1406,  1407,
+    1408,  1409,  1410,  1411,  1412,  1413,  1414,  1415,  1416,  1417,
+    1418,  1419,  1420,  1421,  1422,  1423,  1424,  1427,  1428,  1429,
+    1430,  1431,  1432,  1433,  1436,  1437,  1438,  1439,  1440,  1441,
+    1442,  1445,  1449,  1453,  1457,  1461,  1467,  1468,  1471,  1472,
+    1475,  1476,  1477,  1478,  1481,  1482,  1483,  1486,  1487,  1488,
+    1489,  1493,  1494,  1495,  1499,  1500,  1503,  1504,  1505,  1506,
+    1509,  1510,  1511,  1514,  1515,  1518,  1519,  1520,  1523,  1526,
+    1527,  1528,  1529,  1530,  1531,  1532,  1533,  1534,  1537,  1538,
+    1541,  1542,  1543,  1545,  1547,  1549,  1550,  1551,  1554,  1555,
+    1556,  1557,  1560,  1561,  1564,  1565,  1566,  1569,  1571,  1574,
+    1575,  1578,  1579,  1582,  1583,  1586,  1587,  1590,  1591,  1592,
+    1595,  1598,  1601,  1604,  1607,  1608,  1611,  1618,  1619,  1620,
+    1621,  1622,  1623,  1624,  1627,  1628,  1629,  1630,  1633,  1634,
+    1637,  1639,  1640,  1641,  1644,  1645,  1646,  1647,  1648,  1649,
+    1650,  1651,  1652,  1653,  1654,  1655,  1656,  1657,  1658,  1659,
+    1660,  1661,  1662,  1663,  1664,  1665,  1666,  1667,  1668,  1669,
+    1670,  1671,  1672,  1673,  1674,  1675,  1676,  1677,  1678,  1679,
+    1680,  1681,  1682,  1683,  1684,  1685,  1686,  1687,  1688,  1689,
+    1690,  1691,  1692,  1693,  1694,  1695,  1696,  1697,  1698,  1699,
+    1700,  1701,  1702,  1703,  1704,  1705,  1706,  1707,  1708,  1709,
+    1710,  1711,  1712,  1713,  1714,  1715,  1716,  1717,  1718,  1719,
+    1720,  1721,  1722,  1723,  1724,  1725,  1726,  1727,  1728,  1729,
+    1730,  1731,  1732,  1733,  1734,  1735,  1736,  1737,  1738,  1739,
+    1740,  1741,  1742,  1743,  1744,  1745,  1746,  1747,  1748,  1749,
+    1750,  1751,  1752,  1753,  1754,  1755,  1756,  1757,  1760,  1761,
+    1764,  1765,  1768,  1769,  1770,  1773,  1778,  1783
 };
 #endif
 
@@ -980,27 +981,27 @@ static const char *const yytname[] =
   "INNER_DOC_COMMENT", "OUTER_DOC_COMMENT", "SHEBANG", "SHEBANG_LINE",
   "STATIC_LIFETIME", "LAMBDA", "SHIFTPLUS", "':'", "FORTYPE", "'?'", "'='",
   "'<'", "'>'", "'|'", "'^'", "'&'", "'+'", "'-'", "'*'", "'/'", "'%'",
-  "'!'", "'{'", "'['", "'('", "'.'", "RANGE", "']'", "'#'", "')'", "','",
-  "';'", "'}'", "'@'", "'~'", "'$'", "$accept", "crate", "maybe_shebang",
-  "maybe_inner_attrs", "inner_attrs", "inner_attr", "maybe_outer_attrs",
-  "outer_attrs", "outer_attr", "meta_item", "meta_seq", "maybe_mod_items",
-  "mod_items", "attrs_and_vis", "mod_item", "item", "stmt_item",
-  "item_static", "item_const", "item_macro", "view_item", "extern_fn_item",
-  "use_item", "view_path", "block_item", "maybe_ty_ascription",
-  "maybe_init_expr", "item_struct", "struct_decl_args",
-  "struct_tuple_args", "struct_decl_fields", "struct_decl_field",
-  "struct_tuple_fields", "struct_tuple_field", "item_enum", "enum_defs",
-  "enum_def", "enum_args", "item_union", "item_mod", "item_foreign_mod",
-  "maybe_abi", "maybe_foreign_items", "foreign_items", "foreign_item",
-  "item_foreign_static", "item_foreign_fn", "fn_decl_allow_variadic",
-  "fn_params_allow_variadic", "visibility", "idents_or_self",
-  "ident_or_self", "item_type", "for_sized", "item_trait",
-  "maybe_trait_items", "trait_items", "trait_item", "trait_const",
-  "maybe_const_default", "trait_type", "maybe_unsafe",
-  "maybe_default_maybe_unsafe", "trait_method", "type_method", "method",
-  "impl_method", "item_impl", "maybe_impl_items", "impl_items",
-  "impl_item", "maybe_default", "impl_const", "impl_type", "item_fn",
-  "item_unsafe_fn", "fn_decl", "fn_decl_with_self",
+  "'!'", "'{'", "LEFTBRACKET", "'('", "'.'", "RANGE", "']'", "'#'", "')'",
+  "','", "';'", "'}'", "'@'", "'~'", "'$'", "$accept", "crate",
+  "maybe_shebang", "maybe_inner_attrs", "inner_attrs", "inner_attr",
+  "maybe_outer_attrs", "outer_attrs", "outer_attr", "meta_item",
+  "meta_seq", "maybe_mod_items", "mod_items", "attrs_and_vis", "mod_item",
+  "item", "stmt_item", "item_static", "item_const", "item_macro",
+  "view_item", "extern_fn_item", "use_item", "view_path", "block_item",
+  "maybe_ty_ascription", "maybe_init_expr", "item_struct",
+  "struct_decl_args", "struct_tuple_args", "struct_decl_fields",
+  "struct_decl_field", "struct_tuple_fields", "struct_tuple_field",
+  "item_enum", "enum_defs", "enum_def", "enum_args", "item_union",
+  "item_mod", "item_foreign_mod", "maybe_abi", "maybe_foreign_items",
+  "foreign_items", "foreign_item", "item_foreign_static",
+  "item_foreign_fn", "fn_decl_allow_variadic", "fn_params_allow_variadic",
+  "visibility", "idents_or_self", "ident_or_self", "item_type",
+  "for_sized", "item_trait", "maybe_trait_items", "trait_items",
+  "trait_item", "trait_const", "maybe_const_default", "trait_type",
+  "maybe_unsafe", "maybe_default_maybe_unsafe", "trait_method",
+  "type_method", "method", "impl_method", "item_impl", "maybe_impl_items",
+  "impl_items", "impl_item", "maybe_default", "impl_const", "impl_type",
+  "item_fn", "item_unsafe_fn", "fn_decl", "fn_decl_with_self",
   "fn_decl_with_self_allow_anon_params", "fn_params", "fn_anon_params",
   "fn_params_with_self", "fn_anon_params_with_self", "maybe_params",
   "params", "param", "inferrable_params", "inferrable_param",
@@ -4143,4899 +4144,4899 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* crate: maybe_shebang inner_attrs maybe_mod_items  */
-#line 221 "rustgram.y"
+#line 227 "rustgram.y"
                                                      {  }
-#line 4149 "rustgram.tab.c"
+#line 4150 "rustgram.tab.c"
     break;
 
   case 3: /* crate: maybe_shebang maybe_mod_items  */
-#line 222 "rustgram.y"
+#line 228 "rustgram.y"
                                          {  }
-#line 4155 "rustgram.tab.c"
+#line 4156 "rustgram.tab.c"
     break;
 
   case 7: /* maybe_inner_attrs: %empty  */
-#line 230 "rustgram.y"
+#line 236 "rustgram.y"
                                    { }
-#line 4161 "rustgram.tab.c"
+#line 4162 "rustgram.tab.c"
     break;
 
   case 8: /* inner_attrs: inner_attr  */
-#line 233 "rustgram.y"
+#line 239 "rustgram.y"
                                    {  }
-#line 4167 "rustgram.tab.c"
+#line 4168 "rustgram.tab.c"
     break;
 
   case 9: /* inner_attrs: inner_attrs inner_attr  */
-#line 234 "rustgram.y"
+#line 240 "rustgram.y"
                                    {  }
-#line 4173 "rustgram.tab.c"
+#line 4174 "rustgram.tab.c"
     break;
 
-  case 10: /* inner_attr: SHEBANG '[' meta_item ']'  */
-#line 237 "rustgram.y"
-                                         {  }
-#line 4179 "rustgram.tab.c"
+  case 10: /* inner_attr: SHEBANG LEFTBRACKET meta_item ']'  */
+#line 243 "rustgram.y"
+                                                 {  }
+#line 4180 "rustgram.tab.c"
     break;
 
   case 11: /* inner_attr: INNER_DOC_COMMENT  */
-#line 238 "rustgram.y"
+#line 244 "rustgram.y"
                                       {  }
-#line 4185 "rustgram.tab.c"
+#line 4186 "rustgram.tab.c"
     break;
 
   case 13: /* maybe_outer_attrs: %empty  */
-#line 242 "rustgram.y"
+#line 248 "rustgram.y"
                                    {  }
-#line 4191 "rustgram.tab.c"
+#line 4192 "rustgram.tab.c"
     break;
 
   case 14: /* outer_attrs: outer_attr  */
-#line 245 "rustgram.y"
+#line 251 "rustgram.y"
                                        {  }
-#line 4197 "rustgram.tab.c"
+#line 4198 "rustgram.tab.c"
     break;
 
   case 15: /* outer_attrs: outer_attrs outer_attr  */
-#line 246 "rustgram.y"
+#line 252 "rustgram.y"
                                    {  }
-#line 4203 "rustgram.tab.c"
+#line 4204 "rustgram.tab.c"
     break;
 
-  case 16: /* outer_attr: '#' '[' meta_item ']'  */
-#line 249 "rustgram.y"
-                                      {  }
-#line 4209 "rustgram.tab.c"
+  case 16: /* outer_attr: '#' LEFTBRACKET meta_item ']'  */
+#line 255 "rustgram.y"
+                                              {  }
+#line 4210 "rustgram.tab.c"
     break;
 
   case 17: /* outer_attr: OUTER_DOC_COMMENT  */
-#line 250 "rustgram.y"
+#line 256 "rustgram.y"
                                    {  }
-#line 4215 "rustgram.tab.c"
+#line 4216 "rustgram.tab.c"
     break;
 
   case 18: /* meta_item: ident  */
-#line 253 "rustgram.y"
+#line 259 "rustgram.y"
                                        {  }
-#line 4221 "rustgram.tab.c"
+#line 4222 "rustgram.tab.c"
     break;
 
   case 19: /* meta_item: ident '=' lit  */
-#line 254 "rustgram.y"
+#line 260 "rustgram.y"
                                      {  }
-#line 4227 "rustgram.tab.c"
+#line 4228 "rustgram.tab.c"
     break;
 
   case 20: /* meta_item: ident '(' meta_seq ')'  */
-#line 255 "rustgram.y"
+#line 261 "rustgram.y"
                                      {  }
-#line 4233 "rustgram.tab.c"
+#line 4234 "rustgram.tab.c"
     break;
 
   case 21: /* meta_item: ident '(' meta_seq ',' ')'  */
-#line 256 "rustgram.y"
+#line 262 "rustgram.y"
                                      {  }
-#line 4239 "rustgram.tab.c"
+#line 4240 "rustgram.tab.c"
     break;
 
   case 22: /* meta_seq: %empty  */
-#line 259 "rustgram.y"
+#line 265 "rustgram.y"
                                     {  }
-#line 4245 "rustgram.tab.c"
+#line 4246 "rustgram.tab.c"
     break;
 
   case 23: /* meta_seq: meta_item  */
-#line 260 "rustgram.y"
+#line 266 "rustgram.y"
                                    {  }
-#line 4251 "rustgram.tab.c"
+#line 4252 "rustgram.tab.c"
     break;
 
   case 24: /* meta_seq: meta_seq ',' meta_item  */
-#line 261 "rustgram.y"
+#line 267 "rustgram.y"
                                    {  }
-#line 4257 "rustgram.tab.c"
+#line 4258 "rustgram.tab.c"
     break;
 
   case 26: /* maybe_mod_items: %empty  */
-#line 265 "rustgram.y"
+#line 271 "rustgram.y"
                              {  }
-#line 4263 "rustgram.tab.c"
+#line 4264 "rustgram.tab.c"
     break;
 
   case 27: /* mod_items: mod_item  */
-#line 268 "rustgram.y"
+#line 274 "rustgram.y"
                                                    {  }
-#line 4269 "rustgram.tab.c"
+#line 4270 "rustgram.tab.c"
     break;
 
   case 28: /* mod_items: mod_items mod_item  */
-#line 269 "rustgram.y"
+#line 275 "rustgram.y"
                                                  {  }
-#line 4275 "rustgram.tab.c"
+#line 4276 "rustgram.tab.c"
     break;
 
   case 29: /* attrs_and_vis: maybe_outer_attrs visibility  */
-#line 272 "rustgram.y"
+#line 278 "rustgram.y"
                                                        {  }
-#line 4281 "rustgram.tab.c"
+#line 4282 "rustgram.tab.c"
     break;
 
   case 30: /* mod_item: attrs_and_vis item  */
-#line 275 "rustgram.y"
+#line 281 "rustgram.y"
                                  {  }
-#line 4287 "rustgram.tab.c"
+#line 4288 "rustgram.tab.c"
     break;
 
   case 38: /* item_static: STATIC ident ':' ty '=' expr ';'  */
-#line 291 "rustgram.y"
+#line 297 "rustgram.y"
                                                 {  }
-#line 4293 "rustgram.tab.c"
+#line 4294 "rustgram.tab.c"
     break;
 
   case 39: /* item_static: STATIC MUT ident ':' ty '=' expr ';'  */
-#line 292 "rustgram.y"
+#line 298 "rustgram.y"
                                                 {  }
-#line 4299 "rustgram.tab.c"
+#line 4300 "rustgram.tab.c"
     break;
 
   case 40: /* item_const: CONST ident ':' ty '=' expr ';'  */
-#line 295 "rustgram.y"
+#line 301 "rustgram.y"
                                                 {  }
-#line 4305 "rustgram.tab.c"
+#line 4306 "rustgram.tab.c"
     break;
 
   case 41: /* item_macro: path_expr '!' maybe_ident parens_delimited_token_trees ';'  */
-#line 298 "rustgram.y"
+#line 304 "rustgram.y"
                                                                          {  }
-#line 4311 "rustgram.tab.c"
+#line 4312 "rustgram.tab.c"
     break;
 
   case 42: /* item_macro: path_expr '!' maybe_ident braces_delimited_token_trees  */
-#line 299 "rustgram.y"
+#line 305 "rustgram.y"
                                                                       {  }
-#line 4317 "rustgram.tab.c"
+#line 4318 "rustgram.tab.c"
     break;
 
   case 43: /* item_macro: path_expr '!' maybe_ident brackets_delimited_token_trees ';'  */
-#line 300 "rustgram.y"
+#line 306 "rustgram.y"
                                                                       {  }
-#line 4323 "rustgram.tab.c"
+#line 4324 "rustgram.tab.c"
     break;
 
   case 46: /* view_item: EXTERN CRATE ident ';'  */
-#line 305 "rustgram.y"
+#line 311 "rustgram.y"
                                                       {  }
-#line 4329 "rustgram.tab.c"
+#line 4330 "rustgram.tab.c"
     break;
 
   case 47: /* view_item: EXTERN CRATE ident AS ident ';'  */
-#line 306 "rustgram.y"
+#line 312 "rustgram.y"
                                                       {  }
-#line 4335 "rustgram.tab.c"
+#line 4336 "rustgram.tab.c"
     break;
 
   case 48: /* extern_fn_item: EXTERN maybe_abi item_fn  */
-#line 309 "rustgram.y"
+#line 315 "rustgram.y"
                                                       {  }
-#line 4341 "rustgram.tab.c"
+#line 4342 "rustgram.tab.c"
     break;
 
   case 49: /* use_item: USE view_path ';'  */
-#line 312 "rustgram.y"
+#line 318 "rustgram.y"
                                                       {  }
-#line 4347 "rustgram.tab.c"
+#line 4348 "rustgram.tab.c"
     break;
 
   case 50: /* view_path: path_no_types_allowed  */
-#line 315 "rustgram.y"
+#line 321 "rustgram.y"
                                                                      {  }
-#line 4353 "rustgram.tab.c"
+#line 4354 "rustgram.tab.c"
     break;
 
   case 51: /* view_path: path_no_types_allowed MOD_SEP '{' '}'  */
-#line 316 "rustgram.y"
+#line 322 "rustgram.y"
                                                                    {  }
-#line 4359 "rustgram.tab.c"
+#line 4360 "rustgram.tab.c"
     break;
 
   case 52: /* view_path: MOD_SEP '{' '}'  */
-#line 317 "rustgram.y"
+#line 323 "rustgram.y"
                                                                    {  }
-#line 4365 "rustgram.tab.c"
+#line 4366 "rustgram.tab.c"
     break;
 
   case 53: /* view_path: path_no_types_allowed MOD_SEP '{' idents_or_self '}'  */
-#line 318 "rustgram.y"
+#line 324 "rustgram.y"
                                                                    {  }
-#line 4371 "rustgram.tab.c"
+#line 4372 "rustgram.tab.c"
     break;
 
   case 54: /* view_path: MOD_SEP '{' idents_or_self '}'  */
-#line 319 "rustgram.y"
+#line 325 "rustgram.y"
                                                                    {  }
-#line 4377 "rustgram.tab.c"
+#line 4378 "rustgram.tab.c"
     break;
 
   case 55: /* view_path: path_no_types_allowed MOD_SEP '{' idents_or_self ',' '}'  */
-#line 320 "rustgram.y"
+#line 326 "rustgram.y"
                                                                    {  }
-#line 4383 "rustgram.tab.c"
+#line 4384 "rustgram.tab.c"
     break;
 
   case 56: /* view_path: MOD_SEP '{' idents_or_self ',' '}'  */
-#line 321 "rustgram.y"
+#line 327 "rustgram.y"
                                                                    {  }
-#line 4389 "rustgram.tab.c"
+#line 4390 "rustgram.tab.c"
     break;
 
   case 57: /* view_path: path_no_types_allowed MOD_SEP '*'  */
-#line 322 "rustgram.y"
+#line 328 "rustgram.y"
                                                                    {  }
-#line 4395 "rustgram.tab.c"
+#line 4396 "rustgram.tab.c"
     break;
 
   case 58: /* view_path: MOD_SEP '*'  */
-#line 323 "rustgram.y"
+#line 329 "rustgram.y"
                                                                    {  }
-#line 4401 "rustgram.tab.c"
+#line 4402 "rustgram.tab.c"
     break;
 
   case 59: /* view_path: '*'  */
-#line 324 "rustgram.y"
+#line 330 "rustgram.y"
                                                                    {  }
-#line 4407 "rustgram.tab.c"
+#line 4408 "rustgram.tab.c"
     break;
 
   case 60: /* view_path: '{' '}'  */
-#line 325 "rustgram.y"
+#line 331 "rustgram.y"
                                                                    {  }
-#line 4413 "rustgram.tab.c"
+#line 4414 "rustgram.tab.c"
     break;
 
   case 61: /* view_path: '{' idents_or_self '}'  */
-#line 326 "rustgram.y"
+#line 332 "rustgram.y"
                                                                    {  }
-#line 4419 "rustgram.tab.c"
+#line 4420 "rustgram.tab.c"
     break;
 
   case 62: /* view_path: '{' idents_or_self ',' '}'  */
-#line 327 "rustgram.y"
+#line 333 "rustgram.y"
                                                                    {  }
-#line 4425 "rustgram.tab.c"
+#line 4426 "rustgram.tab.c"
     break;
 
   case 63: /* view_path: path_no_types_allowed AS ident  */
-#line 328 "rustgram.y"
+#line 334 "rustgram.y"
                                                                    {  }
-#line 4431 "rustgram.tab.c"
+#line 4432 "rustgram.tab.c"
     break;
 
   case 67: /* block_item: item_foreign_mod  */
-#line 334 "rustgram.y"
+#line 340 "rustgram.y"
                                     {  }
-#line 4437 "rustgram.tab.c"
+#line 4438 "rustgram.tab.c"
     break;
 
   case 73: /* maybe_ty_ascription: ':' ty_sum  */
-#line 342 "rustgram.y"
+#line 348 "rustgram.y"
                                  {  }
-#line 4443 "rustgram.tab.c"
+#line 4444 "rustgram.tab.c"
     break;
 
   case 74: /* maybe_ty_ascription: %empty  */
-#line 343 "rustgram.y"
+#line 349 "rustgram.y"
                  {  }
-#line 4449 "rustgram.tab.c"
+#line 4450 "rustgram.tab.c"
     break;
 
   case 75: /* maybe_init_expr: '=' expr  */
-#line 346 "rustgram.y"
+#line 352 "rustgram.y"
                            {  }
-#line 4455 "rustgram.tab.c"
+#line 4456 "rustgram.tab.c"
     break;
 
   case 76: /* maybe_init_expr: %empty  */
-#line 347 "rustgram.y"
+#line 353 "rustgram.y"
                    {  }
-#line 4461 "rustgram.tab.c"
+#line 4462 "rustgram.tab.c"
     break;
 
   case 77: /* item_struct: STRUCT ident generic_params maybe_where_clause struct_decl_args  */
-#line 351 "rustgram.y"
+#line 357 "rustgram.y"
                                                                               {
 
           }
-#line 4469 "rustgram.tab.c"
+#line 4470 "rustgram.tab.c"
     break;
 
   case 78: /* item_struct: STRUCT ident generic_params struct_tuple_args maybe_where_clause ';'  */
-#line 354 "rustgram.y"
+#line 360 "rustgram.y"
                                                                               {
 
           }
-#line 4477 "rustgram.tab.c"
+#line 4478 "rustgram.tab.c"
     break;
 
   case 79: /* item_struct: STRUCT ident generic_params maybe_where_clause ';'  */
-#line 357 "rustgram.y"
+#line 363 "rustgram.y"
                                                              {
 
           }
-#line 4485 "rustgram.tab.c"
+#line 4486 "rustgram.tab.c"
     break;
 
   case 80: /* struct_decl_args: '{' struct_decl_fields '}'  */
-#line 362 "rustgram.y"
+#line 368 "rustgram.y"
                                                       {  }
-#line 4491 "rustgram.tab.c"
+#line 4492 "rustgram.tab.c"
     break;
 
   case 81: /* struct_decl_args: '{' struct_decl_fields ',' '}'  */
-#line 363 "rustgram.y"
+#line 369 "rustgram.y"
                                                       {  }
-#line 4497 "rustgram.tab.c"
+#line 4498 "rustgram.tab.c"
     break;
 
   case 82: /* struct_tuple_args: '(' struct_tuple_fields ')'  */
-#line 366 "rustgram.y"
+#line 372 "rustgram.y"
                                                       {  }
-#line 4503 "rustgram.tab.c"
+#line 4504 "rustgram.tab.c"
     break;
 
   case 83: /* struct_tuple_args: '(' struct_tuple_fields ',' ')'  */
-#line 367 "rustgram.y"
+#line 373 "rustgram.y"
                                                       {  }
-#line 4509 "rustgram.tab.c"
+#line 4510 "rustgram.tab.c"
     break;
 
   case 84: /* struct_decl_fields: struct_decl_field  */
-#line 370 "rustgram.y"
+#line 376 "rustgram.y"
                                                       {  }
-#line 4515 "rustgram.tab.c"
+#line 4516 "rustgram.tab.c"
     break;
 
   case 85: /* struct_decl_fields: struct_decl_fields ',' struct_decl_field  */
-#line 371 "rustgram.y"
+#line 377 "rustgram.y"
                                                       {  }
-#line 4521 "rustgram.tab.c"
+#line 4522 "rustgram.tab.c"
     break;
 
   case 86: /* struct_decl_fields: %empty  */
-#line 372 "rustgram.y"
+#line 378 "rustgram.y"
                                                       {  }
-#line 4527 "rustgram.tab.c"
+#line 4528 "rustgram.tab.c"
     break;
 
   case 87: /* struct_decl_field: attrs_and_vis ident ':' ty_sum  */
-#line 375 "rustgram.y"
+#line 381 "rustgram.y"
                                                       {  }
-#line 4533 "rustgram.tab.c"
+#line 4534 "rustgram.tab.c"
     break;
 
   case 88: /* struct_tuple_fields: struct_tuple_field  */
-#line 378 "rustgram.y"
+#line 384 "rustgram.y"
                                                       {  }
-#line 4539 "rustgram.tab.c"
+#line 4540 "rustgram.tab.c"
     break;
 
   case 89: /* struct_tuple_fields: struct_tuple_fields ',' struct_tuple_field  */
-#line 379 "rustgram.y"
+#line 385 "rustgram.y"
                                                       {  }
-#line 4545 "rustgram.tab.c"
+#line 4546 "rustgram.tab.c"
     break;
 
   case 90: /* struct_tuple_fields: %empty  */
-#line 380 "rustgram.y"
+#line 386 "rustgram.y"
                                                       {  }
-#line 4551 "rustgram.tab.c"
+#line 4552 "rustgram.tab.c"
     break;
 
   case 91: /* struct_tuple_field: attrs_and_vis ty_sum  */
-#line 383 "rustgram.y"
+#line 389 "rustgram.y"
                                                       {  }
-#line 4557 "rustgram.tab.c"
+#line 4558 "rustgram.tab.c"
     break;
 
   case 92: /* item_enum: ENUM ident generic_params maybe_where_clause '{' enum_defs '}'  */
-#line 387 "rustgram.y"
+#line 393 "rustgram.y"
                                                                            {
           }
-#line 4564 "rustgram.tab.c"
+#line 4565 "rustgram.tab.c"
     break;
 
   case 93: /* item_enum: ENUM ident generic_params maybe_where_clause '{' enum_defs ',' '}'  */
-#line 389 "rustgram.y"
+#line 395 "rustgram.y"
                                                                              {
           }
-#line 4571 "rustgram.tab.c"
+#line 4572 "rustgram.tab.c"
     break;
 
   case 94: /* enum_defs: enum_def  */
-#line 393 "rustgram.y"
+#line 399 "rustgram.y"
                                  {  }
-#line 4577 "rustgram.tab.c"
+#line 4578 "rustgram.tab.c"
     break;
 
   case 95: /* enum_defs: enum_defs ',' enum_def  */
-#line 394 "rustgram.y"
+#line 400 "rustgram.y"
                                  {  }
-#line 4583 "rustgram.tab.c"
+#line 4584 "rustgram.tab.c"
     break;
 
   case 96: /* enum_defs: %empty  */
-#line 395 "rustgram.y"
+#line 401 "rustgram.y"
                                  {  }
-#line 4589 "rustgram.tab.c"
+#line 4590 "rustgram.tab.c"
     break;
 
   case 97: /* enum_def: attrs_and_vis ident enum_args  */
-#line 398 "rustgram.y"
+#line 404 "rustgram.y"
                                          {  }
-#line 4595 "rustgram.tab.c"
+#line 4596 "rustgram.tab.c"
     break;
 
   case 98: /* enum_args: '{' struct_decl_fields '}'  */
-#line 401 "rustgram.y"
+#line 407 "rustgram.y"
                                            {  }
-#line 4601 "rustgram.tab.c"
+#line 4602 "rustgram.tab.c"
     break;
 
   case 99: /* enum_args: '{' struct_decl_fields ',' '}'  */
-#line 402 "rustgram.y"
+#line 408 "rustgram.y"
                                          {  }
-#line 4607 "rustgram.tab.c"
+#line 4608 "rustgram.tab.c"
     break;
 
   case 100: /* enum_args: '(' maybe_ty_sums ')'  */
-#line 403 "rustgram.y"
+#line 409 "rustgram.y"
                                          {  }
-#line 4613 "rustgram.tab.c"
+#line 4614 "rustgram.tab.c"
     break;
 
   case 101: /* enum_args: '=' expr  */
-#line 404 "rustgram.y"
+#line 410 "rustgram.y"
                                          {  }
-#line 4619 "rustgram.tab.c"
+#line 4620 "rustgram.tab.c"
     break;
 
   case 102: /* enum_args: %empty  */
-#line 405 "rustgram.y"
+#line 411 "rustgram.y"
                                          {  }
-#line 4625 "rustgram.tab.c"
+#line 4626 "rustgram.tab.c"
     break;
 
   case 103: /* item_union: UNION ident generic_params maybe_where_clause '{' struct_decl_fields '}'  */
-#line 409 "rustgram.y"
+#line 415 "rustgram.y"
                                                                                           {  }
-#line 4631 "rustgram.tab.c"
+#line 4632 "rustgram.tab.c"
     break;
 
   case 104: /* item_union: UNION ident generic_params maybe_where_clause '{' struct_decl_fields ',' '}'  */
-#line 410 "rustgram.y"
+#line 416 "rustgram.y"
                                                                                        {  }
-#line 4637 "rustgram.tab.c"
+#line 4638 "rustgram.tab.c"
     break;
 
   case 105: /* item_mod: MOD ident ';'  */
-#line 413 "rustgram.y"
+#line 419 "rustgram.y"
                                                         {  }
-#line 4643 "rustgram.tab.c"
+#line 4644 "rustgram.tab.c"
     break;
 
   case 106: /* item_mod: MOD ident '{' maybe_mod_items '}'  */
-#line 414 "rustgram.y"
+#line 420 "rustgram.y"
                                                         {  }
-#line 4649 "rustgram.tab.c"
+#line 4650 "rustgram.tab.c"
     break;
 
   case 107: /* item_mod: MOD ident '{' inner_attrs maybe_mod_items '}'  */
-#line 415 "rustgram.y"
+#line 421 "rustgram.y"
                                                         {  }
-#line 4655 "rustgram.tab.c"
+#line 4656 "rustgram.tab.c"
     break;
 
   case 108: /* item_foreign_mod: EXTERN maybe_abi '{' maybe_foreign_items '}'  */
-#line 418 "rustgram.y"
+#line 424 "rustgram.y"
                                                                 {  }
-#line 4661 "rustgram.tab.c"
+#line 4662 "rustgram.tab.c"
     break;
 
   case 109: /* item_foreign_mod: EXTERN maybe_abi '{' inner_attrs maybe_foreign_items '}'  */
-#line 419 "rustgram.y"
+#line 425 "rustgram.y"
                                                                    {  }
-#line 4667 "rustgram.tab.c"
+#line 4668 "rustgram.tab.c"
     break;
 
   case 111: /* maybe_abi: %empty  */
-#line 423 "rustgram.y"
+#line 429 "rustgram.y"
                  {  }
-#line 4673 "rustgram.tab.c"
+#line 4674 "rustgram.tab.c"
     break;
 
   case 113: /* maybe_foreign_items: %empty  */
-#line 427 "rustgram.y"
+#line 433 "rustgram.y"
                  {  }
-#line 4679 "rustgram.tab.c"
+#line 4680 "rustgram.tab.c"
     break;
 
   case 114: /* foreign_items: foreign_item  */
-#line 430 "rustgram.y"
+#line 436 "rustgram.y"
                                            {  }
-#line 4685 "rustgram.tab.c"
+#line 4686 "rustgram.tab.c"
     break;
 
   case 115: /* foreign_items: foreign_items foreign_item  */
-#line 431 "rustgram.y"
+#line 437 "rustgram.y"
                                      {  }
-#line 4691 "rustgram.tab.c"
+#line 4692 "rustgram.tab.c"
     break;
 
   case 116: /* foreign_item: attrs_and_vis STATIC item_foreign_static  */
-#line 434 "rustgram.y"
+#line 440 "rustgram.y"
                                                         {  }
-#line 4697 "rustgram.tab.c"
+#line 4698 "rustgram.tab.c"
     break;
 
   case 117: /* foreign_item: attrs_and_vis item_foreign_fn  */
-#line 435 "rustgram.y"
+#line 441 "rustgram.y"
                                                    {  }
-#line 4703 "rustgram.tab.c"
+#line 4704 "rustgram.tab.c"
     break;
 
   case 118: /* foreign_item: attrs_and_vis UNSAFE item_foreign_fn  */
-#line 436 "rustgram.y"
+#line 442 "rustgram.y"
                                                    {  }
-#line 4709 "rustgram.tab.c"
+#line 4710 "rustgram.tab.c"
     break;
 
   case 119: /* item_foreign_static: maybe_mut ident ':' ty ';'  */
-#line 440 "rustgram.y"
+#line 446 "rustgram.y"
                                                    {  }
-#line 4715 "rustgram.tab.c"
+#line 4716 "rustgram.tab.c"
     break;
 
   case 120: /* item_foreign_fn: FN ident generic_params fn_decl_allow_variadic maybe_where_clause ';'  */
-#line 445 "rustgram.y"
+#line 451 "rustgram.y"
           {  }
-#line 4721 "rustgram.tab.c"
+#line 4722 "rustgram.tab.c"
     break;
 
   case 121: /* fn_decl_allow_variadic: fn_params_allow_variadic ret_ty  */
-#line 448 "rustgram.y"
+#line 454 "rustgram.y"
                                                          {  }
-#line 4727 "rustgram.tab.c"
+#line 4728 "rustgram.tab.c"
     break;
 
   case 122: /* fn_params_allow_variadic: '(' ')'  */
-#line 451 "rustgram.y"
+#line 457 "rustgram.y"
                                        {  }
-#line 4733 "rustgram.tab.c"
+#line 4734 "rustgram.tab.c"
     break;
 
   case 123: /* fn_params_allow_variadic: '(' params ')'  */
-#line 452 "rustgram.y"
+#line 458 "rustgram.y"
                                        {  }
-#line 4739 "rustgram.tab.c"
+#line 4740 "rustgram.tab.c"
     break;
 
   case 124: /* fn_params_allow_variadic: '(' params ',' ')'  */
-#line 453 "rustgram.y"
+#line 459 "rustgram.y"
                                        {  }
-#line 4745 "rustgram.tab.c"
+#line 4746 "rustgram.tab.c"
     break;
 
   case 125: /* fn_params_allow_variadic: '(' params ',' DOTDOTDOT ')'  */
-#line 454 "rustgram.y"
+#line 460 "rustgram.y"
                                        {  }
-#line 4751 "rustgram.tab.c"
+#line 4752 "rustgram.tab.c"
     break;
 
   case 126: /* visibility: PUB  */
-#line 457 "rustgram.y"
+#line 463 "rustgram.y"
                       {  }
-#line 4757 "rustgram.tab.c"
+#line 4758 "rustgram.tab.c"
     break;
 
   case 127: /* visibility: %empty  */
-#line 458 "rustgram.y"
+#line 464 "rustgram.y"
                    {  }
-#line 4763 "rustgram.tab.c"
+#line 4764 "rustgram.tab.c"
     break;
 
   case 128: /* idents_or_self: ident_or_self  */
-#line 461 "rustgram.y"
+#line 467 "rustgram.y"
                                                   {  }
-#line 4769 "rustgram.tab.c"
+#line 4770 "rustgram.tab.c"
     break;
 
   case 129: /* idents_or_self: idents_or_self AS ident  */
-#line 462 "rustgram.y"
+#line 468 "rustgram.y"
                                            {  }
-#line 4775 "rustgram.tab.c"
+#line 4776 "rustgram.tab.c"
     break;
 
   case 130: /* idents_or_self: idents_or_self ',' ident_or_self  */
-#line 463 "rustgram.y"
+#line 469 "rustgram.y"
                                            {  }
-#line 4781 "rustgram.tab.c"
+#line 4782 "rustgram.tab.c"
     break;
 
   case 132: /* ident_or_self: SELF  */
-#line 467 "rustgram.y"
+#line 473 "rustgram.y"
                 {  }
-#line 4787 "rustgram.tab.c"
+#line 4788 "rustgram.tab.c"
     break;
 
   case 133: /* item_type: TYPE ident generic_params maybe_where_clause '=' ty_sum ';'  */
-#line 470 "rustgram.y"
+#line 476 "rustgram.y"
                                                                          {  }
-#line 4793 "rustgram.tab.c"
+#line 4794 "rustgram.tab.c"
     break;
 
   case 134: /* for_sized: FOR '?' ident  */
-#line 473 "rustgram.y"
+#line 479 "rustgram.y"
                           {  }
-#line 4799 "rustgram.tab.c"
+#line 4800 "rustgram.tab.c"
     break;
 
   case 135: /* for_sized: FOR ident '?'  */
-#line 474 "rustgram.y"
+#line 480 "rustgram.y"
                         {  }
-#line 4805 "rustgram.tab.c"
+#line 4806 "rustgram.tab.c"
     break;
 
   case 136: /* for_sized: %empty  */
-#line 475 "rustgram.y"
+#line 481 "rustgram.y"
                         {  }
-#line 4811 "rustgram.tab.c"
+#line 4812 "rustgram.tab.c"
     break;
 
   case 137: /* item_trait: maybe_unsafe TRAIT ident generic_params for_sized maybe_ty_param_bounds maybe_where_clause '{' maybe_trait_items '}'  */
-#line 480 "rustgram.y"
+#line 486 "rustgram.y"
           {
 
           }
-#line 4819 "rustgram.tab.c"
+#line 4820 "rustgram.tab.c"
     break;
 
   case 139: /* maybe_trait_items: %empty  */
-#line 486 "rustgram.y"
+#line 492 "rustgram.y"
                  {  }
-#line 4825 "rustgram.tab.c"
+#line 4826 "rustgram.tab.c"
     break;
 
   case 140: /* trait_items: trait_item  */
-#line 489 "rustgram.y"
+#line 495 "rustgram.y"
                                        {  }
-#line 4831 "rustgram.tab.c"
+#line 4832 "rustgram.tab.c"
     break;
 
   case 141: /* trait_items: trait_items trait_item  */
-#line 490 "rustgram.y"
+#line 496 "rustgram.y"
                                        {  }
-#line 4837 "rustgram.tab.c"
+#line 4838 "rustgram.tab.c"
     break;
 
   case 145: /* trait_item: maybe_outer_attrs item_macro  */
-#line 496 "rustgram.y"
+#line 502 "rustgram.y"
                                        {  }
-#line 4843 "rustgram.tab.c"
+#line 4844 "rustgram.tab.c"
     break;
 
   case 146: /* trait_const: maybe_outer_attrs CONST ident maybe_ty_ascription maybe_const_default ';'  */
-#line 500 "rustgram.y"
+#line 506 "rustgram.y"
                                       {  }
-#line 4849 "rustgram.tab.c"
+#line 4850 "rustgram.tab.c"
     break;
 
   case 147: /* maybe_const_default: '=' expr  */
-#line 503 "rustgram.y"
+#line 509 "rustgram.y"
                                {  }
-#line 4855 "rustgram.tab.c"
+#line 4856 "rustgram.tab.c"
     break;
 
   case 148: /* maybe_const_default: %empty  */
-#line 504 "rustgram.y"
+#line 510 "rustgram.y"
                    {  }
-#line 4861 "rustgram.tab.c"
+#line 4862 "rustgram.tab.c"
     break;
 
   case 149: /* trait_type: maybe_outer_attrs TYPE ty_param ';'  */
-#line 507 "rustgram.y"
+#line 513 "rustgram.y"
                                                  {  }
-#line 4867 "rustgram.tab.c"
+#line 4868 "rustgram.tab.c"
     break;
 
   case 150: /* maybe_unsafe: UNSAFE  */
-#line 510 "rustgram.y"
+#line 516 "rustgram.y"
                       {  }
-#line 4873 "rustgram.tab.c"
+#line 4874 "rustgram.tab.c"
     break;
 
   case 151: /* maybe_unsafe: %empty  */
-#line 511 "rustgram.y"
+#line 517 "rustgram.y"
                  {  }
-#line 4879 "rustgram.tab.c"
+#line 4880 "rustgram.tab.c"
     break;
 
   case 152: /* maybe_default_maybe_unsafe: DEFAULT UNSAFE  */
-#line 514 "rustgram.y"
+#line 520 "rustgram.y"
                                             {  }
-#line 4885 "rustgram.tab.c"
+#line 4886 "rustgram.tab.c"
     break;
 
   case 153: /* maybe_default_maybe_unsafe: DEFAULT  */
-#line 515 "rustgram.y"
+#line 521 "rustgram.y"
                          {  }
-#line 4891 "rustgram.tab.c"
+#line 4892 "rustgram.tab.c"
     break;
 
   case 154: /* maybe_default_maybe_unsafe: UNSAFE  */
-#line 516 "rustgram.y"
+#line 522 "rustgram.y"
                          {  }
-#line 4897 "rustgram.tab.c"
+#line 4898 "rustgram.tab.c"
     break;
 
   case 155: /* maybe_default_maybe_unsafe: %empty  */
-#line 517 "rustgram.y"
+#line 523 "rustgram.y"
                  {  }
-#line 4903 "rustgram.tab.c"
+#line 4904 "rustgram.tab.c"
     break;
 
   case 156: /* trait_method: type_method  */
-#line 520 "rustgram.y"
+#line 526 "rustgram.y"
                            {  }
-#line 4909 "rustgram.tab.c"
+#line 4910 "rustgram.tab.c"
     break;
 
   case 157: /* trait_method: method  */
-#line 521 "rustgram.y"
+#line 527 "rustgram.y"
                       {  }
-#line 4915 "rustgram.tab.c"
+#line 4916 "rustgram.tab.c"
     break;
 
   case 158: /* type_method: maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'  */
-#line 526 "rustgram.y"
+#line 532 "rustgram.y"
           {
 
           }
-#line 4923 "rustgram.tab.c"
+#line 4924 "rustgram.tab.c"
     break;
 
   case 159: /* type_method: maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'  */
-#line 530 "rustgram.y"
+#line 536 "rustgram.y"
                                                                      {
 
           }
-#line 4931 "rustgram.tab.c"
+#line 4932 "rustgram.tab.c"
     break;
 
   case 160: /* type_method: maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause ';'  */
-#line 535 "rustgram.y"
+#line 541 "rustgram.y"
                                   {
 
           }
-#line 4939 "rustgram.tab.c"
+#line 4940 "rustgram.tab.c"
     break;
 
   case 161: /* method: maybe_outer_attrs maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block  */
-#line 542 "rustgram.y"
+#line 548 "rustgram.y"
                                 {
 
          }
-#line 4947 "rustgram.tab.c"
+#line 4948 "rustgram.tab.c"
     break;
 
   case 162: /* method: maybe_outer_attrs CONST maybe_unsafe FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block  */
-#line 547 "rustgram.y"
+#line 553 "rustgram.y"
                                 {
 
           }
-#line 4955 "rustgram.tab.c"
+#line 4956 "rustgram.tab.c"
     break;
 
   case 163: /* method: maybe_outer_attrs maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self_allow_anon_params maybe_where_clause inner_attrs_and_block  */
-#line 552 "rustgram.y"
+#line 558 "rustgram.y"
                                                    {
 
           }
-#line 4963 "rustgram.tab.c"
+#line 4964 "rustgram.tab.c"
     break;
 
   case 164: /* impl_method: attrs_and_vis maybe_default maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block  */
-#line 558 "rustgram.y"
+#line 564 "rustgram.y"
                                                                          {
 
           }
-#line 4971 "rustgram.tab.c"
+#line 4972 "rustgram.tab.c"
     break;
 
   case 165: /* impl_method: attrs_and_vis maybe_default CONST maybe_unsafe FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block  */
-#line 563 "rustgram.y"
+#line 569 "rustgram.y"
                                 {
 
           }
-#line 4979 "rustgram.tab.c"
+#line 4980 "rustgram.tab.c"
     break;
 
   case 166: /* impl_method: attrs_and_vis maybe_default maybe_unsafe EXTERN maybe_abi FN ident generic_params fn_decl_with_self maybe_where_clause inner_attrs_and_block  */
-#line 568 "rustgram.y"
+#line 574 "rustgram.y"
                                 {
 
           }
-#line 4987 "rustgram.tab.c"
+#line 4988 "rustgram.tab.c"
     break;
 
   case 167: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params ty_prim_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'  */
-#line 589 "rustgram.y"
+#line 595 "rustgram.y"
                                                                            {
 
           }
-#line 4995 "rustgram.tab.c"
+#line 4996 "rustgram.tab.c"
     break;
 
   case 168: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params '(' ty ')' maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'  */
-#line 593 "rustgram.y"
+#line 599 "rustgram.y"
                                                                         {
 
           }
-#line 5003 "rustgram.tab.c"
+#line 5004 "rustgram.tab.c"
     break;
 
   case 169: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'  */
-#line 596 "rustgram.y"
+#line 602 "rustgram.y"
                                                                                                                                             {
 
           }
-#line 5011 "rustgram.tab.c"
+#line 5012 "rustgram.tab.c"
     break;
 
   case 170: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR ty_sum maybe_where_clause '{' maybe_inner_attrs maybe_impl_items '}'  */
-#line 601 "rustgram.y"
+#line 607 "rustgram.y"
           {
 
           }
-#line 5019 "rustgram.tab.c"
+#line 5020 "rustgram.tab.c"
     break;
 
   case 171: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params trait_ref FOR DOTDOT '{' '}'  */
-#line 605 "rustgram.y"
+#line 611 "rustgram.y"
                   {
 
           }
-#line 5027 "rustgram.tab.c"
+#line 5028 "rustgram.tab.c"
     break;
 
   case 172: /* item_impl: maybe_default_maybe_unsafe IMPL generic_params '!' trait_ref FOR DOTDOT '{' '}'  */
-#line 609 "rustgram.y"
+#line 615 "rustgram.y"
                          {
 
           }
-#line 5035 "rustgram.tab.c"
+#line 5036 "rustgram.tab.c"
     break;
 
   case 174: /* maybe_impl_items: %empty  */
-#line 615 "rustgram.y"
+#line 621 "rustgram.y"
                  {  }
-#line 5041 "rustgram.tab.c"
+#line 5042 "rustgram.tab.c"
     break;
 
   case 175: /* impl_items: impl_item  */
-#line 618 "rustgram.y"
+#line 624 "rustgram.y"
                                      {  }
-#line 5047 "rustgram.tab.c"
+#line 5048 "rustgram.tab.c"
     break;
 
   case 176: /* impl_items: impl_item impl_items  */
-#line 619 "rustgram.y"
+#line 625 "rustgram.y"
                                   {  }
-#line 5053 "rustgram.tab.c"
+#line 5054 "rustgram.tab.c"
     break;
 
   case 178: /* impl_item: attrs_and_vis item_macro  */
-#line 623 "rustgram.y"
+#line 629 "rustgram.y"
                                    {  }
-#line 5059 "rustgram.tab.c"
+#line 5060 "rustgram.tab.c"
     break;
 
   case 181: /* maybe_default: DEFAULT  */
-#line 628 "rustgram.y"
+#line 634 "rustgram.y"
                         {  }
-#line 5065 "rustgram.tab.c"
+#line 5066 "rustgram.tab.c"
     break;
 
   case 182: /* maybe_default: %empty  */
-#line 629 "rustgram.y"
+#line 635 "rustgram.y"
                  {  }
-#line 5071 "rustgram.tab.c"
+#line 5072 "rustgram.tab.c"
     break;
 
   case 183: /* impl_const: attrs_and_vis maybe_default item_const  */
-#line 632 "rustgram.y"
+#line 638 "rustgram.y"
                                                     {  }
-#line 5077 "rustgram.tab.c"
+#line 5078 "rustgram.tab.c"
     break;
 
   case 184: /* impl_type: attrs_and_vis maybe_default TYPE ident generic_params '=' ty_sum ';'  */
-#line 636 "rustgram.y"
+#line 642 "rustgram.y"
                             {  }
-#line 5083 "rustgram.tab.c"
+#line 5084 "rustgram.tab.c"
     break;
 
   case 185: /* item_fn: FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block  */
-#line 640 "rustgram.y"
+#line 646 "rustgram.y"
                                 {
 
           }
-#line 5091 "rustgram.tab.c"
+#line 5092 "rustgram.tab.c"
     break;
 
   case 186: /* item_fn: CONST FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block  */
-#line 644 "rustgram.y"
+#line 650 "rustgram.y"
                                  {
 
           }
-#line 5099 "rustgram.tab.c"
+#line 5100 "rustgram.tab.c"
     break;
 
   case 187: /* item_unsafe_fn: UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block  */
-#line 650 "rustgram.y"
+#line 656 "rustgram.y"
                                        {
 
           }
-#line 5107 "rustgram.tab.c"
+#line 5108 "rustgram.tab.c"
     break;
 
   case 188: /* item_unsafe_fn: CONST UNSAFE FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block  */
-#line 654 "rustgram.y"
+#line 660 "rustgram.y"
                                 {
 
           }
-#line 5115 "rustgram.tab.c"
+#line 5116 "rustgram.tab.c"
     break;
 
   case 189: /* item_unsafe_fn: UNSAFE EXTERN maybe_abi FN ident generic_params fn_decl maybe_where_clause inner_attrs_and_block  */
-#line 658 "rustgram.y"
+#line 664 "rustgram.y"
                                                     {
 
           }
-#line 5123 "rustgram.tab.c"
+#line 5124 "rustgram.tab.c"
     break;
 
   case 190: /* fn_decl: fn_params ret_ty  */
-#line 663 "rustgram.y"
+#line 669 "rustgram.y"
                              {  }
-#line 5129 "rustgram.tab.c"
+#line 5130 "rustgram.tab.c"
     break;
 
   case 191: /* fn_decl_with_self: fn_params_with_self ret_ty  */
-#line 666 "rustgram.y"
+#line 672 "rustgram.y"
                                                  {  }
-#line 5135 "rustgram.tab.c"
+#line 5136 "rustgram.tab.c"
     break;
 
   case 192: /* fn_decl_with_self_allow_anon_params: fn_anon_params_with_self ret_ty  */
-#line 669 "rustgram.y"
+#line 675 "rustgram.y"
                                                                         {  }
-#line 5141 "rustgram.tab.c"
+#line 5142 "rustgram.tab.c"
     break;
 
   case 193: /* fn_params: '(' maybe_params ')'  */
-#line 672 "rustgram.y"
+#line 678 "rustgram.y"
                                   {  }
-#line 5147 "rustgram.tab.c"
+#line 5148 "rustgram.tab.c"
     break;
 
   case 194: /* fn_anon_params: '(' anon_param anon_params_allow_variadic_tail ')'  */
-#line 675 "rustgram.y"
+#line 681 "rustgram.y"
                                                                     {  }
-#line 5153 "rustgram.tab.c"
+#line 5154 "rustgram.tab.c"
     break;
 
   case 195: /* fn_anon_params: '(' ')'  */
-#line 676 "rustgram.y"
+#line 682 "rustgram.y"
                                                              {  }
-#line 5159 "rustgram.tab.c"
+#line 5160 "rustgram.tab.c"
     break;
 
   case 196: /* fn_params_with_self: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'  */
-#line 680 "rustgram.y"
+#line 686 "rustgram.y"
                                                            {  }
-#line 5165 "rustgram.tab.c"
+#line 5166 "rustgram.tab.c"
     break;
 
   case 197: /* fn_params_with_self: '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'  */
-#line 681 "rustgram.y"
+#line 687 "rustgram.y"
                                                                             {
           }
-#line 5172 "rustgram.tab.c"
+#line 5173 "rustgram.tab.c"
     break;
 
   case 198: /* fn_params_with_self: '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_params ')'  */
-#line 684 "rustgram.y"
+#line 690 "rustgram.y"
                                   {  }
-#line 5178 "rustgram.tab.c"
+#line 5179 "rustgram.tab.c"
     break;
 
   case 199: /* fn_params_with_self: '(' maybe_params ')'  */
-#line 685 "rustgram.y"
+#line 691 "rustgram.y"
                                   {  }
-#line 5184 "rustgram.tab.c"
+#line 5185 "rustgram.tab.c"
     break;
 
   case 200: /* fn_anon_params_with_self: '(' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'  */
-#line 689 "rustgram.y"
+#line 695 "rustgram.y"
                                                  {  }
-#line 5190 "rustgram.tab.c"
+#line 5191 "rustgram.tab.c"
     break;
 
   case 201: /* fn_anon_params_with_self: '(' '&' maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'  */
-#line 691 "rustgram.y"
+#line 697 "rustgram.y"
                        {  }
-#line 5196 "rustgram.tab.c"
+#line 5197 "rustgram.tab.c"
     break;
 
   case 202: /* fn_anon_params_with_self: '(' '&' lifetime maybe_mut SELF maybe_ty_ascription maybe_comma_anon_params ')'  */
-#line 693 "rustgram.y"
+#line 699 "rustgram.y"
                                       {  }
-#line 5202 "rustgram.tab.c"
+#line 5203 "rustgram.tab.c"
     break;
 
   case 203: /* fn_anon_params_with_self: '(' maybe_anon_params ')'  */
-#line 694 "rustgram.y"
+#line 700 "rustgram.y"
                                       {  }
-#line 5208 "rustgram.tab.c"
+#line 5209 "rustgram.tab.c"
     break;
 
   case 206: /* maybe_params: %empty  */
-#line 699 "rustgram.y"
+#line 705 "rustgram.y"
                   {  }
-#line 5214 "rustgram.tab.c"
+#line 5215 "rustgram.tab.c"
     break;
 
   case 207: /* params: param  */
-#line 702 "rustgram.y"
+#line 708 "rustgram.y"
                                {  }
-#line 5220 "rustgram.tab.c"
+#line 5221 "rustgram.tab.c"
     break;
 
   case 208: /* params: params ',' param  */
-#line 703 "rustgram.y"
+#line 709 "rustgram.y"
                                {  }
-#line 5226 "rustgram.tab.c"
+#line 5227 "rustgram.tab.c"
     break;
 
   case 209: /* param: pat ':' ty_sum  */
-#line 706 "rustgram.y"
+#line 712 "rustgram.y"
                            {  }
-#line 5232 "rustgram.tab.c"
+#line 5233 "rustgram.tab.c"
     break;
 
   case 210: /* inferrable_params: inferrable_param  */
-#line 709 "rustgram.y"
+#line 715 "rustgram.y"
                                                            {  }
-#line 5238 "rustgram.tab.c"
+#line 5239 "rustgram.tab.c"
     break;
 
   case 211: /* inferrable_params: inferrable_params ',' inferrable_param  */
-#line 710 "rustgram.y"
+#line 716 "rustgram.y"
                                                  {  }
-#line 5244 "rustgram.tab.c"
+#line 5245 "rustgram.tab.c"
     break;
 
   case 212: /* inferrable_param: pat maybe_ty_ascription  */
-#line 713 "rustgram.y"
+#line 719 "rustgram.y"
                                            {  }
-#line 5250 "rustgram.tab.c"
+#line 5251 "rustgram.tab.c"
     break;
 
   case 213: /* maybe_comma_params: ','  */
-#line 716 "rustgram.y"
+#line 722 "rustgram.y"
                                     {  }
-#line 5256 "rustgram.tab.c"
+#line 5257 "rustgram.tab.c"
     break;
 
   case 214: /* maybe_comma_params: ',' params  */
-#line 717 "rustgram.y"
+#line 723 "rustgram.y"
                          {  }
-#line 5262 "rustgram.tab.c"
+#line 5263 "rustgram.tab.c"
     break;
 
   case 215: /* maybe_comma_params: ',' params ','  */
-#line 718 "rustgram.y"
+#line 724 "rustgram.y"
                          {  }
-#line 5268 "rustgram.tab.c"
+#line 5269 "rustgram.tab.c"
     break;
 
   case 216: /* maybe_comma_params: %empty  */
-#line 719 "rustgram.y"
+#line 725 "rustgram.y"
                          {  }
-#line 5274 "rustgram.tab.c"
+#line 5275 "rustgram.tab.c"
     break;
 
   case 217: /* maybe_comma_anon_params: ','  */
-#line 722 "rustgram.y"
+#line 728 "rustgram.y"
                                               {  }
-#line 5280 "rustgram.tab.c"
+#line 5281 "rustgram.tab.c"
     break;
 
   case 218: /* maybe_comma_anon_params: ',' anon_params  */
-#line 723 "rustgram.y"
+#line 729 "rustgram.y"
                               {  }
-#line 5286 "rustgram.tab.c"
+#line 5287 "rustgram.tab.c"
     break;
 
   case 219: /* maybe_comma_anon_params: ',' anon_params ','  */
-#line 724 "rustgram.y"
+#line 730 "rustgram.y"
                               {  }
-#line 5292 "rustgram.tab.c"
+#line 5293 "rustgram.tab.c"
     break;
 
   case 220: /* maybe_comma_anon_params: %empty  */
-#line 725 "rustgram.y"
+#line 731 "rustgram.y"
                               {  }
-#line 5298 "rustgram.tab.c"
+#line 5299 "rustgram.tab.c"
     break;
 
   case 223: /* maybe_anon_params: %empty  */
-#line 730 "rustgram.y"
+#line 736 "rustgram.y"
                       {  }
-#line 5304 "rustgram.tab.c"
+#line 5305 "rustgram.tab.c"
     break;
 
   case 224: /* anon_params: anon_param  */
-#line 733 "rustgram.y"
+#line 739 "rustgram.y"
                                          {  }
-#line 5310 "rustgram.tab.c"
+#line 5311 "rustgram.tab.c"
     break;
 
   case 225: /* anon_params: anon_params ',' anon_param  */
-#line 734 "rustgram.y"
+#line 740 "rustgram.y"
                                      {  }
-#line 5316 "rustgram.tab.c"
+#line 5317 "rustgram.tab.c"
     break;
 
   case 226: /* anon_param: named_arg ':' ty  */
-#line 739 "rustgram.y"
+#line 745 "rustgram.y"
                                 {  }
-#line 5322 "rustgram.tab.c"
+#line 5323 "rustgram.tab.c"
     break;
 
   case 228: /* anon_params_allow_variadic_tail: ',' DOTDOTDOT  */
-#line 743 "rustgram.y"
+#line 749 "rustgram.y"
                                                          {  }
-#line 5328 "rustgram.tab.c"
+#line 5329 "rustgram.tab.c"
     break;
 
   case 229: /* anon_params_allow_variadic_tail: ',' anon_param anon_params_allow_variadic_tail  */
-#line 744 "rustgram.y"
+#line 750 "rustgram.y"
                                                          {  }
-#line 5334 "rustgram.tab.c"
+#line 5335 "rustgram.tab.c"
     break;
 
   case 230: /* anon_params_allow_variadic_tail: %empty  */
-#line 745 "rustgram.y"
+#line 751 "rustgram.y"
                                                          {  }
-#line 5340 "rustgram.tab.c"
+#line 5341 "rustgram.tab.c"
     break;
 
   case 232: /* named_arg: UNDERSCORE  */
-#line 749 "rustgram.y"
+#line 755 "rustgram.y"
                             {  }
-#line 5346 "rustgram.tab.c"
+#line 5347 "rustgram.tab.c"
     break;
 
   case 233: /* named_arg: '&' ident  */
-#line 750 "rustgram.y"
+#line 756 "rustgram.y"
                             {  }
-#line 5352 "rustgram.tab.c"
+#line 5353 "rustgram.tab.c"
     break;
 
   case 234: /* named_arg: '&' UNDERSCORE  */
-#line 751 "rustgram.y"
+#line 757 "rustgram.y"
                             {  }
-#line 5358 "rustgram.tab.c"
+#line 5359 "rustgram.tab.c"
     break;
 
   case 235: /* named_arg: ANDAND ident  */
-#line 752 "rustgram.y"
+#line 758 "rustgram.y"
                             {  }
-#line 5364 "rustgram.tab.c"
+#line 5365 "rustgram.tab.c"
     break;
 
   case 236: /* named_arg: ANDAND UNDERSCORE  */
-#line 753 "rustgram.y"
+#line 759 "rustgram.y"
                             {  }
-#line 5370 "rustgram.tab.c"
+#line 5371 "rustgram.tab.c"
     break;
 
   case 237: /* named_arg: MUT ident  */
-#line 754 "rustgram.y"
+#line 760 "rustgram.y"
                             {  }
-#line 5376 "rustgram.tab.c"
+#line 5377 "rustgram.tab.c"
     break;
 
   case 238: /* ret_ty: RARROW '!'  */
-#line 757 "rustgram.y"
+#line 763 "rustgram.y"
                             {  }
-#line 5382 "rustgram.tab.c"
+#line 5383 "rustgram.tab.c"
     break;
 
   case 239: /* ret_ty: RARROW ty  */
-#line 758 "rustgram.y"
+#line 764 "rustgram.y"
                              {  }
-#line 5388 "rustgram.tab.c"
+#line 5389 "rustgram.tab.c"
     break;
 
   case 240: /* ret_ty: %empty  */
-#line 759 "rustgram.y"
+#line 765 "rustgram.y"
                              {  }
-#line 5394 "rustgram.tab.c"
+#line 5395 "rustgram.tab.c"
     break;
 
   case 241: /* generic_params: '<' '>'  */
-#line 762 "rustgram.y"
+#line 768 "rustgram.y"
                                                      {  }
-#line 5400 "rustgram.tab.c"
+#line 5401 "rustgram.tab.c"
     break;
 
   case 242: /* generic_params: '<' lifetimes '>'  */
-#line 763 "rustgram.y"
+#line 769 "rustgram.y"
                                               {  }
-#line 5406 "rustgram.tab.c"
+#line 5407 "rustgram.tab.c"
     break;
 
   case 243: /* generic_params: '<' lifetimes ',' '>'  */
-#line 764 "rustgram.y"
+#line 770 "rustgram.y"
                                               {  }
-#line 5412 "rustgram.tab.c"
+#line 5413 "rustgram.tab.c"
     break;
 
   case 244: /* generic_params: '<' lifetimes SHR  */
-#line 765 "rustgram.y"
+#line 771 "rustgram.y"
                                               {  }
-#line 5418 "rustgram.tab.c"
+#line 5419 "rustgram.tab.c"
     break;
 
   case 245: /* generic_params: '<' lifetimes ',' SHR  */
-#line 766 "rustgram.y"
+#line 772 "rustgram.y"
                                               {  }
-#line 5424 "rustgram.tab.c"
+#line 5425 "rustgram.tab.c"
     break;
 
   case 246: /* generic_params: '<' lifetimes ',' ty_params '>'  */
-#line 767 "rustgram.y"
+#line 773 "rustgram.y"
                                               {  }
-#line 5430 "rustgram.tab.c"
+#line 5431 "rustgram.tab.c"
     break;
 
   case 247: /* generic_params: '<' lifetimes ',' ty_params ',' '>'  */
-#line 768 "rustgram.y"
+#line 774 "rustgram.y"
                                               {  }
-#line 5436 "rustgram.tab.c"
+#line 5437 "rustgram.tab.c"
     break;
 
   case 248: /* generic_params: '<' lifetimes ',' ty_params SHR  */
-#line 769 "rustgram.y"
+#line 775 "rustgram.y"
                                               {  }
-#line 5442 "rustgram.tab.c"
+#line 5443 "rustgram.tab.c"
     break;
 
   case 249: /* generic_params: '<' lifetimes ',' ty_params ',' SHR  */
-#line 770 "rustgram.y"
+#line 776 "rustgram.y"
                                               {  }
-#line 5448 "rustgram.tab.c"
+#line 5449 "rustgram.tab.c"
     break;
 
   case 250: /* generic_params: '<' ty_params '>'  */
-#line 771 "rustgram.y"
+#line 777 "rustgram.y"
                                               {  }
-#line 5454 "rustgram.tab.c"
+#line 5455 "rustgram.tab.c"
     break;
 
   case 251: /* generic_params: '<' ty_params ',' '>'  */
-#line 772 "rustgram.y"
+#line 778 "rustgram.y"
                                               {  }
-#line 5460 "rustgram.tab.c"
+#line 5461 "rustgram.tab.c"
     break;
 
   case 252: /* generic_params: '<' ty_params SHR  */
-#line 773 "rustgram.y"
+#line 779 "rustgram.y"
                                               {  }
-#line 5466 "rustgram.tab.c"
+#line 5467 "rustgram.tab.c"
     break;
 
   case 253: /* generic_params: '<' ty_params ',' SHR  */
-#line 774 "rustgram.y"
+#line 780 "rustgram.y"
                                               {  }
-#line 5472 "rustgram.tab.c"
+#line 5473 "rustgram.tab.c"
     break;
 
   case 254: /* generic_params: %empty  */
-#line 775 "rustgram.y"
+#line 781 "rustgram.y"
                                               {  }
-#line 5478 "rustgram.tab.c"
+#line 5479 "rustgram.tab.c"
     break;
 
   case 255: /* maybe_where_clause: %empty  */
-#line 778 "rustgram.y"
+#line 784 "rustgram.y"
                                                          {  }
-#line 5484 "rustgram.tab.c"
+#line 5485 "rustgram.tab.c"
     break;
 
   case 257: /* where_clause: WHERE where_predicates  */
-#line 782 "rustgram.y"
+#line 788 "rustgram.y"
                                                    {  }
-#line 5490 "rustgram.tab.c"
+#line 5491 "rustgram.tab.c"
     break;
 
   case 258: /* where_clause: WHERE where_predicates ','  */
-#line 783 "rustgram.y"
+#line 789 "rustgram.y"
                                               {  }
-#line 5496 "rustgram.tab.c"
+#line 5497 "rustgram.tab.c"
     break;
 
   case 259: /* where_predicates: where_predicate  */
-#line 786 "rustgram.y"
+#line 792 "rustgram.y"
                                                         {  }
-#line 5502 "rustgram.tab.c"
+#line 5503 "rustgram.tab.c"
     break;
 
   case 260: /* where_predicates: where_predicates ',' where_predicate  */
-#line 787 "rustgram.y"
+#line 793 "rustgram.y"
                                                {  }
-#line 5508 "rustgram.tab.c"
+#line 5509 "rustgram.tab.c"
     break;
 
   case 261: /* where_predicate: maybe_for_lifetimes lifetime ':' bounds  */
-#line 790 "rustgram.y"
+#line 796 "rustgram.y"
                                                              {  }
-#line 5514 "rustgram.tab.c"
+#line 5515 "rustgram.tab.c"
     break;
 
   case 262: /* where_predicate: maybe_for_lifetimes ty ':' ty_param_bounds  */
-#line 791 "rustgram.y"
+#line 797 "rustgram.y"
                                                      {  }
-#line 5520 "rustgram.tab.c"
+#line 5521 "rustgram.tab.c"
     break;
 
   case 263: /* maybe_for_lifetimes: FOR '<' lifetimes '>'  */
-#line 794 "rustgram.y"
+#line 800 "rustgram.y"
                                             {  }
-#line 5526 "rustgram.tab.c"
+#line 5527 "rustgram.tab.c"
     break;
 
   case 264: /* maybe_for_lifetimes: %empty  */
-#line 795 "rustgram.y"
+#line 801 "rustgram.y"
                                 {  }
-#line 5532 "rustgram.tab.c"
+#line 5533 "rustgram.tab.c"
     break;
 
   case 265: /* ty_params: ty_param  */
-#line 798 "rustgram.y"
+#line 804 "rustgram.y"
                                    {  }
-#line 5538 "rustgram.tab.c"
+#line 5539 "rustgram.tab.c"
     break;
 
   case 266: /* ty_params: ty_params ',' ty_param  */
-#line 799 "rustgram.y"
+#line 805 "rustgram.y"
                                  {  }
-#line 5544 "rustgram.tab.c"
+#line 5545 "rustgram.tab.c"
     break;
 
   case 267: /* path_no_types_allowed: ident  */
-#line 806 "rustgram.y"
+#line 812 "rustgram.y"
                                                             {  }
-#line 5550 "rustgram.tab.c"
+#line 5551 "rustgram.tab.c"
     break;
 
   case 268: /* path_no_types_allowed: MOD_SEP ident  */
-#line 807 "rustgram.y"
+#line 813 "rustgram.y"
                                               {  }
-#line 5556 "rustgram.tab.c"
+#line 5557 "rustgram.tab.c"
     break;
 
   case 269: /* path_no_types_allowed: SELF  */
-#line 808 "rustgram.y"
+#line 814 "rustgram.y"
                                               {  }
-#line 5562 "rustgram.tab.c"
+#line 5563 "rustgram.tab.c"
     break;
 
   case 270: /* path_no_types_allowed: MOD_SEP SELF  */
-#line 809 "rustgram.y"
+#line 815 "rustgram.y"
                                               {  }
-#line 5568 "rustgram.tab.c"
+#line 5569 "rustgram.tab.c"
     break;
 
   case 271: /* path_no_types_allowed: SUPER  */
-#line 810 "rustgram.y"
+#line 816 "rustgram.y"
                                               {  }
-#line 5574 "rustgram.tab.c"
+#line 5575 "rustgram.tab.c"
     break;
 
   case 272: /* path_no_types_allowed: MOD_SEP SUPER  */
-#line 811 "rustgram.y"
+#line 817 "rustgram.y"
                                               {  }
-#line 5580 "rustgram.tab.c"
+#line 5581 "rustgram.tab.c"
     break;
 
   case 273: /* path_no_types_allowed: path_no_types_allowed MOD_SEP ident  */
-#line 812 "rustgram.y"
+#line 818 "rustgram.y"
                                               {  }
-#line 5586 "rustgram.tab.c"
+#line 5587 "rustgram.tab.c"
     break;
 
   case 274: /* path_generic_args_without_colons: ident  */
-#line 826 "rustgram.y"
+#line 832 "rustgram.y"
                                                      {
           }
-#line 5593 "rustgram.tab.c"
+#line 5594 "rustgram.tab.c"
     break;
 
   case 275: /* path_generic_args_without_colons: ident generic_args  */
-#line 828 "rustgram.y"
+#line 834 "rustgram.y"
                                           {
           }
-#line 5600 "rustgram.tab.c"
+#line 5601 "rustgram.tab.c"
     break;
 
   case 276: /* path_generic_args_without_colons: ident '(' maybe_ty_sums ')' ret_ty  */
-#line 830 "rustgram.y"
+#line 836 "rustgram.y"
                                                          {
           }
-#line 5607 "rustgram.tab.c"
+#line 5608 "rustgram.tab.c"
     break;
 
   case 277: /* path_generic_args_without_colons: path_generic_args_without_colons MOD_SEP ident  */
-#line 832 "rustgram.y"
+#line 838 "rustgram.y"
                                                                      {
           }
-#line 5614 "rustgram.tab.c"
+#line 5615 "rustgram.tab.c"
     break;
 
   case 278: /* path_generic_args_without_colons: path_generic_args_without_colons MOD_SEP ident generic_args  */
-#line 835 "rustgram.y"
+#line 841 "rustgram.y"
                                        {  }
-#line 5620 "rustgram.tab.c"
+#line 5621 "rustgram.tab.c"
     break;
 
   case 279: /* path_generic_args_without_colons: path_generic_args_without_colons MOD_SEP ident '(' maybe_ty_sums ')' ret_ty  */
-#line 837 "rustgram.y"
+#line 843 "rustgram.y"
                                        {  }
-#line 5626 "rustgram.tab.c"
+#line 5627 "rustgram.tab.c"
     break;
 
   case 280: /* generic_args: '<' generic_values '>'  */
-#line 840 "rustgram.y"
+#line 846 "rustgram.y"
                                         {  }
-#line 5632 "rustgram.tab.c"
+#line 5633 "rustgram.tab.c"
     break;
 
   case 281: /* generic_args: '<' generic_values SHR  */
-#line 841 "rustgram.y"
+#line 847 "rustgram.y"
                                    {  }
-#line 5638 "rustgram.tab.c"
+#line 5639 "rustgram.tab.c"
     break;
 
   case 282: /* generic_args: '<' generic_values GE  */
-#line 842 "rustgram.y"
+#line 848 "rustgram.y"
                                    {  }
-#line 5644 "rustgram.tab.c"
+#line 5645 "rustgram.tab.c"
     break;
 
   case 283: /* generic_args: '<' generic_values SHREQ  */
-#line 843 "rustgram.y"
+#line 849 "rustgram.y"
                                    {  }
-#line 5650 "rustgram.tab.c"
+#line 5651 "rustgram.tab.c"
     break;
 
   case 284: /* generic_args: SHL ty_qualified_path_and_generic_values '>'  */
-#line 848 "rustgram.y"
+#line 854 "rustgram.y"
                                                          {  }
-#line 5656 "rustgram.tab.c"
+#line 5657 "rustgram.tab.c"
     break;
 
   case 285: /* generic_args: SHL ty_qualified_path_and_generic_values SHR  */
-#line 849 "rustgram.y"
+#line 855 "rustgram.y"
                                                          {  }
-#line 5662 "rustgram.tab.c"
+#line 5663 "rustgram.tab.c"
     break;
 
   case 286: /* generic_args: SHL ty_qualified_path_and_generic_values GE  */
-#line 850 "rustgram.y"
+#line 856 "rustgram.y"
                                                          {  }
-#line 5668 "rustgram.tab.c"
+#line 5669 "rustgram.tab.c"
     break;
 
   case 287: /* generic_args: SHL ty_qualified_path_and_generic_values SHREQ  */
-#line 851 "rustgram.y"
+#line 857 "rustgram.y"
                                                          {  }
-#line 5674 "rustgram.tab.c"
+#line 5675 "rustgram.tab.c"
     break;
 
   case 288: /* generic_values: maybe_ty_sums_and_or_bindings  */
-#line 854 "rustgram.y"
+#line 860 "rustgram.y"
                                                {  }
-#line 5680 "rustgram.tab.c"
+#line 5681 "rustgram.tab.c"
     break;
 
   case 291: /* maybe_ty_sums_and_or_bindings: ty_sums ',' bindings  */
-#line 859 "rustgram.y"
+#line 865 "rustgram.y"
                                {  }
-#line 5686 "rustgram.tab.c"
+#line 5687 "rustgram.tab.c"
     break;
 
   case 294: /* maybe_ty_sums_and_or_bindings: %empty  */
-#line 862 "rustgram.y"
+#line 868 "rustgram.y"
                                {  }
-#line 5692 "rustgram.tab.c"
+#line 5693 "rustgram.tab.c"
     break;
 
   case 295: /* maybe_bindings: ',' bindings  */
-#line 865 "rustgram.y"
+#line 871 "rustgram.y"
                               {  }
-#line 5698 "rustgram.tab.c"
+#line 5699 "rustgram.tab.c"
     break;
 
   case 296: /* maybe_bindings: %empty  */
-#line 866 "rustgram.y"
+#line 872 "rustgram.y"
                        {  }
-#line 5704 "rustgram.tab.c"
+#line 5705 "rustgram.tab.c"
     break;
 
   case 297: /* pat: UNDERSCORE  */
-#line 873 "rustgram.y"
+#line 879 "rustgram.y"
                                                       {  }
-#line 5710 "rustgram.tab.c"
+#line 5711 "rustgram.tab.c"
     break;
 
   case 298: /* pat: '&' pat  */
-#line 874 "rustgram.y"
+#line 880 "rustgram.y"
                                                           {  }
-#line 5716 "rustgram.tab.c"
+#line 5717 "rustgram.tab.c"
     break;
 
   case 299: /* pat: '&' MUT pat  */
-#line 875 "rustgram.y"
+#line 881 "rustgram.y"
                                                           {  }
-#line 5722 "rustgram.tab.c"
+#line 5723 "rustgram.tab.c"
     break;
 
   case 300: /* pat: ANDAND pat  */
-#line 876 "rustgram.y"
+#line 882 "rustgram.y"
                                                           {  }
-#line 5728 "rustgram.tab.c"
+#line 5729 "rustgram.tab.c"
     break;
 
   case 301: /* pat: '(' ')'  */
-#line 877 "rustgram.y"
+#line 883 "rustgram.y"
                                                           {  }
-#line 5734 "rustgram.tab.c"
+#line 5735 "rustgram.tab.c"
     break;
 
   case 302: /* pat: '(' pat_tup ')'  */
-#line 878 "rustgram.y"
+#line 884 "rustgram.y"
                                                           {  }
-#line 5740 "rustgram.tab.c"
+#line 5741 "rustgram.tab.c"
     break;
 
-  case 303: /* pat: '[' pat_vec ']'  */
-#line 879 "rustgram.y"
-                                                          {  }
-#line 5746 "rustgram.tab.c"
+  case 303: /* pat: LEFTBRACKET pat_vec ']'  */
+#line 885 "rustgram.y"
+                                                                  {  }
+#line 5747 "rustgram.tab.c"
     break;
 
   case 305: /* pat: lit_or_path DOTDOTDOT lit_or_path  */
-#line 881 "rustgram.y"
+#line 887 "rustgram.y"
                                                           {  }
-#line 5752 "rustgram.tab.c"
+#line 5753 "rustgram.tab.c"
     break;
 
   case 306: /* pat: path_expr '{' pat_struct '}'  */
-#line 882 "rustgram.y"
+#line 888 "rustgram.y"
                                                           {  }
-#line 5758 "rustgram.tab.c"
+#line 5759 "rustgram.tab.c"
     break;
 
   case 307: /* pat: path_expr '(' ')'  */
-#line 883 "rustgram.y"
+#line 889 "rustgram.y"
                                                           {  }
-#line 5764 "rustgram.tab.c"
+#line 5765 "rustgram.tab.c"
     break;
 
   case 308: /* pat: path_expr '(' pat_tup ')'  */
-#line 884 "rustgram.y"
+#line 890 "rustgram.y"
                                                           {  }
-#line 5770 "rustgram.tab.c"
+#line 5771 "rustgram.tab.c"
     break;
 
   case 309: /* pat: path_expr '!' maybe_ident delimited_token_trees  */
-#line 885 "rustgram.y"
+#line 891 "rustgram.y"
                                                           {  }
-#line 5776 "rustgram.tab.c"
+#line 5777 "rustgram.tab.c"
     break;
 
   case 310: /* pat: binding_mode ident  */
-#line 886 "rustgram.y"
+#line 892 "rustgram.y"
                                                           {  }
-#line 5782 "rustgram.tab.c"
+#line 5783 "rustgram.tab.c"
     break;
 
   case 311: /* pat: ident '@' pat  */
-#line 887 "rustgram.y"
+#line 893 "rustgram.y"
                                                           {  }
-#line 5788 "rustgram.tab.c"
+#line 5789 "rustgram.tab.c"
     break;
 
   case 312: /* pat: binding_mode ident '@' pat  */
-#line 888 "rustgram.y"
+#line 894 "rustgram.y"
                                                           {  }
-#line 5794 "rustgram.tab.c"
+#line 5795 "rustgram.tab.c"
     break;
 
   case 313: /* pat: BOX pat  */
-#line 889 "rustgram.y"
+#line 895 "rustgram.y"
                                                           {  }
-#line 5800 "rustgram.tab.c"
+#line 5801 "rustgram.tab.c"
     break;
 
   case 314: /* pat: '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 890 "rustgram.y"
+#line 896 "rustgram.y"
                                                           {  }
-#line 5806 "rustgram.tab.c"
+#line 5807 "rustgram.tab.c"
     break;
 
   case 315: /* pat: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 892 "rustgram.y"
+#line 898 "rustgram.y"
                                                 {
 
           }
-#line 5814 "rustgram.tab.c"
+#line 5815 "rustgram.tab.c"
     break;
 
   case 316: /* pats_or: pat  */
-#line 897 "rustgram.y"
+#line 903 "rustgram.y"
                            {  }
-#line 5820 "rustgram.tab.c"
+#line 5821 "rustgram.tab.c"
     break;
 
   case 317: /* pats_or: pats_or '|' pat  */
-#line 898 "rustgram.y"
+#line 904 "rustgram.y"
                            {  }
-#line 5826 "rustgram.tab.c"
+#line 5827 "rustgram.tab.c"
     break;
 
   case 318: /* binding_mode: REF  */
-#line 901 "rustgram.y"
+#line 907 "rustgram.y"
                            {  }
-#line 5832 "rustgram.tab.c"
+#line 5833 "rustgram.tab.c"
     break;
 
   case 319: /* binding_mode: REF MUT  */
-#line 902 "rustgram.y"
+#line 908 "rustgram.y"
                       {  }
-#line 5838 "rustgram.tab.c"
+#line 5839 "rustgram.tab.c"
     break;
 
   case 320: /* binding_mode: MUT  */
-#line 903 "rustgram.y"
+#line 909 "rustgram.y"
                       {  }
-#line 5844 "rustgram.tab.c"
+#line 5845 "rustgram.tab.c"
     break;
 
   case 321: /* lit_or_path: path_expr  */
-#line 906 "rustgram.y"
+#line 912 "rustgram.y"
                            {  }
-#line 5850 "rustgram.tab.c"
+#line 5851 "rustgram.tab.c"
     break;
 
   case 322: /* lit_or_path: lit  */
-#line 907 "rustgram.y"
+#line 913 "rustgram.y"
                        {  }
-#line 5856 "rustgram.tab.c"
+#line 5857 "rustgram.tab.c"
     break;
 
   case 323: /* lit_or_path: '-' lit  */
-#line 908 "rustgram.y"
+#line 914 "rustgram.y"
                        {  }
-#line 5862 "rustgram.tab.c"
+#line 5863 "rustgram.tab.c"
     break;
 
   case 324: /* pat_field: ident  */
-#line 911 "rustgram.y"
+#line 917 "rustgram.y"
                                           {  }
-#line 5868 "rustgram.tab.c"
+#line 5869 "rustgram.tab.c"
     break;
 
   case 325: /* pat_field: binding_mode ident  */
-#line 912 "rustgram.y"
+#line 918 "rustgram.y"
                                         {  }
-#line 5874 "rustgram.tab.c"
+#line 5875 "rustgram.tab.c"
     break;
 
   case 326: /* pat_field: BOX ident  */
-#line 913 "rustgram.y"
+#line 919 "rustgram.y"
                                         {  }
-#line 5880 "rustgram.tab.c"
+#line 5881 "rustgram.tab.c"
     break;
 
   case 327: /* pat_field: BOX binding_mode ident  */
-#line 914 "rustgram.y"
+#line 920 "rustgram.y"
                                         {  }
-#line 5886 "rustgram.tab.c"
+#line 5887 "rustgram.tab.c"
     break;
 
   case 328: /* pat_field: ident ':' pat  */
-#line 915 "rustgram.y"
+#line 921 "rustgram.y"
                                         {  }
-#line 5892 "rustgram.tab.c"
+#line 5893 "rustgram.tab.c"
     break;
 
   case 329: /* pat_field: binding_mode ident ':' pat  */
-#line 916 "rustgram.y"
+#line 922 "rustgram.y"
                                         {  }
-#line 5898 "rustgram.tab.c"
+#line 5899 "rustgram.tab.c"
     break;
 
   case 330: /* pat_field: LIT_INTEGER ':' pat  */
-#line 917 "rustgram.y"
+#line 923 "rustgram.y"
                                         {  }
-#line 5904 "rustgram.tab.c"
+#line 5905 "rustgram.tab.c"
     break;
 
   case 331: /* pat_fields: pat_field  */
-#line 920 "rustgram.y"
+#line 926 "rustgram.y"
                                         {  }
-#line 5910 "rustgram.tab.c"
+#line 5911 "rustgram.tab.c"
     break;
 
   case 332: /* pat_fields: pat_fields ',' pat_field  */
-#line 921 "rustgram.y"
+#line 927 "rustgram.y"
                                      {  }
-#line 5916 "rustgram.tab.c"
+#line 5917 "rustgram.tab.c"
     break;
 
   case 333: /* pat_struct: pat_fields  */
-#line 924 "rustgram.y"
+#line 930 "rustgram.y"
                                         {  }
-#line 5922 "rustgram.tab.c"
+#line 5923 "rustgram.tab.c"
     break;
 
   case 334: /* pat_struct: pat_fields ','  */
-#line 925 "rustgram.y"
+#line 931 "rustgram.y"
                                      {  }
-#line 5928 "rustgram.tab.c"
+#line 5929 "rustgram.tab.c"
     break;
 
   case 335: /* pat_struct: pat_fields ',' DOTDOT  */
-#line 926 "rustgram.y"
+#line 932 "rustgram.y"
                                      {  }
-#line 5934 "rustgram.tab.c"
+#line 5935 "rustgram.tab.c"
     break;
 
   case 336: /* pat_struct: DOTDOT  */
-#line 927 "rustgram.y"
+#line 933 "rustgram.y"
                                      {  }
-#line 5940 "rustgram.tab.c"
+#line 5941 "rustgram.tab.c"
     break;
 
   case 337: /* pat_struct: %empty  */
-#line 928 "rustgram.y"
+#line 934 "rustgram.y"
                                      {  }
-#line 5946 "rustgram.tab.c"
+#line 5947 "rustgram.tab.c"
     break;
 
   case 338: /* pat_tup: pat_tup_elts  */
-#line 931 "rustgram.y"
+#line 937 "rustgram.y"
                                                         {  }
-#line 5952 "rustgram.tab.c"
+#line 5953 "rustgram.tab.c"
     break;
 
   case 339: /* pat_tup: pat_tup_elts ','  */
-#line 932 "rustgram.y"
+#line 938 "rustgram.y"
                                                         {  }
-#line 5958 "rustgram.tab.c"
+#line 5959 "rustgram.tab.c"
     break;
 
   case 340: /* pat_tup: pat_tup_elts DOTDOT  */
-#line 933 "rustgram.y"
+#line 939 "rustgram.y"
                                                         {  }
-#line 5964 "rustgram.tab.c"
+#line 5965 "rustgram.tab.c"
     break;
 
   case 341: /* pat_tup: pat_tup_elts ',' DOTDOT  */
-#line 934 "rustgram.y"
+#line 940 "rustgram.y"
                                                         {  }
-#line 5970 "rustgram.tab.c"
+#line 5971 "rustgram.tab.c"
     break;
 
   case 342: /* pat_tup: pat_tup_elts DOTDOT ',' pat_tup_elts  */
-#line 935 "rustgram.y"
+#line 941 "rustgram.y"
                                                         {  }
-#line 5976 "rustgram.tab.c"
+#line 5977 "rustgram.tab.c"
     break;
 
   case 343: /* pat_tup: pat_tup_elts DOTDOT ',' pat_tup_elts ','  */
-#line 936 "rustgram.y"
+#line 942 "rustgram.y"
                                                         {  }
-#line 5982 "rustgram.tab.c"
+#line 5983 "rustgram.tab.c"
     break;
 
   case 344: /* pat_tup: pat_tup_elts ',' DOTDOT ',' pat_tup_elts  */
-#line 937 "rustgram.y"
+#line 943 "rustgram.y"
                                                         {  }
-#line 5988 "rustgram.tab.c"
+#line 5989 "rustgram.tab.c"
     break;
 
   case 345: /* pat_tup: pat_tup_elts ',' DOTDOT ',' pat_tup_elts ','  */
-#line 938 "rustgram.y"
+#line 944 "rustgram.y"
                                                         {  }
-#line 5994 "rustgram.tab.c"
+#line 5995 "rustgram.tab.c"
     break;
 
   case 346: /* pat_tup: DOTDOT ',' pat_tup_elts  */
-#line 939 "rustgram.y"
+#line 945 "rustgram.y"
                                                         {  }
-#line 6000 "rustgram.tab.c"
+#line 6001 "rustgram.tab.c"
     break;
 
   case 347: /* pat_tup: DOTDOT ',' pat_tup_elts ','  */
-#line 940 "rustgram.y"
+#line 946 "rustgram.y"
                                                         {  }
-#line 6006 "rustgram.tab.c"
+#line 6007 "rustgram.tab.c"
     break;
 
   case 348: /* pat_tup: DOTDOT  */
-#line 941 "rustgram.y"
+#line 947 "rustgram.y"
                                                         {  }
-#line 6012 "rustgram.tab.c"
+#line 6013 "rustgram.tab.c"
     break;
 
   case 349: /* pat_tup_elts: pat  */
-#line 944 "rustgram.y"
+#line 950 "rustgram.y"
                                       {  }
-#line 6018 "rustgram.tab.c"
+#line 6019 "rustgram.tab.c"
     break;
 
   case 350: /* pat_tup_elts: pat_tup_elts ',' pat  */
-#line 945 "rustgram.y"
+#line 951 "rustgram.y"
                                       {  }
-#line 6024 "rustgram.tab.c"
+#line 6025 "rustgram.tab.c"
     break;
 
   case 351: /* pat_vec: pat_vec_elts  */
-#line 948 "rustgram.y"
+#line 954 "rustgram.y"
                                                         {  }
-#line 6030 "rustgram.tab.c"
+#line 6031 "rustgram.tab.c"
     break;
 
   case 352: /* pat_vec: pat_vec_elts ','  */
-#line 949 "rustgram.y"
+#line 955 "rustgram.y"
                                                         {  }
-#line 6036 "rustgram.tab.c"
+#line 6037 "rustgram.tab.c"
     break;
 
   case 353: /* pat_vec: pat_vec_elts DOTDOT  */
-#line 950 "rustgram.y"
+#line 956 "rustgram.y"
                                                         {  }
-#line 6042 "rustgram.tab.c"
+#line 6043 "rustgram.tab.c"
     break;
 
   case 354: /* pat_vec: pat_vec_elts ',' DOTDOT  */
-#line 951 "rustgram.y"
+#line 957 "rustgram.y"
                                                         {  }
-#line 6048 "rustgram.tab.c"
+#line 6049 "rustgram.tab.c"
     break;
 
   case 355: /* pat_vec: pat_vec_elts DOTDOT ',' pat_vec_elts  */
-#line 952 "rustgram.y"
+#line 958 "rustgram.y"
                                                         {  }
-#line 6054 "rustgram.tab.c"
+#line 6055 "rustgram.tab.c"
     break;
 
   case 356: /* pat_vec: pat_vec_elts DOTDOT ',' pat_vec_elts ','  */
-#line 953 "rustgram.y"
+#line 959 "rustgram.y"
                                                         {  }
-#line 6060 "rustgram.tab.c"
+#line 6061 "rustgram.tab.c"
     break;
 
   case 357: /* pat_vec: pat_vec_elts ',' DOTDOT ',' pat_vec_elts  */
-#line 954 "rustgram.y"
+#line 960 "rustgram.y"
                                                         {  }
-#line 6066 "rustgram.tab.c"
+#line 6067 "rustgram.tab.c"
     break;
 
   case 358: /* pat_vec: pat_vec_elts ',' DOTDOT ',' pat_vec_elts ','  */
-#line 955 "rustgram.y"
+#line 961 "rustgram.y"
                                                         {  }
-#line 6072 "rustgram.tab.c"
+#line 6073 "rustgram.tab.c"
     break;
 
   case 359: /* pat_vec: DOTDOT ',' pat_vec_elts  */
-#line 956 "rustgram.y"
+#line 962 "rustgram.y"
                                                         {  }
-#line 6078 "rustgram.tab.c"
+#line 6079 "rustgram.tab.c"
     break;
 
   case 360: /* pat_vec: DOTDOT ',' pat_vec_elts ','  */
-#line 957 "rustgram.y"
+#line 963 "rustgram.y"
                                                         {  }
-#line 6084 "rustgram.tab.c"
+#line 6085 "rustgram.tab.c"
     break;
 
   case 361: /* pat_vec: DOTDOT  */
-#line 958 "rustgram.y"
+#line 964 "rustgram.y"
                                                         {  }
-#line 6090 "rustgram.tab.c"
+#line 6091 "rustgram.tab.c"
     break;
 
   case 362: /* pat_vec: %empty  */
-#line 959 "rustgram.y"
+#line 965 "rustgram.y"
                                                         {  }
-#line 6096 "rustgram.tab.c"
+#line 6097 "rustgram.tab.c"
     break;
 
   case 363: /* pat_vec_elts: pat  */
-#line 962 "rustgram.y"
+#line 968 "rustgram.y"
                                       {  }
-#line 6102 "rustgram.tab.c"
+#line 6103 "rustgram.tab.c"
     break;
 
   case 364: /* pat_vec_elts: pat_vec_elts ',' pat  */
-#line 963 "rustgram.y"
+#line 969 "rustgram.y"
                                  {  }
-#line 6108 "rustgram.tab.c"
+#line 6109 "rustgram.tab.c"
     break;
 
   case 367: /* ty: '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 972 "rustgram.y"
+#line 978 "rustgram.y"
                                                           {  }
-#line 6114 "rustgram.tab.c"
+#line 6115 "rustgram.tab.c"
     break;
 
   case 368: /* ty: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 974 "rustgram.y"
+#line 980 "rustgram.y"
                                                {  }
-#line 6120 "rustgram.tab.c"
+#line 6121 "rustgram.tab.c"
     break;
 
   case 369: /* ty: '(' ty_sums ')'  */
-#line 975 "rustgram.y"
+#line 981 "rustgram.y"
                                                           {  }
-#line 6126 "rustgram.tab.c"
+#line 6127 "rustgram.tab.c"
     break;
 
   case 370: /* ty: '(' ty_sums ',' ')'  */
-#line 976 "rustgram.y"
+#line 982 "rustgram.y"
                                                           {  }
-#line 6132 "rustgram.tab.c"
+#line 6133 "rustgram.tab.c"
     break;
 
   case 371: /* ty: '(' ')'  */
-#line 977 "rustgram.y"
+#line 983 "rustgram.y"
                                                           {  }
-#line 6138 "rustgram.tab.c"
+#line 6139 "rustgram.tab.c"
     break;
 
   case 372: /* ty_prim: path_generic_args_without_colons  */
-#line 980 "rustgram.y"
+#line 986 "rustgram.y"
                                                           {  }
-#line 6144 "rustgram.tab.c"
+#line 6145 "rustgram.tab.c"
     break;
 
   case 373: /* ty_prim: MOD_SEP path_generic_args_without_colons  */
-#line 981 "rustgram.y"
+#line 987 "rustgram.y"
                                                                {  }
-#line 6150 "rustgram.tab.c"
+#line 6151 "rustgram.tab.c"
     break;
 
   case 374: /* ty_prim: SELF MOD_SEP path_generic_args_without_colons  */
-#line 982 "rustgram.y"
+#line 988 "rustgram.y"
                                                                     {  }
-#line 6156 "rustgram.tab.c"
+#line 6157 "rustgram.tab.c"
     break;
 
   case 375: /* ty_prim: path_generic_args_without_colons '!' maybe_ident delimited_token_trees  */
-#line 984 "rustgram.y"
+#line 990 "rustgram.y"
                                         {  }
-#line 6162 "rustgram.tab.c"
+#line 6163 "rustgram.tab.c"
     break;
 
   case 376: /* ty_prim: MOD_SEP path_generic_args_without_colons '!' maybe_ident delimited_token_trees  */
-#line 986 "rustgram.y"
+#line 992 "rustgram.y"
                                             {  }
-#line 6168 "rustgram.tab.c"
+#line 6169 "rustgram.tab.c"
     break;
 
   case 377: /* ty_prim: BOX ty  */
-#line 987 "rustgram.y"
+#line 993 "rustgram.y"
                                                                     {  }
-#line 6174 "rustgram.tab.c"
+#line 6175 "rustgram.tab.c"
     break;
 
   case 378: /* ty_prim: '*' maybe_mut_or_const ty  */
-#line 988 "rustgram.y"
+#line 994 "rustgram.y"
                                                                     {  }
-#line 6180 "rustgram.tab.c"
+#line 6181 "rustgram.tab.c"
     break;
 
   case 379: /* ty_prim: '&' ty  */
-#line 989 "rustgram.y"
+#line 995 "rustgram.y"
                                                                     {  }
-#line 6186 "rustgram.tab.c"
+#line 6187 "rustgram.tab.c"
     break;
 
   case 380: /* ty_prim: '&' MUT ty  */
-#line 990 "rustgram.y"
+#line 996 "rustgram.y"
                                                                     {  }
-#line 6192 "rustgram.tab.c"
+#line 6193 "rustgram.tab.c"
     break;
 
   case 381: /* ty_prim: ANDAND ty  */
-#line 991 "rustgram.y"
+#line 997 "rustgram.y"
                                                                     {  }
-#line 6198 "rustgram.tab.c"
+#line 6199 "rustgram.tab.c"
     break;
 
   case 382: /* ty_prim: ANDAND MUT ty  */
-#line 992 "rustgram.y"
+#line 998 "rustgram.y"
                                                                     {  }
-#line 6204 "rustgram.tab.c"
+#line 6205 "rustgram.tab.c"
     break;
 
   case 383: /* ty_prim: '&' lifetime maybe_mut ty  */
-#line 993 "rustgram.y"
+#line 999 "rustgram.y"
                                                                     {  }
-#line 6210 "rustgram.tab.c"
+#line 6211 "rustgram.tab.c"
     break;
 
   case 384: /* ty_prim: ANDAND lifetime maybe_mut ty  */
-#line 994 "rustgram.y"
+#line 1000 "rustgram.y"
                                                                     {  }
-#line 6216 "rustgram.tab.c"
+#line 6217 "rustgram.tab.c"
     break;
 
-  case 385: /* ty_prim: '[' ty ']'  */
-#line 995 "rustgram.y"
-                                                                    {  }
-#line 6222 "rustgram.tab.c"
+  case 385: /* ty_prim: LEFTBRACKET ty ']'  */
+#line 1001 "rustgram.y"
+                                                                            {  }
+#line 6223 "rustgram.tab.c"
     break;
 
-  case 386: /* ty_prim: '[' ty ',' DOTDOT expr ']'  */
-#line 996 "rustgram.y"
-                                                                    {  }
-#line 6228 "rustgram.tab.c"
+  case 386: /* ty_prim: LEFTBRACKET ty ',' DOTDOT expr ']'  */
+#line 1002 "rustgram.y"
+                                                                            {  }
+#line 6229 "rustgram.tab.c"
     break;
 
-  case 387: /* ty_prim: '[' ty ';' expr ']'  */
-#line 997 "rustgram.y"
-                                                                    {  }
-#line 6234 "rustgram.tab.c"
+  case 387: /* ty_prim: LEFTBRACKET ty ';' expr ']'  */
+#line 1003 "rustgram.y"
+                                                                            {  }
+#line 6235 "rustgram.tab.c"
     break;
 
   case 388: /* ty_prim: TYPEOF '(' expr ')'  */
-#line 998 "rustgram.y"
+#line 1004 "rustgram.y"
                                                                     {  }
-#line 6240 "rustgram.tab.c"
+#line 6241 "rustgram.tab.c"
     break;
 
   case 389: /* ty_prim: UNDERSCORE  */
-#line 999 "rustgram.y"
+#line 1005 "rustgram.y"
                                                                     {  }
-#line 6246 "rustgram.tab.c"
+#line 6247 "rustgram.tab.c"
     break;
 
   case 392: /* ty_bare_fn: FN ty_fn_decl  */
-#line 1004 "rustgram.y"
+#line 1010 "rustgram.y"
                                                 {  }
-#line 6252 "rustgram.tab.c"
+#line 6253 "rustgram.tab.c"
     break;
 
   case 393: /* ty_bare_fn: UNSAFE FN ty_fn_decl  */
-#line 1005 "rustgram.y"
+#line 1011 "rustgram.y"
                                                 {  }
-#line 6258 "rustgram.tab.c"
+#line 6259 "rustgram.tab.c"
     break;
 
   case 394: /* ty_bare_fn: EXTERN maybe_abi FN ty_fn_decl  */
-#line 1006 "rustgram.y"
+#line 1012 "rustgram.y"
                                                 {  }
-#line 6264 "rustgram.tab.c"
+#line 6265 "rustgram.tab.c"
     break;
 
   case 395: /* ty_bare_fn: UNSAFE EXTERN maybe_abi FN ty_fn_decl  */
-#line 1007 "rustgram.y"
+#line 1013 "rustgram.y"
                                                 {  }
-#line 6270 "rustgram.tab.c"
+#line 6271 "rustgram.tab.c"
     break;
 
   case 396: /* ty_fn_decl: generic_params fn_anon_params ret_ty  */
-#line 1010 "rustgram.y"
+#line 1016 "rustgram.y"
                                                   {  }
-#line 6276 "rustgram.tab.c"
+#line 6277 "rustgram.tab.c"
     break;
 
   case 397: /* ty_closure: UNSAFE '|' anon_params '|' maybe_bounds ret_ty  */
-#line 1013 "rustgram.y"
+#line 1019 "rustgram.y"
                                                             {  }
-#line 6282 "rustgram.tab.c"
+#line 6283 "rustgram.tab.c"
     break;
 
   case 398: /* ty_closure: '|' anon_params '|' maybe_bounds ret_ty  */
-#line 1014 "rustgram.y"
+#line 1020 "rustgram.y"
                                                             {  }
-#line 6288 "rustgram.tab.c"
+#line 6289 "rustgram.tab.c"
     break;
 
   case 399: /* ty_closure: UNSAFE OROR maybe_bounds ret_ty  */
-#line 1015 "rustgram.y"
+#line 1021 "rustgram.y"
                                                             {  }
-#line 6294 "rustgram.tab.c"
+#line 6295 "rustgram.tab.c"
     break;
 
   case 400: /* ty_closure: OROR maybe_bounds ret_ty  */
-#line 1016 "rustgram.y"
+#line 1022 "rustgram.y"
                                                             {  }
-#line 6300 "rustgram.tab.c"
+#line 6301 "rustgram.tab.c"
     break;
 
   case 401: /* for_in_type: FOR '<' maybe_lifetimes '>' for_in_type_suffix  */
-#line 1019 "rustgram.y"
+#line 1025 "rustgram.y"
                                                              {  }
-#line 6306 "rustgram.tab.c"
+#line 6307 "rustgram.tab.c"
     break;
 
   case 405: /* maybe_mut: MUT  */
-#line 1027 "rustgram.y"
+#line 1033 "rustgram.y"
                              {  }
-#line 6312 "rustgram.tab.c"
+#line 6313 "rustgram.tab.c"
     break;
 
   case 406: /* maybe_mut: %empty  */
-#line 1028 "rustgram.y"
+#line 1034 "rustgram.y"
                            {  }
-#line 6318 "rustgram.tab.c"
+#line 6319 "rustgram.tab.c"
     break;
 
   case 407: /* maybe_mut_or_const: MUT  */
-#line 1031 "rustgram.y"
+#line 1037 "rustgram.y"
                             {  }
-#line 6324 "rustgram.tab.c"
+#line 6325 "rustgram.tab.c"
     break;
 
   case 408: /* maybe_mut_or_const: CONST  */
-#line 1032 "rustgram.y"
+#line 1038 "rustgram.y"
                  {  }
-#line 6330 "rustgram.tab.c"
+#line 6331 "rustgram.tab.c"
     break;
 
   case 409: /* maybe_mut_or_const: %empty  */
-#line 1033 "rustgram.y"
+#line 1039 "rustgram.y"
                  {  }
-#line 6336 "rustgram.tab.c"
+#line 6337 "rustgram.tab.c"
     break;
 
   case 410: /* ty_qualified_path_and_generic_values: ty_qualified_path maybe_bindings  */
-#line 1036 "rustgram.y"
+#line 1042 "rustgram.y"
                                                                         {
   
           }
-#line 6344 "rustgram.tab.c"
+#line 6345 "rustgram.tab.c"
     break;
 
   case 411: /* ty_qualified_path_and_generic_values: ty_qualified_path ',' ty_sums maybe_bindings  */
-#line 1039 "rustgram.y"
+#line 1045 "rustgram.y"
                                                        {
   
           }
-#line 6352 "rustgram.tab.c"
+#line 6353 "rustgram.tab.c"
     break;
 
   case 412: /* ty_qualified_path: ty_sum AS trait_ref '>' MOD_SEP ident  */
-#line 1044 "rustgram.y"
+#line 1050 "rustgram.y"
                                                                     {  }
-#line 6358 "rustgram.tab.c"
+#line 6359 "rustgram.tab.c"
     break;
 
   case 413: /* ty_qualified_path: ty_sum AS trait_ref '>' MOD_SEP ident '+' ty_param_bounds  */
-#line 1045 "rustgram.y"
+#line 1051 "rustgram.y"
                                                                     {  }
-#line 6364 "rustgram.tab.c"
+#line 6365 "rustgram.tab.c"
     break;
 
   case 416: /* maybe_ty_sums: %empty  */
-#line 1050 "rustgram.y"
+#line 1056 "rustgram.y"
                  {  }
-#line 6370 "rustgram.tab.c"
+#line 6371 "rustgram.tab.c"
     break;
 
   case 417: /* ty_sums: ty_sum  */
-#line 1053 "rustgram.y"
+#line 1059 "rustgram.y"
                              {  }
-#line 6376 "rustgram.tab.c"
+#line 6377 "rustgram.tab.c"
     break;
 
   case 418: /* ty_sums: ty_sums ',' ty_sum  */
-#line 1054 "rustgram.y"
+#line 1060 "rustgram.y"
                              {  }
-#line 6382 "rustgram.tab.c"
+#line 6383 "rustgram.tab.c"
     break;
 
   case 419: /* ty_sum: ty_sum_elt  */
-#line 1057 "rustgram.y"
+#line 1063 "rustgram.y"
                                {  }
-#line 6388 "rustgram.tab.c"
+#line 6389 "rustgram.tab.c"
     break;
 
   case 420: /* ty_sum: ty_sum '+' ty_sum_elt  */
-#line 1058 "rustgram.y"
+#line 1064 "rustgram.y"
                                 {  }
-#line 6394 "rustgram.tab.c"
+#line 6395 "rustgram.tab.c"
     break;
 
   case 423: /* ty_prim_sum: ty_prim_sum_elt  */
-#line 1065 "rustgram.y"
+#line 1071 "rustgram.y"
                                               {  }
-#line 6400 "rustgram.tab.c"
+#line 6401 "rustgram.tab.c"
     break;
 
   case 424: /* ty_prim_sum: ty_prim_sum '+' ty_prim_sum_elt  */
-#line 1066 "rustgram.y"
+#line 1072 "rustgram.y"
                                           {  }
-#line 6406 "rustgram.tab.c"
+#line 6407 "rustgram.tab.c"
     break;
 
   case 427: /* maybe_ty_param_bounds: ':' ty_param_bounds  */
-#line 1073 "rustgram.y"
+#line 1079 "rustgram.y"
                                             {  }
-#line 6412 "rustgram.tab.c"
+#line 6413 "rustgram.tab.c"
     break;
 
   case 428: /* maybe_ty_param_bounds: %empty  */
-#line 1074 "rustgram.y"
+#line 1080 "rustgram.y"
                               {  }
-#line 6418 "rustgram.tab.c"
+#line 6419 "rustgram.tab.c"
     break;
 
   case 430: /* ty_param_bounds: %empty  */
-#line 1078 "rustgram.y"
+#line 1084 "rustgram.y"
                  {  }
-#line 6424 "rustgram.tab.c"
+#line 6425 "rustgram.tab.c"
     break;
 
   case 432: /* boundseq: boundseq '+' polybound  */
-#line 1082 "rustgram.y"
+#line 1088 "rustgram.y"
                                  {  }
-#line 6430 "rustgram.tab.c"
+#line 6431 "rustgram.tab.c"
     break;
 
   case 433: /* polybound: FOR '<' maybe_lifetimes '>' bound  */
-#line 1085 "rustgram.y"
+#line 1091 "rustgram.y"
                                               {  }
-#line 6436 "rustgram.tab.c"
+#line 6437 "rustgram.tab.c"
     break;
 
   case 435: /* polybound: '?' FOR '<' maybe_lifetimes '>' bound  */
-#line 1087 "rustgram.y"
+#line 1093 "rustgram.y"
                                                 {  }
-#line 6442 "rustgram.tab.c"
+#line 6443 "rustgram.tab.c"
     break;
 
   case 436: /* polybound: '?' bound  */
-#line 1088 "rustgram.y"
+#line 1094 "rustgram.y"
                     {  }
-#line 6448 "rustgram.tab.c"
+#line 6449 "rustgram.tab.c"
     break;
 
   case 437: /* bindings: binding  */
-#line 1091 "rustgram.y"
+#line 1097 "rustgram.y"
                                 {  }
-#line 6454 "rustgram.tab.c"
+#line 6455 "rustgram.tab.c"
     break;
 
   case 438: /* bindings: bindings ',' binding  */
-#line 1092 "rustgram.y"
+#line 1098 "rustgram.y"
                                {  }
-#line 6460 "rustgram.tab.c"
+#line 6461 "rustgram.tab.c"
     break;
 
   case 439: /* binding: ident '=' ty  */
-#line 1095 "rustgram.y"
+#line 1101 "rustgram.y"
                        {  }
-#line 6466 "rustgram.tab.c"
+#line 6467 "rustgram.tab.c"
     break;
 
   case 440: /* ty_param: ident maybe_ty_param_bounds maybe_ty_default  */
-#line 1098 "rustgram.y"
+#line 1104 "rustgram.y"
                                                                   {  }
-#line 6472 "rustgram.tab.c"
+#line 6473 "rustgram.tab.c"
     break;
 
   case 441: /* ty_param: ident '?' ident maybe_ty_param_bounds maybe_ty_default  */
-#line 1099 "rustgram.y"
+#line 1105 "rustgram.y"
                                                                  {  }
-#line 6478 "rustgram.tab.c"
+#line 6479 "rustgram.tab.c"
     break;
 
   case 442: /* maybe_bounds: ':' bounds  */
-#line 1102 "rustgram.y"
+#line 1108 "rustgram.y"
                                                       {  }
-#line 6484 "rustgram.tab.c"
+#line 6485 "rustgram.tab.c"
     break;
 
   case 443: /* maybe_bounds: %empty  */
-#line 1103 "rustgram.y"
+#line 1109 "rustgram.y"
                                  {  }
-#line 6490 "rustgram.tab.c"
+#line 6491 "rustgram.tab.c"
     break;
 
   case 444: /* bounds: bound  */
-#line 1106 "rustgram.y"
+#line 1112 "rustgram.y"
                           {  }
-#line 6496 "rustgram.tab.c"
+#line 6497 "rustgram.tab.c"
     break;
 
   case 445: /* bounds: bounds '+' bound  */
-#line 1107 "rustgram.y"
+#line 1113 "rustgram.y"
                            {  }
-#line 6502 "rustgram.tab.c"
+#line 6503 "rustgram.tab.c"
     break;
 
   case 448: /* maybe_ltbounds: ':' ltbounds  */
-#line 1114 "rustgram.y"
+#line 1120 "rustgram.y"
                                                     {  }
-#line 6508 "rustgram.tab.c"
+#line 6509 "rustgram.tab.c"
     break;
 
   case 449: /* maybe_ltbounds: %empty  */
-#line 1115 "rustgram.y"
+#line 1121 "rustgram.y"
                              {  }
-#line 6514 "rustgram.tab.c"
+#line 6515 "rustgram.tab.c"
     break;
 
   case 450: /* ltbounds: lifetime  */
-#line 1118 "rustgram.y"
+#line 1124 "rustgram.y"
                                  {  }
-#line 6520 "rustgram.tab.c"
+#line 6521 "rustgram.tab.c"
     break;
 
   case 451: /* ltbounds: ltbounds '+' lifetime  */
-#line 1119 "rustgram.y"
+#line 1125 "rustgram.y"
                                 {  }
-#line 6526 "rustgram.tab.c"
+#line 6527 "rustgram.tab.c"
     break;
 
   case 452: /* maybe_ty_default: '=' ty_sum  */
-#line 1122 "rustgram.y"
+#line 1128 "rustgram.y"
                               {  }
-#line 6532 "rustgram.tab.c"
+#line 6533 "rustgram.tab.c"
     break;
 
   case 453: /* maybe_ty_default: %empty  */
-#line 1123 "rustgram.y"
+#line 1129 "rustgram.y"
                      {  }
-#line 6538 "rustgram.tab.c"
+#line 6539 "rustgram.tab.c"
     break;
 
   case 456: /* maybe_lifetimes: %empty  */
-#line 1128 "rustgram.y"
+#line 1134 "rustgram.y"
                  {  }
-#line 6544 "rustgram.tab.c"
+#line 6545 "rustgram.tab.c"
     break;
 
   case 457: /* lifetimes: lifetime_and_bounds  */
-#line 1131 "rustgram.y"
+#line 1137 "rustgram.y"
                                               {  }
-#line 6550 "rustgram.tab.c"
+#line 6551 "rustgram.tab.c"
     break;
 
   case 458: /* lifetimes: lifetimes ',' lifetime_and_bounds  */
-#line 1132 "rustgram.y"
+#line 1138 "rustgram.y"
                                             {  }
-#line 6556 "rustgram.tab.c"
+#line 6557 "rustgram.tab.c"
     break;
 
   case 459: /* lifetime_and_bounds: LIFETIME maybe_ltbounds  */
-#line 1135 "rustgram.y"
+#line 1141 "rustgram.y"
                                                       {  }
-#line 6562 "rustgram.tab.c"
+#line 6563 "rustgram.tab.c"
     break;
 
   case 460: /* lifetime_and_bounds: STATIC_LIFETIME  */
-#line 1136 "rustgram.y"
+#line 1142 "rustgram.y"
                                           {  }
-#line 6568 "rustgram.tab.c"
+#line 6569 "rustgram.tab.c"
     break;
 
   case 461: /* lifetime: LIFETIME  */
-#line 1139 "rustgram.y"
+#line 1145 "rustgram.y"
                             {  }
-#line 6574 "rustgram.tab.c"
+#line 6575 "rustgram.tab.c"
     break;
 
   case 462: /* lifetime: STATIC_LIFETIME  */
-#line 1140 "rustgram.y"
+#line 1146 "rustgram.y"
                            {  }
-#line 6580 "rustgram.tab.c"
+#line 6581 "rustgram.tab.c"
     break;
 
   case 464: /* trait_ref: MOD_SEP path_generic_args_without_colons  */
-#line 1144 "rustgram.y"
+#line 1150 "rustgram.y"
                                                                {  }
-#line 6586 "rustgram.tab.c"
+#line 6587 "rustgram.tab.c"
     break;
 
   case 465: /* inner_attrs_and_block: '{' maybe_inner_attrs maybe_stmts '}'  */
-#line 1151 "rustgram.y"
+#line 1157 "rustgram.y"
                                                                      {  }
-#line 6592 "rustgram.tab.c"
+#line 6593 "rustgram.tab.c"
     break;
 
   case 466: /* block: '{' maybe_stmts '}'  */
-#line 1154 "rustgram.y"
+#line 1160 "rustgram.y"
                                                      {  }
-#line 6598 "rustgram.tab.c"
+#line 6599 "rustgram.tab.c"
     break;
 
   case 468: /* maybe_stmts: stmts nonblock_expr  */
-#line 1158 "rustgram.y"
+#line 1164 "rustgram.y"
                               {  }
-#line 6604 "rustgram.tab.c"
+#line 6605 "rustgram.tab.c"
     break;
 
   case 470: /* maybe_stmts: %empty  */
-#line 1160 "rustgram.y"
+#line 1166 "rustgram.y"
                               {  }
-#line 6610 "rustgram.tab.c"
+#line 6611 "rustgram.tab.c"
     break;
 
   case 471: /* stmts: stmt  */
-#line 1187 "rustgram.y"
+#line 1193 "rustgram.y"
                        {  }
-#line 6616 "rustgram.tab.c"
+#line 6617 "rustgram.tab.c"
     break;
 
   case 472: /* stmts: stmts stmt  */
-#line 1188 "rustgram.y"
+#line 1194 "rustgram.y"
                          {  }
-#line 6622 "rustgram.tab.c"
+#line 6623 "rustgram.tab.c"
     break;
 
   case 473: /* stmt: maybe_outer_attrs let  */
-#line 1191 "rustgram.y"
+#line 1197 "rustgram.y"
                                  {  }
-#line 6628 "rustgram.tab.c"
+#line 6629 "rustgram.tab.c"
     break;
 
   case 475: /* stmt: PUB stmt_item  */
-#line 1193 "rustgram.y"
+#line 1199 "rustgram.y"
                                     {  }
-#line 6634 "rustgram.tab.c"
+#line 6635 "rustgram.tab.c"
     break;
 
   case 476: /* stmt: outer_attrs stmt_item  */
-#line 1194 "rustgram.y"
+#line 1200 "rustgram.y"
                                     {  }
-#line 6640 "rustgram.tab.c"
+#line 6641 "rustgram.tab.c"
     break;
 
   case 477: /* stmt: outer_attrs PUB stmt_item  */
-#line 1195 "rustgram.y"
+#line 1201 "rustgram.y"
                                     {  }
-#line 6646 "rustgram.tab.c"
+#line 6647 "rustgram.tab.c"
     break;
 
   case 479: /* stmt: maybe_outer_attrs block  */
-#line 1197 "rustgram.y"
+#line 1203 "rustgram.y"
                                     {  }
-#line 6652 "rustgram.tab.c"
+#line 6653 "rustgram.tab.c"
     break;
 
   case 481: /* stmt: outer_attrs nonblock_expr ';'  */
-#line 1199 "rustgram.y"
+#line 1205 "rustgram.y"
                                         {  }
-#line 6658 "rustgram.tab.c"
+#line 6659 "rustgram.tab.c"
     break;
 
   case 482: /* stmt: ';'  */
-#line 1200 "rustgram.y"
+#line 1206 "rustgram.y"
                                 {  }
-#line 6664 "rustgram.tab.c"
+#line 6665 "rustgram.tab.c"
     break;
 
   case 485: /* maybe_exprs: %empty  */
-#line 1205 "rustgram.y"
+#line 1211 "rustgram.y"
                  {  }
-#line 6670 "rustgram.tab.c"
+#line 6671 "rustgram.tab.c"
     break;
 
   case 487: /* maybe_expr: %empty  */
-#line 1209 "rustgram.y"
+#line 1215 "rustgram.y"
                  {  }
-#line 6676 "rustgram.tab.c"
+#line 6677 "rustgram.tab.c"
     break;
 
   case 488: /* exprs: expr  */
-#line 1212 "rustgram.y"
+#line 1218 "rustgram.y"
                                                      {  }
-#line 6682 "rustgram.tab.c"
+#line 6683 "rustgram.tab.c"
     break;
 
   case 489: /* exprs: exprs ',' expr  */
-#line 1213 "rustgram.y"
+#line 1219 "rustgram.y"
                                                      {  }
-#line 6688 "rustgram.tab.c"
+#line 6689 "rustgram.tab.c"
     break;
 
   case 491: /* path_expr: MOD_SEP path_generic_args_with_colons  */
-#line 1217 "rustgram.y"
+#line 1223 "rustgram.y"
                                                      {  }
-#line 6694 "rustgram.tab.c"
+#line 6695 "rustgram.tab.c"
     break;
 
   case 492: /* path_expr: SELF MOD_SEP path_generic_args_with_colons  */
-#line 1218 "rustgram.y"
+#line 1224 "rustgram.y"
                                                      {  }
-#line 6700 "rustgram.tab.c"
+#line 6701 "rustgram.tab.c"
     break;
 
   case 493: /* path_generic_args_with_colons: ident  */
-#line 1226 "rustgram.y"
+#line 1232 "rustgram.y"
                                                              {  }
-#line 6706 "rustgram.tab.c"
+#line 6707 "rustgram.tab.c"
     break;
 
   case 494: /* path_generic_args_with_colons: SUPER  */
-#line 1227 "rustgram.y"
+#line 1233 "rustgram.y"
                                                              {  }
-#line 6712 "rustgram.tab.c"
+#line 6713 "rustgram.tab.c"
     break;
 
   case 495: /* path_generic_args_with_colons: path_generic_args_with_colons MOD_SEP ident  */
-#line 1228 "rustgram.y"
+#line 1234 "rustgram.y"
                                                              {  }
-#line 6718 "rustgram.tab.c"
+#line 6719 "rustgram.tab.c"
     break;
 
   case 496: /* path_generic_args_with_colons: path_generic_args_with_colons MOD_SEP SUPER  */
-#line 1229 "rustgram.y"
+#line 1235 "rustgram.y"
                                                              {  }
-#line 6724 "rustgram.tab.c"
+#line 6725 "rustgram.tab.c"
     break;
 
   case 497: /* path_generic_args_with_colons: path_generic_args_with_colons MOD_SEP generic_args  */
-#line 1230 "rustgram.y"
+#line 1236 "rustgram.y"
                                                              {  }
-#line 6730 "rustgram.tab.c"
+#line 6731 "rustgram.tab.c"
     break;
 
   case 498: /* macro_expr: path_expr '!' maybe_ident parens_delimited_token_trees  */
-#line 1234 "rustgram.y"
+#line 1240 "rustgram.y"
                                                                       {  }
-#line 6736 "rustgram.tab.c"
+#line 6737 "rustgram.tab.c"
     break;
 
   case 499: /* macro_expr: path_expr '!' maybe_ident brackets_delimited_token_trees  */
-#line 1235 "rustgram.y"
+#line 1241 "rustgram.y"
                                                                    {  }
-#line 6742 "rustgram.tab.c"
+#line 6743 "rustgram.tab.c"
     break;
 
   case 500: /* nonblock_expr: lit  */
-#line 1238 "rustgram.y"
+#line 1244 "rustgram.y"
                                                                         {  }
-#line 6748 "rustgram.tab.c"
+#line 6749 "rustgram.tab.c"
     break;
 
   case 501: /* nonblock_expr: path_expr  */
-#line 1239 "rustgram.y"
+#line 1245 "rustgram.y"
                                                                         {  }
-#line 6754 "rustgram.tab.c"
+#line 6755 "rustgram.tab.c"
     break;
 
   case 502: /* nonblock_expr: SELF  */
-#line 1240 "rustgram.y"
+#line 1246 "rustgram.y"
                                                                         {  }
-#line 6760 "rustgram.tab.c"
+#line 6761 "rustgram.tab.c"
     break;
 
   case 503: /* nonblock_expr: macro_expr  */
-#line 1241 "rustgram.y"
+#line 1247 "rustgram.y"
                                                                         {  }
-#line 6766 "rustgram.tab.c"
+#line 6767 "rustgram.tab.c"
     break;
 
   case 504: /* nonblock_expr: path_expr '{' struct_expr_fields '}'  */
-#line 1242 "rustgram.y"
+#line 1248 "rustgram.y"
                                                                         {  }
-#line 6772 "rustgram.tab.c"
+#line 6773 "rustgram.tab.c"
     break;
 
   case 505: /* nonblock_expr: nonblock_expr '?'  */
-#line 1243 "rustgram.y"
+#line 1249 "rustgram.y"
                                                                         {  }
-#line 6778 "rustgram.tab.c"
+#line 6779 "rustgram.tab.c"
     break;
 
   case 506: /* nonblock_expr: nonblock_expr '.' path_generic_args_with_colons  */
-#line 1244 "rustgram.y"
+#line 1250 "rustgram.y"
                                                                         {  }
-#line 6784 "rustgram.tab.c"
+#line 6785 "rustgram.tab.c"
     break;
 
   case 507: /* nonblock_expr: nonblock_expr '.' LIT_INTEGER  */
-#line 1245 "rustgram.y"
+#line 1251 "rustgram.y"
                                                                         {  }
-#line 6790 "rustgram.tab.c"
+#line 6791 "rustgram.tab.c"
     break;
 
-  case 508: /* nonblock_expr: nonblock_expr '[' maybe_expr ']'  */
-#line 1246 "rustgram.y"
-                                                                        {  }
-#line 6796 "rustgram.tab.c"
+  case 508: /* nonblock_expr: nonblock_expr LEFTBRACKET maybe_expr ']'  */
+#line 1252 "rustgram.y"
+                                                                                {  }
+#line 6797 "rustgram.tab.c"
     break;
 
   case 509: /* nonblock_expr: nonblock_expr '(' maybe_exprs ')'  */
-#line 1247 "rustgram.y"
+#line 1253 "rustgram.y"
                                                                         {  }
-#line 6802 "rustgram.tab.c"
+#line 6803 "rustgram.tab.c"
     break;
 
-  case 510: /* nonblock_expr: '[' vec_expr ']'  */
-#line 1248 "rustgram.y"
-                                                                        {  }
-#line 6808 "rustgram.tab.c"
+  case 510: /* nonblock_expr: LEFTBRACKET vec_expr ']'  */
+#line 1254 "rustgram.y"
+                                                                                {  }
+#line 6809 "rustgram.tab.c"
     break;
 
   case 511: /* nonblock_expr: '(' maybe_exprs ')'  */
-#line 1249 "rustgram.y"
+#line 1255 "rustgram.y"
                                                                         {  }
-#line 6814 "rustgram.tab.c"
+#line 6815 "rustgram.tab.c"
     break;
 
   case 512: /* nonblock_expr: CONTINUE  */
-#line 1250 "rustgram.y"
+#line 1256 "rustgram.y"
                                                                         {  }
-#line 6820 "rustgram.tab.c"
+#line 6821 "rustgram.tab.c"
     break;
 
   case 513: /* nonblock_expr: CONTINUE lifetime  */
-#line 1251 "rustgram.y"
+#line 1257 "rustgram.y"
                                                                         {  }
-#line 6826 "rustgram.tab.c"
+#line 6827 "rustgram.tab.c"
     break;
 
   case 514: /* nonblock_expr: RETURN  */
-#line 1252 "rustgram.y"
+#line 1258 "rustgram.y"
                                                                         {  }
-#line 6832 "rustgram.tab.c"
+#line 6833 "rustgram.tab.c"
     break;
 
   case 515: /* nonblock_expr: RETURN expr  */
-#line 1253 "rustgram.y"
+#line 1259 "rustgram.y"
                                                                         {  }
-#line 6838 "rustgram.tab.c"
+#line 6839 "rustgram.tab.c"
     break;
 
   case 516: /* nonblock_expr: BREAK  */
-#line 1254 "rustgram.y"
+#line 1260 "rustgram.y"
                                                                         {  }
-#line 6844 "rustgram.tab.c"
+#line 6845 "rustgram.tab.c"
     break;
 
   case 517: /* nonblock_expr: BREAK lifetime  */
-#line 1255 "rustgram.y"
+#line 1261 "rustgram.y"
                                                                         {  }
-#line 6850 "rustgram.tab.c"
+#line 6851 "rustgram.tab.c"
     break;
 
   case 518: /* nonblock_expr: YIELD  */
-#line 1256 "rustgram.y"
+#line 1262 "rustgram.y"
                                                                         {  }
-#line 6856 "rustgram.tab.c"
+#line 6857 "rustgram.tab.c"
     break;
 
   case 519: /* nonblock_expr: YIELD expr  */
-#line 1257 "rustgram.y"
+#line 1263 "rustgram.y"
                                                                         {  }
-#line 6862 "rustgram.tab.c"
+#line 6863 "rustgram.tab.c"
     break;
 
   case 520: /* nonblock_expr: nonblock_expr '=' expr  */
-#line 1258 "rustgram.y"
+#line 1264 "rustgram.y"
                                                                         {  }
-#line 6868 "rustgram.tab.c"
+#line 6869 "rustgram.tab.c"
     break;
 
   case 521: /* nonblock_expr: nonblock_expr SHLEQ expr  */
-#line 1259 "rustgram.y"
+#line 1265 "rustgram.y"
                                                                         {  }
-#line 6874 "rustgram.tab.c"
+#line 6875 "rustgram.tab.c"
     break;
 
   case 522: /* nonblock_expr: nonblock_expr SHREQ expr  */
-#line 1260 "rustgram.y"
+#line 1266 "rustgram.y"
                                                                         {  }
-#line 6880 "rustgram.tab.c"
+#line 6881 "rustgram.tab.c"
     break;
 
   case 523: /* nonblock_expr: nonblock_expr MINUSEQ expr  */
-#line 1261 "rustgram.y"
+#line 1267 "rustgram.y"
                                                                         {  }
-#line 6886 "rustgram.tab.c"
+#line 6887 "rustgram.tab.c"
     break;
 
   case 524: /* nonblock_expr: nonblock_expr ANDEQ expr  */
-#line 1262 "rustgram.y"
+#line 1268 "rustgram.y"
                                                                         {  }
-#line 6892 "rustgram.tab.c"
+#line 6893 "rustgram.tab.c"
     break;
 
   case 525: /* nonblock_expr: nonblock_expr OREQ expr  */
-#line 1263 "rustgram.y"
+#line 1269 "rustgram.y"
                                                                         {  }
-#line 6898 "rustgram.tab.c"
+#line 6899 "rustgram.tab.c"
     break;
 
   case 526: /* nonblock_expr: nonblock_expr PLUSEQ expr  */
-#line 1264 "rustgram.y"
+#line 1270 "rustgram.y"
                                                                         {  }
-#line 6904 "rustgram.tab.c"
+#line 6905 "rustgram.tab.c"
     break;
 
   case 527: /* nonblock_expr: nonblock_expr STAREQ expr  */
-#line 1265 "rustgram.y"
+#line 1271 "rustgram.y"
                                                                         {  }
-#line 6910 "rustgram.tab.c"
+#line 6911 "rustgram.tab.c"
     break;
 
   case 528: /* nonblock_expr: nonblock_expr SLASHEQ expr  */
-#line 1266 "rustgram.y"
+#line 1272 "rustgram.y"
                                                                         {  }
-#line 6916 "rustgram.tab.c"
+#line 6917 "rustgram.tab.c"
     break;
 
   case 529: /* nonblock_expr: nonblock_expr CARETEQ expr  */
-#line 1267 "rustgram.y"
+#line 1273 "rustgram.y"
                                                                         {  }
-#line 6922 "rustgram.tab.c"
+#line 6923 "rustgram.tab.c"
     break;
 
   case 530: /* nonblock_expr: nonblock_expr PERCENTEQ expr  */
-#line 1268 "rustgram.y"
+#line 1274 "rustgram.y"
                                                                         {  }
-#line 6928 "rustgram.tab.c"
+#line 6929 "rustgram.tab.c"
     break;
 
   case 531: /* nonblock_expr: nonblock_expr OROR expr  */
-#line 1269 "rustgram.y"
+#line 1275 "rustgram.y"
                                                                         {  }
-#line 6934 "rustgram.tab.c"
+#line 6935 "rustgram.tab.c"
     break;
 
   case 532: /* nonblock_expr: nonblock_expr ANDAND expr  */
-#line 1270 "rustgram.y"
+#line 1276 "rustgram.y"
                                                                         {  }
-#line 6940 "rustgram.tab.c"
+#line 6941 "rustgram.tab.c"
     break;
 
   case 533: /* nonblock_expr: nonblock_expr EQEQ expr  */
-#line 1271 "rustgram.y"
+#line 1277 "rustgram.y"
                                                                         {  }
-#line 6946 "rustgram.tab.c"
+#line 6947 "rustgram.tab.c"
     break;
 
   case 534: /* nonblock_expr: nonblock_expr NE expr  */
-#line 1272 "rustgram.y"
+#line 1278 "rustgram.y"
                                                                         {  }
-#line 6952 "rustgram.tab.c"
+#line 6953 "rustgram.tab.c"
     break;
 
   case 535: /* nonblock_expr: nonblock_expr '<' expr  */
-#line 1273 "rustgram.y"
+#line 1279 "rustgram.y"
                                                                         {  }
-#line 6958 "rustgram.tab.c"
+#line 6959 "rustgram.tab.c"
     break;
 
   case 536: /* nonblock_expr: nonblock_expr '>' expr  */
-#line 1274 "rustgram.y"
+#line 1280 "rustgram.y"
                                                                         {  }
-#line 6964 "rustgram.tab.c"
+#line 6965 "rustgram.tab.c"
     break;
 
   case 537: /* nonblock_expr: nonblock_expr LE expr  */
-#line 1275 "rustgram.y"
+#line 1281 "rustgram.y"
                                                                         {  }
-#line 6970 "rustgram.tab.c"
+#line 6971 "rustgram.tab.c"
     break;
 
   case 538: /* nonblock_expr: nonblock_expr GE expr  */
-#line 1276 "rustgram.y"
+#line 1282 "rustgram.y"
                                                                         {  }
-#line 6976 "rustgram.tab.c"
+#line 6977 "rustgram.tab.c"
     break;
 
   case 539: /* nonblock_expr: nonblock_expr '|' expr  */
-#line 1277 "rustgram.y"
+#line 1283 "rustgram.y"
                                                                         {  }
-#line 6982 "rustgram.tab.c"
+#line 6983 "rustgram.tab.c"
     break;
 
   case 540: /* nonblock_expr: nonblock_expr '^' expr  */
-#line 1278 "rustgram.y"
+#line 1284 "rustgram.y"
                                                                         {  }
-#line 6988 "rustgram.tab.c"
+#line 6989 "rustgram.tab.c"
     break;
 
   case 541: /* nonblock_expr: nonblock_expr '&' expr  */
-#line 1279 "rustgram.y"
+#line 1285 "rustgram.y"
                                                                         {  }
-#line 6994 "rustgram.tab.c"
+#line 6995 "rustgram.tab.c"
     break;
 
   case 542: /* nonblock_expr: nonblock_expr SHL expr  */
-#line 1280 "rustgram.y"
+#line 1286 "rustgram.y"
                                                                         {  }
-#line 7000 "rustgram.tab.c"
+#line 7001 "rustgram.tab.c"
     break;
 
   case 543: /* nonblock_expr: nonblock_expr SHR expr  */
-#line 1281 "rustgram.y"
+#line 1287 "rustgram.y"
                                                                         {  }
-#line 7006 "rustgram.tab.c"
+#line 7007 "rustgram.tab.c"
     break;
 
   case 544: /* nonblock_expr: nonblock_expr '+' expr  */
-#line 1282 "rustgram.y"
+#line 1288 "rustgram.y"
                                                                         {  }
-#line 7012 "rustgram.tab.c"
+#line 7013 "rustgram.tab.c"
     break;
 
   case 545: /* nonblock_expr: nonblock_expr '-' expr  */
-#line 1283 "rustgram.y"
+#line 1289 "rustgram.y"
                                                                         {  }
-#line 7018 "rustgram.tab.c"
+#line 7019 "rustgram.tab.c"
     break;
 
   case 546: /* nonblock_expr: nonblock_expr '*' expr  */
-#line 1284 "rustgram.y"
+#line 1290 "rustgram.y"
                                                                         {  }
-#line 7024 "rustgram.tab.c"
+#line 7025 "rustgram.tab.c"
     break;
 
   case 547: /* nonblock_expr: nonblock_expr '/' expr  */
-#line 1285 "rustgram.y"
+#line 1291 "rustgram.y"
                                                                         {  }
-#line 7030 "rustgram.tab.c"
+#line 7031 "rustgram.tab.c"
     break;
 
   case 548: /* nonblock_expr: nonblock_expr '%' expr  */
-#line 1286 "rustgram.y"
+#line 1292 "rustgram.y"
                                                                         {  }
-#line 7036 "rustgram.tab.c"
+#line 7037 "rustgram.tab.c"
     break;
 
   case 549: /* nonblock_expr: nonblock_expr DOTDOT  */
-#line 1287 "rustgram.y"
+#line 1293 "rustgram.y"
                                                                         {  }
-#line 7042 "rustgram.tab.c"
+#line 7043 "rustgram.tab.c"
     break;
 
   case 550: /* nonblock_expr: nonblock_expr DOTDOT expr  */
-#line 1288 "rustgram.y"
+#line 1294 "rustgram.y"
                                                                         {  }
-#line 7048 "rustgram.tab.c"
+#line 7049 "rustgram.tab.c"
     break;
 
   case 551: /* nonblock_expr: DOTDOT expr  */
-#line 1289 "rustgram.y"
+#line 1295 "rustgram.y"
                                                                         {  }
-#line 7054 "rustgram.tab.c"
+#line 7055 "rustgram.tab.c"
     break;
 
   case 552: /* nonblock_expr: DOTDOT  */
-#line 1290 "rustgram.y"
+#line 1296 "rustgram.y"
                                                                         {  }
-#line 7060 "rustgram.tab.c"
+#line 7061 "rustgram.tab.c"
     break;
 
   case 553: /* nonblock_expr: nonblock_expr AS ty  */
-#line 1291 "rustgram.y"
+#line 1297 "rustgram.y"
                                                                         {  }
-#line 7066 "rustgram.tab.c"
+#line 7067 "rustgram.tab.c"
     break;
 
   case 554: /* nonblock_expr: nonblock_expr ':' ty  */
-#line 1292 "rustgram.y"
+#line 1298 "rustgram.y"
                                                                         {  }
-#line 7072 "rustgram.tab.c"
+#line 7073 "rustgram.tab.c"
     break;
 
   case 555: /* nonblock_expr: BOX expr  */
-#line 1293 "rustgram.y"
+#line 1299 "rustgram.y"
                                                                         {  }
-#line 7078 "rustgram.tab.c"
+#line 7079 "rustgram.tab.c"
     break;
 
   case 558: /* expr: lit  */
-#line 1298 "rustgram.y"
+#line 1304 "rustgram.y"
                                                            {  }
-#line 7084 "rustgram.tab.c"
+#line 7085 "rustgram.tab.c"
     break;
 
   case 559: /* expr: path_expr  */
-#line 1299 "rustgram.y"
+#line 1305 "rustgram.y"
                                                            {  }
-#line 7090 "rustgram.tab.c"
+#line 7091 "rustgram.tab.c"
     break;
 
   case 560: /* expr: SELF  */
-#line 1300 "rustgram.y"
+#line 1306 "rustgram.y"
                                                            {  }
-#line 7096 "rustgram.tab.c"
+#line 7097 "rustgram.tab.c"
     break;
 
   case 561: /* expr: macro_expr  */
-#line 1301 "rustgram.y"
+#line 1307 "rustgram.y"
                                                            {  }
-#line 7102 "rustgram.tab.c"
+#line 7103 "rustgram.tab.c"
     break;
 
   case 562: /* expr: path_expr '{' struct_expr_fields '}'  */
-#line 1302 "rustgram.y"
+#line 1308 "rustgram.y"
                                                            {  }
-#line 7108 "rustgram.tab.c"
+#line 7109 "rustgram.tab.c"
     break;
 
   case 563: /* expr: expr '?'  */
-#line 1303 "rustgram.y"
+#line 1309 "rustgram.y"
                                                            {  }
-#line 7114 "rustgram.tab.c"
+#line 7115 "rustgram.tab.c"
     break;
 
   case 564: /* expr: expr '.' path_generic_args_with_colons  */
-#line 1304 "rustgram.y"
+#line 1310 "rustgram.y"
                                                            {  }
-#line 7120 "rustgram.tab.c"
+#line 7121 "rustgram.tab.c"
     break;
 
   case 565: /* expr: expr '.' LIT_INTEGER  */
-#line 1305 "rustgram.y"
+#line 1311 "rustgram.y"
                                                            {  }
-#line 7126 "rustgram.tab.c"
+#line 7127 "rustgram.tab.c"
     break;
 
-  case 566: /* expr: expr '[' maybe_expr ']'  */
-#line 1306 "rustgram.y"
-                                                           {  }
-#line 7132 "rustgram.tab.c"
+  case 566: /* expr: expr LEFTBRACKET maybe_expr ']'  */
+#line 1312 "rustgram.y"
+                                                                   {  }
+#line 7133 "rustgram.tab.c"
     break;
 
   case 567: /* expr: expr '(' maybe_exprs ')'  */
-#line 1307 "rustgram.y"
+#line 1313 "rustgram.y"
                                                            {  }
-#line 7138 "rustgram.tab.c"
+#line 7139 "rustgram.tab.c"
     break;
 
   case 568: /* expr: '(' maybe_exprs ')'  */
-#line 1308 "rustgram.y"
+#line 1314 "rustgram.y"
                                                            {  }
-#line 7144 "rustgram.tab.c"
+#line 7145 "rustgram.tab.c"
     break;
 
-  case 569: /* expr: '[' vec_expr ']'  */
-#line 1309 "rustgram.y"
-                                                           {  }
-#line 7150 "rustgram.tab.c"
+  case 569: /* expr: LEFTBRACKET vec_expr ']'  */
+#line 1315 "rustgram.y"
+                                                                   {  }
+#line 7151 "rustgram.tab.c"
     break;
 
   case 570: /* expr: CONTINUE  */
-#line 1310 "rustgram.y"
+#line 1316 "rustgram.y"
                                                            {  }
-#line 7156 "rustgram.tab.c"
+#line 7157 "rustgram.tab.c"
     break;
 
   case 571: /* expr: CONTINUE ident  */
-#line 1311 "rustgram.y"
+#line 1317 "rustgram.y"
                                                            {  }
-#line 7162 "rustgram.tab.c"
+#line 7163 "rustgram.tab.c"
     break;
 
   case 572: /* expr: RETURN  */
-#line 1312 "rustgram.y"
+#line 1318 "rustgram.y"
                                                            {  }
-#line 7168 "rustgram.tab.c"
+#line 7169 "rustgram.tab.c"
     break;
 
   case 573: /* expr: RETURN expr  */
-#line 1313 "rustgram.y"
+#line 1319 "rustgram.y"
                                                            {  }
-#line 7174 "rustgram.tab.c"
+#line 7175 "rustgram.tab.c"
     break;
 
   case 574: /* expr: BREAK  */
-#line 1314 "rustgram.y"
+#line 1320 "rustgram.y"
                                                            {  }
-#line 7180 "rustgram.tab.c"
+#line 7181 "rustgram.tab.c"
     break;
 
   case 575: /* expr: BREAK ident  */
-#line 1315 "rustgram.y"
+#line 1321 "rustgram.y"
                                                            {  }
-#line 7186 "rustgram.tab.c"
+#line 7187 "rustgram.tab.c"
     break;
 
   case 576: /* expr: YIELD  */
-#line 1316 "rustgram.y"
+#line 1322 "rustgram.y"
                                                            {  }
-#line 7192 "rustgram.tab.c"
+#line 7193 "rustgram.tab.c"
     break;
 
   case 577: /* expr: YIELD expr  */
-#line 1317 "rustgram.y"
+#line 1323 "rustgram.y"
                                                            {  }
-#line 7198 "rustgram.tab.c"
+#line 7199 "rustgram.tab.c"
     break;
 
   case 578: /* expr: expr '=' expr  */
-#line 1318 "rustgram.y"
+#line 1324 "rustgram.y"
                                                            {  }
-#line 7204 "rustgram.tab.c"
+#line 7205 "rustgram.tab.c"
     break;
 
   case 579: /* expr: expr SHLEQ expr  */
-#line 1319 "rustgram.y"
+#line 1325 "rustgram.y"
                                                            {  }
-#line 7210 "rustgram.tab.c"
+#line 7211 "rustgram.tab.c"
     break;
 
   case 580: /* expr: expr SHREQ expr  */
-#line 1320 "rustgram.y"
+#line 1326 "rustgram.y"
                                                            {  }
-#line 7216 "rustgram.tab.c"
+#line 7217 "rustgram.tab.c"
     break;
 
   case 581: /* expr: expr MINUSEQ expr  */
-#line 1321 "rustgram.y"
+#line 1327 "rustgram.y"
                                                            {  }
-#line 7222 "rustgram.tab.c"
+#line 7223 "rustgram.tab.c"
     break;
 
   case 582: /* expr: expr ANDEQ expr  */
-#line 1322 "rustgram.y"
+#line 1328 "rustgram.y"
                                                            {  }
-#line 7228 "rustgram.tab.c"
+#line 7229 "rustgram.tab.c"
     break;
 
   case 583: /* expr: expr OREQ expr  */
-#line 1323 "rustgram.y"
+#line 1329 "rustgram.y"
                                                            {  }
-#line 7234 "rustgram.tab.c"
+#line 7235 "rustgram.tab.c"
     break;
 
   case 584: /* expr: expr PLUSEQ expr  */
-#line 1324 "rustgram.y"
+#line 1330 "rustgram.y"
                                                            {  }
-#line 7240 "rustgram.tab.c"
+#line 7241 "rustgram.tab.c"
     break;
 
   case 585: /* expr: expr STAREQ expr  */
-#line 1325 "rustgram.y"
+#line 1331 "rustgram.y"
                                                            {  }
-#line 7246 "rustgram.tab.c"
+#line 7247 "rustgram.tab.c"
     break;
 
   case 586: /* expr: expr SLASHEQ expr  */
-#line 1326 "rustgram.y"
+#line 1332 "rustgram.y"
                                                            {  }
-#line 7252 "rustgram.tab.c"
+#line 7253 "rustgram.tab.c"
     break;
 
   case 587: /* expr: expr CARETEQ expr  */
-#line 1327 "rustgram.y"
+#line 1333 "rustgram.y"
                                                            {  }
-#line 7258 "rustgram.tab.c"
+#line 7259 "rustgram.tab.c"
     break;
 
   case 588: /* expr: expr PERCENTEQ expr  */
-#line 1328 "rustgram.y"
+#line 1334 "rustgram.y"
                                                            {  }
-#line 7264 "rustgram.tab.c"
+#line 7265 "rustgram.tab.c"
     break;
 
   case 589: /* expr: expr OROR expr  */
-#line 1329 "rustgram.y"
+#line 1335 "rustgram.y"
                                                            {  }
-#line 7270 "rustgram.tab.c"
+#line 7271 "rustgram.tab.c"
     break;
 
   case 590: /* expr: expr ANDAND expr  */
-#line 1330 "rustgram.y"
+#line 1336 "rustgram.y"
                                                            {  }
-#line 7276 "rustgram.tab.c"
+#line 7277 "rustgram.tab.c"
     break;
 
   case 591: /* expr: expr EQEQ expr  */
-#line 1331 "rustgram.y"
+#line 1337 "rustgram.y"
                                                            {  }
-#line 7282 "rustgram.tab.c"
+#line 7283 "rustgram.tab.c"
     break;
 
   case 592: /* expr: expr NE expr  */
-#line 1332 "rustgram.y"
+#line 1338 "rustgram.y"
                                                            {  }
-#line 7288 "rustgram.tab.c"
+#line 7289 "rustgram.tab.c"
     break;
 
   case 593: /* expr: expr '<' expr  */
-#line 1333 "rustgram.y"
+#line 1339 "rustgram.y"
                                                            {  }
-#line 7294 "rustgram.tab.c"
+#line 7295 "rustgram.tab.c"
     break;
 
   case 594: /* expr: expr '>' expr  */
-#line 1334 "rustgram.y"
+#line 1340 "rustgram.y"
                                                            {  }
-#line 7300 "rustgram.tab.c"
+#line 7301 "rustgram.tab.c"
     break;
 
   case 595: /* expr: expr LE expr  */
-#line 1335 "rustgram.y"
+#line 1341 "rustgram.y"
                                                            {  }
-#line 7306 "rustgram.tab.c"
+#line 7307 "rustgram.tab.c"
     break;
 
   case 596: /* expr: expr GE expr  */
-#line 1336 "rustgram.y"
+#line 1342 "rustgram.y"
                                                            {  }
-#line 7312 "rustgram.tab.c"
+#line 7313 "rustgram.tab.c"
     break;
 
   case 597: /* expr: expr '|' expr  */
-#line 1337 "rustgram.y"
+#line 1343 "rustgram.y"
                                                            {  }
-#line 7318 "rustgram.tab.c"
+#line 7319 "rustgram.tab.c"
     break;
 
   case 598: /* expr: expr '^' expr  */
-#line 1338 "rustgram.y"
+#line 1344 "rustgram.y"
                                                            {  }
-#line 7324 "rustgram.tab.c"
+#line 7325 "rustgram.tab.c"
     break;
 
   case 599: /* expr: expr '&' expr  */
-#line 1339 "rustgram.y"
+#line 1345 "rustgram.y"
                                                            {  }
-#line 7330 "rustgram.tab.c"
+#line 7331 "rustgram.tab.c"
     break;
 
   case 600: /* expr: expr SHL expr  */
-#line 1340 "rustgram.y"
+#line 1346 "rustgram.y"
                                                            {  }
-#line 7336 "rustgram.tab.c"
+#line 7337 "rustgram.tab.c"
     break;
 
   case 601: /* expr: expr SHR expr  */
-#line 1341 "rustgram.y"
+#line 1347 "rustgram.y"
                                                            {  }
-#line 7342 "rustgram.tab.c"
+#line 7343 "rustgram.tab.c"
     break;
 
   case 602: /* expr: expr '+' expr  */
-#line 1342 "rustgram.y"
+#line 1348 "rustgram.y"
                                                            {  }
-#line 7348 "rustgram.tab.c"
+#line 7349 "rustgram.tab.c"
     break;
 
   case 603: /* expr: expr '-' expr  */
-#line 1343 "rustgram.y"
+#line 1349 "rustgram.y"
                                                            {  }
-#line 7354 "rustgram.tab.c"
+#line 7355 "rustgram.tab.c"
     break;
 
   case 604: /* expr: expr '*' expr  */
-#line 1344 "rustgram.y"
+#line 1350 "rustgram.y"
                                                            {  }
-#line 7360 "rustgram.tab.c"
+#line 7361 "rustgram.tab.c"
     break;
 
   case 605: /* expr: expr '/' expr  */
-#line 1345 "rustgram.y"
+#line 1351 "rustgram.y"
                                                            {  }
-#line 7366 "rustgram.tab.c"
+#line 7367 "rustgram.tab.c"
     break;
 
   case 606: /* expr: expr '%' expr  */
-#line 1346 "rustgram.y"
+#line 1352 "rustgram.y"
                                                            {  }
-#line 7372 "rustgram.tab.c"
+#line 7373 "rustgram.tab.c"
     break;
 
   case 607: /* expr: expr DOTDOT  */
-#line 1347 "rustgram.y"
+#line 1353 "rustgram.y"
                                                            {  }
-#line 7378 "rustgram.tab.c"
+#line 7379 "rustgram.tab.c"
     break;
 
   case 608: /* expr: expr DOTDOT expr  */
-#line 1348 "rustgram.y"
+#line 1354 "rustgram.y"
                                                            {  }
-#line 7384 "rustgram.tab.c"
+#line 7385 "rustgram.tab.c"
     break;
 
   case 609: /* expr: DOTDOT expr  */
-#line 1349 "rustgram.y"
+#line 1355 "rustgram.y"
                                                            {  }
-#line 7390 "rustgram.tab.c"
+#line 7391 "rustgram.tab.c"
     break;
 
   case 610: /* expr: DOTDOT  */
-#line 1350 "rustgram.y"
+#line 1356 "rustgram.y"
                                                            {  }
-#line 7396 "rustgram.tab.c"
+#line 7397 "rustgram.tab.c"
     break;
 
   case 611: /* expr: expr AS ty  */
-#line 1351 "rustgram.y"
+#line 1357 "rustgram.y"
                                                            {  }
-#line 7402 "rustgram.tab.c"
+#line 7403 "rustgram.tab.c"
     break;
 
   case 612: /* expr: expr ':' ty  */
-#line 1352 "rustgram.y"
+#line 1358 "rustgram.y"
                                                            {  }
-#line 7408 "rustgram.tab.c"
+#line 7409 "rustgram.tab.c"
     break;
 
   case 613: /* expr: BOX expr  */
-#line 1353 "rustgram.y"
+#line 1359 "rustgram.y"
                                                            {  }
-#line 7414 "rustgram.tab.c"
+#line 7415 "rustgram.tab.c"
     break;
 
   case 618: /* expr_nostruct: lit  */
-#line 1360 "rustgram.y"
+#line 1366 "rustgram.y"
                                                                     {  }
-#line 7420 "rustgram.tab.c"
+#line 7421 "rustgram.tab.c"
     break;
 
   case 619: /* expr_nostruct: path_expr  */
-#line 1361 "rustgram.y"
+#line 1367 "rustgram.y"
                                                                     {  }
-#line 7426 "rustgram.tab.c"
+#line 7427 "rustgram.tab.c"
     break;
 
   case 620: /* expr_nostruct: SELF  */
-#line 1362 "rustgram.y"
+#line 1368 "rustgram.y"
                                                               {  }
-#line 7432 "rustgram.tab.c"
+#line 7433 "rustgram.tab.c"
     break;
 
   case 621: /* expr_nostruct: macro_expr  */
-#line 1363 "rustgram.y"
+#line 1369 "rustgram.y"
                                                               {  }
-#line 7438 "rustgram.tab.c"
+#line 7439 "rustgram.tab.c"
     break;
 
   case 622: /* expr_nostruct: expr_nostruct '?'  */
-#line 1364 "rustgram.y"
+#line 1370 "rustgram.y"
                                                               {  }
-#line 7444 "rustgram.tab.c"
+#line 7445 "rustgram.tab.c"
     break;
 
   case 623: /* expr_nostruct: expr_nostruct '.' path_generic_args_with_colons  */
-#line 1365 "rustgram.y"
+#line 1371 "rustgram.y"
                                                               {  }
-#line 7450 "rustgram.tab.c"
+#line 7451 "rustgram.tab.c"
     break;
 
   case 624: /* expr_nostruct: expr_nostruct '.' LIT_INTEGER  */
-#line 1366 "rustgram.y"
+#line 1372 "rustgram.y"
                                                               {  }
-#line 7456 "rustgram.tab.c"
+#line 7457 "rustgram.tab.c"
     break;
 
-  case 625: /* expr_nostruct: expr_nostruct '[' maybe_expr ']'  */
-#line 1367 "rustgram.y"
-                                                              {  }
-#line 7462 "rustgram.tab.c"
+  case 625: /* expr_nostruct: expr_nostruct LEFTBRACKET maybe_expr ']'  */
+#line 1373 "rustgram.y"
+                                                                      {  }
+#line 7463 "rustgram.tab.c"
     break;
 
   case 626: /* expr_nostruct: expr_nostruct '(' maybe_exprs ')'  */
-#line 1368 "rustgram.y"
+#line 1374 "rustgram.y"
                                                               {  }
-#line 7468 "rustgram.tab.c"
+#line 7469 "rustgram.tab.c"
     break;
 
-  case 627: /* expr_nostruct: '[' vec_expr ']'  */
-#line 1369 "rustgram.y"
-                                                              {  }
-#line 7474 "rustgram.tab.c"
+  case 627: /* expr_nostruct: LEFTBRACKET vec_expr ']'  */
+#line 1375 "rustgram.y"
+                                                                      {  }
+#line 7475 "rustgram.tab.c"
     break;
 
   case 628: /* expr_nostruct: '(' maybe_exprs ')'  */
-#line 1370 "rustgram.y"
+#line 1376 "rustgram.y"
                                                               {  }
-#line 7480 "rustgram.tab.c"
+#line 7481 "rustgram.tab.c"
     break;
 
   case 629: /* expr_nostruct: CONTINUE  */
-#line 1371 "rustgram.y"
+#line 1377 "rustgram.y"
                                                               {  }
-#line 7486 "rustgram.tab.c"
+#line 7487 "rustgram.tab.c"
     break;
 
   case 630: /* expr_nostruct: CONTINUE ident  */
-#line 1372 "rustgram.y"
+#line 1378 "rustgram.y"
                                                               {  }
-#line 7492 "rustgram.tab.c"
+#line 7493 "rustgram.tab.c"
     break;
 
   case 631: /* expr_nostruct: RETURN  */
-#line 1373 "rustgram.y"
+#line 1379 "rustgram.y"
                                                               {  }
-#line 7498 "rustgram.tab.c"
+#line 7499 "rustgram.tab.c"
     break;
 
   case 632: /* expr_nostruct: RETURN expr  */
-#line 1374 "rustgram.y"
+#line 1380 "rustgram.y"
                                                               {  }
-#line 7504 "rustgram.tab.c"
+#line 7505 "rustgram.tab.c"
     break;
 
   case 633: /* expr_nostruct: BREAK  */
-#line 1375 "rustgram.y"
+#line 1381 "rustgram.y"
                                                               {  }
-#line 7510 "rustgram.tab.c"
+#line 7511 "rustgram.tab.c"
     break;
 
   case 634: /* expr_nostruct: BREAK ident  */
-#line 1376 "rustgram.y"
+#line 1382 "rustgram.y"
                                                               {  }
-#line 7516 "rustgram.tab.c"
+#line 7517 "rustgram.tab.c"
     break;
 
   case 635: /* expr_nostruct: YIELD  */
-#line 1377 "rustgram.y"
+#line 1383 "rustgram.y"
                                                               {  }
-#line 7522 "rustgram.tab.c"
+#line 7523 "rustgram.tab.c"
     break;
 
   case 636: /* expr_nostruct: YIELD expr  */
-#line 1378 "rustgram.y"
+#line 1384 "rustgram.y"
                                                               {  }
-#line 7528 "rustgram.tab.c"
+#line 7529 "rustgram.tab.c"
     break;
 
   case 637: /* expr_nostruct: expr_nostruct '=' expr_nostruct  */
-#line 1379 "rustgram.y"
+#line 1385 "rustgram.y"
                                                               {  }
-#line 7534 "rustgram.tab.c"
+#line 7535 "rustgram.tab.c"
     break;
 
   case 638: /* expr_nostruct: expr_nostruct SHLEQ expr_nostruct  */
-#line 1380 "rustgram.y"
+#line 1386 "rustgram.y"
                                                               {  }
-#line 7540 "rustgram.tab.c"
+#line 7541 "rustgram.tab.c"
     break;
 
   case 639: /* expr_nostruct: expr_nostruct SHREQ expr_nostruct  */
-#line 1381 "rustgram.y"
+#line 1387 "rustgram.y"
                                                               {  }
-#line 7546 "rustgram.tab.c"
+#line 7547 "rustgram.tab.c"
     break;
 
   case 640: /* expr_nostruct: expr_nostruct MINUSEQ expr_nostruct  */
-#line 1382 "rustgram.y"
+#line 1388 "rustgram.y"
                                                               {  }
-#line 7552 "rustgram.tab.c"
+#line 7553 "rustgram.tab.c"
     break;
 
   case 641: /* expr_nostruct: expr_nostruct ANDEQ expr_nostruct  */
-#line 1383 "rustgram.y"
+#line 1389 "rustgram.y"
                                                               {  }
-#line 7558 "rustgram.tab.c"
+#line 7559 "rustgram.tab.c"
     break;
 
   case 642: /* expr_nostruct: expr_nostruct OREQ expr_nostruct  */
-#line 1384 "rustgram.y"
+#line 1390 "rustgram.y"
                                                               {  }
-#line 7564 "rustgram.tab.c"
+#line 7565 "rustgram.tab.c"
     break;
 
   case 643: /* expr_nostruct: expr_nostruct PLUSEQ expr_nostruct  */
-#line 1385 "rustgram.y"
+#line 1391 "rustgram.y"
                                                               {  }
-#line 7570 "rustgram.tab.c"
+#line 7571 "rustgram.tab.c"
     break;
 
   case 644: /* expr_nostruct: expr_nostruct STAREQ expr_nostruct  */
-#line 1386 "rustgram.y"
+#line 1392 "rustgram.y"
                                                               {  }
-#line 7576 "rustgram.tab.c"
+#line 7577 "rustgram.tab.c"
     break;
 
   case 645: /* expr_nostruct: expr_nostruct SLASHEQ expr_nostruct  */
-#line 1387 "rustgram.y"
+#line 1393 "rustgram.y"
                                                               {  }
-#line 7582 "rustgram.tab.c"
+#line 7583 "rustgram.tab.c"
     break;
 
   case 646: /* expr_nostruct: expr_nostruct CARETEQ expr_nostruct  */
-#line 1388 "rustgram.y"
+#line 1394 "rustgram.y"
                                                               {  }
-#line 7588 "rustgram.tab.c"
+#line 7589 "rustgram.tab.c"
     break;
 
   case 647: /* expr_nostruct: expr_nostruct PERCENTEQ expr_nostruct  */
-#line 1389 "rustgram.y"
+#line 1395 "rustgram.y"
                                                               {  }
-#line 7594 "rustgram.tab.c"
+#line 7595 "rustgram.tab.c"
     break;
 
   case 648: /* expr_nostruct: expr_nostruct OROR expr_nostruct  */
-#line 1390 "rustgram.y"
+#line 1396 "rustgram.y"
                                                               {  }
-#line 7600 "rustgram.tab.c"
+#line 7601 "rustgram.tab.c"
     break;
 
   case 649: /* expr_nostruct: expr_nostruct ANDAND expr_nostruct  */
-#line 1391 "rustgram.y"
+#line 1397 "rustgram.y"
                                                               {  }
-#line 7606 "rustgram.tab.c"
+#line 7607 "rustgram.tab.c"
     break;
 
   case 650: /* expr_nostruct: expr_nostruct EQEQ expr_nostruct  */
-#line 1392 "rustgram.y"
+#line 1398 "rustgram.y"
                                                               {  }
-#line 7612 "rustgram.tab.c"
+#line 7613 "rustgram.tab.c"
     break;
 
   case 651: /* expr_nostruct: expr_nostruct NE expr_nostruct  */
-#line 1393 "rustgram.y"
+#line 1399 "rustgram.y"
                                                               {  }
-#line 7618 "rustgram.tab.c"
+#line 7619 "rustgram.tab.c"
     break;
 
   case 652: /* expr_nostruct: expr_nostruct '<' expr_nostruct  */
-#line 1394 "rustgram.y"
+#line 1400 "rustgram.y"
                                                               {  }
-#line 7624 "rustgram.tab.c"
+#line 7625 "rustgram.tab.c"
     break;
 
   case 653: /* expr_nostruct: expr_nostruct '>' expr_nostruct  */
-#line 1395 "rustgram.y"
+#line 1401 "rustgram.y"
                                                               {  }
-#line 7630 "rustgram.tab.c"
+#line 7631 "rustgram.tab.c"
     break;
 
   case 654: /* expr_nostruct: expr_nostruct LE expr_nostruct  */
-#line 1396 "rustgram.y"
+#line 1402 "rustgram.y"
                                                               {  }
-#line 7636 "rustgram.tab.c"
+#line 7637 "rustgram.tab.c"
     break;
 
   case 655: /* expr_nostruct: expr_nostruct GE expr_nostruct  */
-#line 1397 "rustgram.y"
+#line 1403 "rustgram.y"
                                                               {  }
-#line 7642 "rustgram.tab.c"
+#line 7643 "rustgram.tab.c"
     break;
 
   case 656: /* expr_nostruct: expr_nostruct '|' expr_nostruct  */
-#line 1398 "rustgram.y"
+#line 1404 "rustgram.y"
                                                               {  }
-#line 7648 "rustgram.tab.c"
+#line 7649 "rustgram.tab.c"
     break;
 
   case 657: /* expr_nostruct: expr_nostruct '^' expr_nostruct  */
-#line 1399 "rustgram.y"
+#line 1405 "rustgram.y"
                                                               {  }
-#line 7654 "rustgram.tab.c"
+#line 7655 "rustgram.tab.c"
     break;
 
   case 658: /* expr_nostruct: expr_nostruct '&' expr_nostruct  */
-#line 1400 "rustgram.y"
+#line 1406 "rustgram.y"
                                                               {  }
-#line 7660 "rustgram.tab.c"
+#line 7661 "rustgram.tab.c"
     break;
 
   case 659: /* expr_nostruct: expr_nostruct SHL expr_nostruct  */
-#line 1401 "rustgram.y"
+#line 1407 "rustgram.y"
                                                               {  }
-#line 7666 "rustgram.tab.c"
+#line 7667 "rustgram.tab.c"
     break;
 
   case 660: /* expr_nostruct: expr_nostruct SHR expr_nostruct  */
-#line 1402 "rustgram.y"
+#line 1408 "rustgram.y"
                                                               {  }
-#line 7672 "rustgram.tab.c"
+#line 7673 "rustgram.tab.c"
     break;
 
   case 661: /* expr_nostruct: expr_nostruct '+' expr_nostruct  */
-#line 1403 "rustgram.y"
+#line 1409 "rustgram.y"
                                                               {  }
-#line 7678 "rustgram.tab.c"
+#line 7679 "rustgram.tab.c"
     break;
 
   case 662: /* expr_nostruct: expr_nostruct '-' expr_nostruct  */
-#line 1404 "rustgram.y"
+#line 1410 "rustgram.y"
                                                               {  }
-#line 7684 "rustgram.tab.c"
+#line 7685 "rustgram.tab.c"
     break;
 
   case 663: /* expr_nostruct: expr_nostruct '*' expr_nostruct  */
-#line 1405 "rustgram.y"
+#line 1411 "rustgram.y"
                                                               {  }
-#line 7690 "rustgram.tab.c"
+#line 7691 "rustgram.tab.c"
     break;
 
   case 664: /* expr_nostruct: expr_nostruct '/' expr_nostruct  */
-#line 1406 "rustgram.y"
+#line 1412 "rustgram.y"
                                                               {  }
-#line 7696 "rustgram.tab.c"
+#line 7697 "rustgram.tab.c"
     break;
 
   case 665: /* expr_nostruct: expr_nostruct '%' expr_nostruct  */
-#line 1407 "rustgram.y"
+#line 1413 "rustgram.y"
                                                               {  }
-#line 7702 "rustgram.tab.c"
+#line 7703 "rustgram.tab.c"
     break;
 
   case 666: /* expr_nostruct: expr_nostruct DOTDOT  */
-#line 1408 "rustgram.y"
+#line 1414 "rustgram.y"
                                                               {  }
-#line 7708 "rustgram.tab.c"
+#line 7709 "rustgram.tab.c"
     break;
 
   case 667: /* expr_nostruct: expr_nostruct DOTDOT expr_nostruct  */
-#line 1409 "rustgram.y"
+#line 1415 "rustgram.y"
                                                               {  }
-#line 7714 "rustgram.tab.c"
+#line 7715 "rustgram.tab.c"
     break;
 
   case 668: /* expr_nostruct: DOTDOT expr_nostruct  */
-#line 1410 "rustgram.y"
+#line 1416 "rustgram.y"
                                                               {  }
-#line 7720 "rustgram.tab.c"
+#line 7721 "rustgram.tab.c"
     break;
 
   case 669: /* expr_nostruct: DOTDOT  */
-#line 1411 "rustgram.y"
+#line 1417 "rustgram.y"
                                                               {  }
-#line 7726 "rustgram.tab.c"
+#line 7727 "rustgram.tab.c"
     break;
 
   case 670: /* expr_nostruct: expr_nostruct AS ty  */
-#line 1412 "rustgram.y"
+#line 1418 "rustgram.y"
                                                               {  }
-#line 7732 "rustgram.tab.c"
+#line 7733 "rustgram.tab.c"
     break;
 
   case 671: /* expr_nostruct: expr_nostruct ':' ty  */
-#line 1413 "rustgram.y"
+#line 1419 "rustgram.y"
                                                               {  }
-#line 7738 "rustgram.tab.c"
+#line 7739 "rustgram.tab.c"
     break;
 
   case 672: /* expr_nostruct: BOX expr  */
-#line 1414 "rustgram.y"
+#line 1420 "rustgram.y"
                                                               {  }
-#line 7744 "rustgram.tab.c"
+#line 7745 "rustgram.tab.c"
     break;
 
   case 677: /* nonblock_prefix_expr_nostruct: '-' expr_nostruct  */
-#line 1421 "rustgram.y"
+#line 1427 "rustgram.y"
                                                                           {  }
-#line 7750 "rustgram.tab.c"
+#line 7751 "rustgram.tab.c"
     break;
 
   case 678: /* nonblock_prefix_expr_nostruct: '!' expr_nostruct  */
-#line 1422 "rustgram.y"
+#line 1428 "rustgram.y"
                                                     {  }
-#line 7756 "rustgram.tab.c"
+#line 7757 "rustgram.tab.c"
     break;
 
   case 679: /* nonblock_prefix_expr_nostruct: '*' expr_nostruct  */
-#line 1423 "rustgram.y"
+#line 1429 "rustgram.y"
                                                     {  }
-#line 7762 "rustgram.tab.c"
+#line 7763 "rustgram.tab.c"
     break;
 
   case 680: /* nonblock_prefix_expr_nostruct: '&' maybe_mut expr_nostruct  */
-#line 1424 "rustgram.y"
+#line 1430 "rustgram.y"
                                                     {  }
-#line 7768 "rustgram.tab.c"
+#line 7769 "rustgram.tab.c"
     break;
 
   case 681: /* nonblock_prefix_expr_nostruct: ANDAND maybe_mut expr_nostruct  */
-#line 1425 "rustgram.y"
+#line 1431 "rustgram.y"
                                                     {  }
-#line 7774 "rustgram.tab.c"
+#line 7775 "rustgram.tab.c"
     break;
 
   case 683: /* nonblock_prefix_expr_nostruct: MOVE lambda_expr_nostruct  */
-#line 1427 "rustgram.y"
+#line 1433 "rustgram.y"
                                                     {  }
-#line 7780 "rustgram.tab.c"
+#line 7781 "rustgram.tab.c"
     break;
 
   case 684: /* nonblock_prefix_expr: '-' expr  */
-#line 1430 "rustgram.y"
+#line 1436 "rustgram.y"
                                                         {  }
-#line 7786 "rustgram.tab.c"
+#line 7787 "rustgram.tab.c"
     break;
 
   case 685: /* nonblock_prefix_expr: '!' expr  */
-#line 1431 "rustgram.y"
+#line 1437 "rustgram.y"
                                            {  }
-#line 7792 "rustgram.tab.c"
+#line 7793 "rustgram.tab.c"
     break;
 
   case 686: /* nonblock_prefix_expr: '*' expr  */
-#line 1432 "rustgram.y"
+#line 1438 "rustgram.y"
                                            {  }
-#line 7798 "rustgram.tab.c"
+#line 7799 "rustgram.tab.c"
     break;
 
   case 687: /* nonblock_prefix_expr: '&' maybe_mut expr  */
-#line 1433 "rustgram.y"
+#line 1439 "rustgram.y"
                                            {  }
-#line 7804 "rustgram.tab.c"
+#line 7805 "rustgram.tab.c"
     break;
 
   case 688: /* nonblock_prefix_expr: ANDAND maybe_mut expr  */
-#line 1434 "rustgram.y"
+#line 1440 "rustgram.y"
                                            {  }
-#line 7810 "rustgram.tab.c"
+#line 7811 "rustgram.tab.c"
     break;
 
   case 690: /* nonblock_prefix_expr: MOVE lambda_expr  */
-#line 1436 "rustgram.y"
+#line 1442 "rustgram.y"
                                            {  }
-#line 7816 "rustgram.tab.c"
+#line 7817 "rustgram.tab.c"
     break;
 
   case 691: /* expr_qualified_path: '<' ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_qpath_params  */
-#line 1440 "rustgram.y"
+#line 1446 "rustgram.y"
                                           {
   
           }
-#line 7824 "rustgram.tab.c"
+#line 7825 "rustgram.tab.c"
     break;
 
   case 692: /* expr_qualified_path: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 1444 "rustgram.y"
+#line 1450 "rustgram.y"
                                                {
 
           }
-#line 7832 "rustgram.tab.c"
+#line 7833 "rustgram.tab.c"
     break;
 
   case 693: /* expr_qualified_path: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident generic_args maybe_as_trait_ref '>' MOD_SEP ident  */
-#line 1448 "rustgram.y"
+#line 1454 "rustgram.y"
                                                             {
   
           }
-#line 7840 "rustgram.tab.c"
+#line 7841 "rustgram.tab.c"
     break;
 
   case 694: /* expr_qualified_path: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident maybe_as_trait_ref '>' MOD_SEP ident generic_args  */
-#line 1452 "rustgram.y"
+#line 1458 "rustgram.y"
                                                             {
 
           }
-#line 7848 "rustgram.tab.c"
+#line 7849 "rustgram.tab.c"
     break;
 
   case 695: /* expr_qualified_path: SHL ty_sum maybe_as_trait_ref '>' MOD_SEP ident generic_args maybe_as_trait_ref '>' MOD_SEP ident generic_args  */
-#line 1456 "rustgram.y"
+#line 1462 "rustgram.y"
                                                                          {
   
           }
-#line 7856 "rustgram.tab.c"
+#line 7857 "rustgram.tab.c"
     break;
 
   case 696: /* maybe_qpath_params: MOD_SEP generic_args  */
-#line 1461 "rustgram.y"
+#line 1467 "rustgram.y"
                                           {  }
-#line 7862 "rustgram.tab.c"
+#line 7863 "rustgram.tab.c"
     break;
 
   case 697: /* maybe_qpath_params: %empty  */
-#line 1462 "rustgram.y"
+#line 1468 "rustgram.y"
                                {  }
-#line 7868 "rustgram.tab.c"
+#line 7869 "rustgram.tab.c"
     break;
 
   case 698: /* maybe_as_trait_ref: AS trait_ref  */
-#line 1465 "rustgram.y"
+#line 1471 "rustgram.y"
                                   {  }
-#line 7874 "rustgram.tab.c"
+#line 7875 "rustgram.tab.c"
     break;
 
   case 699: /* maybe_as_trait_ref: %empty  */
-#line 1466 "rustgram.y"
+#line 1472 "rustgram.y"
                        {  }
-#line 7880 "rustgram.tab.c"
+#line 7881 "rustgram.tab.c"
     break;
 
   case 700: /* lambda_expr: OROR ret_ty expr  */
-#line 1469 "rustgram.y"
+#line 1475 "rustgram.y"
                                                                      {  }
-#line 7886 "rustgram.tab.c"
+#line 7887 "rustgram.tab.c"
     break;
 
   case 701: /* lambda_expr: '|' '|' ret_ty expr  */
-#line 1470 "rustgram.y"
+#line 1476 "rustgram.y"
                                                                      {  }
-#line 7892 "rustgram.tab.c"
+#line 7893 "rustgram.tab.c"
     break;
 
   case 702: /* lambda_expr: '|' inferrable_params '|' ret_ty expr  */
-#line 1471 "rustgram.y"
+#line 1477 "rustgram.y"
                                                                      {  }
-#line 7898 "rustgram.tab.c"
+#line 7899 "rustgram.tab.c"
     break;
 
   case 703: /* lambda_expr: '|' inferrable_params OROR lambda_expr_no_first_bar  */
-#line 1472 "rustgram.y"
+#line 1478 "rustgram.y"
                                                                            {  }
-#line 7904 "rustgram.tab.c"
+#line 7905 "rustgram.tab.c"
     break;
 
   case 704: /* lambda_expr_no_first_bar: '|' ret_ty expr  */
-#line 1475 "rustgram.y"
+#line 1481 "rustgram.y"
                                                                        {  }
-#line 7910 "rustgram.tab.c"
+#line 7911 "rustgram.tab.c"
     break;
 
   case 705: /* lambda_expr_no_first_bar: inferrable_params '|' ret_ty expr  */
-#line 1476 "rustgram.y"
+#line 1482 "rustgram.y"
                                                                        {  }
-#line 7916 "rustgram.tab.c"
+#line 7917 "rustgram.tab.c"
     break;
 
   case 706: /* lambda_expr_no_first_bar: inferrable_params OROR lambda_expr_no_first_bar  */
-#line 1477 "rustgram.y"
+#line 1483 "rustgram.y"
                                                                        {  }
-#line 7922 "rustgram.tab.c"
+#line 7923 "rustgram.tab.c"
     break;
 
   case 707: /* lambda_expr_nostruct: OROR expr_nostruct  */
-#line 1480 "rustgram.y"
+#line 1486 "rustgram.y"
                                                                        {  }
-#line 7928 "rustgram.tab.c"
+#line 7929 "rustgram.tab.c"
     break;
 
   case 708: /* lambda_expr_nostruct: '|' '|' ret_ty expr_nostruct  */
-#line 1481 "rustgram.y"
+#line 1487 "rustgram.y"
                                                                        {  }
-#line 7934 "rustgram.tab.c"
+#line 7935 "rustgram.tab.c"
     break;
 
   case 709: /* lambda_expr_nostruct: '|' inferrable_params '|' expr_nostruct  */
-#line 1482 "rustgram.y"
+#line 1488 "rustgram.y"
                                                                        {  }
-#line 7940 "rustgram.tab.c"
+#line 7941 "rustgram.tab.c"
     break;
 
   case 710: /* lambda_expr_nostruct: '|' inferrable_params OROR lambda_expr_nostruct_no_first_bar  */
-#line 1484 "rustgram.y"
+#line 1490 "rustgram.y"
                                             {  }
-#line 7946 "rustgram.tab.c"
+#line 7947 "rustgram.tab.c"
     break;
 
   case 711: /* lambda_expr_nostruct_no_first_bar: '|' ret_ty expr_nostruct  */
-#line 1487 "rustgram.y"
+#line 1493 "rustgram.y"
                                                                           {  }
-#line 7952 "rustgram.tab.c"
+#line 7953 "rustgram.tab.c"
     break;
 
   case 712: /* lambda_expr_nostruct_no_first_bar: inferrable_params '|' ret_ty expr_nostruct  */
-#line 1488 "rustgram.y"
+#line 1494 "rustgram.y"
                                                                           {  }
-#line 7958 "rustgram.tab.c"
+#line 7959 "rustgram.tab.c"
     break;
 
   case 713: /* lambda_expr_nostruct_no_first_bar: inferrable_params OROR lambda_expr_nostruct_no_first_bar  */
-#line 1490 "rustgram.y"
+#line 1496 "rustgram.y"
                                             {  }
-#line 7964 "rustgram.tab.c"
+#line 7965 "rustgram.tab.c"
     break;
 
   case 715: /* vec_expr: exprs ';' expr  */
-#line 1494 "rustgram.y"
+#line 1500 "rustgram.y"
                          {  }
-#line 7970 "rustgram.tab.c"
+#line 7971 "rustgram.tab.c"
     break;
 
   case 718: /* struct_expr_fields: maybe_field_inits default_field_init  */
-#line 1499 "rustgram.y"
+#line 1505 "rustgram.y"
                                                {  }
-#line 7976 "rustgram.tab.c"
+#line 7977 "rustgram.tab.c"
     break;
 
   case 719: /* struct_expr_fields: %empty  */
-#line 1500 "rustgram.y"
+#line 1506 "rustgram.y"
                                                {  }
-#line 7982 "rustgram.tab.c"
+#line 7983 "rustgram.tab.c"
     break;
 
   case 722: /* maybe_field_inits: %empty  */
-#line 1505 "rustgram.y"
+#line 1511 "rustgram.y"
                  {  }
-#line 7988 "rustgram.tab.c"
+#line 7989 "rustgram.tab.c"
     break;
 
   case 723: /* field_inits: field_init  */
-#line 1508 "rustgram.y"
+#line 1514 "rustgram.y"
                                          {  }
-#line 7994 "rustgram.tab.c"
+#line 7995 "rustgram.tab.c"
     break;
 
   case 724: /* field_inits: field_inits ',' field_init  */
-#line 1509 "rustgram.y"
+#line 1515 "rustgram.y"
                                      {  }
-#line 8000 "rustgram.tab.c"
+#line 8001 "rustgram.tab.c"
     break;
 
   case 725: /* field_init: ident  */
-#line 1512 "rustgram.y"
+#line 1518 "rustgram.y"
                                   {  }
-#line 8006 "rustgram.tab.c"
+#line 8007 "rustgram.tab.c"
     break;
 
   case 726: /* field_init: ident ':' expr  */
-#line 1513 "rustgram.y"
+#line 1519 "rustgram.y"
                                {  }
-#line 8012 "rustgram.tab.c"
+#line 8013 "rustgram.tab.c"
     break;
 
   case 727: /* field_init: LIT_INTEGER ':' expr  */
-#line 1514 "rustgram.y"
+#line 1520 "rustgram.y"
                                {  }
-#line 8018 "rustgram.tab.c"
+#line 8019 "rustgram.tab.c"
     break;
 
   case 728: /* default_field_init: DOTDOT expr  */
-#line 1517 "rustgram.y"
+#line 1523 "rustgram.y"
                                    {  }
-#line 8024 "rustgram.tab.c"
+#line 8025 "rustgram.tab.c"
     break;
 
   case 736: /* block_expr: UNSAFE block  */
-#line 1527 "rustgram.y"
+#line 1533 "rustgram.y"
                                                                  {  }
-#line 8030 "rustgram.tab.c"
+#line 8031 "rustgram.tab.c"
     break;
 
   case 737: /* block_expr: path_expr '!' maybe_ident braces_delimited_token_trees  */
-#line 1528 "rustgram.y"
+#line 1534 "rustgram.y"
                                                                  {  }
-#line 8036 "rustgram.tab.c"
+#line 8037 "rustgram.tab.c"
     break;
 
   case 740: /* block_expr_dot: block_expr '.' path_generic_args_with_colons  */
-#line 1535 "rustgram.y"
+#line 1541 "rustgram.y"
                                                                           {  }
-#line 8042 "rustgram.tab.c"
+#line 8043 "rustgram.tab.c"
     break;
 
   case 741: /* block_expr_dot: block_expr_dot '.' path_generic_args_with_colons  */
-#line 1536 "rustgram.y"
+#line 1542 "rustgram.y"
                                                                           {  }
-#line 8048 "rustgram.tab.c"
+#line 8049 "rustgram.tab.c"
     break;
 
-  case 742: /* block_expr_dot: block_expr '.' path_generic_args_with_colons '[' maybe_expr ']'  */
-#line 1537 "rustgram.y"
-                                                                              {
+  case 742: /* block_expr_dot: block_expr '.' path_generic_args_with_colons LEFTBRACKET maybe_expr ']'  */
+#line 1543 "rustgram.y"
+                                                                                      {
           }
-#line 8055 "rustgram.tab.c"
+#line 8056 "rustgram.tab.c"
     break;
 
-  case 743: /* block_expr_dot: block_expr_dot '.' path_generic_args_with_colons '[' maybe_expr ']'  */
-#line 1539 "rustgram.y"
-                                                                              {
+  case 743: /* block_expr_dot: block_expr_dot '.' path_generic_args_with_colons LEFTBRACKET maybe_expr ']'  */
+#line 1545 "rustgram.y"
+                                                                                      {
           }
-#line 8062 "rustgram.tab.c"
+#line 8063 "rustgram.tab.c"
     break;
 
   case 744: /* block_expr_dot: block_expr '.' path_generic_args_with_colons '(' maybe_exprs ')'  */
-#line 1541 "rustgram.y"
+#line 1547 "rustgram.y"
                                                                               {
           }
-#line 8069 "rustgram.tab.c"
+#line 8070 "rustgram.tab.c"
     break;
 
   case 745: /* block_expr_dot: block_expr_dot '.' path_generic_args_with_colons '(' maybe_exprs ')'  */
-#line 1543 "rustgram.y"
+#line 1549 "rustgram.y"
                                                                                {  }
-#line 8075 "rustgram.tab.c"
+#line 8076 "rustgram.tab.c"
     break;
 
   case 746: /* block_expr_dot: block_expr '.' LIT_INTEGER  */
-#line 1544 "rustgram.y"
+#line 1550 "rustgram.y"
                                                                           {  }
-#line 8081 "rustgram.tab.c"
+#line 8082 "rustgram.tab.c"
     break;
 
   case 747: /* block_expr_dot: block_expr_dot '.' LIT_INTEGER  */
-#line 1545 "rustgram.y"
+#line 1551 "rustgram.y"
                                                                           {  }
-#line 8087 "rustgram.tab.c"
+#line 8088 "rustgram.tab.c"
     break;
 
   case 748: /* expr_match: MATCH expr_nostruct '{' '}'  */
-#line 1548 "rustgram.y"
+#line 1554 "rustgram.y"
                                                                           {  }
-#line 8093 "rustgram.tab.c"
+#line 8094 "rustgram.tab.c"
     break;
 
   case 749: /* expr_match: MATCH expr_nostruct '{' match_clauses '}'  */
-#line 1549 "rustgram.y"
+#line 1555 "rustgram.y"
                                                                           {  }
-#line 8099 "rustgram.tab.c"
+#line 8100 "rustgram.tab.c"
     break;
 
   case 750: /* expr_match: MATCH expr_nostruct '{' match_clauses nonblock_match_clause '}'  */
-#line 1550 "rustgram.y"
+#line 1556 "rustgram.y"
                                                                           {  }
-#line 8105 "rustgram.tab.c"
+#line 8106 "rustgram.tab.c"
     break;
 
   case 751: /* expr_match: MATCH expr_nostruct '{' nonblock_match_clause '}'  */
-#line 1551 "rustgram.y"
+#line 1557 "rustgram.y"
                                                                           {  }
-#line 8111 "rustgram.tab.c"
+#line 8112 "rustgram.tab.c"
     break;
 
   case 752: /* match_clauses: match_clause  */
-#line 1554 "rustgram.y"
+#line 1560 "rustgram.y"
                                            {  }
-#line 8117 "rustgram.tab.c"
+#line 8118 "rustgram.tab.c"
     break;
 
   case 753: /* match_clauses: match_clauses match_clause  */
-#line 1555 "rustgram.y"
+#line 1561 "rustgram.y"
                                      {  }
-#line 8123 "rustgram.tab.c"
+#line 8124 "rustgram.tab.c"
     break;
 
   case 757: /* nonblock_match_clause: maybe_outer_attrs pats_or maybe_guard FAT_ARROW nonblock_expr  */
-#line 1564 "rustgram.y"
+#line 1570 "rustgram.y"
                                        {  }
-#line 8129 "rustgram.tab.c"
+#line 8130 "rustgram.tab.c"
     break;
 
   case 758: /* nonblock_match_clause: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr_dot  */
-#line 1565 "rustgram.y"
+#line 1571 "rustgram.y"
                                                                          {  }
-#line 8135 "rustgram.tab.c"
+#line 8136 "rustgram.tab.c"
     break;
 
   case 759: /* block_match_clause: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block  */
-#line 1568 "rustgram.y"
+#line 1574 "rustgram.y"
                                                                            {  }
-#line 8141 "rustgram.tab.c"
+#line 8142 "rustgram.tab.c"
     break;
 
   case 760: /* block_match_clause: maybe_outer_attrs pats_or maybe_guard FAT_ARROW block_expr  */
-#line 1569 "rustgram.y"
+#line 1575 "rustgram.y"
                                                                      {  }
-#line 8147 "rustgram.tab.c"
+#line 8148 "rustgram.tab.c"
     break;
 
   case 761: /* maybe_guard: IF expr_nostruct  */
-#line 1572 "rustgram.y"
+#line 1578 "rustgram.y"
                                          {  }
-#line 8153 "rustgram.tab.c"
+#line 8154 "rustgram.tab.c"
     break;
 
   case 762: /* maybe_guard: %empty  */
-#line 1573 "rustgram.y"
+#line 1579 "rustgram.y"
                                      {  }
-#line 8159 "rustgram.tab.c"
+#line 8160 "rustgram.tab.c"
     break;
 
   case 763: /* expr_if: IF expr_nostruct block  */
-#line 1576 "rustgram.y"
+#line 1582 "rustgram.y"
                                                               {  }
-#line 8165 "rustgram.tab.c"
+#line 8166 "rustgram.tab.c"
     break;
 
   case 764: /* expr_if: IF expr_nostruct block ELSE block_or_if  */
-#line 1577 "rustgram.y"
+#line 1583 "rustgram.y"
                                                               {  }
-#line 8171 "rustgram.tab.c"
+#line 8172 "rustgram.tab.c"
     break;
 
   case 765: /* expr_if_let: IF LET pat '=' expr_nostruct block  */
-#line 1580 "rustgram.y"
+#line 1586 "rustgram.y"
                                                                   {  }
-#line 8177 "rustgram.tab.c"
+#line 8178 "rustgram.tab.c"
     break;
 
   case 766: /* expr_if_let: IF LET pat '=' expr_nostruct block ELSE block_or_if  */
-#line 1581 "rustgram.y"
+#line 1587 "rustgram.y"
                                                               {  }
-#line 8183 "rustgram.tab.c"
+#line 8184 "rustgram.tab.c"
     break;
 
   case 770: /* expr_while: maybe_label WHILE expr_nostruct block  */
-#line 1589 "rustgram.y"
+#line 1595 "rustgram.y"
                                                                  {  }
-#line 8189 "rustgram.tab.c"
+#line 8190 "rustgram.tab.c"
     break;
 
   case 771: /* expr_while_let: maybe_label WHILE LET pat '=' expr_nostruct block  */
-#line 1592 "rustgram.y"
+#line 1598 "rustgram.y"
                                                                      {  }
-#line 8195 "rustgram.tab.c"
+#line 8196 "rustgram.tab.c"
     break;
 
   case 772: /* expr_loop: maybe_label LOOP block  */
-#line 1595 "rustgram.y"
+#line 1601 "rustgram.y"
                                                                 {  }
-#line 8201 "rustgram.tab.c"
+#line 8202 "rustgram.tab.c"
     break;
 
   case 773: /* expr_for: maybe_label FOR pat IN expr_nostruct block  */
-#line 1598 "rustgram.y"
+#line 1604 "rustgram.y"
                                                                {  }
-#line 8207 "rustgram.tab.c"
+#line 8208 "rustgram.tab.c"
     break;
 
   case 775: /* maybe_label: %empty  */
-#line 1602 "rustgram.y"
+#line 1608 "rustgram.y"
                  {  }
-#line 8213 "rustgram.tab.c"
+#line 8214 "rustgram.tab.c"
     break;
 
   case 776: /* let: LET pat maybe_ty_ascription maybe_init_expr ';'  */
-#line 1605 "rustgram.y"
+#line 1611 "rustgram.y"
                                                       {  }
-#line 8219 "rustgram.tab.c"
+#line 8220 "rustgram.tab.c"
     break;
 
   case 777: /* lit: LIT_BYTE  */
-#line 1612 "rustgram.y"
+#line 1618 "rustgram.y"
                                  {  }
-#line 8225 "rustgram.tab.c"
+#line 8226 "rustgram.tab.c"
     break;
 
   case 778: /* lit: LIT_CHAR  */
-#line 1613 "rustgram.y"
+#line 1619 "rustgram.y"
                                  {  }
-#line 8231 "rustgram.tab.c"
+#line 8232 "rustgram.tab.c"
     break;
 
   case 779: /* lit: LIT_INTEGER  */
-#line 1614 "rustgram.y"
+#line 1620 "rustgram.y"
                                  {  }
-#line 8237 "rustgram.tab.c"
+#line 8238 "rustgram.tab.c"
     break;
 
   case 780: /* lit: LIT_FLOAT  */
-#line 1615 "rustgram.y"
+#line 1621 "rustgram.y"
                                  {  }
-#line 8243 "rustgram.tab.c"
+#line 8244 "rustgram.tab.c"
     break;
 
   case 781: /* lit: TRUE  */
-#line 1616 "rustgram.y"
+#line 1622 "rustgram.y"
                                  {  }
-#line 8249 "rustgram.tab.c"
+#line 8250 "rustgram.tab.c"
     break;
 
   case 782: /* lit: FALSE  */
-#line 1617 "rustgram.y"
+#line 1623 "rustgram.y"
                                  {  }
-#line 8255 "rustgram.tab.c"
+#line 8256 "rustgram.tab.c"
     break;
 
   case 784: /* str: LIT_STR  */
-#line 1621 "rustgram.y"
+#line 1627 "rustgram.y"
                                  {  }
-#line 8261 "rustgram.tab.c"
+#line 8262 "rustgram.tab.c"
     break;
 
   case 785: /* str: LIT_STR_RAW  */
-#line 1622 "rustgram.y"
+#line 1628 "rustgram.y"
                                  {  }
-#line 8267 "rustgram.tab.c"
+#line 8268 "rustgram.tab.c"
     break;
 
   case 786: /* str: LIT_BYTE_STR  */
-#line 1623 "rustgram.y"
+#line 1629 "rustgram.y"
                                  {  }
-#line 8273 "rustgram.tab.c"
+#line 8274 "rustgram.tab.c"
     break;
 
   case 787: /* str: LIT_BYTE_STR_RAW  */
-#line 1624 "rustgram.y"
+#line 1630 "rustgram.y"
                                  {  }
-#line 8279 "rustgram.tab.c"
+#line 8280 "rustgram.tab.c"
     break;
 
   case 788: /* maybe_ident: %empty  */
-#line 1627 "rustgram.y"
+#line 1633 "rustgram.y"
                      {  }
-#line 8285 "rustgram.tab.c"
+#line 8286 "rustgram.tab.c"
     break;
 
   case 790: /* ident: IDENT  */
-#line 1631 "rustgram.y"
+#line 1637 "rustgram.y"
                                    {  }
-#line 8291 "rustgram.tab.c"
+#line 8292 "rustgram.tab.c"
     break;
 
   case 791: /* ident: CATCH  */
-#line 1633 "rustgram.y"
+#line 1639 "rustgram.y"
                                      {  }
-#line 8297 "rustgram.tab.c"
+#line 8298 "rustgram.tab.c"
     break;
 
   case 792: /* ident: DEFAULT  */
-#line 1634 "rustgram.y"
+#line 1640 "rustgram.y"
                                      {  }
-#line 8303 "rustgram.tab.c"
+#line 8304 "rustgram.tab.c"
     break;
 
   case 793: /* ident: UNION  */
-#line 1635 "rustgram.y"
+#line 1641 "rustgram.y"
                                      {  }
-#line 8309 "rustgram.tab.c"
+#line 8310 "rustgram.tab.c"
     break;
 
   case 794: /* unpaired_token: SHL  */
-#line 1638 "rustgram.y"
+#line 1644 "rustgram.y"
                                             {  }
-#line 8315 "rustgram.tab.c"
+#line 8316 "rustgram.tab.c"
     break;
 
   case 795: /* unpaired_token: SHR  */
-#line 1639 "rustgram.y"
+#line 1645 "rustgram.y"
                                      {  }
-#line 8321 "rustgram.tab.c"
+#line 8322 "rustgram.tab.c"
     break;
 
   case 796: /* unpaired_token: LE  */
-#line 1640 "rustgram.y"
+#line 1646 "rustgram.y"
                                      {  }
-#line 8327 "rustgram.tab.c"
+#line 8328 "rustgram.tab.c"
     break;
 
   case 797: /* unpaired_token: EQEQ  */
-#line 1641 "rustgram.y"
+#line 1647 "rustgram.y"
                                      {  }
-#line 8333 "rustgram.tab.c"
+#line 8334 "rustgram.tab.c"
     break;
 
   case 798: /* unpaired_token: NE  */
-#line 1642 "rustgram.y"
+#line 1648 "rustgram.y"
                                      {  }
-#line 8339 "rustgram.tab.c"
+#line 8340 "rustgram.tab.c"
     break;
 
   case 799: /* unpaired_token: GE  */
-#line 1643 "rustgram.y"
+#line 1649 "rustgram.y"
                                      {  }
-#line 8345 "rustgram.tab.c"
+#line 8346 "rustgram.tab.c"
     break;
 
   case 800: /* unpaired_token: ANDAND  */
-#line 1644 "rustgram.y"
+#line 1650 "rustgram.y"
                                      {  }
-#line 8351 "rustgram.tab.c"
+#line 8352 "rustgram.tab.c"
     break;
 
   case 801: /* unpaired_token: OROR  */
-#line 1645 "rustgram.y"
+#line 1651 "rustgram.y"
                                      {  }
-#line 8357 "rustgram.tab.c"
+#line 8358 "rustgram.tab.c"
     break;
 
   case 802: /* unpaired_token: LARROW  */
-#line 1646 "rustgram.y"
+#line 1652 "rustgram.y"
                                      {  }
-#line 8363 "rustgram.tab.c"
+#line 8364 "rustgram.tab.c"
     break;
 
   case 803: /* unpaired_token: SHLEQ  */
-#line 1647 "rustgram.y"
+#line 1653 "rustgram.y"
                                      {  }
-#line 8369 "rustgram.tab.c"
+#line 8370 "rustgram.tab.c"
     break;
 
   case 804: /* unpaired_token: SHREQ  */
-#line 1648 "rustgram.y"
+#line 1654 "rustgram.y"
                                      {  }
-#line 8375 "rustgram.tab.c"
+#line 8376 "rustgram.tab.c"
     break;
 
   case 805: /* unpaired_token: MINUSEQ  */
-#line 1649 "rustgram.y"
+#line 1655 "rustgram.y"
                                      {  }
-#line 8381 "rustgram.tab.c"
+#line 8382 "rustgram.tab.c"
     break;
 
   case 806: /* unpaired_token: ANDEQ  */
-#line 1650 "rustgram.y"
+#line 1656 "rustgram.y"
                                      {  }
-#line 8387 "rustgram.tab.c"
+#line 8388 "rustgram.tab.c"
     break;
 
   case 807: /* unpaired_token: OREQ  */
-#line 1651 "rustgram.y"
+#line 1657 "rustgram.y"
                                      {  }
-#line 8393 "rustgram.tab.c"
+#line 8394 "rustgram.tab.c"
     break;
 
   case 808: /* unpaired_token: PLUSEQ  */
-#line 1652 "rustgram.y"
+#line 1658 "rustgram.y"
                                      {  }
-#line 8399 "rustgram.tab.c"
+#line 8400 "rustgram.tab.c"
     break;
 
   case 809: /* unpaired_token: STAREQ  */
-#line 1653 "rustgram.y"
+#line 1659 "rustgram.y"
                                      {  }
-#line 8405 "rustgram.tab.c"
+#line 8406 "rustgram.tab.c"
     break;
 
   case 810: /* unpaired_token: SLASHEQ  */
-#line 1654 "rustgram.y"
+#line 1660 "rustgram.y"
                                      {  }
-#line 8411 "rustgram.tab.c"
+#line 8412 "rustgram.tab.c"
     break;
 
   case 811: /* unpaired_token: CARETEQ  */
-#line 1655 "rustgram.y"
+#line 1661 "rustgram.y"
                                      {  }
-#line 8417 "rustgram.tab.c"
+#line 8418 "rustgram.tab.c"
     break;
 
   case 812: /* unpaired_token: PERCENTEQ  */
-#line 1656 "rustgram.y"
+#line 1662 "rustgram.y"
                                      {  }
-#line 8423 "rustgram.tab.c"
+#line 8424 "rustgram.tab.c"
     break;
 
   case 813: /* unpaired_token: DOTDOT  */
-#line 1657 "rustgram.y"
+#line 1663 "rustgram.y"
                                      {  }
-#line 8429 "rustgram.tab.c"
+#line 8430 "rustgram.tab.c"
     break;
 
   case 814: /* unpaired_token: DOTDOTDOT  */
-#line 1658 "rustgram.y"
+#line 1664 "rustgram.y"
                                      {  }
-#line 8435 "rustgram.tab.c"
+#line 8436 "rustgram.tab.c"
     break;
 
   case 815: /* unpaired_token: MOD_SEP  */
-#line 1659 "rustgram.y"
+#line 1665 "rustgram.y"
                                      {  }
-#line 8441 "rustgram.tab.c"
+#line 8442 "rustgram.tab.c"
     break;
 
   case 816: /* unpaired_token: RARROW  */
-#line 1660 "rustgram.y"
+#line 1666 "rustgram.y"
                                      {  }
-#line 8447 "rustgram.tab.c"
+#line 8448 "rustgram.tab.c"
     break;
 
   case 817: /* unpaired_token: FAT_ARROW  */
-#line 1661 "rustgram.y"
+#line 1667 "rustgram.y"
                                      {  }
-#line 8453 "rustgram.tab.c"
+#line 8454 "rustgram.tab.c"
     break;
 
   case 818: /* unpaired_token: LIT_BYTE  */
-#line 1662 "rustgram.y"
+#line 1668 "rustgram.y"
                                      {  }
-#line 8459 "rustgram.tab.c"
+#line 8460 "rustgram.tab.c"
     break;
 
   case 819: /* unpaired_token: LIT_CHAR  */
-#line 1663 "rustgram.y"
+#line 1669 "rustgram.y"
                                      {  }
-#line 8465 "rustgram.tab.c"
+#line 8466 "rustgram.tab.c"
     break;
 
   case 820: /* unpaired_token: LIT_INTEGER  */
-#line 1664 "rustgram.y"
+#line 1670 "rustgram.y"
                                      {  }
-#line 8471 "rustgram.tab.c"
+#line 8472 "rustgram.tab.c"
     break;
 
   case 821: /* unpaired_token: LIT_FLOAT  */
-#line 1665 "rustgram.y"
+#line 1671 "rustgram.y"
                                      {  }
-#line 8477 "rustgram.tab.c"
+#line 8478 "rustgram.tab.c"
     break;
 
   case 822: /* unpaired_token: LIT_STR  */
-#line 1666 "rustgram.y"
+#line 1672 "rustgram.y"
                                      {  }
-#line 8483 "rustgram.tab.c"
+#line 8484 "rustgram.tab.c"
     break;
 
   case 823: /* unpaired_token: LIT_STR_RAW  */
-#line 1667 "rustgram.y"
+#line 1673 "rustgram.y"
                                      {  }
-#line 8489 "rustgram.tab.c"
+#line 8490 "rustgram.tab.c"
     break;
 
   case 824: /* unpaired_token: LIT_BYTE_STR  */
-#line 1668 "rustgram.y"
+#line 1674 "rustgram.y"
                                      {  }
-#line 8495 "rustgram.tab.c"
+#line 8496 "rustgram.tab.c"
     break;
 
   case 825: /* unpaired_token: LIT_BYTE_STR_RAW  */
-#line 1669 "rustgram.y"
+#line 1675 "rustgram.y"
                                      {  }
-#line 8501 "rustgram.tab.c"
+#line 8502 "rustgram.tab.c"
     break;
 
   case 826: /* unpaired_token: IDENT  */
-#line 1670 "rustgram.y"
+#line 1676 "rustgram.y"
                                      {  }
-#line 8507 "rustgram.tab.c"
+#line 8508 "rustgram.tab.c"
     break;
 
   case 827: /* unpaired_token: UNDERSCORE  */
-#line 1671 "rustgram.y"
+#line 1677 "rustgram.y"
                                      {  }
-#line 8513 "rustgram.tab.c"
+#line 8514 "rustgram.tab.c"
     break;
 
   case 828: /* unpaired_token: LIFETIME  */
-#line 1672 "rustgram.y"
+#line 1678 "rustgram.y"
                                      {  }
-#line 8519 "rustgram.tab.c"
+#line 8520 "rustgram.tab.c"
     break;
 
   case 829: /* unpaired_token: SELF  */
-#line 1673 "rustgram.y"
+#line 1679 "rustgram.y"
                                      {  }
-#line 8525 "rustgram.tab.c"
+#line 8526 "rustgram.tab.c"
     break;
 
   case 830: /* unpaired_token: STATIC  */
-#line 1674 "rustgram.y"
+#line 1680 "rustgram.y"
                                      {  }
-#line 8531 "rustgram.tab.c"
+#line 8532 "rustgram.tab.c"
     break;
 
   case 831: /* unpaired_token: ABSTRACT  */
-#line 1675 "rustgram.y"
+#line 1681 "rustgram.y"
                                      {  }
-#line 8537 "rustgram.tab.c"
+#line 8538 "rustgram.tab.c"
     break;
 
   case 832: /* unpaired_token: ALIGNOF  */
-#line 1676 "rustgram.y"
+#line 1682 "rustgram.y"
                                      {  }
-#line 8543 "rustgram.tab.c"
+#line 8544 "rustgram.tab.c"
     break;
 
   case 833: /* unpaired_token: AS  */
-#line 1677 "rustgram.y"
+#line 1683 "rustgram.y"
                                      {  }
-#line 8549 "rustgram.tab.c"
+#line 8550 "rustgram.tab.c"
     break;
 
   case 834: /* unpaired_token: BECOME  */
-#line 1678 "rustgram.y"
+#line 1684 "rustgram.y"
                                      {  }
-#line 8555 "rustgram.tab.c"
+#line 8556 "rustgram.tab.c"
     break;
 
   case 835: /* unpaired_token: BREAK  */
-#line 1679 "rustgram.y"
+#line 1685 "rustgram.y"
                                      {  }
-#line 8561 "rustgram.tab.c"
+#line 8562 "rustgram.tab.c"
     break;
 
   case 836: /* unpaired_token: CATCH  */
-#line 1680 "rustgram.y"
+#line 1686 "rustgram.y"
                                      {  }
-#line 8567 "rustgram.tab.c"
+#line 8568 "rustgram.tab.c"
     break;
 
   case 837: /* unpaired_token: CRATE  */
-#line 1681 "rustgram.y"
+#line 1687 "rustgram.y"
                                      {  }
-#line 8573 "rustgram.tab.c"
+#line 8574 "rustgram.tab.c"
     break;
 
   case 838: /* unpaired_token: DEFAULT  */
-#line 1682 "rustgram.y"
+#line 1688 "rustgram.y"
                                      {  }
-#line 8579 "rustgram.tab.c"
+#line 8580 "rustgram.tab.c"
     break;
 
   case 839: /* unpaired_token: DO  */
-#line 1683 "rustgram.y"
+#line 1689 "rustgram.y"
                                      {  }
-#line 8585 "rustgram.tab.c"
+#line 8586 "rustgram.tab.c"
     break;
 
   case 840: /* unpaired_token: ELSE  */
-#line 1684 "rustgram.y"
+#line 1690 "rustgram.y"
                                      {  }
-#line 8591 "rustgram.tab.c"
+#line 8592 "rustgram.tab.c"
     break;
 
   case 841: /* unpaired_token: ENUM  */
-#line 1685 "rustgram.y"
+#line 1691 "rustgram.y"
                                      {  }
-#line 8597 "rustgram.tab.c"
+#line 8598 "rustgram.tab.c"
     break;
 
   case 842: /* unpaired_token: EXTERN  */
-#line 1686 "rustgram.y"
+#line 1692 "rustgram.y"
                                      {  }
-#line 8603 "rustgram.tab.c"
+#line 8604 "rustgram.tab.c"
     break;
 
   case 843: /* unpaired_token: FALSE  */
-#line 1687 "rustgram.y"
+#line 1693 "rustgram.y"
                                      {  }
-#line 8609 "rustgram.tab.c"
+#line 8610 "rustgram.tab.c"
     break;
 
   case 844: /* unpaired_token: FINAL  */
-#line 1688 "rustgram.y"
+#line 1694 "rustgram.y"
                                      {  }
-#line 8615 "rustgram.tab.c"
+#line 8616 "rustgram.tab.c"
     break;
 
   case 845: /* unpaired_token: FN  */
-#line 1689 "rustgram.y"
+#line 1695 "rustgram.y"
                                      {  }
-#line 8621 "rustgram.tab.c"
+#line 8622 "rustgram.tab.c"
     break;
 
   case 846: /* unpaired_token: FOR  */
-#line 1690 "rustgram.y"
+#line 1696 "rustgram.y"
                                      {  }
-#line 8627 "rustgram.tab.c"
+#line 8628 "rustgram.tab.c"
     break;
 
   case 847: /* unpaired_token: IF  */
-#line 1691 "rustgram.y"
+#line 1697 "rustgram.y"
                                      {  }
-#line 8633 "rustgram.tab.c"
+#line 8634 "rustgram.tab.c"
     break;
 
   case 848: /* unpaired_token: IMPL  */
-#line 1692 "rustgram.y"
+#line 1698 "rustgram.y"
                                      {  }
-#line 8639 "rustgram.tab.c"
+#line 8640 "rustgram.tab.c"
     break;
 
   case 849: /* unpaired_token: IN  */
-#line 1693 "rustgram.y"
+#line 1699 "rustgram.y"
                                      {  }
-#line 8645 "rustgram.tab.c"
+#line 8646 "rustgram.tab.c"
     break;
 
   case 850: /* unpaired_token: LET  */
-#line 1694 "rustgram.y"
+#line 1700 "rustgram.y"
                                      {  }
-#line 8651 "rustgram.tab.c"
+#line 8652 "rustgram.tab.c"
     break;
 
   case 851: /* unpaired_token: LOOP  */
-#line 1695 "rustgram.y"
+#line 1701 "rustgram.y"
                                      {  }
-#line 8657 "rustgram.tab.c"
+#line 8658 "rustgram.tab.c"
     break;
 
   case 852: /* unpaired_token: MACRO  */
-#line 1696 "rustgram.y"
+#line 1702 "rustgram.y"
                                      {  }
-#line 8663 "rustgram.tab.c"
+#line 8664 "rustgram.tab.c"
     break;
 
   case 853: /* unpaired_token: MATCH  */
-#line 1697 "rustgram.y"
+#line 1703 "rustgram.y"
                                      {  }
-#line 8669 "rustgram.tab.c"
+#line 8670 "rustgram.tab.c"
     break;
 
   case 854: /* unpaired_token: MOD  */
-#line 1698 "rustgram.y"
+#line 1704 "rustgram.y"
                                      {  }
-#line 8675 "rustgram.tab.c"
+#line 8676 "rustgram.tab.c"
     break;
 
   case 855: /* unpaired_token: MOVE  */
-#line 1699 "rustgram.y"
+#line 1705 "rustgram.y"
                                      {  }
-#line 8681 "rustgram.tab.c"
+#line 8682 "rustgram.tab.c"
     break;
 
   case 856: /* unpaired_token: MUT  */
-#line 1700 "rustgram.y"
+#line 1706 "rustgram.y"
                                      {  }
-#line 8687 "rustgram.tab.c"
+#line 8688 "rustgram.tab.c"
     break;
 
   case 857: /* unpaired_token: OFFSETOF  */
-#line 1701 "rustgram.y"
+#line 1707 "rustgram.y"
                                      {  }
-#line 8693 "rustgram.tab.c"
+#line 8694 "rustgram.tab.c"
     break;
 
   case 858: /* unpaired_token: OVERRIDE  */
-#line 1702 "rustgram.y"
+#line 1708 "rustgram.y"
                                      {  }
-#line 8699 "rustgram.tab.c"
+#line 8700 "rustgram.tab.c"
     break;
 
   case 859: /* unpaired_token: PRIV  */
-#line 1703 "rustgram.y"
+#line 1709 "rustgram.y"
                                      {  }
-#line 8705 "rustgram.tab.c"
+#line 8706 "rustgram.tab.c"
     break;
 
   case 860: /* unpaired_token: PUB  */
-#line 1704 "rustgram.y"
+#line 1710 "rustgram.y"
                                      {  }
-#line 8711 "rustgram.tab.c"
+#line 8712 "rustgram.tab.c"
     break;
 
   case 861: /* unpaired_token: PURE  */
-#line 1705 "rustgram.y"
+#line 1711 "rustgram.y"
                                      {  }
-#line 8717 "rustgram.tab.c"
+#line 8718 "rustgram.tab.c"
     break;
 
   case 862: /* unpaired_token: REF  */
-#line 1706 "rustgram.y"
+#line 1712 "rustgram.y"
                                      {  }
-#line 8723 "rustgram.tab.c"
+#line 8724 "rustgram.tab.c"
     break;
 
   case 863: /* unpaired_token: RETURN  */
-#line 1707 "rustgram.y"
+#line 1713 "rustgram.y"
                                      {  }
-#line 8729 "rustgram.tab.c"
+#line 8730 "rustgram.tab.c"
     break;
 
   case 864: /* unpaired_token: STRUCT  */
-#line 1708 "rustgram.y"
+#line 1714 "rustgram.y"
                                      {  }
-#line 8735 "rustgram.tab.c"
+#line 8736 "rustgram.tab.c"
     break;
 
   case 865: /* unpaired_token: SIZEOF  */
-#line 1709 "rustgram.y"
+#line 1715 "rustgram.y"
                                      {  }
-#line 8741 "rustgram.tab.c"
+#line 8742 "rustgram.tab.c"
     break;
 
   case 866: /* unpaired_token: SUPER  */
-#line 1710 "rustgram.y"
+#line 1716 "rustgram.y"
                                      {  }
-#line 8747 "rustgram.tab.c"
+#line 8748 "rustgram.tab.c"
     break;
 
   case 867: /* unpaired_token: TRUE  */
-#line 1711 "rustgram.y"
+#line 1717 "rustgram.y"
                                      {  }
-#line 8753 "rustgram.tab.c"
+#line 8754 "rustgram.tab.c"
     break;
 
   case 868: /* unpaired_token: TRAIT  */
-#line 1712 "rustgram.y"
+#line 1718 "rustgram.y"
                                      {  }
-#line 8759 "rustgram.tab.c"
+#line 8760 "rustgram.tab.c"
     break;
 
   case 869: /* unpaired_token: TYPE  */
-#line 1713 "rustgram.y"
+#line 1719 "rustgram.y"
                                      {  }
-#line 8765 "rustgram.tab.c"
+#line 8766 "rustgram.tab.c"
     break;
 
   case 870: /* unpaired_token: UNION  */
-#line 1714 "rustgram.y"
+#line 1720 "rustgram.y"
                                      {  }
-#line 8771 "rustgram.tab.c"
+#line 8772 "rustgram.tab.c"
     break;
 
   case 871: /* unpaired_token: UNSAFE  */
-#line 1715 "rustgram.y"
+#line 1721 "rustgram.y"
                                      {  }
-#line 8777 "rustgram.tab.c"
+#line 8778 "rustgram.tab.c"
     break;
 
   case 872: /* unpaired_token: UNSIZED  */
-#line 1716 "rustgram.y"
+#line 1722 "rustgram.y"
                                      {  }
-#line 8783 "rustgram.tab.c"
+#line 8784 "rustgram.tab.c"
     break;
 
   case 873: /* unpaired_token: USE  */
-#line 1717 "rustgram.y"
+#line 1723 "rustgram.y"
                                      {  }
-#line 8789 "rustgram.tab.c"
+#line 8790 "rustgram.tab.c"
     break;
 
   case 874: /* unpaired_token: VIRTUAL  */
-#line 1718 "rustgram.y"
+#line 1724 "rustgram.y"
                                      {  }
-#line 8795 "rustgram.tab.c"
+#line 8796 "rustgram.tab.c"
     break;
 
   case 875: /* unpaired_token: WHILE  */
-#line 1719 "rustgram.y"
+#line 1725 "rustgram.y"
                                      {  }
-#line 8801 "rustgram.tab.c"
+#line 8802 "rustgram.tab.c"
     break;
 
   case 876: /* unpaired_token: YIELD  */
-#line 1720 "rustgram.y"
+#line 1726 "rustgram.y"
                                      {  }
-#line 8807 "rustgram.tab.c"
+#line 8808 "rustgram.tab.c"
     break;
 
   case 877: /* unpaired_token: CONTINUE  */
-#line 1721 "rustgram.y"
+#line 1727 "rustgram.y"
                                      {  }
-#line 8813 "rustgram.tab.c"
+#line 8814 "rustgram.tab.c"
     break;
 
   case 878: /* unpaired_token: PROC  */
-#line 1722 "rustgram.y"
+#line 1728 "rustgram.y"
                                      {  }
-#line 8819 "rustgram.tab.c"
+#line 8820 "rustgram.tab.c"
     break;
 
   case 879: /* unpaired_token: BOX  */
-#line 1723 "rustgram.y"
+#line 1729 "rustgram.y"
                                      {  }
-#line 8825 "rustgram.tab.c"
+#line 8826 "rustgram.tab.c"
     break;
 
   case 880: /* unpaired_token: CONST  */
-#line 1724 "rustgram.y"
+#line 1730 "rustgram.y"
                                      {  }
-#line 8831 "rustgram.tab.c"
+#line 8832 "rustgram.tab.c"
     break;
 
   case 881: /* unpaired_token: WHERE  */
-#line 1725 "rustgram.y"
+#line 1731 "rustgram.y"
                                      {  }
-#line 8837 "rustgram.tab.c"
+#line 8838 "rustgram.tab.c"
     break;
 
   case 882: /* unpaired_token: TYPEOF  */
-#line 1726 "rustgram.y"
+#line 1732 "rustgram.y"
                                      {  }
-#line 8843 "rustgram.tab.c"
+#line 8844 "rustgram.tab.c"
     break;
 
   case 883: /* unpaired_token: INNER_DOC_COMMENT  */
-#line 1727 "rustgram.y"
+#line 1733 "rustgram.y"
                                      {  }
-#line 8849 "rustgram.tab.c"
+#line 8850 "rustgram.tab.c"
     break;
 
   case 884: /* unpaired_token: OUTER_DOC_COMMENT  */
-#line 1728 "rustgram.y"
+#line 1734 "rustgram.y"
                                      {  }
-#line 8855 "rustgram.tab.c"
+#line 8856 "rustgram.tab.c"
     break;
 
   case 885: /* unpaired_token: SHEBANG  */
-#line 1729 "rustgram.y"
+#line 1735 "rustgram.y"
                                      {  }
-#line 8861 "rustgram.tab.c"
+#line 8862 "rustgram.tab.c"
     break;
 
   case 886: /* unpaired_token: STATIC_LIFETIME  */
-#line 1730 "rustgram.y"
+#line 1736 "rustgram.y"
                                      {  }
-#line 8867 "rustgram.tab.c"
+#line 8868 "rustgram.tab.c"
     break;
 
   case 887: /* unpaired_token: ';'  */
-#line 1731 "rustgram.y"
+#line 1737 "rustgram.y"
                                      {  }
-#line 8873 "rustgram.tab.c"
+#line 8874 "rustgram.tab.c"
     break;
 
   case 888: /* unpaired_token: ','  */
-#line 1732 "rustgram.y"
+#line 1738 "rustgram.y"
                                      {  }
-#line 8879 "rustgram.tab.c"
+#line 8880 "rustgram.tab.c"
     break;
 
   case 889: /* unpaired_token: '.'  */
-#line 1733 "rustgram.y"
+#line 1739 "rustgram.y"
                                      {  }
-#line 8885 "rustgram.tab.c"
+#line 8886 "rustgram.tab.c"
     break;
 
   case 890: /* unpaired_token: '@'  */
-#line 1734 "rustgram.y"
+#line 1740 "rustgram.y"
                                      {  }
-#line 8891 "rustgram.tab.c"
+#line 8892 "rustgram.tab.c"
     break;
 
   case 891: /* unpaired_token: '#'  */
-#line 1735 "rustgram.y"
+#line 1741 "rustgram.y"
                                      {  }
-#line 8897 "rustgram.tab.c"
+#line 8898 "rustgram.tab.c"
     break;
 
   case 892: /* unpaired_token: '~'  */
-#line 1736 "rustgram.y"
+#line 1742 "rustgram.y"
                                      {  }
-#line 8903 "rustgram.tab.c"
+#line 8904 "rustgram.tab.c"
     break;
 
   case 893: /* unpaired_token: ':'  */
-#line 1737 "rustgram.y"
+#line 1743 "rustgram.y"
                                      {  }
-#line 8909 "rustgram.tab.c"
+#line 8910 "rustgram.tab.c"
     break;
 
   case 894: /* unpaired_token: '$'  */
-#line 1738 "rustgram.y"
+#line 1744 "rustgram.y"
                                      {  }
-#line 8915 "rustgram.tab.c"
+#line 8916 "rustgram.tab.c"
     break;
 
   case 895: /* unpaired_token: '='  */
-#line 1739 "rustgram.y"
+#line 1745 "rustgram.y"
                                      {  }
-#line 8921 "rustgram.tab.c"
+#line 8922 "rustgram.tab.c"
     break;
 
   case 896: /* unpaired_token: '?'  */
-#line 1740 "rustgram.y"
+#line 1746 "rustgram.y"
                                      {  }
-#line 8927 "rustgram.tab.c"
+#line 8928 "rustgram.tab.c"
     break;
 
   case 897: /* unpaired_token: '!'  */
-#line 1741 "rustgram.y"
+#line 1747 "rustgram.y"
                                      {  }
-#line 8933 "rustgram.tab.c"
+#line 8934 "rustgram.tab.c"
     break;
 
   case 898: /* unpaired_token: '<'  */
-#line 1742 "rustgram.y"
+#line 1748 "rustgram.y"
                                      {  }
-#line 8939 "rustgram.tab.c"
+#line 8940 "rustgram.tab.c"
     break;
 
   case 899: /* unpaired_token: '>'  */
-#line 1743 "rustgram.y"
+#line 1749 "rustgram.y"
                                      {  }
-#line 8945 "rustgram.tab.c"
+#line 8946 "rustgram.tab.c"
     break;
 
   case 900: /* unpaired_token: '-'  */
-#line 1744 "rustgram.y"
+#line 1750 "rustgram.y"
                                      {  }
-#line 8951 "rustgram.tab.c"
+#line 8952 "rustgram.tab.c"
     break;
 
   case 901: /* unpaired_token: '&'  */
-#line 1745 "rustgram.y"
+#line 1751 "rustgram.y"
                                      {  }
-#line 8957 "rustgram.tab.c"
+#line 8958 "rustgram.tab.c"
     break;
 
   case 902: /* unpaired_token: '|'  */
-#line 1746 "rustgram.y"
+#line 1752 "rustgram.y"
                                      {  }
-#line 8963 "rustgram.tab.c"
+#line 8964 "rustgram.tab.c"
     break;
 
   case 903: /* unpaired_token: '+'  */
-#line 1747 "rustgram.y"
+#line 1753 "rustgram.y"
                                      {  }
-#line 8969 "rustgram.tab.c"
+#line 8970 "rustgram.tab.c"
     break;
 
   case 904: /* unpaired_token: '*'  */
-#line 1748 "rustgram.y"
+#line 1754 "rustgram.y"
                                      {  }
-#line 8975 "rustgram.tab.c"
+#line 8976 "rustgram.tab.c"
     break;
 
   case 905: /* unpaired_token: '/'  */
-#line 1749 "rustgram.y"
+#line 1755 "rustgram.y"
                                      {  }
-#line 8981 "rustgram.tab.c"
+#line 8982 "rustgram.tab.c"
     break;
 
   case 906: /* unpaired_token: '^'  */
-#line 1750 "rustgram.y"
+#line 1756 "rustgram.y"
                                      {  }
-#line 8987 "rustgram.tab.c"
+#line 8988 "rustgram.tab.c"
     break;
 
   case 907: /* unpaired_token: '%'  */
-#line 1751 "rustgram.y"
+#line 1757 "rustgram.y"
                                      {  }
-#line 8993 "rustgram.tab.c"
+#line 8994 "rustgram.tab.c"
     break;
 
   case 908: /* token_trees: %empty  */
-#line 1754 "rustgram.y"
+#line 1760 "rustgram.y"
                                          {  }
-#line 8999 "rustgram.tab.c"
+#line 9000 "rustgram.tab.c"
     break;
 
   case 909: /* token_trees: token_trees token_tree  */
-#line 1755 "rustgram.y"
+#line 1761 "rustgram.y"
                                      {  }
-#line 9005 "rustgram.tab.c"
+#line 9006 "rustgram.tab.c"
     break;
 
   case 911: /* token_tree: unpaired_token  */
-#line 1759 "rustgram.y"
+#line 1765 "rustgram.y"
                                  {  }
-#line 9011 "rustgram.tab.c"
+#line 9012 "rustgram.tab.c"
     break;
 
   case 915: /* parens_delimited_token_trees: '(' token_trees ')'  */
-#line 1767 "rustgram.y"
+#line 1773 "rustgram.y"
                                                    {
   
         }
-#line 9019 "rustgram.tab.c"
+#line 9020 "rustgram.tab.c"
     break;
 
   case 916: /* braces_delimited_token_trees: '{' token_trees '}'  */
-#line 1772 "rustgram.y"
+#line 1778 "rustgram.y"
                                                    {
   
         }
-#line 9027 "rustgram.tab.c"
+#line 9028 "rustgram.tab.c"
     break;
 
-  case 917: /* brackets_delimited_token_trees: '[' token_trees ']'  */
-#line 1777 "rustgram.y"
-                                                     {
+  case 917: /* brackets_delimited_token_trees: LEFTBRACKET token_trees ']'  */
+#line 1783 "rustgram.y"
+                                                             {
 
         }
-#line 9035 "rustgram.tab.c"
+#line 9036 "rustgram.tab.c"
     break;
 
 
-#line 9039 "rustgram.tab.c"
+#line 9040 "rustgram.tab.c"
 
       default: break;
     }

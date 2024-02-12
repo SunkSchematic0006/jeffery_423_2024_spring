@@ -151,14 +151,24 @@ extern int yydebug;
     LAMBDA = 352,                  /* LAMBDA  */
     SHIFTPLUS = 353,               /* SHIFTPLUS  */
     FORTYPE = 354,                 /* FORTYPE  */
-    RANGE = 355                    /* RANGE  */
+    LEFTBRACKET = 355,             /* LEFTBRACKET  */
+    RANGE = 356                    /* RANGE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 28 "rustgram.y"
+
+struct tree *treeptr;
+
+#line 169 "rustgram.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

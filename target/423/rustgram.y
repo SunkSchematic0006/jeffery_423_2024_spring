@@ -22,7 +22,13 @@
 #define YYSTYPE struct node *
 extern int yylex();
 extern void yyerror(char const *s);
+#include "lab4tree.h"
 %}
+
+%union {
+struct tree *treeptr;
+}
+
 %debug
 
 %token SHL
