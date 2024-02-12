@@ -13,22 +13,28 @@ got Bison and Flex talking together as a syntax checker.
 <ol>
 <li> Add a <code>tree.h</code> file to your project, containing a
     <code>struct</code> definition as per
-    HW#3, or your own preferred superset tree representation. Today's lab
+    HW#3, or your own preferred tree representation. Today's lab
     will be written as if your tree type is
 <pre>
 struct tree {
    int prodrule;
    char *symbolname;
    int nkids;
-   struct tree *kids[9]; /* if nkids &gt;0 */
+   struct tree *kids[10]; /* if nkids &gt;0 */
    struct token *leaf;   /* if nkids == 0; NULL for &epsilon; productions */
 };
 </pre>
 
-Actually, to be honest, you probably want to write a full tree abstract data
-type in a tree.c with functions to create, destroy, and traverse trees.
-Initially for this lab, you will at least need functions to allocate and
-initialize leaves and internal nodes.
+The actual maximum number of children needed depends on your context
+free grammar in your .y file, and possibly whether you represent all
+punctuation tokens in your tree or not. I saw grammar rules with ten
+symbols on the righthand side, but there might be more on some rules.
+<p>
+
+You should write a full tree abstract data type in a tree.c and eventually
+it should provide functions
+to create, destroy, and traverse trees.  Initially for this lab, you will
+need functions to allocate and initialize leaves and internal nodes.
 
 <li> Add <code>#include "tree.h"</code> directives to the header of
      your lex and yacc specifications. Typically this is inside %{ ... %}:
@@ -63,19 +69,19 @@ Once your Bison .y file knows about your tree type, you can add
 }
 </pre>
 
-to the header of your Bison file.
-As shown in lecture #12 or so, adding this %union is one thing, and
-using it in your grammar rules is another; you have to declare all
-your terminal and non-terminal symbols as to what member (in this
-case treeptr) before you can refer to them in actions as $$ or $1 etc.
+to the header of your Bison file.  As shown in lecture #12 or so, adding
+this <code>%union</code> is one thing, and using it in your grammar rules is
+another; you have to declare all your terminal and non-terminal symbols as
+to what member (in this case treeptr) before you can refer to them in
+actions as <code>$$</code> or <code>$1</code> etc.
 
 
 <h4>3. Adding the leaves to your lex </h4>
 
 It is time to make the leaves available to Bison.
-With the %union declared, the output code that Bison writes will
-have a variable named <code>yylval</code> of type YYSTYPE where
-YYSTYPE is the union type given by %union.
+With the <code>%union</code> declared, the output code that Bison writes will
+have a variable named <code>yylval</code> of type <code>YYSTYPE</code> where
+<code>YYSTYPE</code> is the union type given by <code>%union</code>.
 <p>
 
 On each shift action, the parser will copy (push) what is in yylval.treeptr
@@ -93,13 +99,15 @@ already performed a given step here, you may skip forward.
 <pre>
 [0-9]+		{ return ICON; }
 </pre>
-You need to allocate your token inside your yylex() per HW#2 specs.
+You need to allocate your token inside your <code>yylex()</code> per HW#2 specs.
 Something like the following.
 <pre>
 [0-9]+		{ return alctoken(ICON); }
 </pre>
-where alctoken() is a helper function that you write to allocate a token.
-You have to do this (duh) for all the regular expressions that return a token.
+
+where <code>alctoken()</code> is a helper function that you write to
+allocate a token.  You have to do this (duh) for all the regular expressions
+that return a token.
 
 <li> In your code to allocate a token, change it to allocate a leaf that
 contains/wraps that token pointer.  Change
@@ -128,8 +136,9 @@ Note: you may want to write additional helper functions.
 <h4>4. Proving that you've got leaf information </h4>
 
 There are two places where you could insert print statements to prove
-that you have leaf information: from inside the Flex-generated yylex()
-code, and from inside Bison-generated yyparse() code.
+that you have leaf information: from inside the Flex-generated
+<code>yylex()</code>
+code, and from inside Bison-generated <code>yyparse()</code> code.
 
 <ol>
 <li> Write a print function, perhaps printnode(t) that can takes a pointer
@@ -161,7 +170,7 @@ code, and from inside Bison-generated yyparse() code.
 
 Syntax tree construction consists of specifying for every
 production rule in the grammar, what its corresponding syntax tree should
-be, by assigning $$ a value.
+be, by assigning <code>$$</code> a value.
 <p>
 
 <ol>
