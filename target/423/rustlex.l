@@ -19,6 +19,8 @@
 #include <ctype.h>
 #include "rustgram.tab.h"
 
+extern YYSTYPE yylval;
+
 static int num_hashes;
 static int end_hashes;
 static int saw_non_hash;
