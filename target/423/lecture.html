@@ -4045,7 +4045,19 @@ java fec $*
 <br>
 <br>
 
-
+<ul>
+<li>This looks a lot like bra<sup>n</sup>"stuff"b<sup>n</sup> to me.
+<li> While a<sup>n</sup>b<sup>n</sup> is not regular, as per the 342 proof,
+  it is easy to write the regexes for matching any particular n=k.
+<li>
+  I would probably write regexes for n=1, n=2, maybe n=3 and then one
+  pattern that says if you see the start of one with more than 3 pound-signs,
+  just print an error message saying we don't do that, and exit.
+<li>
+  Irony does not need to support all the weird string literal types,
+  but ideally we would recognize them and print a good error message,
+  rather than just let undefined stuff through.
+</ul>
 
 <dt> My compiler is complaining about strdup being missing. What up?
 </dt><dd> It turns out -std=c99 removes strdup() because it is not part of that
@@ -4135,12 +4147,7 @@ an integer return type then the error goes away.
      ask you to resubmit with a lighter penalty.
 </blockquote>
      As a reminder, I do Not grade on a 90/80/70/60 scale.
-</dl>
 
-
-<h3>Old Mailbag</h3>
-
-<dl>
 <!--
 <dt> I haven't been able to find a way to edit the yylex() that's generated
      (in order to semi-colon insertion).
@@ -4457,9 +4464,7 @@ an "else" clause could legally belong to either "if".  The usual rule
 <h3>Mailbag</h3>
 
 <dl>
-<dt> I don't get how to start tree traversal. <A href="lab4.html">Lab #4</A>
-    at the bottom seems
-     to be about that but I can't just paste that into my code.
+<dt> I don't get how to start tree traversal.
 <dd> yyparse() should build a syntax tree, but it returns an integer that
   indicates whether there were parse errors.  You either traverse your
   tree inside yyparse() before it returns (a bit weird) or you traverse
