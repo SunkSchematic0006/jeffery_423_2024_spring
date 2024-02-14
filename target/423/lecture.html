@@ -3979,9 +3979,74 @@ might write:
 <font size="1"> <a name="13">lecture #13</a> began here</font>
 </p><p>
 
+<H3> How to interpret your HW#2 Grade </h3>
+
+<ul>
+<li> This was our "getting more acquainted with Dr. J" homework
+<li> Later homeworks will be weighted heavier
+<li> What was tested is not a complete representation of your work
+<li> I do not grade on a curve
+<li> I do grade you relative to your peers
+<li> I do correct grades when mistakes happen
+<li> ... catch up, persevere, and/or seek more help as needed
+</ul>
+</p>
+
+<!--
+  <h3> Top Issues w/ HW#2 </h3>
+  <ul>
+    <li> you can't just strcat() onto the end of argv[i]
+      <pre>
+int main(int argc, char *argv[]) {
+   for(i=1;i&lt;argc;i++) {
+      char *filename = argv[i];
+      int len = strlen(filename);
+      if ((len &lt; 5) || strcmp(filename+len-5, ".java"))
+          strcat(filename, ".java");
+      yyin = fopen(filename, "r");
+      /* ... rest of compiler */
+   }
+}
+</pre>
+
+<li> 
+
+
+<li> If there are any Java compiler writers, you need to include a fec executable such as
+      <pre>#!/bin/sh
+java fec $*
+</pre>
+</ul>
+-->
+
+
 <h3> Mailbag </h3>
 
 <dl>
+<dt> Does Flex have "matching groups"?
+<dd> No.
+
+<dt>Well, Does Flex have a good way to match Rust strings literals like
+<pre>
+      br##"foo #"# bar"##
+</pre>
+
+<dd> LOL, what do your CSE 342 instincts tell you about having to match
+     an equal number of # signs before and after the double quotes?
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
 <dt> My compiler is complaining about strdup being missing. What up?
 </dt><dd> It turns out -std=c99 removes strdup() because it is not part of that
      standard.  Possibly solutions include: not using -std=c99 when compiling
@@ -4046,37 +4111,6 @@ instead of IDENTIFIER for names that were declared as the names of
 classes.
 
 -->
-</dd></dl>
-
-
-  <h3> Top Issues w/ HW#2 </h3>
-  <ul>
-    <li> you can't just strcat() onto the end of argv[i]
-      <pre>
-int main(int argc, char *argv[]) {
-   for(i=1;i&lt;argc;i++) {
-      char *filename = argv[i];
-      int len = strlen(filename);
-      if ((len &lt; 5) || strcmp(filename+len-5, ".java"))
-          strcat(filename, ".java");
-      yyin = fopen(filename, "r");
-      /* ... rest of compiler */
-   }
-}
-</pre>
-
-<!--
-<li> If there are any Java compiler writers, you need to include a fec executable such as
-      <pre>#!/bin/sh
-java fec $*
-</pre>
--->
-</ul>
-
-
-<h3>Mailbag</h3>
-
-<dl>
 
 <dt> My syntax checker seems to be having some issues on control words such
 as <code>for</code>, <code>while</code>, etc.. Interestingly enough if I
@@ -4103,18 +4137,6 @@ an integer return type then the error goes away.
      As a reminder, I do Not grade on a 90/80/70/60 scale.
 </dl>
 
-<H3> How to interpret your HW#2 Grade </h3>
-
-<ul>
-<li> This was our "getting more acquainted with Dr. J" homework
-<li> Later homeworks will be weighted heavier
-<li> What was tested is not a complete representation of your work
-<li> I do not grade on a curve
-<li> I do grade you relative to your peers
-<li> I do correct grades when mistakes happen
-<li> ... catch up, persevere, and/or seek more help as needed
-</ul>
-</p>
 
 <h3>Old Mailbag</h3>
 
