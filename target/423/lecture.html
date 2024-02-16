@@ -4606,20 +4606,14 @@ overlapping with tokens, so starting at 1000 is not a bad idea.
  
 <dt>
 
-I can't understand how I can correctly make the root tree - how
-do we supposed to start the root in the start symbols?  From what I see,
-there are 3 types of start symbols: single_input, file_input, eval_input. So
-am I supposed to put { $$=alctree(...); root=$$; } to all of them?  Also, do I
-put the { $$=alctree(...); root=$$; } in all different cases (I would call them
-supporting grammar I think?, as in file_input_prime used in file_input) of a
-start symbol, or have to find the right one to put that statement?
+I can't understand how I can correctly make the root of the tree - how
+do we supposed to start the root in the start symbols?
 
 <dd>
   
-In Bison there is really only one start symbol. Python seems to sort of want
-three of them, but for PunY we only have one, and it is file_input.  If
+In Bison there is really only one start symbol. If
 there are multiple production rules that build the start symbol, you would
-assign the root in each of them.  If you assigned to root everywhere, it
+assign the root in each of them.  If you assigned to root everywhere(!), it
 would be silly but OK/harmless in that the last one assigned is probably the
 one that is for the "real" start symbol.
  
@@ -4648,13 +4642,14 @@ ELLIPSIS. However, PunY does not have from...import.
 In some long grammar rules, I'm confused how the OR ( the
 vbar | ) works.  Does it just use the OR on one word before and after the
 vbar?  For example, I have this grammar:
-
+<pre>
 optional_comma_test: ',' test | {  $$=NULL; };
-
+</pre>
 So in which way the parser will understand this?
-
+<pre>
 optional_comma_test:          ( ',' test ) | {  $$=NULL; }     ;
 optional_comma_test:   ','    ( test        | {  $$=NULL; } )      ;
+</pre>
 And should I just put parenthesis in cases like this?
 
 <dd>
@@ -4664,15 +4659,11 @@ start of another production rule, so your interpretation #1 is used without
 need for parentheses. Parentheses are not used in Bison to force precedence.
  
 <dt>
-  
-Must we do exotic grammar rules for things not supported by Irony?
-
-<dd>
-See the answer to question 1.
-
-<dt>
-Should we make tree for optional type of grammar?
-An example is optional_expr: expr | {  $$=NULL; } ;
+Should we make a tree node for optional type of grammar?
+An example is 
+<pre>
+optional_expr: expr | {  $$=NULL; } ;
+</pre>
 
 <dd>
 
@@ -4702,7 +4693,7 @@ How do we make tree for this? (do alctree for the first two statements?)
 And am I doing this correctly at all? I saw your file_input_prime in the lab
 and I just copied the way.
 
-As of typing it right now, I saw 1 of your mailbox’s answer saying to just
+As of typing it right now, I saw 1 of your mailbox's answer saying to just
 make a epsilon leaf node tree for epsilon rule, so if I just do that for all
 grammar rules, will that solves this question?
 
@@ -5028,12 +5019,15 @@ end
 
 <h3> Mailbag </h3>
 <dl>
-  <dt>
 
+<!--
+<dt>
 For our grammar, are we supposed to implement all possible cases of compound
 statements? Is there possibly a simple example for that implementation?
     
-<dd> Well, the supplied Python grammar says the following:
+<dd> 
+
+Well, the supplied Python grammar says the following:
 
 <pre>
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated | async_stmt
@@ -5059,14 +5053,20 @@ This assumes you write a function <code>not_puny(s)</code>
 that prints an error message
 and exits with an error code. Note that PunY handles only a restricted
 subset of some of the substatements' syntax.
+-->
 
+<!--
 <dt> do we need to have lambdas for puny?
 <dd> No, that is not used in 107. It is a Python-not-PunY feature.
+-->
 
+<!--
 <dt> You say we have to do octals, but then you say we don't have to do octals!
       Which is it?
 <dd> I asked the CSE 107 instructor if we have to do octals, and he says no.
+-->
 
+<!--
 <dt> How would we go about implementing the for statements grammar in a way
 that does not use 'in'?
 
@@ -5074,8 +5074,10 @@ that does not use 'in'?
 instructor told me that 107 uses for loops. Now "in" is allowed in PunY, but
 only in the simple supported forms of the for-loop syntax.
 For HW#3 you should go ahead and add support for "in" to your lexical analyser.
+-->
 
-<dt> What do I do with all these grammar rules for things not in PunY, like
+<!--
+<dt> What do I do with all these grammar rules for things not in Irony, like
     the bitwise operators for example?
 
 <dd>In many language grammars, there is a long sequence of non-terminals
@@ -5093,6 +5095,7 @@ errors in the semantic actions for the unsupported operators, or
 remove all these unsupported operators from the grammar, perhaps replacing
 references to non-terminal xor_expr with non-terminal arith_expr, for
 example.
+-->
 
 <dt>
 What do we do with the warning of "nonterminal useless in grammar"?  I'm
@@ -5107,6 +5110,7 @@ it indicates a bug where some production rule is missing or wrong, that
 should have referenced that non-terminal from someplace higher in the
 grammar.
  
+<!--
 <dt>
 There is one useless nonterminal called "func_type_input" in my file (which
 cascading another 6-7 or so of my nonterminals to be deemed useless).
@@ -5118,6 +5122,7 @@ So is this grammar a Python 2 thing? Should I just remove or keep it?
 <dd>
 From what you describe about func_type_input, it seems likely that you can
 live without these nonterminals and can remove them.
+-->
 
 </dl>
 
