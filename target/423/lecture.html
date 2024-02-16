@@ -4597,13 +4597,6 @@ bother with tuples.  How realistic is that for basic Python programming?
 -->
 
 
-<h3>How To Make Labs More Useful and Productive</h3>
-
-<ul>
-<li> Our Wednesday Lab Hour exists in order to help you do homeworks
-<li> I would like to hear any ideas you have about
-     how to make that time more useful for you.
-</ul>
 
 <a name="precedence">
 </a></p><h4><a name="precedence"> YACC precedence and associativity declarations </a></h4><a name="precedence">
@@ -4708,19 +4701,6 @@ place?  Can we use that information to produce a better error message?
   <h3>Mailbag</h3>
 
   <dl>
-<dt> You dinged me a point. You should give it back.
-<dd> If I was incorrect about a grade I will gladly look into it.
-  You may want to post a message on Canvas so it doesn't slip through
-  our fingers.
-
-<dt> You didn't test everything that I did!  I worked hard!
-<dd> My tests will generally be the most obvious CSE 107-type programs I can
-  think of, a pretty tiny sampling of the infinite range of possibilities.
-  If PunY were a research or development project that we planned to release,
-  we'd have to write a lot more tests.  In fact, one or more of you has
-  indicated that you've written more tests, and if you care to share them,
-  I may add them to a standard suite that gets run on each subsequent homework.
-
 <dt>
 
 What do we do with Rust-not-Irony statements? Do we just remove them
@@ -4750,7 +4730,7 @@ overlapping with tokens, so starting at 1000 is not a bad idea.
  
 <dt>
 
-I can't still quite understand how I can correctly make the root tree - how
+I can't understand how I can correctly make the root tree - how
 do we supposed to start the root in the start symbols?  From what I see,
 there are 3 types of start symbols: single_input, file_input, eval_input. So
 am I supposed to put { $$=alctree(...); root=$$; } to all of them?  Also, do I
@@ -4767,6 +4747,7 @@ assign the root in each of them.  If you assigned to root everywhere, it
 would be silly but OK/harmless in that the last one assigned is probably the
 one that is for the "real" start symbol.
  
+<!--
 <dt>
 In this rule in the file:
 <pre>
@@ -4784,10 +4765,11 @@ Yes, Python has a DOT token and it has an ELLIPSIS token. The "from
 ..... import" grammar rule allows an arbitrary number of periods before a
 name, which means it has to allow any number of either DOT or
 ELLIPSIS. However, PunY does not have from...import.
+-->
 
 <dt>
 
-In some long grammars in the punygram.y, I'm a bit confused how the OR ( the
+In some long grammar rules, I'm confused how the OR ( the
 vbar | ) works.  Does it just use the OR on one word before and after the
 vbar?  For example, I have this grammar:
 
