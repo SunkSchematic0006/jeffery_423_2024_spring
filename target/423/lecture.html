@@ -4577,6 +4577,35 @@ concepts of "items" and "sets of items" discussed below.
   <h3>Mailbag</h3>
 
   <dl>
+
+    <dt>
+      
+      I am running into an issue with my grammar when trying to allocate a tree node that uses a precedence rule.  For example, I have a grammar:
+      <pre>
+expr_nostruct: lit {$$ = allocateTree("expr_nostruct", 1, $1); }
+    | %prec IDENT path_expr {$$ = allocateTree("expr_nostruct", 2, $1, $2); }
+	</pre>
+      When I try to build the grammar I get the error:
+<pre>
+[_]image.png
+</pre>
+
+I noticed that if a grammar rule contains a %prec before a terminal symbol,
+Bison does not count it as a node that can be passed into the allocateTree
+function.  Do we just ignore terminal symbols if they contain %prec, or is
+there a way of pulling the information?
+
+      <dd>
+
+Yeah, so <code>%prec XYZ</code> means "apply this rule using the same
+precedence as if you had an XYZ terminal". The %prec and the XYZ are
+not symbols on the stack and do not have $n associated with them, so
+reducing a path_expr to a expr_nostruct with the precedence of an IDENT
+will only have one symbol (path_expr) on the righthand side.  You can
+allocateTree with one child or let the default (<code>{ $$=$1; }</code>)
+take effect.
+
+
 <dt>
 
 What do we do with Rust-not-Irony statements? Do we just remove them
