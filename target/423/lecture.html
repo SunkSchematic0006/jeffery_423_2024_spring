@@ -4574,6 +4574,148 @@ concepts of "items" and "sets of items" discussed below.
 <font size="1"> <a name="14">lecture #14</a> began here</font>
 </p><p>
 
+  <h3>Mailbag</h3>
+
+  <dl>
+<dt>
+
+What do we do with Rust-not-Irony statements? Do we just remove them
+completely from the grammar?
+
+<dd>
+<ul>
+<li>If they use Rust-not-Irony tokens that result in error-exits in the
+lexical analyzer, you may be able to remove the associated grammar rules.
+<li>We don't want to remove them from the grammar if it will cause the
+parser to report a syntax error before it even gets to the illegal token.
+That would cause misleading syntax error messages for such
+Rust-not-Irony constructs.
+<li>If you do remove Rust-not-Irony rules from the grammar,
+save them somewhere and restore them if it turns out that
+misleading premature syntax error messages are a problem.
+</ul>
+<dt>
+
+What should be the value for (int) production rule in alctree()?
+Should I just give it some make-up integer? Like 1004, 1005, 1006,...
+
+<dd>
+
+Yes, you can just make up integer codes, I recommend codes that are not
+overlapping with tokens, so starting at 1000 is not a bad idea.
+ 
+<dt>
+
+I can't understand how I can correctly make the root tree - how
+do we supposed to start the root in the start symbols?  From what I see,
+there are 3 types of start symbols: single_input, file_input, eval_input. So
+am I supposed to put { $$=alctree(...); root=$$; } to all of them?  Also, do I
+put the { $$=alctree(...); root=$$; } in all different cases (I would call them
+supporting grammar I think?, as in file_input_prime used in file_input) of a
+start symbol, or have to find the right one to put that statement?
+
+<dd>
+  
+In Bison there is really only one start symbol. Python seems to sort of want
+three of them, but for PunY we only have one, and it is file_input.  If
+there are multiple production rules that build the start symbol, you would
+assign the root in each of them.  If you assigned to root everywhere, it
+would be silly but OK/harmless in that the last one assigned is probably the
+one that is for the "real" start symbol.
+ 
+<!--
+<dt>
+In this rule in the file:
+<pre>
+import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
+              'import' ('*' | '(' import_as_names ')' | import_as_names))
+</pre>
+
+They say: # note below: the ('.' | '...') is necessary because '..' is
+tokenized as ELLIPSIS. So should I put '...' as it is or should I add a
+token called ELLIPSIS which takes in 3 dots?
+
+<dd>
+
+Yes, Python has a DOT token and it has an ELLIPSIS token. The "from
+..... import" grammar rule allows an arbitrary number of periods before a
+name, which means it has to allow any number of either DOT or
+ELLIPSIS. However, PunY does not have from...import.
+-->
+
+<dt>
+
+In some long grammar rules, I'm confused how the OR ( the
+vbar | ) works.  Does it just use the OR on one word before and after the
+vbar?  For example, I have this grammar:
+
+optional_comma_test: ',' test | {  $$=NULL; };
+
+So in which way the parser will understand this?
+
+optional_comma_test:          ( ',' test ) | {  $$=NULL; }     ;
+optional_comma_test:   ','    ( test        | {  $$=NULL; } )      ;
+And should I just put parenthesis in cases like this?
+
+<dd>
+
+Vertical bar is the lowest possible precedence and actually denotes the
+start of another production rule, so your interpretation #1 is used without
+need for parentheses. Parentheses are not used in Bison to force precedence.
+ 
+<dt>
+  
+Must we do exotic grammar rules for things not supported by Irony?
+
+<dd>
+See the answer to question 1.
+
+<dt>
+Should we make tree for optional type of grammar?
+An example is optional_expr: expr | {  $$=NULL; } ;
+
+<dd>
+
+This example shows two production rules. The first one has only one child
+and does not require a new tree node. The second one has zero production
+rules and can be represented by either NULL or by a special leaf that
+represents the epsilon.
+ 
+<dt>
+  
+How are we supposed to make tree for a prime_type_grammar: for example,
+I did:
+<pre>
+statements: stmt stmt_prime;
+stmt_prime: stmt_prime stmt;
+stmt_prime: {  $$=NULL; } ;
+</pre>
+
+(which is equivalent to the following)
+<pre>
+  statements: stmt statements;
+  statements: stmt ;
+</pre>
+
+How do we make tree for this? (do alctree for the first two statements?)
+
+And am I doing this correctly at all? I saw your file_input_prime in the lab
+and I just copied the way.
+
+As of typing it right now, I saw 1 of your mailbox’s answer saying to just
+make a epsilon leaf node tree for epsilon rule, so if I just do that for all
+grammar rules, will that solves this question?
+
+<dd> 
+
+In this example stmt_prime has two production rules. The first one has two
+symbols on the righthand side and needs a binary tree node for those two
+children. The second production rule is an epsilon and needs either a NULL
+or a special leaf that represents the epsilon.
+
+</dl>
+
+
 <!--
 <h3> Puny Language Clarification: For-Loops </h3>
 
@@ -4698,146 +4840,6 @@ place?  Can we use that information to produce a better error message?
 </p>
 <p>
 
-  <h3>Mailbag</h3>
-
-  <dl>
-<dt>
-
-What do we do with Rust-not-Irony statements? Do we just remove them
-completely from the grammar?
-
-<dd>
-
-If they result in error-exits in the lexical analyzer, it may be possible to
-remove them entirely from the grammar.  My only hesitation on this point is
-that removing them from the grammar may in some circumstances cause the
-parser to report a syntax error before it even gets to the illegal token,
-causing confusing or misleading syntax error messages for some
-Rust-not-Irony constructs. I'd advise removing such rules from the grammar,
-but saving them somewhere and restoring them if it turns out that the
-misleading premature syntax error messages are a real thing and not just
-hypothetical.
- 
-<dt>
-
-What should be the value for (int) production rule in alctree()?
-Should I just give it some make-up integer? Like 1004, 1005, 1006,...
-
-<dd>
-
-Yes, you can just make up integer codes, I recommend codes that are not
-overlapping with tokens, so starting at 1000 is not a bad idea.
- 
-<dt>
-
-I can't understand how I can correctly make the root tree - how
-do we supposed to start the root in the start symbols?  From what I see,
-there are 3 types of start symbols: single_input, file_input, eval_input. So
-am I supposed to put { $$=alctree(...); root=$$; } to all of them?  Also, do I
-put the { $$=alctree(...); root=$$; } in all different cases (I would call them
-supporting grammar I think?, as in file_input_prime used in file_input) of a
-start symbol, or have to find the right one to put that statement?
-
-<dd>
-  
-In Bison there is really only one start symbol. Python seems to sort of want
-three of them, but for PunY we only have one, and it is file_input.  If
-there are multiple production rules that build the start symbol, you would
-assign the root in each of them.  If you assigned to root everywhere, it
-would be silly but OK/harmless in that the last one assigned is probably the
-one that is for the "real" start symbol.
- 
-<!--
-<dt>
-In this rule in the file:
-<pre>
-import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
-              'import' ('*' | '(' import_as_names ')' | import_as_names))
-</pre>
-
-They say: # note below: the ('.' | '...') is necessary because '..' is
-tokenized as ELLIPSIS. So should I put '...' as it is or should I add a
-token called ELLIPSIS which takes in 3 dots?
-
-<dd>
-
-Yes, Python has a DOT token and it has an ELLIPSIS token. The "from
-..... import" grammar rule allows an arbitrary number of periods before a
-name, which means it has to allow any number of either DOT or
-ELLIPSIS. However, PunY does not have from...import.
--->
-
-<dt>
-
-In some long grammar rules, I'm confused how the OR ( the
-vbar | ) works.  Does it just use the OR on one word before and after the
-vbar?  For example, I have this grammar:
-
-optional_comma_test: ',' test | {  $$=NULL; };
-
-So in which way the parser will understand this?
-
-optional_comma_test:          ( ',' test ) | {  $$=NULL; }     ;
-optional_comma_test:   ','    ( test        | {  $$=NULL; } )      ;
-And should I just put parenthesis in cases like this?
-
-<dd>
-
-Vertical bar is the lowest possible precedence and actually denotes the
-start of another production rule, so your interpretation #1 is used without
-need for parentheses. Parentheses are not used in Bison to force precedence.
- 
-<dt>
-  
-Must we do exotic grammar rules for things not supported by Irony?
-
-<dd>
-See the answer to question 1.
-
-<dt>
-Should we make tree for optional type of grammar?
-An example is optional_expr: expr | {  $$=NULL; } ;
-
-<dd>
-
-This example shows two production rules. The first one has only one child
-and does not require a new tree node. The second one has zero production
-rules and can be represented by either NULL or by a special leaf that
-represents the epsilon.
- 
-<dt>
-  
-How are we supposed to make tree for a prime_type_grammar: for example,
-I did:
-<pre>
-statements: stmt stmt_prime;
-stmt_prime: stmt_prime stmt;
-stmt_prime: {  $$=NULL; } ;
-</pre>
-
-(which is equivalent to the following)
-<pre>
-  statements: stmt statements;
-  statements: stmt ;
-</pre>
-
-How do we make tree for this? (do alctree for the first two statements?)
-
-And am I doing this correctly at all? I saw your file_input_prime in the lab
-and I just copied the way.
-
-As of typing it right now, I saw 1 of your mailbox’s answer saying to just
-make a epsilon leaf node tree for epsilon rule, so if I just do that for all
-grammar rules, will that solves this question?
-
-<dd> 
-
-In this example stmt_prime has two production rules. The first one has two
-symbols on the righthand side and needs a binary tree node for those two
-children. The second production rule is an epsilon and needs either a NULL
-or a special leaf that represents the epsilon.
-
-</dl>
 
 <h3> Clarification on Error Recovery Behavior </h3>
 
