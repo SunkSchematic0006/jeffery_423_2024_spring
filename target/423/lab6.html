@@ -1,135 +1,121 @@
-<h2> CSE 423 Lab #6: Adding Type Info to Trees and Symbol Tables </h2>
+<h2> CSE 423 Lab #5: Hashing and Symbol Tables </h2>
 
-Turnin: your drafty compiler... on canvas.<br>
-Due Sunday 3/26, 11:59pm
+Turnin: on canvas. Due Sunday 3/5, 11:59pm
 <p>
 
-In this week's lab you should add a representation for PunY types, and add
-types to your knowledge about variables in your symbol table.  Turn in as far
-as you get by next Sunday evening; you will be graded as having done the lab
-as long as it looks like you did two or more hours of work.
-
-<p>
-
-<h4> <a href="type.h">type.h</A> and <A href="type.c">type.c</A> </h4>
-
-Look at these modules, modify them as needed in order for them to fit
-PunY.  We should probably be able to figure out what changes are
-needed during the lab period on Wednesday.  Compile and link them in
-to your PunY compiler.
+In this week's lab you implement a symbol table data type.  Turn in (a whole
+compiler with the symbol table files added, makefile modified to use them,
+etc.) as far as you get by the due date; you will be graded as having done
+the lab as long as it looks like you did two or more hours of work towards a
+functioning symbol table.
 
 <p>
 
-<h4>makefile</h4>
+<h4> Symbols </h4>
 
-Add dependencies for compiling and linking in type.o
-
-<h4>type.h</h4>
+Write a syntax tree traversal function <code>printsyms(struct tree *)</code>
+that calls the following helper function for each identifier. You will use
+it in this lab only.
 
 <pre>
-#ifndef TYPE_H
-#define TYPE_H
-
-#include "tree.h"
-typedef struct param {
-   char *name;
-   struct typeinfo *type;
-   struct param *next;
-   } *paramlist;
-
-/* base types. In the real thing, there will be many more base types */
-#define NULL_TYPE    1000000
-#define INT_TYPE     1000001
-#define CLASS_TYPE  1000002
-#define ARRAY_TYPE   1000003
-#define DOUBLE_TYPE 1000004
-#define FUNC_TYPE    1000005
-
-typedef struct typeinfo {
-   int basetype;
-   union {
-      struct classinfo {
-	 struct sym_table *st;
-	 } c;
-      struct arrayinfo {
-         int size;
-	 struct typeinfo *elemtype;
-         }a;
-      struct funcinfo {
-	 char *name; /* ? */
-	 struct sym_table *st;
-	 struct typeinfo *returntype;
-	 int nparams;
-	 struct param *parameters;
-	 }f;
-      } u;
-   } *typeptr;
-
-extern struct typeinfo integer_type;
-extern struct sym_table *foo;
-
-typeptr alctype(int);
-char *typename(typeptr t);
-
-extern typeptr integer_typeptr;
-extern typeptr null_typeptr;
-extern typeptr String_typeptr;
-extern char *typenam[];
-
-#endif
-
+void printsymbol(char *s)
+{
+   printf("%s\n", s); fflush(stdout);
+}
 </pre>
 
-<h4>type.c</h4>
+Integrate a call to printsyms into your compiler, calling it on the root of
+your syntax tree for each file.  If you run this on all the source files of
+your compiler (*.[chly]), how many symbols occur? To check your work,
+you can pipe the results
+into UNIX <code>wc(1)</code> for a quick count.  Then pipe the results into
+UNIX <code>uniq</code> to see how many unique symbols there are after removing
+duplicates.
+
+
+<h4> Symbol Table Entries </h4>
+
+A symbol table is a collection of symbol table entries.  For today, each
+entry has an empty data payload; there is nothing in it except the symbol
+itself and all it can be used for is to answer the yes/no question of
+whether the symbol is declared in a given scope.
 
 <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include "type.h"
-#include "symtab.h"
+typedef struct sym_entry {
+/*   SymbolTable table;			/* what symbol table do we belong to*/
+   char *s;				/* string */
+   /* more symbol attributes go here for code generation */
+   struct sym_entry *next;
+   } *SymbolTableEntry;
+</pre>
 
-struct typeinfo integer_type = { INT_TYPE };
-struct typeinfo null_type = { NULL_TYPE };
-typeptr null_typeptr = &null_type;
-typeptr integer_typeptr = &integer_type;
-typeptr String_typeptr;
-char *typenam[] = {"null", "int", "class", "method"};
+Put this in a header file, <code>symtabentry.h</code>.
+Whatever modules <code>#include</code> this file, should
+have it added to their makefile dependencies. To add it to
+<code>foo.c</code>:
+<pre>
+foo.o: foo.c <font color=red>symtabentry.h</font>
+	gcc $(CFLAGS) foo.c
+</pre>
 
-typeptr alctype(int base)
-{
-   typeptr rv;
-   if (base == INT_TYPE) return &integer_type;
-   rv = (typeptr) calloc(1, sizeof(struct typeinfo));
-   if (rv == NULL) return rv;
-   rv-&gt;basetype = base;
-   return rv;
-}
+<h4> A Symbol table that is a linked list</h4>
 
-/* in order for this to make any sense, you have to pass in the subtrees
- * for the return type (r) and the parameter list (p), but the calls to
- * to this function in the example are just passing NULL at present!
- */
-typeptr alcfunctype(struct tree * r, struct tree * p, SymbolTable st)
+You can build a symbol table as a linked list
+first, and then turn it into a hash table if you have time.
+
+<pre>
+typedef struct sym_table {
+   int nEntries;			/* # of symbols in the table */
+/*   struct sym_table *parent;		/* enclosing scope, superclass etc. */
+   struct sym_entry *next;
+   /* more per-scope/per-symbol-table attributes go here */
+   } *SymbolTable;
+</pre>
+
+Write a constructor function <code>mksymtab()</code> to create one
+of these symbol tables and return a pointer to it.
+
+<h4> Symbol Table Population </h4>
+
+Walk through your tree, looking for nodes whose production rule indicates
+that they are variable declarations.  Find the list of variable names and
+insert them into the current symbol table (scope).
+<p>
+
+
+
+<h4>A hash function </h4>
+
+You can use this one, or anything better that you can invent or find,
+so long as you cite sources.
+
+<pre>
+int hash(SymbolTable st, char *s)
 {
-   typeptr rv = alctype(FUNC_TYPE);
-   if (rv == NULL) return NULL;
-   rv-&gt;u.f.st = st;
-   /* fill in return type and paramlist by traversing subtrees */
-   return rv;
-}
-char *typename(typeptr t)
-{
-   if (!t) return "(NULL)";
-   else return typenam[t-&gt;basetype-1000000];
+   register int h = 0;
+   register char c;
+   while (c = *s++) {
+      h += c & 0377;
+      h *= 37;
+      }
+   if (h < 0) h = -h;
+   return h % st->nBuckets;
 }
 </pre>
 
 
-<h4> Finishing up and turning in </h4>
+<h4> Symbol Table that uses an Array of Linked Lists </h4>
 
-Demonstrate your type information being constructed by printing out type
-information in the symbol table printout (as originally implied by the HW#4
-example output, which was revised), and from a syntax tree printout in which
-you print identifers' types when you print out their leaves in the
-executable code expressions found within the compound statements of your
-function bodies.
+<pre>
+typedef struct sym_table {
+   int nBuckets;			/* # of buckets */
+   int nEntries;			/* # of symbols in the table */
+/*   struct sym_table *parent;		/* enclosing scope, superclass etc. */
+   struct sym_entry **tbl;
+   /* more per-scope/per-symbol-table attributes go here */
+   } *SymbolTable;
+</pre>
+
+<h4> Wrapping Up: How do you tell you have your symbols in place? </h4>
+
+Maybe print them there tables out.
