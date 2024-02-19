@@ -23,11 +23,61 @@ hours of work.
 
 <h3>Part 1: Drawing Syntax Trees by Hand </h3>
 
-You need to develop a strong, concrete mental model of the syntax trees
+You need a concrete mental model of the syntax trees
 upon which the entire rest of the course will be built.  I will literally
 ask you to draw syntax trees on the midterm and final exam, possibly with
 aspects of semantic analysis or code generation to work out. So let's
 practice drawing some syntax trees.
+
+<ul>
+<li>You will need a Rust grammar, such as <A href="rustgram.y.html">rustgram.y</A>
+<li>Draw a circle or oval for each non-leaf node with two or more children.
+<li>Draw a square or rectangle for each leaf node (token).
+<li>Draw the non-terminal name inside circles/ovals, and the terminal symbol name inside squares/rectangles
+<li> Draw lines connecting parents with children.
+</ul>
+
+<p>
+
+<table><tr><td>
+<pre>
+fn main() {
+    // Print text to the console.
+    println!("Hello World!");
+}
+</pre>
+
+<td>
+<pre>
+fn main() {
+    // variable binding
+    let x = 5;
+
+    // expression;
+    x;
+    x + 1;
+    15;
+}
+</pre>
+
+<td>
+<pre>
+fn main() {
+    let n = 5;
+
+    if n < 0 {
+        print!("{} is negative", n);
+    } else if n > 0 {
+        print!("{} is positive", n);
+    } else {
+        print!("{} is zero", n);
+    }
+}
+</pre>
+</table>
+
+Check your work by exchanging with a classmate, or do Part 2 and compare your work against the Machine.
+
 
 
 <h3> Part 2: Dot </h3>
