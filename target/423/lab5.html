@@ -266,22 +266,31 @@ results in the following:
 <img src="hello.png">
 <p>
 
-Of course, for a Java (or some other) language, your tree should look
-different.
+Of course, for some other language, your tree should look different.
 
 <h4> Wrapping up </h4>
 
 Try your .dot-file generation on the following program:
 
 <pre>
+// foo.rs
+fn foo(x : i64, y : String) -> i64 {
+   return x;
+   }
+fn main() {
+   let z : i64;
+   z = foo(5, ("funf").to_string());
+}
+</pre>
+
+<!--
 # foo.py
 def foo(x : int, y : str) -> int :
      return x
 
 z : int
 z = foo(5, "funf")
-</pre>
-
+-->
 
 <!--
 <pre>
@@ -306,16 +315,16 @@ For this program, you might be running
 ./j0 -dot foo.java
 dot -Tpng foo.java.dot >foo.png
 </pre>
--->
 <pre>
 ./puny -dot foo.py
 dot -Tpng foo.py.dot >foo.png
+</pre>
+-->
+<pre>
+./fec -dot foo.rs
+dot -Tpng foo.rs.dot >foo.png
 </pre>
 
 
 When foo.png looks reasonable,
 you are done with the lab. Submit your image on canvas.
-
-<h4> Writing your Dot Symbol Tables (optional) </h4>
-
-You can use dot to draw your symbol tables. It may help you debug them.
