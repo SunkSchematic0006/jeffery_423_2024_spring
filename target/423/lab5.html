@@ -6,7 +6,7 @@ Turnin:
 and
 <li>
  a pretty PNG image produced from your compiler on canvas,
-due Friday 2/23, 11:59pm
+due Sunday 2/25, 11:59pm
 </ol>
 <p>
 
@@ -32,8 +32,10 @@ practice drawing some syntax trees.
 <ul>
 <li>You will need a Rust grammar, such as <A href="rustgram.y.html">rustgram.y</A>
 <li>Draw a circle or oval for each non-leaf node with two or more children.
-<li>Draw a square or rectangle for each leaf node (token).
-<li>Draw the non-terminal name inside circles/ovals, and the terminal symbol name inside squares/rectangles
+<li>Draw a square or rectangle for each leaf node (token). <b>You can omit
+    punctuation that is implied by the production rule.</b>
+<li>Draw the non-terminal name inside circles/ovals, and the terminal
+    symbol name inside squares/rectangles
 <li> Draw lines connecting parents with children.
 </ul>
 
@@ -50,13 +52,8 @@ fn main() {
 <td>
 <pre>
 fn main() {
-    // variable binding
     let x = 5;
-
-    // expression;
-    x;
     x + 1;
-    15;
 }
 </pre>
 
@@ -67,8 +64,6 @@ fn main() {
 
     if n < 0 {
         print!("{} is negative", n);
-    } else if n > 0 {
-        print!("{} is positive", n);
     } else {
         print!("{} is zero", n);
     }

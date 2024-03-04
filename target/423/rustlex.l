@@ -17,13 +17,12 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include "token.h"
 #include "rustgram.tab.h"
 
 extern YYSTYPE yylval;
-
-static int num_hashes;
-static int end_hashes;
-static int saw_non_hash;
+extern int yylineno;
+int token(int i);
 
 %}
 
@@ -55,129 +54,139 @@ ident [a-zA-Z\x80-\xff_][a-zA-Z0-9\x80-\xff_]*
 
 [ \n\t\r]             { }
 "//".*                { }
-"\""([^\n"\\]|"\\"[\\nt"])*"\""            { return LIT_STR; }
+"\""([^\n"\\]|"\\"[\\nt"])*"\""            { return token(LIT_STR); }
 
-_        { return UNDERSCORE; }
-abstract { return ABSTRACT; }
-alignof  { return ALIGNOF; }
-as       { return AS; }
-become   { return BECOME; }
-box      { return BOX; }
-break    { return BREAK; }
-catch    { return CATCH; }
-const    { return CONST; }
-continue { return CONTINUE; }
-crate    { return CRATE; }
-default  { return DEFAULT; }
-do       { return DO; }
-else     { return ELSE; }
-enum     { return ENUM; }
-extern   { return EXTERN; }
-false    { return FALSE; }
-final    { return FINAL; }
-fn       { return FN; }
-for      { return FOR; }
-if       { return IF; }
-impl     { return IMPL; }
-in       { return IN; }
-let      { return LET; }
-loop     { return LOOP; }
-macro    { return MACRO; }
-match    { return MATCH; }
-mod      { return MOD; }
-move     { return MOVE; }
-mut      { return MUT; }
-offsetof { return OFFSETOF; }
-override { return OVERRIDE; }
-priv     { return PRIV; }
-proc     { return PROC; }
-pure     { return PURE; }
-pub      { return PUB; }
-ref      { return REF; }
-return   { return RETURN; }
-self     { return SELF; }
-sizeof   { return SIZEOF; }
-static   { return STATIC; }
-struct   { return STRUCT; }
-super    { return SUPER; }
-trait    { return TRAIT; }
-true     { return TRUE; }
-type     { return TYPE; }
-typeof   { return TYPEOF; }
-union    { return UNION; }
-unsafe   { return UNSAFE; }
-unsized  { return UNSIZED; }
-use      { return USE; }
-virtual  { return VIRTUAL; }
-where    { return WHERE; }
-while    { return WHILE; }
-yield    { return YIELD; }
+_        { return token(UNDERSCORE); }
+abstract { return token(ABSTRACT); }
+alignof  { return token(ALIGNOF); }
+as       { return token(AS); }
+become   { return token(BECOME); }
+box      { return token(BOX); }
+break    { return token(BREAK); }
+catch    { return token(CATCH); }
+const    { return token(CONST); }
+continue { return token(CONTINUE); }
+crate    { return token(CRATE); }
+default  { return token(DEFAULT); }
+do       { return token(DO); }
+else     { return token(ELSE); }
+enum     { return token(ENUM); }
+extern   { return token(EXTERN); }
+false    { return token(FALSE); }
+final    { return token(FINAL); }
+fn       { return token(FN); }
+for      { return token(FOR); }
+if       { return token(IF); }
+impl     { return token(IMPL); }
+in       { return token(IN); }
+let      { return token(LET); }
+loop     { return token(LOOP); }
+macro    { return token(MACRO); }
+match    { return token(MATCH); }
+mod      { return token(MOD); }
+move     { return token(MOVE); }
+mut      { return token(MUT); }
+offsetof { return token(OFFSETOF); }
+override { return token(OVERRIDE); }
+priv     { return token(PRIV); }
+proc     { return token(PROC); }
+pure     { return token(PURE); }
+pub      { return token(PUB); }
+ref      { return token(REF); }
+return   { return token(RETURN); }
+self     { return token(SELF); }
+sizeof   { return token(SIZEOF); }
+static   { return token(STATIC); }
+struct   { return token(STRUCT); }
+super    { return token(SUPER); }
+trait    { return token(TRAIT); }
+true     { return token(TRUE); }
+type     { return token(TYPE); }
+typeof   { return token(TYPEOF); }
+union    { return token(UNION); }
+unsafe   { return token(UNSAFE); }
+unsized  { return token(UNSIZED); }
+use      { return token(USE); }
+virtual  { return token(VIRTUAL); }
+where    { return token(WHERE); }
+while    { return token(WHILE); }
+yield    { return token(YIELD); }
 
-{ident}  { return IDENT; }
+{ident}  { return token(IDENT); }
 
-0x[0-9a-fA-F_]+                                    { BEGIN(suffix); return LIT_INTEGER; }
-0o[0-7_]+                                          { BEGIN(suffix); return LIT_INTEGER; }
-0b[01_]+                                           { BEGIN(suffix); return LIT_INTEGER; }
-[0-9][0-9_]*                                       { BEGIN(suffix); return LIT_INTEGER; }
-[0-9][0-9_]*\.(\.|[a-zA-Z])    { yyless(yyleng - 2); BEGIN(suffix); return LIT_INTEGER; }
+0x[0-9a-fA-F_]+                                    { BEGIN(suffix); return token(LIT_INTEGER); }
+0o[0-7_]+                                          { BEGIN(suffix); return token(LIT_INTEGER); }
+0b[01_]+                                           { BEGIN(suffix); return token(LIT_INTEGER); }
+[0-9][0-9_]*                                       { BEGIN(suffix); return token(LIT_INTEGER); }
+[0-9][0-9_]*\.(\.|[a-zA-Z])    { yyless(yyleng - 2); BEGIN(suffix); return token(LIT_INTEGER); }
 
-[0-9][0-9_]*\.[0-9_]*([eE][-\+]?[0-9_]+)?          { BEGIN(suffix); return LIT_FLOAT; }
-[0-9][0-9_]*(\.[0-9_]*)?[eE][-\+]?[0-9_]+          { BEGIN(suffix); return LIT_FLOAT; }
+[0-9][0-9_]*\.[0-9_]*([eE][-\+]?[0-9_]+)?          { BEGIN(suffix); return token(LIT_FLOAT); }
+[0-9][0-9_]*(\.[0-9_]*)?[eE][-\+]?[0-9_]+          { BEGIN(suffix); return token(LIT_FLOAT); }
 
-;      { return ';'; }
-,      { return ','; }
-\.\.\. { return DOTDOTDOT; }
-\.\.   { return DOTDOT; }
-\.     { return '.'; }
-\(     { return '('; }
-\)     { return ')'; }
-\{     { return '{'; }
-\}     { return '}'; }
-\[     { return '['; }
-\]     { return ']'; }
-@      { return '@'; }
+;      { return token(';'); }
+,      { return token(','); }
+\.\.\. { return token(DOTDOTDOT); }
+\.\.   { return token(DOTDOT); }
+\.     { return token('.'); }
+\(     { return token('('); }
+\)     { return token(')'); }
+\{     { return token('{'); }
+\}     { return token('}'); }
+\[     { return token('['); }
+\]     { return token(']'); }
+@      { return token('@'); }
 
-\~     { return '~'; }
-::     { return MOD_SEP; }
-:      { return ':'; }
-\$     { return '$'; }
-\?     { return '?'; }
+\~     { return token('~'); }
+::     { return token(MOD_SEP); }
+:      { return token(':'); }
+\$     { return token('$'); }
+\?     { return token('?'); }
 
-==    { return EQEQ; }
-=>    { return FAT_ARROW; }
-=     { return '='; }
-\!=   { return NE; }
-\!    { return '!'; }
-\<=   { return LE; }
-\<\<  { return SHL; }
-\<\<= { return SHLEQ; }
-\<    { return '<'; }
-\>=   { return GE; }
-\>\>  { return SHR; }
-\>\>= { return SHREQ; }
-\>    { return '>'; }
+==    { return token(EQEQ); }
+=>    { return token(FAT_ARROW); }
+=     { return token('='); }
+\!=   { return token(NE); }
+\!    { return token('!'); }
+\<=   { return token(LE); }
+\<\<  { return token(SHL); }
+\<\<= { return token(SHLEQ); }
+\<    { return token('<'); }
+\>=   { return token(GE); }
+\>\>  { return token(SHR); }
+\>\>= { return token(SHREQ); }
+\>    { return token('>'); }
 
-\<-  { return LARROW; }
--\>  { return RARROW; }
--    { return '-'; }
--=   { return MINUSEQ; }
-&&   { return ANDAND; }
-&    { return '&'; }
-&=   { return ANDEQ; }
-\|\| { return OROR; }
-\|   { return '|'; }
-\|=  { return OREQ; }
-\+   { return '+'; }
-\+=  { return PLUSEQ; }
-\*   { return '*'; }
-\*=  { return STAREQ; }
-\/   { return '/'; }
-\/=  { return SLASHEQ; }
-\^   { return '^'; }
-\^=  { return CARETEQ; }
-%    { return '%'; }
-%=   { return PERCENTEQ; }
+\<-  { return token(LARROW); }
+-\>  { return token(RARROW); }
+-    { return token('-'); }
+-=   { return token(MINUSEQ); }
+&&   { return token(ANDAND); }
+&    { return token('&'); }
+&=   { return token(ANDEQ); }
+\|\| { return token(OROR); }
+\|   { return token('|'); }
+\|=  { return token(OREQ); }
+\+   { return token('+'); }
+\+=  { return token(PLUSEQ); }
+\*   { return token('*'); }
+\*=  { return token(STAREQ); }
+\/   { return token('/'); }
+\/=  { return token(SLASHEQ); }
+\^   { return token('^'); }
+\^=  { return token(CARETEQ); }
+%    { return token('%'); }
+%=   { return token(PERCENTEQ); }
 
 <<EOF>> { return 0; }
 
 %%
+
+int token(int i)
+{
+  struct token *t = malloc(sizeof(struct token));
+  t->category = i;
+  t->text = strdup(yytext);
+  t->lineno = yylineno;
+
+  return i;
+}

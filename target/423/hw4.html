@@ -1,10 +1,10 @@
 <h3> CSE 423 HW#4 </h3>
 
-Due: Wednesday March 22 11:59pm
+Due: Friday March 8 11:59pm
 <p>
 
 
-Perform the first part of semantic analysis for PunY.  This consists of the
+Perform the first part of semantic analysis for Irony.  This consists of the
 following items. Please turnin an electronic copy of your whole project in a
 .zip file on Canvas. Please create your .zip file in such a way that it
 unpacks into the current directory, rather than a subdirectory.
@@ -27,20 +27,11 @@ unpacks into the current directory, rather than a subdirectory.
      as good (80% credit).
 <dt> Predefined symbol tables
 <dd> In addition to the symbol tables for user code, we need to allow
-     the little toy PunY programs to use predefined objects/classes
-     mentioned in the PunY specification.
+     the little toy Irony programs to use predefined objects/classes
+     mentioned in the Irony specification.
 <dt> Variable declarations
-<dd> Normally I would ask for errors for undeclared and redeclared variables,
-     but that is not exactly how Python works, is it?
-<ul>
-<li> Variables are automatically declared by assigning to them
-<li> A variable's scope is normally implicit based on whether the assignment
-     is inside a function or not.
-<li> <code>global foo</code> declares a global
-<li> A variable that used that hasn't been assigned is an error
-<li> In principle Python requires run-time checks for this, but in PunY we should
-     settle for compile-time checks.
-</ul>
+<dd> Report errors for undeclared and redeclared variables.
+
 <!--
 <dt> Types
 <dd> Support the base types: char, int, double, and void.
@@ -80,10 +71,14 @@ unpacks into the current directory, rather than a subdirectory.
 
 <h4> Output </h4>
 
-For this Assignment, you should implement a <em>command-line option</em>
-<code>-symtab</code> and print your symbol tables in a human readable
-format if it is given on the command line.  The symbol table output should
-look like:
+For this Assignment, you should implement a <em>command-line options</em>.
+<ul>
+<li> Print your syntax tree if  <code>-tree</code> is given
+<li> If <code>-symtab</code> is given, print your symbol tables in a human readable
+format
+</ul>
+
+The symbol table output should look like:
 
 <pre>
 --- symbol table for: package main ---
@@ -97,19 +92,19 @@ look like:
 ---
 </pre>
 
-In the absence of the -symtab command line option, you should
+In the absence of the <code>-symtab</code> command line option, you should
 just print messages for any errors encountered, or "No errors".
-If any errors are encountered when invoked with -symtab, you do
+If any errors are encountered when invoked with <code>-symtab</code>, you do
 not have to print symbol tables.
 
 <p>
 
 <h4>Notes</h4>
 <ul>
-<li> your executable must be named puny
+<li> your executable must be named fec
 <li> your makefile must compile all your .c files using the -Wall option,
      and produce .o files for them.
-<li> your makefile must have a separate link step that builds the puny
+<li> your makefile must have a separate link step that builds the fec
      executable from .o files only (no .c files in the link)
 <li> your program should accept and process an arbitrary
 	number of source filenames on the command line

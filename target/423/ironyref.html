@@ -646,24 +646,192 @@ let xs : [i64; 5] = [0, 0, 0, 0, 0];
 
 <h3><A NAME="Runtime">5. Runtime System</A></h3>
 
-<h4><A NAME="Functions">5.1 Built-in Functions</A></h3>
 
-irony supports a small subset of the functionality of a small subset of
-Rust's standard libraries. These will include basic file I/O.
+Irony supports a small subset of the functionality of a small subset of
+Rust's standard libraries (crate std::). These will include basic file I/O.
+<p>
+  
+From
+<A href="http://doc.rust-lang.org/std/">The Rust Standard Library</A> Page,
+those std:: features that
+are not in Irony (red or strikethrough)
+should be predefined to emit an error message
+("Rust function X is not in Irony") and halt.  Those that are
+in Irony (green) should be implemented.
 
 <p>
 
-<!--
-  <tr><td><td><td> random number?
-  <tr><td><td><td> string stuff?
-  <tr><td><td><td> ...
--->
+At the moment, everything below is To Be Determined.
 
 
-We need to look up
-the complete list of functions in Rust. Ones that
-are not in Irony should be predefined to emit an error message
-("Rust function X is not in Irony") and halt.
+
+
+<h4><A NAME="Functions">5.1 Crate std:: Primitive Types</A></h3>
+
+<table>
+<tr><th>array	<td> A fixed-size array, denoted [T; N], for the element type, T, and the non-negative compile-time constant size, N.
+<tr><th>bool	<td>The boolean type.
+<tr><th>char<td>A character type.
+<tr><th>f32<td>A 32-bit floating point type (specifically, the “binary32” type defined in IEEE 754-2008).
+<tr><th>f64<td>A 64-bit floating point type (specifically, the “binary64” type defined in IEEE 754-2008).
+<tr><th>fn<td>Function pointers, like fn(usize) -> bool.
+<tr><th>i8<td>The 8-bit signed integer type.
+<tr><th>i16<td>The 16-bit signed integer type.
+<tr><th>i32<td>The 32-bit signed integer type.
+<tr><th>i64<td>The 64-bit signed integer type.
+<tr><th>i128<td>The 128-bit signed integer type.
+<tr><th>isize<td>The pointer-sized signed integer type.
+<tr><th>pointer<td>Raw, unsafe pointers, *const T, and *mut T.
+<tr><th>reference<td>References, &T and &mut T.
+<tr><th>slice<td>A dynamically-sized view into a contiguous sequence, [T]. Contiguous here means that elements are laid out so that every element is the same distance from its neighbors.
+<tr><th>str<td>String slices.
+<tr><th>tuple<td>A finite heterogeneous sequence, (T, U, ..).
+<tr><th>u8<td>The 8-bit unsigned integer type.
+<tr><th>u16<td>The 16-bit unsigned integer type.
+<tr><th>u32<td>The 32-bit unsigned integer type.
+<tr><th>u64<td>The 64-bit unsigned integer type.
+<tr><th>u128<td>The 128-bit unsigned integer type.
+<tr><th>unit<td>The () type, also called unit.
+<tr><th>usize<td>The pointer-sized unsigned integer type.
+<tr><th>never<td>Experimental The ! type, also called never.
+</table>
+
+
+<h4><A NAME="Functions">5.2 Crate std:: Modules</A></h3>
+
+Do we need anything from these:
+
+<table>
+<tr><th>alloc<td>Memory allocation APIs.
+<tr><th>any<td>Utilities for dynamic typing or type reflection.
+<tr><th>arch<td>SIMD and vendor intrinsics module.
+<tr><th>array<td>Utilities for the array primitive type.
+<tr><th>ascii<td>Operations on ASCII strings and characters.
+<tr><th>backtrace<td>Support for capturing a stack backtrace of an OS thread
+<tr><th>borrow<td>A module for working with borrowed data.
+<tr><th>boxed<td>The Box<T> type for heap allocation.
+<tr><th>cell<td>Shareable mutable containers.
+<tr><th>char<td>Utilities for the char primitive type.
+<tr><th>clone<td>The Clone trait for types that cannot be ‘implicitly copied’.
+<tr><th>cmp<td>Utilities for comparing and ordering values.
+<tr><th>collections<td>Collection types.
+<tr><th>convert<td>Traits for conversions between types.
+<tr><th>default<td>The Default trait for types with a default value.
+<tr><th>env<td>Inspection and manipulation of the process’s environment.
+<tr><th>error<td>Interfaces for working with Errors.
+<tr><th>f32<td>Constants for the f32 single-precision floating point type.
+<tr><th>f64<td>Constants for the f64 double-precision floating point type.
+<tr><th>ffi<td>Utilities related to FFI bindings.
+<tr><th>fmt<td>Utilities for formatting and printing Strings.
+<tr><th>fs<td>Filesystem manipulation operations.
+<tr><th>future<td>Asynchronous basic functionality.
+<tr><th>hash<td>Generic hashing support.
+<tr><th>hint<td>Hints to compiler that affects how code should be emitted or optimized. Hints may be compile time or runtime.
+<tr><th>i8<td> Deprecation plannedRedundant constants module for the i8 primitive type.
+<tr><th>i16Deprecation planned<td>Redundant constants module for the i16 primitive type.
+<tr><th>i32Deprecation planned<td>Redundant constants module for the i32 primitive type.
+<tr><th>i64Deprecation planned<td>Redundant constants module for the i64 primitive type.
+<tr><th>i128Deprecation planned<td>Redundant constants module for the i128 primitive type.
+<tr><th>io<td>Traits, helpers, and type definitions for core I/O functionality.
+<tr><th>isizeDeprecation planned<td>Redundant constants module for the isize primitive type.
+<tr><th>iter<td>Composable external iteration.
+<tr><th>marker<td>Primitive traits and types representing basic properties of types.
+<tr><th>mem<td>Basic functions for dealing with memory.
+<tr><th>net<td>Networking primitives for TCP/UDP communication.
+<tr><th>num<td>Additional functionality for numerics.
+<tr><th>ops<td>Overloadable operators.
+<tr><th>option<td>Optional values.
+<tr><th>os<td>OS-specific functionality.
+<tr><th>panic<td>Panic support in the standard library.
+<tr><th>path<td>Cross-platform path manipulation.
+<tr><th>pin<td>Types that pin data to its location in memory.
+<tr><th>prelude<td>The Rust Prelude
+<tr><th>primitive<td>This module reexports the primitive types to allow usage that is not possibly shadowed by other declared types.
+<tr><th>process<td>A module for working with processes.
+<tr><th>ptr<td>Manually manage memory through raw pointers.
+<tr><th>rc<td>Single-threaded reference-counting pointers. ‘Rc’ stands for ‘Reference Counted’.
+<tr><th>result<td>Error handling with the Result type.
+<tr><th>slice<td>Utilities for the slice primitive type.
+<tr><th>str<td>Utilities for the str primitive type.
+<tr><th>string<td>A UTF-8–encoded, growable string.
+<tr><th>sync<td>Useful synchronization primitives.
+<tr><th>task<td>Types and Traits for working with asynchronous tasks.
+<tr><th>thread<td>Native threads.
+<tr><th>time<td>Temporal quantification.
+<tr><th>u8<td>Deprecation planned Redundant constants module for the u8 primitive type.
+<tr><th>u16<td>Deprecation planned Redundant constants module for the u16 primitive type.
+<tr><th>u32<td>Deprecation planned Redundant constants module for the u32 primitive type.
+<tr><th>u64Deprecation planned<td>Redundant constants module for the u64 primitive type.
+<tr><th>u128Deprecation planned<td>Redundant constants module for the u128 primitive type.
+<tr><th>usizeDeprecation planned<td>Redundant constants module for the usize primitive type.
+<tr><th>vec<td>A contiguous growable array type with heap-allocated contents, written Vec<T>.
+<tr><th>assert_matchesExperimental<td>Unstable module containing the unstable assert_matches macro.
+<tr><th>async_iterExperimental<td>Composable asynchronous iteration.
+<tr><th>intrinsicsExperimental<td>Compiler intrinsics.
+<tr><th>simdExperimental<td>Portable SIMD module.
+</table>
+
+
+<h4><A NAME="Functions">5.3 Crate std:: Macros </A></h3>
+
+<font color=red>
+<table>
+<tr><th>assert<td>Asserts that a boolean expression is true at runtime.
+<tr><th>assert_eq<td>Asserts that two expressions are equal to each other (using PartialEq).
+<tr><th>assert_ne<td>Asserts that two expressions are not equal to each other (using PartialEq).
+<tr><th>cfg<td>Evaluates boolean combinations of configuration flags at compile-time.
+<tr><th>column<td>Expands to the column number at which it was invoked.
+<tr><th>compile_error<td>Causes compilation to fail with the given error message when encountered.
+<tr><th>concat<td>Concatenates literals into a static string slice.
+<tr><th>dbg<td>Prints and returns the value of a given expression for quick and dirty debugging.
+<tr><th>debug_assert<td>Asserts that a boolean expression is true at runtime.
+<tr><th>debug_assert_eq<td>Asserts that two expressions are equal to each other.
+<tr><th>debug_assert_ne<td>Asserts that two expressions are not equal to each other.
+<tr><th>env<td>Inspects an environment variable at compile time.
+<tr><th>eprint<td>Prints to the standard error.
+<tr><th>eprintln<td>Prints to the standard error, with a newline.
+<tr><th>file<td>Expands to the file name in which it was invoked.
+<tr><th>format<td>Creates a String using interpolation of runtime expressions.
+<tr><th>format_args<td>Constructs parameters for the other string-formatting macros.
+<tr><th>include<td>Parses a file as an expression or an item according to the context.
+<tr><th>include_bytes<td>Includes a file as a reference to a byte array.
+<tr><th>include_str<td>Includes a UTF-8 encoded file as a string.
+<tr><th>is_x86_feature_detectedx86 or x86-64<td>A macro to test at runtime whether a CPU feature is available on x86/x86-64 platforms.
+<tr><th>line<td>Expands to the line number on which it was invoked.
+<tr><th>matches<td>Returns whether the given expression matches any of the given patterns.
+<tr><th>module_path<td>Expands to a string that represents the current module path.
+<tr><th>option_env<td>Optionally inspects an environment variable at compile time.
+<tr><th>panic<td>Panics the current thread.
+<tr><th>print<td>Prints to the standard output.
+<tr><th>println<td>Prints to the standard output, with a newline.
+<tr><th>stringify<td>Stringifies its arguments.
+<tr><th>thread_local<td>Declare a new thread local storage key of type std::thread::LocalKey.
+<tr><th>todo<td>Indicates unfinished code.
+<tr><th>tryDeprecated<td>Unwraps a result or propagates its error.
+<tr><th>unimplemented<td>Indicates unimplemented code by panicking with a message of “not implemented”.
+<tr><th>unreachable<td>Indicates unreachable code.
+<tr><th>vec<td>Creates a Vec containing the arguments.
+<tr><th>write<td>Writes formatted data into a buffer.
+<tr><th>writeln<td>Write formatted data into a buffer, with a newline appended.
+<tr><th>cfg_matchExperimental<td>A macro for defining #[cfg] match-like statements.
+<tr><th>concat_bytesExperimental<td>Concatenates literals into a byte slice.
+<tr><th>concat_identsExperimental<td>Concatenates identifiers into one identifier.
+<tr><th>const_format_argsExperimental<td>Same as format_args, but can be used in some const contexts.
+<tr><th>format_args_nlExperimental<td>Same as format_args, but adds a newline in the end.
+<tr><th>log_syntaxExperimental<td>Prints passed tokens into the standard output.
+<tr><th>trace_macrosExperimental<td>Enables or disables tracing functionality used for debugging other macros.
+</table>
+</font>
+
+
+
+<h4><A NAME="Functions">5.4 Crate std:: Keywords</A></h3>
+
+Do any of the keywords or other Rust syntax require runtime system support?
+If so we should list them here.
+
+
+
 
 <!--
 <table>

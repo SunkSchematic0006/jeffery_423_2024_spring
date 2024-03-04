@@ -12,3 +12,10 @@ expr: expr ASSIGN expr
     | expr POWER expr
     | IDENT
     ;
+
+
+parameterlist : '(' params_opt ')';
+
+params_opt : params |  %empty ;
+
+params : param | params ',' param  ;

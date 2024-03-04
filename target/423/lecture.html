@@ -37,7 +37,6 @@ portions of his notes were in turn inspired by the ASU red dragon book.
 <li> <a href="#15">Lecture 15</a>
 <li> <a href="#16">Lecture 16</a>
 <li> <a href="#17">Lecture 17</a>
-<li> <a href="#18">Lecture 18</a>
 </ul>
 </li></ul>
 </td>
@@ -45,10 +44,11 @@ portions of his notes were in turn inspired by the ASU red dragon book.
 <ul>
 <li> <a href="#semantic">Semantic Analysis</a>
 <ul>
-</li><li> <a href="#19">Lecture 19</a>
+<li> <a href="#18">Lecture 18</a>
+<li> <a href="#19">Lecture 19</a>
 <li> <a href="#20">Lecture 20</a>
-</li><li> <a href="#21">Lecture 21</a>
-</li><li> <a href="#22">Lecture 22</a>
+<li> <a href="#21">Lecture 21</a>
+<li> <a href="#22">Lecture 22</a>
 </ul>
 
 <li> Midterm Review
@@ -4860,10 +4860,50 @@ place?  Can we use that information to produce a better error message?
 </p>
 <p>
 
+<h3> When Leaves in a Syntax Tree are Needed...and when NOT </h3>
+
+In case it didn't get said elsewhere:
+
+<ul>
+<li> You can omit leaves in the syntax tree when they add no semantics
+       information and won't affect code generation.
+<li> Example:
+  <pre>Statement : Expr ';' ;</pre>
+  The semi-colon was just used for parsing.
+
+<li> You have to include leaves when they add crucial information.
+      Examples include literal constants, variable names...
+
+<li> Often the "semantics information" is also encoded in the grammar rule.
+     If so, including the leaf is optional and redundant.
+<li> Example:
+  <pre>E : E '+' E ; {
+   // maybe OK to omit the '+' in $2 as it is implied by EXPR_RULE_1
+   $$ = alctree(EXPR_RULE_1, "add", 2, $1, $3);
+   }
+E : E '-' E ; { $$ = alctree(EXPR_RULE_2, ...); }
+  </pre>
+
+<li> It is "OK" to include extra leaves you don't strictly need.
+<li> You might actually want those extra leaves for error reporting,
+  just for their filename/line#/column# e.g. in the event of a semantic error
+<li> But most of the time, the syntax tree should be minimal, both
+  for the sake of speed and debuggability.
+  
+<li> Generally if there are multiple/differing values that return the same
+     token category integer, you have to include the leaf.
+
+<li> Example:
+  <pre>E : E BINARY_OP E ; { $$ = alctree(EXPR_RULE_1, 3, $1, $2, $3); }
+  </pre>
+
+
+</ul>
+
 
 <h3> Clarification on Error Recovery Behavior </h3>
 
-Last time, I was kind of left wondering why I claimed that
+One might wonder why
 <pre>
 statement: error ';' ;
 </pre>
@@ -4879,8 +4919,9 @@ a semi-colon.  I have adapted the answer here from the
 <blockquote>
 
 What happens if a syntax error occurs in the middle of an expression?  The
-error recovery rule, interpreted strictly, applies to the precise sequence
-of a <code>statement</code>, an error and a semicolon. If an error occurs in
+error recovery rule, interpreted strictly, says to build a statement from
+the precise sequence
+of an error followed by a semicolon. If an error occurs in
 the middle of an expression, there will probably be some additional tokens
 and subexpressions on the stack after the last stmts, and there will be
 tokens to read before the next newline. So the rule is not applicable in the
@@ -4893,7 +4934,7 @@ semantic context <em>and part of the input</em>. First it discards states
 and objects
 from the stack until it gets back to a state in which the error token is
 acceptable. (This means that in performing error recovery,
-the current statement's <b>subexpressions already parsed are
+the current statement's <b>subexpressions that are already parsed are
 discarded</b>, back to the last complete statement.) At this point the error token
 can be shifted. Then, if the old lookahead token is not acceptable to be
 shifted next, the parser <em>reads tokens and discards them</em> until it finds a
@@ -4902,6 +4943,10 @@ until the next newline so that the fourth rule can apply. Note that
 discarded symbols are possible sources of memory leaks, see Freeing
 Discarded Symbols, for a means to reclaim this memory.
 </blockquote>
+
+This massive throwing-away-of-stuff is a good argument in support of Levine's
+advice that the error token should be used sparingly: the error token is a
+bit of a loaded cannon.
 
 
 
@@ -5042,10 +5087,6 @@ end
 <li> If you are interested, please see me or send me a note.
 </ul>
 
-<p>
-<font size="1"> <a name="16">lecture #16</a> began here</font>
-</p><p>
-
 <h3> Mailbag </h3>
 <dl>
 
@@ -5155,14 +5196,10 @@ live without these nonterminals and can remove them.
 
 </dl>
 
-<p>
-<font size="1"> <a name="17">lecture #17</a> began here</font>
-</p><p>
 
 <h4> What questions have you got for me, regarding HW#3? </h4?
 							       
 
-<h4> Look at <A href="hw4.html">HW#4</A> </h4>
 
 </p><h3> Recursive Descent Parsing </h3>
 
@@ -5181,6 +5218,90 @@ closely follows the production rules of nonterminal symbols.
      try all of them via <em>backtracking</em>.
 </li></ol>
 </li></ul>
+
+<p>
+<font size="1"> <a name="16">lecture #16</a> began here</font>
+</p><p>
+
+    <h3> Mailbag </h3>
+
+<dl>
+<dt> When we are calling <code>alctree()</code>,
+	does the order that we pass the non-terminals to alctree matter?
+<dd> Hmm, in theory, no.  In practice, I recommend that you Keep It Simple
+    and stick to the order given in the production rule.
+
+<dt>
+For error reporting, do we have to use yyerror? I was thinking of
+implementing another argument in my alctree() function to accept error types
+(no error, error Rust stmt not in Irony, anything else I can think of) to do
+so, but I do not know if you would allow it and/or if it would be more
+difficult to do that instead of yyerror.
+
+<dd> yyerror() is the official syntax error reporting mechanism of Bison.
+  It is called implicitly by the parser unless you say yerrok inside a
+  rule with an error recovery token. It would be difficult to subvert this
+  in the general case.
+  But
+  <ul>
+<li>
+ you can annotate your syntax tree with whatever you want.
+<li>you can have context free grammar rules for "errors" that turn them into
+  non-errors as far as the parser is concerned.
+<li> Although I like
+<pre>
+  yyerror("such-and-such Rust feature is not in Irony");
+</pre>
+  in such "error" grammar rules, you can call a different function with
+  different parameters if you want. 
+<li> you can put tree nodes into your syntax tree that explicitly represent
+  errors, and then process/report them later on in semantic analysis
+</ul>
+
+<dt>
+  Can I delete some rules and tokens in Rust not in Irony? I am quickly
+    running out of time because there are about 800 production rules in
+    rustgram.y and adding a call to alctree() for each one is taking a lot
+    of time and I am getting all sorts of weird errors.
+<dd>
+  Do whatever you have to do.  I mean, long-term I recommend you
+  get really proficient at a powerful code editor that has a good
+  keyboard-replay-macros capability and such. But short-term you can do
+  what is necessary.  I recommended pasting in a call to an error function
+  as the semantic action for many unused Rust features, but deleting those
+  grammar rules would at least turn those things into syntax errors instead
+  of allowing unsupported features to result in undefined behavior from your
+  compiler. So yeah, I will take what I can get. A small number of points will
+  be associated with Rust-not-Irony errors.
+
+
+<dt>
+
+      Is there a way to debug syntax errors in our grammar .y file? We are
+      really having a hard time to solve the syntax error ( incomplete
+      sequence error) that we are getting from our bison file.
+
+      <dd>
+	You may use a combination of valgrind + gdb, but your best bet may be
+	to turn on bison debugging:
+ <ol>
+   <li> <code>%{ #define YYDEBUG 1  %}</code> in your .y file header section
+   <li> <code>extern int yydebug;</code> ... and <code>yydebug=1;</code> in
+     your <code>main()</code> module
+ </ol>
+
+I did that yesterday for a stuck student, and it showed that they were
+returning an IDENT token for one of their reserved words.
+
+</dl>
+
+
+By the way, this assignment was given a lot of time. By default, not too
+much sympathy for folks who are running out of time.  If you procrastinate
+that is unfortunate. If you work inefficiently that is unfortunate. But lots
+of sympathy if you did not procrastinate and worked efficiently.  Go to
+class, do the work, ask questions, get help.
+
 
 <h4> Recursive Descent Parsing Example #1</h4>
 
@@ -5416,20 +5537,6 @@ end
 </pre>
 
 
-  <h3> Mailbag </h3>
-  <dl>
-    <dt>
-      Is there a way to debug syntax errors in our grammar .y file? We are really having a hard time to solve the syntax error ( incomplete sequence error) that we are getting from our bison file.
-      <dd>
-	You may use a combination of valgrind + gdb, but your best bet may be
-	to turn on bison debugging:
- <ol>
-   <li> <code>%{ #define YYDEBUG 1  %}</code> in your .y file header section
-   <li> <code>extern int yydebug;</code> ... and <code>yydebug=1;</code> in
-     your <code>main()</code> module
- </ol>
-</dl>
-
 <h3> Backtracking? </h3>
 
 
@@ -5467,9 +5574,6 @@ can be factored to:
 S'-&gt; else S<sub>2</sub> | &#949;
 </pre>
 
-<p>
-<font size="1"> <a name="18">lecture #18</a> began here</font>
-<p>
 
 <h3> Reading Assignment </h3>
 
@@ -5613,6 +5717,185 @@ world grammars for languages like ANSI C are around 400+ production rules,
 so in-class examples will by necessity be toys.  If I pick a random* (*LOL)
 <a href="https://www.cs.nmt.edu/~jeffery/courses/423/unigram.y">YACC grammar</a>, can we First/Follow any of its non-terminals?
 
+<p>
+<font size="1"> <a name="17">lecture #17</a> began here</font>
+</p><p>
+
+
+<h3> Mailbag </h3>
+
+<dl>
+<dt>
+How do we get from the list of token rules into storing them in a tree.
+
+<dd>
+  Wrap your struct token in a struct tree, and stick it in yylval.treeptr...
+  all from inside of yylex.  yyparse() will copy yylval onto the value stack.
+  You will later see it as a $1 or $2 or whatever.
+
+<dt>
+  Where is this tree supposed to be stored?
+<dd>
+<ul>
+<li> The malloc calls mean the tree will technically be stored on the heap.
+<li> The various subtrees will be on the value stack as you put the tree together.
+<li> The root of the tree will at the very end of parsing be something that
+  you want to store in a global variable, probably.
+  </ul>
+  
+<dt>
+  How it is supposed to be built?
+<dd>
+  These trees get built bottom-up one node at a time. One node gets created
+  for each shift or reduce operation.
+
+<dt>
+How to prepare the tree for the next layer of the compiler.
+<dd>
+  After assembling the whole tree, stick it (the root) in a global variable.
+
+<dt>
+In what location do we store the head pointer to the tree?
+
+<dd>
+  In the last "reduce" operation, it is normal to finally assemble the whole
+  syntax tree and either stick it in a global variable for use after yyparse()
+  returns, or else to pass it as a parameter in a call to the rest of the
+  compiler, from within yyparse().
+
+<dt> where do we
+store the current branch we are adding onto in the tree?
+
+<dd> It goes on the top of the value stack. when we are
+    reducing a production this is done by assignment to $$.
+When we are shifting a token, it is done by assignment to yylval.
+
+<dt> In what order does the tree get built and how is it structured?
+<dd> It gets built bottom-up from leaves (terminals) to internal nodes
+  (non-terminals). It is structured as structures, some of which
+  contain pointers to their children.
+
+<dt>
+I have my lex file set up and it calls a function that looks at the current
+yytext and then allocates a new tree node with that token. Is there some yy
+variable that is intended to represent this current token?
+<dd> yylval is copied onto the value stack, where it is subsequently 
+referred to as $1, or $2, or $3, etc.
+
+<dt>
+I assume the values that bison is looking at are the ones that are returned
+from the lexer.
+<dd> For terminal symbols that is correct.
+
+<dt>
+ So (yylex() returns) this integer value, and bison looks though its
+rules and attempts to parse each of the rules as if it works in parallel...
+<dd> Well, bison analyzed your grammar and generated a pushdown automaton
+   that tracks all possible shifts/reduces at each point...
+
+<dt> then when the parser reduces for one production rule, it runs the code
+  with the $$ = ... to assign it
+to.. where?
+<dd> Assigning to $$ is specifying the value to be pushed onto the value stack
+  in the slot that corresponds to the non-terminal that we have just built on
+  the parse stack using this grammar rule.
+
+<dt>
+how do we understand when a string of tokens should be put all
+together as children, compared to when we have a string of tokens that need
+to be a chain?
+<dd>
+  That will depend precisely on how the context free grammar production rules
+  are organized. If you have a production
+<pre>
+  A: B C D E F G
+  </pre>
+then you have to see
+  six things previously parsed successfully before you can reduce them down
+  to an A node.  If you have 
+<pre>
+  A : B C
+  C : C D | ;
+  D : D E | ;
+  E : E F | ;
+  F : F G | ;
+  </pre>
+Your "tree" might look more like a linked list when you get finished.
+
+<dt>
+What exactly gives the
+shape of the tree? I know that it is formed from the rules defined in bison,
+but I am having trouble visualizing it.
+<dd>
+At each node of the tree, the shape (a.k.a. "fan-out", or # of children)
+is defined by the # of symbols on the
+righthand side of the production rule used to construct that node.
+
+As an example, for the Go language, the 
+distribution at one point in time was about as follows:
+<p>
+
+<table border="">
+<tbody><tr><th> Size of RHS </th><th> # of Rules of that size
+</th></tr><tr><td> 0 </td><td> 19
+</td></tr><tr><td> 1 </td><td> 98
+</td></tr><tr><td> 2 </td><td> 46
+</td></tr><tr><td> 3 </td><td> 67
+</td></tr><tr><td> 4 </td><td> 17
+</td></tr><tr><td> 5 </td><td> 21
+</td></tr><tr><td> 6 </td><td> 2
+</td></tr><tr><td> 7 </td><td> 1
+</td></tr><tr><td> 8 </td><td> 2
+</td></tr></tbody></table>
+
+Rust would have a similar distribution, but different (LOL).
+
+
+<!--
+<dt>
+For homework #2, how should we handle user includes?  Should we open the
+user include file(s) and generate/output the parse tree for everything in
+that file?
+
+<dd>
+If HW#1 did the right thing, which was for includes to be handled seamlessly
+with a continued sequence of yylex() tokens, HW#2 will generally not have to
+do anything special or extra for the included file(s).  HW#2 does
+need to clear out its type table and system-includes flags, reset the lexical
+analyzer, and call a new yyparse() for each file named on its command line.
+-->
+
+</p></dd><dt> I totally have an example where a shift-reduce conflict was a Real
+     Problem even though you said we could ignore shift-reduce conflicts!
+
+</dt><dd> Ouch! When you showed me this in my office, you found that you could
+     fix it by simply changing a right recursion to a left recursion!
+     Very cool, we finally know why Bison warns of this kind of ambiguity
+     in the grammar: sometimes it is really a problem.  I have taken the
+     liberty of reducing your example to just about its simplest form:
+
+<pre>%%
+Program:	DeclarationList ProgramBody ;
+ProgramBody: 	Function SEMICOLON ProgramBody	| ;
+Function:	Declaration OPEN_PAREN CLOSE_PAREN ;
+DeclarationList:Declaration SEMICOLON DeclarationList | ;
+Declaration:		    INT IDENTIFIER ;
+</pre>
+
+The corresponding input that dies on this is:
+<pre>int x;
+int main();
+</pre>
+
+</dd><dt> How about a tool that would generate numbers
+automatically from our grammar .y files?  It should perhaps use negative
+numbers (to avoid overlap/conflicts with Bison-generated numbers for
+terminal symbols).
+</dt><dd> We looked again to see if Bison had an option to generate that, but I
+am not aware of one.  Awhile back
+I wrote a <a href="https://www.cs.nmt.edu/~jeffery/courses/423/nonterms.icn">cheap hack version 0</a>
+of such a tool...feel free to adapt it or rewrite something similar.
+</dd></dl>
 
 
 
@@ -5631,8 +5914,8 @@ to do at the current position.
 
 <h3> Midterm </h3>
 
-The midterm exam March 10 will be an in-class exam.
-There will be a midterm review on Wednesday March 8.
+The midterm exam March 11 will be an in-class exam.
+There will be a midterm review on Friday March 8.
 
 
 <!--
@@ -6035,79 +6318,6 @@ goto(I<sub>5</sub>, LC) = closure({[ s_u_spec -&gt; s_u LC . struct_decl_lst RC]
 <font size="1">* Arnold Schwartzenegger. Do you know the movie? </font>
 -->
 
-</p><h3> Mailbag </h3>
-
-<dl>
-<dt>
-What exactly gives the
-shape of the tree? I know that it is formed from the rules defined in bison,
-but I am having trouble visualizing it.
-</dt><dd>
-At each node of the tree, the shape (a.k.a. "fan-out", or # of children)
-is defined by the # of symbols on the
-righthand side of the production rule used to construct that node.
-For go.y, the ~273 rules after we've deleted a lot of "hidden" things,
-the distribution is about as follows:
-<p>
-
-<table border="">
-<tbody><tr><th> Size of RHS </th><th> # of Rules of that size
-</th></tr><tr><td> 0 </td><td> 19
-</td></tr><tr><td> 1 </td><td> 98
-</td></tr><tr><td> 2 </td><td> 46
-</td></tr><tr><td> 3 </td><td> 67
-</td></tr><tr><td> 4 </td><td> 17
-</td></tr><tr><td> 5 </td><td> 21
-</td></tr><tr><td> 6 </td><td> 2
-</td></tr><tr><td> 7 </td><td> 1
-</td></tr><tr><td> 8 </td><td> 2
-</td></tr></tbody></table>
-
-<!--
-<dt>
-For homework #2, how should we handle user includes?  Should we open the
-user include file(s) and generate/output the parse tree for everything in
-that file?
-
-<dd>
-If HW#1 did the right thing, which was for includes to be handled seamlessly
-with a continued sequence of yylex() tokens, HW#2 will generally not have to
-do anything special or extra for the included file(s).  HW#2 does
-need to clear out its type table and system-includes flags, reset the lexical
-analyzer, and call a new yyparse() for each file named on its command line.
--->
-
-</p></dd><dt> I totally have an example where a shift-reduce conflict was a Real
-     Problem even though you said we could ignore shift-reduce conflicts!
-
-</dt><dd> Ouch! When you showed me this in my office, you found that you could
-     fix it by simply changing a right recursion to a left recursion!
-     Very cool, we finally know why Bison warns of this kind of ambiguity
-     in the grammar: sometimes it is really a problem.  I have taken the
-     liberty of reducing your example to just about its simplest form:
-
-<pre>%%
-Program:	DeclarationList ProgramBody ;
-ProgramBody: 	Function SEMICOLON ProgramBody	| ;
-Function:	Declaration OPEN_PAREN CLOSE_PAREN ;
-DeclarationList:Declaration SEMICOLON DeclarationList | ;
-Declaration:		    INT IDENTIFIER ;
-</pre>
-
-The corresponding input that dies on this is:
-<pre>int x;
-int main();
-</pre>
-
-</dd><dt> How about a tool that would generate numbers
-automatically from our grammar .y files?  It should perhaps use negative
-numbers (to avoid overlap/conflicts with Bison-generated numbers for
-terminal symbols).
-</dt><dd> We looked again to see if Bison had an option to generate that, but I
-am not aware of one.  Awhile back
-I wrote a <a href="https://www.cs.nmt.edu/~jeffery/courses/423/nonterms.icn">cheap hack version 0</a>
-of such a tool...feel free to adapt it or rewrite something similar.
-</dd></dl>
 
 
 
@@ -6354,6 +6564,7 @@ with your lexical analyzer / flex output.  The -d flag causes Bison
 to write out a compatible header file to define tokens for flex.
 -->
 
+
 <h3> Parse Tree Example </h3>
 
 Let's do this by way of demonstrating what yydebug=1 does for you, on a
@@ -6440,7 +6651,7 @@ to be able to build our parse tree example.
 </dd><dt> Warnings are seldom OK
 </dt><dd> shift/reduce warnings are "usually" OK (not
      always). Get rid of other warnings so that when warning of a real
-     issue shows up, you don't ignore it like "the boy who cried Wolf!".
+     issue shows up, you do not ignore it like "the boy who cried Wolf!".
 </dd><dt> Using <code>{ $$ = $4; }</code> is probably a bad idea
 </dt><dd> Q: Why?  Q: under what circumstances is this fine?
 </dd><dt> Using <code>{ $$ = $1; }</code> goes without saying
@@ -6453,6 +6664,122 @@ to be able to build our parse tree example.
      needed for you to understand your own code in 6 months
 </dt></dl>
 
+<p>
+<font size="1"> <a name="18">lecture #18</a> began here</font>
+<p>
+
+<h3>Mailbag </h3>
+
+<dl>
+<dt> 
+Global variables in Rust are *specifically* only allowed to be constants.
+
+<dd> You are pretty near right. <code>let</code> is explicitly for locals
+  only. You can declare a global <code>static mut</code>, but then if you
+  ever want to modify it you have to put it in an <code>unsafe</code> block.
+  <pre>
+static mut FOO : i64 = 12;
+    ...
+fn main() {
+    ...
+   unsafe { FOO = FOO * 2; }
+}
+    </pre>
+and up to now <code>unsafe</code> has been marked red.
+  So we either have to mark <code>unsafe</code> green or settle for no global
+  variables, only global constants.  Which would you prefer to do?
+
+  
+<dt>
+  <code>static</code> is marked as green in your
+  <A href="ironyref.html#Reserved">Irony language reference</A>
+  but <code>const</code> is not.
+
+<dd>
+I was thinking that <code>const</code> would always be obvious/implied/default
+and thus not needed in Irony. If we think that it is needed we can change
+the Irony spec. So if you have to say <code>const</code> in order to
+declare a (constant) global, then yes, let us add it to the spec.  But it
+seems like if you do not say <code>mut</code> you are const for free, yes?
+
+<dt>
+your specifications on the language requirements are rather inconsistent
+
+<dd>
+Sure. Keep asking clarifying questions as-needed.
+
+<dt>
+Are local variable declarations via const and static allowed?
+
+<dd>
+Good questions.
+
+<dt>
+
+Are we going to be allowing non-static variables to be defined in global
+scopes, like c, or are we adhering to Rust?
+
+<dd>
+We are following Rust. But there is wiggle room for interpretation.
+
+<dt>
+In class you discussed scoping rules for structs, but the language reference
+says we are not supporting that; do we need to change this?
+
+<dd> No, we are not supporting structs in Irony.
+
+<dt>
+Since this will matter later, do we support generic types?
+
+<dd>
+My initial impulse was to make this a blanket "no".
+The one possible exception is that if it turns out you have to have
+some generic types for basic library functionality, we might support
+a couple of the simplest generic types required just for those built-ins.
+We do not support end-user-declared generic types in Irony.
+
+<dt>
+  In your language specification you mention
+  <code>Option&lt;T&gt;</code>; <code>Option</code>
+denotes a value which is optional, allowing "Some" and "None" as
+additional boolean keywords for handling whether or not the value is defined
+  for the implementation of a function. <code>Option</code>
+  can be used for both return
+types (may or may not have a return), or as an argument (may or may not have
+an argument). Generally, the ? operator is used to handle this...
+
+<dd> If we have to do a generic or two in order to handle
+some built-in library function, so be it. We can special-case the code.
+
+<dt> You marked me down for Valgrind, but I did not have illegal memory
+     reads or writes!  What gives?
+</dt><dd> From hw1.html:
+<blockquote>
+     For the purposes of this class, a "memory error" is a
+     message from valgrind indicating a
+     read or write of one or more bytes of illegal, out-of-bounds,
+     or uninitialized memory.
+</blockquote>
+The uninitialized memory part includes messages such as:
+<pre>==25504== Conditional jump or move depends on uninitialised value(s)
+</pre>
+You have been told that the valgrind header and summary,
+including memory leaks, are not going to cost you points, I am only
+interested in valgrind error messages reported for behavior at runtime.
+Any stuff you see in between the valgrind header and summary is either
+your output, or valgrind messages that may point at bugs in your code.
+</dd></dl>
+
+<h3>Lab#5 Comments </h3>
+
+<ul>
+<li> Practice drawing syntax trees LEGIBLY for the midterm.
+<li> Think about how to do that real fast....legibly
+<li> Often the punctuation tokens are UNNECESSARY.
+<li> Use a lot of extra space in order to be legible
+<li> Plan to draw big internal nodes, with room for extra stuff in them
+     besides the non-terminal or production rule # that identifies them.
+</ul>
 
 
 <a name="semantic">
@@ -6492,27 +6819,6 @@ Two typical examples of semantic analysis include:
 <p>
 
 
-</p><h3> Mailbag </h3>
-
-<dl>
-<dt> You marked me down for Valgrind, but I didn't have illegal memory
-     reads or writes!  What gives?
-</dt><dd> From hw1.html:
-<blockquote>
-     For the purposes of this class, a "memory error" is a
-     message from valgrind indicating a
-     read or write of one or more bytes of illegal, out-of-bounds,
-     or uninitialized memory.
-</blockquote>
-The uninitialized memory part includes messages such as:
-<pre>==25504== Conditional jump or move depends on uninitialised value(s)
-</pre>
-You've been told that the valgrind header and summary,
-including memory leaks, are not going to cost you points, I am only
-interested in valgrind error messages reported for behavior at runtime.
-Any stuff you see in between the valgrind header and summary is either
-your output, or valgrind messages that may point at bugs in your code.
-</dd></dl>
 
 <h3> Notations used in semantic analysis:</h3>
 <dl>
@@ -6544,9 +6850,7 @@ semantic rules are evaluated either (a) during parsing (for easy rules) or
      the tree to where it will be used.
 </dd></dl>
 
-<p>
-<font size="1"> <a name="19">lecture #19</a> began here</font>
-</p><p>
+<h4> Look at <A href="hw4.html">HW#4</A> </h4>
 
 <h3> Attribute Examples </h3>
 
@@ -6622,7 +6926,45 @@ F.value = intlit.ival<br>
 </tbody></table>
 
 
+<p>
+<font size="1"> <a name="19">lecture #19</a> began here</font>
+</p><p>
 
+<h3>Mailbag </h3>
+
+<dl>
+
+<dt> Should we have 1 symbol table for each scope? For example a symbol
+  table for global, then another for functions?
+
+<dd> 1 symbol table for global scope, one symbol table for each function,
+   possibly some additional as needed for built-ins tbd.
+
+<dt> What are the built-ins? Where are they described?
+       How are we supposed to implement them?
+<dd> Good questions. What do you think
+  should be in the minimal set of rust built-ins?
+
+ <pre>
+println!();
+ </pre>
+
+ Sure, now what about input?  3 (out of many) options include:
+
+<pre>
+std::io::stdin().read_line(&mut input) // booo!
+
+console...
+
+text_io:
+  let i : i64 = read!();
+
+</pre>
+
+After an in-class discussion, we decided hey maybe macro read!(); would
+be the simplest and most useful.
+
+</dl>
 
 
 <h3> Symbol Table Module </h3>
@@ -6784,7 +7126,7 @@ int hash(char *s) {               // what does this one do?
    int len = strlen(s);
    return s[0] + (len&gt;1 ? s[len-1] : 0);
 }
-int hash(char *s) {               // "good enough"; what's weak here?
+int hash(char *s) {               // "good enough"; what is weak here?
    int i=0, sum = 0, len = strlen(s);
    for( ; i&lt;len; i++) sum += s[i];
    return sum;
@@ -6806,28 +7148,10 @@ particularly helpful to you.
 <font size="1"> <a name="20">lecture #20</a> began here</font></p><p>
 </p><p>
 
-<h3> Varying Project Requirements Based on Group Size </h3>
-
-<ul>
-<li> We have group sizes ranging from 1-5+ in this class.
-<li> Making the requirements vary based on group size is a pain for
-  grading, and leaving the requirements the same regardless of group
-  size provides some incentive to join a group
-<li> But, maybe I should have some extra expectations performance for groups,
-  correlated but not proportional to their additional human resource capacity.
-</ul>
 
 <h3> Mailbag </h3>
 
 <dl>
-  <dt> Can PunY have multiple classes inside a source file?
-    <dd> Yes.
-  <dt> What are the built-ins? Where are they described?
-       How are we supposed to implement them?
-    <dd> Good questions. I have not taken CSE 107. What do you think
-      should be in this list?  I have taken a first stab over at
-<A href="http://www.cs.nmt.edu/~jeffery/courses/423/punyref.html#Functions">
-punyref</A> and have asked a couple folks.
 <!--  <dt> Are all numeric data types supposed to be stored as doubles?
     <dd> No, floats and doubles are to be stored as doubles.
       Integer types are to be stored as longs.-->
