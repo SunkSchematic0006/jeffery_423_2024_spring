@@ -1,10 +1,11 @@
 <h2> CSE 423 Lab #7: Adding Type Info to Trees and Symbol Tables </h2>
 
 Turnin: your drafty compiler... on canvas.<br>
-Due xxxday 3/26, 11:59pm
+Due Sunday 3/10, 11:59pm
 <p>
 
-In this week's lab you should add a representation for PunY types, and add
+In this week's lab you should add a data structure
+<em>representation</em> for Irony types, and add
 types to your knowledge about variables in your symbol table.  Turn in as far
 as you get by next Sunday evening; you will be graded as having done the lab
 as long as it looks like you did two or more hours of work.
@@ -14,9 +15,9 @@ as long as it looks like you did two or more hours of work.
 <h4> <a href="type.h">type.h</A> and <A href="type.c">type.c</A> </h4>
 
 Look at these modules, modify them as needed in order for them to fit
-PunY.  We should probably be able to figure out what changes are
-needed during the lab period on Wednesday.  Compile and link them in
-to your PunY compiler.
+Irony.  We should probably be able to figure out what changes are
+needed during the lab period.  Compile and link them in
+to your Irony compiler.
 
 <p>
 
@@ -40,7 +41,7 @@ typedef struct param {
 /* base types. In the real thing, there will be many more base types */
 #define NULL_TYPE    1000000
 #define INT_TYPE     1000001
-#define CLASS_TYPE  1000002
+/* #define CLASS_TYPE  1000002 not in Irony! */
 #define ARRAY_TYPE   1000003
 #define DOUBLE_TYPE 1000004
 #define FUNC_TYPE    1000005
@@ -48,9 +49,10 @@ typedef struct param {
 typedef struct typeinfo {
    int basetype;
    union {
-      struct classinfo {
-	 struct sym_table *st;
-	 } c;
+/*       struct classinfo {
+ *       struct sym_table *st;
+ *       } c;
+ */
       struct arrayinfo {
          int size;
 	 struct typeinfo *elemtype;

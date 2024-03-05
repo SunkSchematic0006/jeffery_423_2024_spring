@@ -7144,24 +7144,7 @@ particularly helpful to you.
 
 <p>
 
-<p>
-<font size="1"> <a name="20">lecture #20</a> began here</font></p><p>
-</p><p>
 
-
-<h3> Mailbag </h3>
-
-<dl>
-<!--  <dt> Are all numeric data types supposed to be stored as doubles?
-    <dd> No, floats and doubles are to be stored as doubles.
-      Integer types are to be stored as longs.-->
-<!--  <dt> What type of expression is acceptable inside a while-loop header?
-    <dd> Trying to be consistent with spec language for for-loops:
-
-<dt> What type of expression is acceptable inside an if-statement header?
-  <dd> "If statements use syntax simlar to while loops", so:
-    <dt>-->
-</dl>
 
 
 <h3> Lessons From the Godiva Project </h3>
@@ -7179,6 +7162,86 @@ languages.
 </li><li> <a href="https://www.cs.nmt.edu/~jeffery/courses/423/symtab.h">symtab.h</a>
 </li><li> <a href="https://www.cs.nmt.edu/~jeffery/courses/423/symtab.c">symtab.c</a>
 </li></ul>
+
+<p>
+<font size="1"> <a name="20">lecture #20</a> began here</font></p><p>
+</p><p>
+
+<h3> Mailbag </h3>
+
+<dl>
+  
+<dt> is it appropriate to make a new symbol table when the parser begins
+(global symbol table) and then when it encounters a new block as defined in
+rustgram.y (new scope definition)? And then to make a sym_entry when an
+identifier is encountered?
+
+<dd> Yes and yes. Well, we said it would be sufficient in Irony to do one
+    global and one for each function.
+
+<dt> [Is it appropriate] to make a sym_entry when an identifier is encountered?
+
+<dd> Not all identifiers. When an identifier appears in a syntactic context
+  in which the identifier is being declared, such as a function name, or
+  a formal parameter name, or a <code>let</code>.
+
+<dt> What is the "struct sym_entry **tbl" in the last definition of the
+sym_table?
+
+<dd> <code>struct sym_entry **tbl</code> in some (lab 6?) reference code
+  is a declaration of an array of pointers -- the array of heads of linked
+  lists -- declared in such a way that different symbol tables can be
+  malloced with different sizes (== different numbers of buckets). Not
+  required for Irony.
+
+<dt> How can symbol tables be made correctly if the parser works bottom up
+and sees identifiers first?
+
+<dd> You can do what makes sense for you, but semantic analysis is perhaps
+  easiest and best conducted as one or more tree traversals <em>after</em>
+  parsing has been completed.  You may have to think hard about what order
+  to do things in. You can make as many passes over the tree as you need.
+
+<dt> when should we be declaring a new symbol table?
+
+<dd> During a tree traversal you are looking for the node(s) that introduce
+scopes. What string label or not production rule # would you use to
+recognize these nodes? Answer will vary depending on your grammar.
+
+<dt> I may ... always add the first symbol (which should always be the
+function name) to the parent symbol table. Is that okay to implement?
+
+<dd> I would characterize this in terms of specific tree shapes where
+  the function name is declared vs. where other symbols local to the function
+  are declared.
+
+<dt> Why is the "struct sym_entry **tbl" of type sym_entry? Should it not be
+of type sym_table since it will point to other symbol tables?  And how
+should it be initialized?
+
+<dd> A symbol table contains a collection of elements that are the information
+  known about the various symbols in a program scope. These elements are stored
+  in type struct sym_entry, which are often chained together into linked list
+  of all the symbols that happen to hash to the same index in the array of
+  linked lists.  The struct sym_entry **tbl is literally intended to be a
+  pointer to an array of buckets (linked list heads) that would typically
+  be initialized like
+<pre>
+   st-&gt;tbl = calloc(num_buckets, sizeof(struct sym_entry *));
+</pre>
+
+<!-- <dt> Are all numeric data types supposed to be stored as doubles?
+    <dd> No, floats and doubles are to be stored as doubles.
+      Integer types are to be stored as longs.-->
+<!--  <dt> What type of expression is acceptable inside a while-loop header?
+    <dd> Trying to be consistent with spec language for for-loops:
+
+<dt> What type of expression is acceptable inside an if-statement header?
+  <dd> "If statements use syntax simlar to while loops", so:
+    <dt>-->
+</dl>
+
+
 
 <h3> Symbol Table Example </h3>
 
